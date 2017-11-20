@@ -1,0 +1,187 @@
+.cj_top {
+    width: 100%;
+    height: 4.5rem;
+}
+.cj_top>img {
+    display: block;
+    width: 100%;
+    height: 4.5rem;
+}
+.cj_center {
+    width: 100%;
+    height: 10.2rem;
+    background: #ffba16;
+    position: relative;
+}
+.cj_bot {
+    width: 100%;
+    height: 1.2rem;
+}
+.cj_bot>img {
+    display: block;
+    width: 100%;
+    height: 1.2rem;
+    
+}
+/*转盘部分*/
+.dowebok {
+    position: absolute;
+    top: 0.2rem;
+    left: 50%;
+    margin-left: -3.15rem;
+    width: 6.3rem;
+    height: 6.3rem;
+    background: url(../images/activity/app_ly.png) center no-repeat;
+    background-size: cover;
+}
+.plate {
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    background-image: url(../images/activity/app_lyplate1.png);
+    background-size: cover;
+    left: 0.65rem;
+    top: 0.65rem;
+}
+.plateBtn { 
+    position: absolute;
+    left: 0.96rem;
+    top:  0.96rem;
+    width: 3.07rem;
+    height: 3.07rem;
+    background-image: url(../images/activity/app_rotate.png);
+    background-size: cover;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+/*转盘部分*/
+/*弹窗部分*/
+.result {
+    display: none;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background: url(../images/activity/kuang_bg.png) repeat;
+    z-index: 1000;
+}
+.tankuang {
+    position: absolute;
+    width: 5.99rem;
+    height: 4.15rem;
+    left: 50%;
+    margin-left: -2.99rem;
+    top: 30%;
+    background: url(../images/activity/tankuang.png) no-repeat center;
+    background-size: cover;
+    display: none;
+}
+.resultTxt {
+    position: absolute;
+    width: 1.4rem;
+    height: 0.7rem;
+    line-height: 0.7rem;
+    left: 2.28rem;
+    top: 1.70rem;
+    font-size: 0.7rem;
+    text-shadow: #442204 1px 1px 0;
+    color: #eb0205;
+    text-align: center;
+}
+.resultBtn { 
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 0.39rem;
+    height: 0.39rem;
+    text-indent: -100px;
+    background: url(../images/activity/close.png) no-repeat center;
+    background-size: cover;
+    overflow: hidden;
+}
+.tankuang1 {
+    position: absolute;
+    left: 50%;
+    margin-left: -2.5rem;
+    top: 30%;
+    width: 5rem;
+    height: 2.7rem;
+    background: #fff;
+    border-radius: 3px;
+    display: none;
+}
+.tankuang1>h3 {
+    background: #ffba16;
+    line-height: 0.5rem;
+    padding-left: 0.2rem;
+    font-size: 0.2rem;
+    color: #fff;
+}
+.tankuang1>p {
+    padding-top: 0.5rem;
+    text-align: center;
+    font-size: 0.18rem;
+    color: #000;
+}
+.tankuang1>a {
+    font-size: 0.2rem;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 0.45rem;
+    width: 1.4rem;
+    height: 0.45rem;
+    border-radius: 2px;
+    background: #ffba16;
+    color: #fff;
+    margin-top: 0.3rem;
+}
+/*弹窗部分*/
+/*提示次数*/
+.plate_tips {
+    position: absolute;
+    width: 3.61rem;
+    height: 1.21rem;
+    background: url(../images/activity/app_ipt_btn.png) no-repeat center;
+    background-size: cover;
+    left: 50%;
+    margin-left: -1.8rem;
+    bottom: -1.2rem;
+}
+.plate_font {
+    position: absolute;
+    text-shadow: #442204 1px 1px 0;
+    text-align: center;
+    left: 1.5rem;
+    top: 0.4rem;
+    color: #fff;
+    font-size: 0.2rem;
+    line-height: 0.35rem;
+}
+.plate_shu {
+    font-size: 0.25rem;
+    line-height: 0.35rem;
+    text-shadow: #442204 1px 1px 0;
+    color: #e5004f;
+}
+.cj_say {
+    position: absolute;
+    left: 0.3rem;
+    bottom: -2.1rem;
+}
+.cj_say>span {
+    font-size: 0.24rem;
+    line-height: 0.3rem;
+    font-weight: bold;
+    color: #4f0606;
+}
+.cj_say>p {
+    font-size: 0.2rem;
+    color: #4f0606; 
+}
+.cj_say>p>span {
+    font-size: 0.2rem;
+    color: #e5004f; 
+}
+/*提示次数*/

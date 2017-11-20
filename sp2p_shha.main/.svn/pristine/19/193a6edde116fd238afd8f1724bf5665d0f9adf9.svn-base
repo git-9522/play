@@ -1,0 +1,44 @@
+#{extends 'common/front/frontFootMain.html' /}
+#{set title:'联系我们' /}
+#{set smallclass:5 /}
+
+        <div class="w-side bgf border mt20">
+            <div class="w-title overflow">
+                <span class="left f24 c333">${columns?.get(common.constants.ColumnKey.HOME_CONTACTUS)?:'联系我们'}</span>
+                <p class="right">
+                    <span class="mr30"></span>
+                    <span class="mr30"></span>
+                    <span class="mr30"></span>
+                </p>
+            </div>
+            <div class="padding25-lr">
+                <div class="w-xq-detail">
+					<div class="container mt30">
+						<div class="detail-box aboutus-box clearfix">
+							<div class="left contactus-left c3">
+								<p>${settings?.get(common.constants.SettingKey.COMPANY_NAME)}</p>
+								<p>联系电话</p>
+								<p class="major">${settings?.get(common.constants.SettingKey.COMPANY_TEL)}</p>
+								
+								<p>邮箱</p>
+								<p class="major">${settings?.get(common.constants.SettingKey.COMPANY_EMAIL)}</p>
+								<p>公司地址</p>
+								<p>${settings?.get(common.constants.SettingKey.COMPANY_ADDRESS)}</p>
+							</div>
+							<iframe src="@{front.FrontHomeCtrl.baidumapPre()}" class="right baidumap"></iframe>
+						</div>
+					</div>
+                </div>
+                <div class="w-xq-page">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--内容 end-->
+
+<script type="text/javascript">
+	require(['front'],function(front){
+
+	});
+</script>

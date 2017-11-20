@@ -1,0 +1,124 @@
+<div class="dialog-bg"></div>
+<div class="dialog-cont">
+	<div class="dialog-head"><span class="left">会员列表</span></div>
+	<div class="chooseone-box">
+		<div class="chooseone-search">
+			<input type="text" class="iffocus" name="key" id="searchKey" placeholder="会员" value='${flash?.searchKey}' maxlength="13" />
+			<input type="hidden" id="currPage" name="currPage" />
+ 			<input type="hidden" id="pageSize" name="pageSize" value="${pageBean?.pageSize}" />
+			<input type="button" class="bgbtn" value="搜索" onclick="searchRefUser()" id="searchButton" />
+		</div>
+		<div class="overflow-auto">
+			<table width="100%" class="back-table table-fixed">
+				<tr height="39">
+					<th class="align-left" width="70">
+						<span class="back-order">
+							编号
+							<i class="iconfont ordericon">&#xe628;</i>
+							<i class="iconfont downicon">&#xe606;</i>
+							<i class="iconfont upicon">&#xe603;</i>
+						</span>
+					</th>
+					<th>会员</th>
+					<th>手机</th>
+					<th>邮箱</th>
+				</tr>
+				#{list pageBean?.page}
+				<tr height="39">
+					<td class="align-left">
+						<label><input type="checkbox" class="back-tdcheck" value="${_?.name}" id="${_?.id}" />${_?.id}</label>
+					</td>
+					<td>${_?.name}</td>
+					<td>${_?.mobile}</td>
+					<td>${_?.email}</td>
+				</tr>
+				#{/list}
+				<!-- 表格数据统计 -->
+				<tr height="39">
+					<td colspan="4" class="back-lasttd">
+						<span class="back-choose left">
+						</span>
+						<!-- 分页 -->
+						#{backPageTag page:pageBean,showPage:'showUsersPre' /}
+					</td>
+				</tr>
+				<!-- 暂无记录 -->
+				#{if tuPage?.totalCount == ''}
+				<tr height="58">
+					<td colspan="4" class="back-nodata"><i class="iconfont">&#xe613;</i>暂无记录</td>
+				</tr>
+				#{/if}
+			</table>
+		</div>
+		<p class="back-audit-btns">
+			<input type="button" value="确定" class="bgbtn" onclick="showBidRefUser()" id="check_ref_user">
+			<input type="button" value="取消" class="bdbtn dialog-console">
+		</p>
+	</div>
+</div>
+
+<script type="text/javascript">
+require(["back"],function(back){
+	require(["linechecked"],function(){
+	});
+	
+	var g_receiverNames;
+	var g_selectedNames;
+
+	$("#searchKey").keydown(function(event){
+		if(event.which == 13){
+			$("#searchButton").trigger("click");
+		}
+	});
+});
+
+function searchRefUser(){
+	var key = $("#searchKey").val();
+	showUsers(1, 5, key);
+}
+
+function showBidRefUser(){
+  $("input:checkbox").each(function(){
+	  var name = $(this).val();
+	  var isSelected = this.checked;
+
+	  if (isSelected) {
+	    g_selectedNames.push(name);
+	  } else {
+	    
+	  }
+  });	
+
+  if(g_selectedNames.length == 0){
+      alert("请至少选择一个会员");
+      
+      return;
+  }
+  
+  usersDidSelect(g_selectedNames);
+  $("#check_ref_user").siblings(".dialog-console").trigger("click");
+}
+
+function clone(obj){
+	if(typeof (obj) != "object"){
+		
+		return obj;
+	}
+
+	var re = {};
+
+	if(obj.constructor == Array){
+		re = [];
+	}
+
+	for( var i in obj){
+		re[i] = clone(obj[i]);
+	}
+
+	return re;
+}
+
+function showUsersPre(currPage, pageSize){
+	showUsers(currPage, pageSize);
+}
+</script>

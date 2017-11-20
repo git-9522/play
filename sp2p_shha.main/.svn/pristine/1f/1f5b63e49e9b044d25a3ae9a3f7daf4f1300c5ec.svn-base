@@ -1,0 +1,38 @@
+<dl class="left userasset-list">
+	<dt class="c3">可用余额</dt>
+	<dd class="c3">
+		<span class="major">${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</span>元
+	</dd>
+	<dd>你有&nbsp;${userFundInfo?.no_payment_count}&nbsp;笔待回款资金</dd>
+</dl>
+<dl class="left userasset-list">
+	<dt class="c3">总收益</dt>
+	<dd class="c3">
+		<span class="major">${userFundInfo?.total_income?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</span>元
+	</dd>
+	<dd>你已成功投资&nbsp;${userFundInfo?.invest_count}&nbsp;笔</dd>
+</dl>
+<table class="left userasset-table">
+	<tr height="30">
+		<td>总资产</td>
+		<td>${userFundInfo?.total_assets?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</td>
+		<td>我的奖励</td>
+		<td>${userFundInfo?.reward?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</td>
+	</tr>
+	<tr height="30">
+		<td>可用</td>
+		<td>${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</td>
+		<td>冻结</td>
+		<td>${userFundInfo?.freeze?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</td>
+	</tr>
+	<tr height="30">
+		<td>待收</td>
+		<td>${userFundInfo?.no_receive?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</td>
+		<td>待还</td>
+		<td>${userFundInfo?.no_repayment?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</td>
+	</tr>
+</table>
+<div class="right userasset-handle">
+	<a href="@{front.account.MyAccountCtrl.rechargePre()}" class="btn">充值</a>
+	<a href="@{front.account.MyAccountCtrl.withdrawPre()}" class="bdbtn">提现</a>
+</div>

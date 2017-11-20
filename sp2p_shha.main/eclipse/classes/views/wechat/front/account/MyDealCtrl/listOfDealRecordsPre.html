@@ -1,0 +1,13 @@
+#{if pageBean.page != null}
+	#{list items:pageBean.page,as:'dealRecord'}
+		<li class="flex" onclick="location.href='@{dealRecordDetailsPre(dealRecord?.id)}'">
+		    <div>${dealRecord?.dealType}</div>
+		    <div class="flex-1 tr">
+		        <p class="cored">${dealRecord?.amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</p>
+		        <p>${dealRecord?.time}</p>
+		    </div>
+		</li>
+	#{/list}
+#{/if}
+<input type="hidden" id="currPage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="totalPageCount" value="${pageBean?.totalPageCount}"/>

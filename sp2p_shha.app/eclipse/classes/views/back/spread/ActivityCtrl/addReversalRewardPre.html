@@ -1,0 +1,116 @@
+#{extends 'back/spread/ActivityCtrl/reversalActivityMain.html' /}
+	#{set title:'推广 | 翻牌活动 | 添加翻牌奖励' /}
+	#{set smallclass:3 /}
+	#{set crumbs:'推广>翻牌活动>添加翻牌奖励'/}
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">添加翻牌奖励</b>
+		<div class="right back-rightbtns">
+				<a href="javascript:backAndRefresh('@{back.spread.ActivityCtrl.showReversalRewardsPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.spread.ActivityCtrl.addReversalReward}" method="POST" id="formAddReward">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">奖励信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">规则等级</span>
+					<div class="liright">
+						<input type="text" autofocus="autofocus" class="width01 iffocus" maxlength="10" value="${flash?.level}" name="reward.level"/>
+						<span class="back-text-limit">用于规则中level相匹配</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">奖励比例</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${flash?.scale}" maxlength="9" name="reward.scale"  oninput="$(this).proportionRange();" onkeyup="$(this).proportionRange();"/>
+							<i class="unit">%</i>
+						</label>
+						<span class="back-text-limit">奖励比例</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">标的期数</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" maxlength="10" value="${flash?.period}" name="reward.period"/>
+						</label>
+						<span class="back-text-limit">标的期数只能是1，3，6</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.spread.ActivityCtrl.showReversalRewardsPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		
+		//效验组件
+		require(["validation/validateExt"]);
+		
+		$("#formAddReward").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				}else if(element.parent().parent().hasClass("back-unitinput")){
+					error.addClass('back-notice').insertAfter(element.parent().parent());
+				}else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"reward.level": {
+					required: true,
+					number: true
+				},
+				"reward.scale":{
+					required: true,
+					range: [0.1, 100]
+				},
+				"reward.period":{
+					required: true,
+					integer: true,
+					range: [1, 6]
+				}
+			},
+			messages: {
+				"reward.level": {
+					required: "请输入规则等级",
+					number: "必须为数字"
+				},
+				"reward.scale": {
+					required: "请输入奖励比例",
+					range: "范围0.1~100"
+				},
+				"reward.period": {
+					required: "请输入标的期数",
+					integer: "必须为整数",
+					range: "必须为1，3，6"
+				}
+			},
+			submitHandler:function(form){
+        		form.submit();
+   			}
+		});
+		
+	});
+</script>

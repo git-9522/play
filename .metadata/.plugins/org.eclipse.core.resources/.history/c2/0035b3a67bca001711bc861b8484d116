@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>新手活动</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link href="/public/wechat/newedition/css/reset.css" type="text/css" rel="stylesheet">
+<link href="/public/wechat/newedition/css/style.css" type="text/css" rel="stylesheet">
+</head>
+
+<body style="background: #fea68f">
+<div class="header" style="display:block;"><span class="icon_goback"></span> <span class="title_name">我是新手</span><span class="title_right">规则</span> </div>
+<div class="content2">
+<ul>
+<li><a href=""><img src="/public/wechat/newedition/images/new-section1.jpg"></a></li>
+<li><a href=""><img src="/public/wechat/newedition/images/new-section2.jpg"></a></li>
+<li><a href=""><img src="/public/wechat/newedition/images/new-section3.jpg"></a></li>
+</ul>
+</div>
+</body>
+</html>

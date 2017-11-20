@@ -1,0 +1,56 @@
+#{extends 'back/spread/cpsMain.html' /}
+	#{set title:'推广 | CPS | 渠道管理' /}
+	#{set smallclass:3 /}
+	#{set crumbs:'推广>CPS>渠道管理'/}
+
+<div class="back-main">
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">CPS规则</span>
+				<span class="right" style="margin-right:20px;"><a href="@{back.UserMngCtrl.showUsersPre(7)}" target="_blank">传送门>>渠道</a></span>
+			</h2>
+			<div class="back-infor-set">
+				<span class="lileft">渠道号码：</span>
+				<div class="liright">
+					<textarea id="inforTextarea" class="back-textarea" name="inputText" style="height:200px;">${inputText}</textarea>
+					<label class="error back-notice" style="display: none">文本框不能为空</label>
+					<br/>
+					<span class="back-text-limit">请在文本框内填入渠道的电话，多个渠道以逗号分隔；切记不要使用中文输入法的逗号</span>
+				</div>
+			</div>
+		</div>
+		<p class="back-audit-btns">
+			<input type="button" id="save" value="添加渠道" class="bgbtn" onclick="doSpread(1);">
+			<input type="button" id="delete" value="删除渠道" class="bgbtn" onclick="doSpread(0);">
+		</p>
+	</div>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	function doSpread(flag) {
+		if(check()) {
+			$('.error.back-notice').hide();
+			$.ajax({
+				url : "@{back.spread.CpsRecordCtrl.doSpreadUser()}",
+				type : 'POST',
+				dataType : "json",
+				data : {"flag" : flag ,"inputText" : $('#inforTextarea').val()},
+				success : function(result) {
+					window.alert(result.msg)
+				},
+				error : function() {
+					window.alert("系统超时了！");
+				}
+			});
+		} else {
+			$('.error.back-notice').show();
+		}
+	}	
+
+	function check() {
+		var inputText = $('#inforTextarea').val();
+		return inputText.trim().length != 0;
+	}
+</script>

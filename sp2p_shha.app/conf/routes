@@ -1,0 +1,13 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_bjmkw.app
+#
+# ~~~~
+
+# app服务接口
+#*    /app/services                     						        		    app.AppController.index
+*    /app/services                     						        		    app.AppController.index2
+
+*    /app/download                     						        		    app.AppController.download
+*    /app/download/iosTip                     						        	app.AppController.iosTip

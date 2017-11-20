@@ -1,0 +1,16 @@
+self: play -> sp2p_shha.ext.cps 0.1
+
+require:
+    - play
+    - sp2p_shha.basic -> sp2p_shha.basic
+    - sp2p_shha.common -> sp2p_shha.common
+    - sp2p_shha.core -> sp2p_shha.core
+
+repositories:
+    - confs:
+        type: local
+        artifact: ${application.path}/../[module]
+        contains: 
+             - sp2p_shha.basic -> sp2p_shha.basic
+             - sp2p_shha.common -> sp2p_shha.common
+             - sp2p_shha.core -> sp2p_shha.core

@@ -1,0 +1,101 @@
+#{extends 'common/back/webOperationMain.html' /}
+	#{set title:'运维 | 友情链接 | 编辑友情链接' /}
+	#{set smallclass:7 /}
+	#{set crumbs:'运维>友情链接>编辑友情链接' /}
+
+
+<div class="back-main">
+	<input type="hidden" name="location" id="location" value="9"/>
+	<div class="back-usertop">
+		<b class="left font14">${friendShipLink.id} ${friendShipLink.name} >编辑</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.webOperation.FriendShipLinkMngCtrl.showFriendShipLinkPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.webOperation.FriendShipLinkMngCtrl.editFriendShipLink()}" method="POST" id="edit_friendshiplink">
+		<div class="back-cont">
+			<div class="back-infor">
+				<h2 class="back-infor-head">友情链接</h2>
+				<ul class="back-infor-set">
+					<li>
+						<span class="lileft">名称</span>
+						<div class="liright">
+							<input type="hidden" id="sign" name="sign" value="${friendShipLink?.sign}">
+							<input type="text" id="name" name="name" autofocus="autofocus" minlength="1" maxlength="10" class="width01 iffocus required" value="${friendShipLink?.name}" />
+							<span class="back-text-limit">1~10个字符</span>
+						</div>
+					</li>
+					<li>
+						<span class="lileft">链接</span>
+						<div class="liright">
+							<input type="text" class="width01 iffocus" id="url" name="url" value="${friendShipLink.url}" />
+							<span class="back-text-limit">0~100个字符</span>
+						</div>
+					</li>
+					<li>
+						<span class="lileft">排序</span>
+						<div class="liright">
+							<input type="text" id="sort" name="sort" value="${friendShipLink.sort}"  />
+						</div>
+					</li>
+					<li>
+						<span class="lileft">简介</span>
+						<div class="liright">
+							<textarea  class="width01 iffocus" id="description" name="description"   cols="50">${friendShipLink.description}</textarea>
+							<span class="back-text-limit">0~100个字符</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<p class="back-audit-btns">
+				#{rightMng rightId:208003}
+					<input type="submit" id="pageSave" value="保存" class="bgbtn">
+				#{/rightMng}
+				<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.webOperation.FriendShipLinkMngCtrl.showFriendShipLinkPre}');">
+			</p>
+		</div>
+	</form>
+</div>
+
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+require(["back"],function(back){
+	require(["datatime","ajaxfileupload","dialog","cutImg"]);
+	
+	//编辑友情链接
+	$("#edit_friendshiplink").validate({
+		errorPlacement: function(error, element) {
+			error.addClass('back-notice').insertAfter(element);
+		},
+	rules:{
+			"friendShipLink.name":{
+				required:true,
+				rangelength:[1,10]
+			},
+			"friendShipLink.url":{
+				rangelength:[0,100],
+				url:true
+			},
+			"friendShipLink.sort":{
+				required:true
+			}
+		},
+		messages:{
+			"friendShipLink.name":{
+				required:"名称1-10个字符"
+			},
+			"friendShipLink.url":{
+				required:"链接不能为空"
+			},
+			"friendShipLink.order":{
+				required:"排序不能为空"
+			}
+		}
+	});
+});
+
+
+</script>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="controllers.wechat.front.account.MyAccountCtrl"/>
+<fullyQualifiedTypeName name="service.wechat.DebtWechatService"/>
+<fullyQualifiedTypeName name="models.wechat.bean.DebtTransfer"/>
+<fullyQualifiedTypeName name="common.utils.PageBean"/>
+<fullyQualifiedTypeName name="daos.base.BaseDao"/>
+<fullyQualifiedTypeName name="models.wechat.bean.WechatDebtTransfer"/>
+<fullyQualifiedTypeName name="models.wechat.bean.WechatDebtTransferDetail"/>
+<fullyQualifiedTypeName name="common.enums.Client"/>
+</qualifiedTypeNameHistroy>

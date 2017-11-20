@@ -1,0 +1,121 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'理财' /}
+#{set AItem:1 /}
+
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/toinvest1.css" />
+<!--内容-->
+<div class="section">
+        <p class="ne_invest_title fs14 c9 lh40">您当前所在的位置：首页 > 我要出借 > 债权转让</p>
+        <div class="ne_invest_nav">
+            <ul class="ne_invest_title">
+                <li><a href="@{front.invest.InvestCtrl.toInvestPre()}">散标投资</a></li>
+                <li class="ne_nav_act">债权转让</li>
+                <li class="ne_invest_new clearfix">
+                    <!--<span class="left ml20 cf mr10">公告</span>
+                    <a class="left">虹金所2017年8月12日预计发标公告</a>-->
+                </li>
+            </ul>
+            <ul class="ne_invest_list">
+                <li class="ne_in_list1">
+                    <dl class="clearfix">
+                        <dt class="fs14 c3 mr15">产品分类</dt>
+                        <dd onclick="chooseCondition('status',99);">
+                            <span class="ne-radio1 #{if status==99}ne-radio1#{/if}" ></span>
+                            全部
+                        </dd>
+                        <dd onclick="chooseCondition('status',1);">
+                            <span class="#{if status==1}f-on#{/if}" ></span>
+                            转让中
+                        </dd>
+                        <dd onclick="chooseCondition('status',2);">
+                            <span class="#{if status==2}f-on#{/if}" ></span>
+                            已结束
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <input type="hidden" id="status" name="status" value="${status?:99}" />
+        <div class="ne_invest_main">
+            <div class="clearfix f-wylc-boxTitle">
+                <div class="left f-200">项目名称</div>
+                <div class="left w-co1 tc">转让价格</div>
+                <div class="left f-160 tc">转让期数</div>
+                <div class="left w-co2 tc">债权总额</div>
+                <div class="left w-co2 tc">剩余时间</div>
+            </div>
+            <div id="financial_transfer">
+            </div>
+        </div>
+    </div>
+
+<!--内容 end-->
+    
+<script type="text/javascript">
+require(['front'],function(front){
+	showTransfer(1,5,99);
+	
+    $(function(){
+    	 oClick($('.ne_in_list1>dl>dd'));
+        function oClick(om1){
+            om1.click(function(ev){
+                ev = ev || window.event;
+                om1.find('span').removeClass('ne-radio1');
+                $(this).find('span').addClass('ne-radio1');
+                ev.stopPropagation();
+            })
+        };
+        //标2左边栏切换
+        $(".f-left2-ul li").click(function(){
+            $(".f-left2-ul li").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //导航切换
+        $(".f-wylc-nav1").click(function(){
+            $(".f-wylc-nav1").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //筛选1切换
+        $(".f-sx .f-sp2").click(function(){
+            $(".f-sx .f-sp2").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //筛选2切换
+        $(".f-sx2 a").click(function(){
+            //判断点击的是否为选中的a
+            if($(this).hasClass("f-on")){
+            	$(this).toggleClass("f-again");//再次点击改变升降序
+            }
+            $(".f-sx2 a").removeClass("f-on");//移除选中的a
+            $(this).addClass("f-on");//为当前a添加选中
+            if($(this).hasClass("f-again")){
+            	$("#orderValue").val(1);
+            }else{
+            	$("#orderValue").val(0);
+            }
+            var _value = $(this).attr("_value");
+            chooseCondition("orderType",_value);
+        })
+    })
+});
+
+function chooseCondition(key,value){
+	$("#"+key).val(value);
+	showTransfer(1);
+}
+
+function showTransfer(currPage,pageSize){
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.showTransfersPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"pageSize" : pageSize,
+			"status" : $("#status").val()	
+		},
+		success : function(data){
+			$("#financial_transfer").html(data);
+		}
+	});
+}
+</script>

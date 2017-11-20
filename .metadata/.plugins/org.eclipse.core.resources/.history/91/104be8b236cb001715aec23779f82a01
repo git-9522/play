@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>运营数据</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/bottom.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/reset.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/style.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/swiper.min.css'}" />
+<script type="text/javascript" src="@{'/public/wechat/newedition/js/jquery-1.8.3.min.js'}"></script>
+</head>
+
+<body>
+<div class="header" style="display:block;"><a href="@{wechat.front.DiscoverCtrl.goDiscoverPre()}"><span class="icon_goback"></span></a> <span class="title_name">信息披露</span><span class="title_right">客服</span> </div>
+<div class="content2">
+  <div class="message_tit">
+    <ul>
+      <li><a href="javascript:void(0)">存管报告</a></li>
+      <li class="biao_tit_two cur2"><a href="javascript:void(0)" class="cur">运营数据</a></li>
+      <li><a href="javascript:void(0)">安全保障</a></li>
+    </ul>
+  </div>
+  <div class="message_cont"> 
+    <!--存管报告-->
+    <div class="m_box"> 
+    <div class="find_ad">
+    <ul class="list clearfix">
+      <li><img src="@{'/public/wechat/newedition/images/ne-yh1-1.jpg'}"></li>
+      <li style="margin-right:0;"><img src="@{'/public/wechat/newedition/images/ne-yh2-1.jpg'}"></li>
+      <li><img src="@{'/public/wechat/newedition/images/ne-yh3-1.jpg'}"></li>
+      <li style="margin-right:0;"><img src="@{'/public/wechat/newedition/images/ne-yh4-1.jpg'}"></li>
+    </ul>
+    </div> 
+    </div>
+    <!--运营数据-->
+    <div class="m_box" style="display:block;">
+      <ul class="message_list">
+      #{if adverList}
+      #{list items:adverList,as:'adv'}
+        <li class="mes_group clearfix"> <a href="${adv?.url}">
+          <div class="m_left"><img src="${adv?.image_url}"></div>
+          <div class="m_right">${adv?.name}</div>
+          </a> </li>
+      #{/list}
+      #{/if}
+      </ul>
+    </div>
+    <!--安全保障-->
+    <div class="m_box">
+      <div class="safe_banner"><img src="@{'/public/wechat/newedition/images/icon/safe-banner.jpg'}"></div>
+      <div class="safe_box">
+        <div class="safe_aroup"> <a href="@{wechat.front.WechatHomeCtrl.securityPre()}"> <i class="s_ico ico1"></i>
+          <p class="text">安心 - 质保服务专款垫付<span>银行存管5千多万质保服务专款</span></p>
+          <i class="safe_right"></i> </a> </div>
+          <div class="safe_aroup"> <a href="@{wechat.front.WechatHomeCtrl.carefulPre()}"> <i class="s_ico ico2"></i>
+          <p class="text">用心 - 严格风控流程<span>专业的风控团队，多重审核工序</span></p>
+          <i class="safe_right"></i> </a> </div>
+          <div class="safe_aroup"> <a href="@{wechat.front.WechatHomeCtrl.saveWorryPre()}"> <i class="s_ico ico3"></i>
+          <p class="text">省心 - 资金安全<span>全方位多层次的还款保障体系</span></p>
+          <i class="safe_right"></i> </a> </div>
+          <div class="safe_aroup"> <a href="@{wechat.front.WechatHomeCtrl.intimatePre()}"> <i class="s_ico ico4"></i>
+          <p class="text">贴心 - 法律护航<span>专业法律支持，合法合规经营</span></p>
+          <i class="safe_right"></i> </a> </div>
+          <div class="safe_aroup"> <a href="@{wechat.front.WechatHomeCtrl.safelyPre()}"> <i class="s_ico ico5"></i>
+          <p class="text">放心 - 银行级网站技术<span>360度无死角的信息安全保障认证</span></p>
+          <i class="safe_right"></i> </a> </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+/**信息披露切换**/
+$(function(){
+$('.message_tit a').click(function(){ 
+$(this).parent().addClass("cur2").siblings().removeClass("cur2");
+$(this).addClass("cur").parent().siblings().find('a').removeClass("cur");
+$(".message_cont .m_box").hide().eq($('.message_tit a').index(this)).show(); 
+}); 
+});
+</script>
+</body>
+</html>

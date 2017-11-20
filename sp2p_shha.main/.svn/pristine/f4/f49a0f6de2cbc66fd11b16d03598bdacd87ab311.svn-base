@@ -1,0 +1,482 @@
+#{extends 'common/front/loanMain.html' /}
+#{set customize: true/}
+#{set title: '网上小额个人贷款_如何贷款_短期借贷 -我要借款-虹金所'/} 
+#{set keywords: '小额个人贷款, 网上借款, 如何贷款, 短期借贷'/}
+#{set description: '虹金所为您提供短期小额贷款,门槛低、放款快、利率低,有车有房就能贷款,详情请咨询虹金所官方客服电话400-637-6969。'/}
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/borrow.css">
+
+<!--banner区域-->
+<div class="borrow-baner">
+
+</div>
+<!--小标-->
+<div class="s-area">
+    <div class=" mainBox">
+        <ul>
+            <li>
+                <img src="/public/front/images/touzi_tip1.png" alt="" class="s-img">
+                <div class="s-con">
+                    <h4>门槛低</h4>
+                    <p>有车有房就能贷</p>
+                </div>
+            </li>
+            <li>
+                <img src="/public/front/images/touzi_tip2.png" alt="" class="s-img">
+                <div class="s-con">
+                    <h4>额度大</h4>
+                    <p>最高贷款额度达100万元</p>
+                </div>
+            </li>
+            <li>
+                <img src="/public/front/images/touzi_tip3.png" alt="" class="s-img">
+                <div class="s-con">
+                    <h4>放款快</h4>
+                    <p>1-3个工作日审核完成</p>
+                </div>
+            </li>
+            <li>
+                <img src="/public/front/images/touzi_tip4.png" alt="" class="s-img">
+                <div class="s-con">
+                    <h4>费率低</h4>
+                    <p>利息不超过1.5分</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="kong"></div>
+<!--立即借贷-->
+<div class="fast">
+    <div class="mainBox">
+        <div class="fast-wrap">
+            <div class="fast-con1 fw">
+                <div class="fast-con-up1">
+                    <div class="fast-tex">
+                        <p>有车就能贷</p>
+                        <ul>
+                            <li>车辆估值七成起</li>
+                            <li>快至1天放款</li>
+                            <li>额度高达50万</li>
+                        </ul>
+                        <p>适用于拥有车辆的个人最高可借20万</p>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" class="fast-btn" _value="1">立即借款</a>
+            </div>
+            <div class="fast-con1 fw">
+                <div class="fast-con-up2">
+                    <div class="fast-tex">
+                        <p>有房就能贷</p>
+                        <ul>
+                            <li>房产估值四成起</li>
+                            <li>快至1天放款</li>
+                            <li>额度高达200万</li>
+                        </ul>
+                        <p>适用于拥有房屋的个人最高可借20万</p>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" class="fast-btn" _value="2">立即借款</a>
+            </div>
+            <div class="fast-con1 fw">
+                <div class="fast-con-up3">
+                    <div class="fast-tex">
+                        <p>企业任意贷</p>
+                        <ul>
+                            <li>零抵押</li>
+                            <li>快至1天放款</li>
+                            <li>转为小微企业商家量身定制</li>
+                        </ul>
+                        <p>适用于工商个体户、中小微企业主</p>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" class="fast-btn" _value="3">立即借款</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="kong"></div>
+<!--申请借款流程-->
+<div class="apply">
+    <div class="apply-wrap">
+        <div class="apply-tit">
+            <h3>申请借款流程</h3>
+        </div>
+        <div class="apply-tex">
+            <img src="/public/front/images/touzi_img.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="kong"></div>
+<!--借款需要多长时间-->
+<div class="other-about">
+    <ul>
+        <li class="left">
+            <h4>借款审核一般需要多长时间</h4>
+            <p>
+                借款资料提交成功后，工作人员会在2个工作日内进行审核，审核结果会以电话的形成通知
+            </p>
+        </li>
+        <li class="right">
+            <h4>借款额度是多少</h4>
+            <p>
+                不同的借款产品额度范围有一定差别，具体额度根据借款人的收入、信用、负债等综合评估，以您最终的借款额度为准。
+            </p>
+        </li>
+        <li class="left">
+            <h4>还款方式有哪些？</h4>
+            <p>
+                目前根据不同的借款产品支持等本等息和先息后本的还款方式。您可以拨打客服电话400-637-6969了解更多。
+            </p>
+        </li>
+        <li class="right">
+            <h4>借款需要支付哪些费用？</h4>
+            <p>
+                借款人借款成功后需要支付利息费用，并向虹金所支付一定的服务费用，具体以您的申请情况而定。
+            </p>
+        </li>
+    </ul>
+    <div class="chanjiang">
+        常见问题
+    </div>
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+    <div class="line4"></div>
+</div>
+<!--弹窗-->
+<div class="f-tc-bg">&nbsp;</div>
+<div class="f-tc-tanchu">
+    <div class="f-tc-content f-800">
+        <div class="f-tc-title clearfix">
+            <img src="@{'/public/front/images/tc-title-img.png'}" class="left f-tc-tcImg" alt="">
+            <span class="left">弹窗标题</span>
+            <img src="@{'/public/front/images/chacha.png'}" class="right f-chacha">
+        </div>
+        
+        <form action="@{front.LoanCtrl.createBid()}" method="POST" id="create_bid">
+        #{authenticityToken /}
+		<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">
+		<input type="hidden" id="product_id" name="productId">
+		
+        <div class="f-tc-info pl50">
+            <ul class="borrow-list">
+                <li>
+                    <span class="left c3 borrowleft"><i class="important-point">*</i>金额</span>
+                    <div class="borrowright">
+                        <label class="unit-input">
+                            <input type="text" class="text" id="borrowmoney" name="amount" value='#{formatIntMoney money:bid?.amount/}' oninput="$(this).ndigitInteger(9);calculateLoanSumInterest();calculateLoanServiceFee()" onkeyup="$(this).ndigitInteger(9);calculateLoanSumInterest();calculateLoanServiceFee()" />
+                            <i class="unit">元</i>
+                        </label>
+                        <span class="c9">#{formatIntMoney money:tp?.min_amount}#{/formatIntMoney}元~#{formatIntMoney money:tp?.max_amount}#{/formatIntMoney}</span>
+                        <input type="hidden" id="minAmount" value=#{formatIntMoney money:tp?.min_amount}#{/formatIntMoney} />
+						<input type="hidden" id="maxAmount" value=#{formatIntMoney money:tp?.max_amount}#{/formatIntMoney} />
+                    </div>
+                </li>
+                
+                <li>
+                    <span class="left c3 borrowleft"><i class="important-point">*</i>年利率</span>
+                    <div class="borrowright">
+                        <label class="unit-input">
+                            <input type="text" class="text" id="borrowmoneyapr" name="apr" value="${bid?.apr}" oninput="$(this).proportionRange();calculateLoanSumInterest();calculateLoanServiceFee()" onkeyup="$(this).proportionRange();calculateLoanSumInterest();calculateLoanServiceFee()" />
+                            <i class="unit">%</i>
+                        </label>
+                        <span class="c9">${tp?.min_apr}%~${tp?.max_apr}%</span>
+                        <input type="hidden" id="minApr" value="${tp?.min_apr}"/>
+						<input type="hidden" id="maxApr" value="${tp?.max_apr}"/>
+                    </div>
+                </li>
+                
+                <li>
+                    <span class="left c3 borrowleft"><i class="important-point">*</i>期限</span>
+                    <div class="borrowright">
+                        <select class="select" name="period" id="bid_period_select" onchange="calculateLoanSumInterest();calculateLoanServiceFee()" onkeyup="calculateLoanSumInterest();calculateLoanServiceFee()">
+                        	<option id='0' value='0'>请选择</option>
+                        	#{if tp!=null}
+                        		#{list items:tp?.min_period..tp?.max_period, as:'i'}
+                        		<option id='period_${i}' value='${i}' #{if bid?.period==i}selected="selected"#{/if}>${i}</option>
+                        		#{/list}
+                        	#{/if}
+                        </select>
+                        <i class="unit selectunit" id="bid_period_unit">${tp?.period_unit?.value}</i>
+                    </div>
+                    <input type="hidden" id="bid_period_unit_code" value="${tp?.period_unit?.code}" />
+					<input type="hidden" id="service_fee_rule" value="${tp?.service_fee_rule}" />
+                </li>
+                
+                <li>
+                    <span class="left c3 borrowleft"><i class="important-point">*</i>还款方式</span>
+                    <div class="borrowright">
+                        <select class="select" name="repayment_type" id="repayment_type" onchange="calculateLoanSumInterest()" onkeyup="calculateLoanSumInterest()">
+                        	<option id='0' value='0'>请选择</option>
+                        	#{list tp?.getProductRepaymentTypeList()}
+                        		<option id='repay_${_index}' value='${_?.code}' #{if bid?.repayment_type?.code==_?.code}selected="selected"#{/if}>${_?.value}</option>
+                        	#{/list}
+                        </select>
+                        *{<p class="borrow-counter"><span class="left major">本息合计：100,150 元</span><span class="right assistant">手续费：200 元</span></p>}*
+                    </div>
+                </li>
+                
+                <li>
+                    <span class="left c3 borrowleft"><i class="important-point">*</i>筹款时间</span>
+                    <div class="borrowright">
+                        <select class="select" name="invest_period" id="bid_invest_period">
+                        	<option id='0'>请选择</option>
+                        	#{list items:1..10, as:'i'}
+                        	<option id='invest_period_${i}' value='${i}' #{if bid?.invest_period==i}selected="selected"#{/if}>${i}</option>
+                        	#{/list}
+                        </select>
+                    </div>
+                </li>
+                
+                <li>
+                    <span class="left c3 borrowleft"><i class="important-point">*</i>项目</span>
+                    <div class="borrowright">
+                        <input type="text" class="text" placeholder="3~15个字简短介绍项目" name="name" maxlength="15" value="${bid?.title}">
+                        *{<span class="c9">例如：机器人项目融资</span>}*
+                    </div>
+                </li>
+                
+                <li>
+                    <span class="left c3 borrowleft"><i class="important-point">*</i>借款说明</span>
+                    <div class="borrowright">
+                        <textarea class="text" id="textarea" placeholder="20~500字篇幅说明你的借款用途及还款来源，同时也是平台审核的重要依据，请据实填写。" id="description" name="description" maxlength="500"></textarea>
+                        *{<p class="c9 f-500">
+                            例如：公司职员，现居吉林省吉林市，从事批发和零售业行业，工作收入稳定，贷款用于资金周转。
+                        </p>}*
+                        <p id="textcont"></p>
+                    </div>
+                </li>
+                
+                <li>
+                    <span class="left c3 borrowleft">&nbsp;</span>
+                    <div class="borrowright">
+                        <p><label class="borrow-read"><input type="checkbox" id="agree_pact" name="agree_pact" #{if flash?.agree_pact=="true"}checked#{/if}>我已阅读并同意签署<a href="@{front.LoanCtrl.loanDealPre()}" target="_blank" title="" class="major">《${loan_agreement}》</a></label></p>
+                        #{if currUser}
+                        <input type="submit" value="立即申请" class="condition-btn btn">
+                        #{/if}
+                        #{else}
+                        <input type="button" value="立即申请" class="condition-btn btn" onclick="javascript:window.location.href='@{front.LoginAndRegisteCtrl.loginPre()}'">
+                        #{/else}
+                    </div>
+                </li>
+            </ul>
+        </div>
+        </form>
+    </div>
+</div>
+<!--	弹窗-->
+<script type="text/javascript">
+	require(["front"],function(back){
+		require(['validation/validateExt']);
+		var productId = ${tp?.id};
+		back.secondNav($("#"+productId).parent().index());//添加样式
+		
+		var description = "${bid?.description?:''}";
+		$("#description").val(description);
+		
+		$("#create_bid").validate({
+			errorPlacement: function(error, element){
+				if(element.is("#agree_pact")){
+					$("div[id='agree_pact-error']").remove();
+					error.addClass('error register-error').appendTo(element.parent().last());
+				}else{
+					error.addClass('register-error').appendTo(element.closest('.borrowright'));
+				}
+			},
+			rules: {
+				"amount": {
+					required: true,
+					isThousandMultiple: true,
+					isBigger: "#minAmount",
+					isSmall: "#maxAmount"
+				},
+				"period": {
+					required: true,
+					min: 1
+				},
+				"repayment_type": {
+					required: true,
+					min: 1
+				},
+				"invest_period": {
+					required: true,
+					min: 1
+				},
+				"apr": {
+					required: true,
+					isBigger: "#minApr",
+					isSmall: "#maxApr"
+				},
+				"name": {
+					required: true,
+					minlength: 3,
+					maxlength: 15
+				},
+				"description" :{
+					required: true,
+					minlength: 20,
+					maxlength: 500
+				},
+				"agree_pact": {
+					required: true
+				}
+			},
+			messages: {
+				"amount": {
+					required: "请输入借款金额",
+					isThousandMultiple: "只能是1000的正整数倍",
+					isBigger: "必须大于或等于最小借款金额",
+					isSmall: "必须小于或等于最大借款金额"
+				},
+				"period": {
+					required: "请选择借款期限",
+					min: "请选择借款期限"
+				},
+				"repayment_type": {
+					required: "请选择还款方式",
+					min: "请选择还款方式"
+				},
+				"invest_period": {
+					required: "请选择筹款时间",
+					min: "请选择筹款时间"
+				},
+				"apr": {
+					required: "请输入年利率",
+					isBigger: "必须大于或等于最小年利率",
+					isSmall: "必须小于或等于最大年利率"
+				},
+				"name": {
+					required: "请输入项目名称",
+					minlength: "项目名称不合格",
+					maxlength: "项目名称不合格"
+				},
+				"description" :{
+					required: "请输入借款说明",
+					minlength: "不能小于20位",
+					maxlength: "不能超过500位"
+				},
+				"agree_pact": {
+					required: "请认真阅读并同意借款协议"
+				}
+			},
+			submitHandler: function(form){
+				#{if isSimulated}
+					alert("模拟登录不能执行该操作");
+					return false;
+				#{/if}
+				#{else}
+				var checkForms = $(".borrow-unlogin").children();
+				for(var i = 0; i< checkForms.length; i++){
+					if(checkForms.eq(i).hasClass('assistant')){
+						weakDialog(checkForms.eq(i).text());
+						return false;
+					}
+				}
+					waitingDialog();
+					form.submit();
+				#{/else}
+				
+			},
+			errorElement: "div"
+		});
+		
+		$(function(){
+            //显示弹窗
+             $(".fast-btn").click(function(){
+             	$(window).scrollTop(100);
+   					 $(".f-tc-bg").fadeIn();//背景
+                $(".f-tc-tanchu").fadeIn();//弹窗
+                $(".f-tc-content").css("margin-left",-$(".f-tc-content").width()/2 );//左右居中
+                //$(".f-tc-content").css("margin-top",-$(".f-tc-content").height()/2 );//上下居中
+                $("#product_id").val($(this).attr("_value"));
+   			 })
+            //关闭弹窗
+            $(".f-chacha").on("click",function(){
+                $(this).closest(".f-tc-tanchu").fadeOut();
+                $(".f-tc-bg").fadeOut();
+            });
+        })
+	});
+	
+	function calculateLoanSumInterest(){
+		var amount = $("#borrowmoney").val();//借款金额
+		var apr = $("#borrowmoneyapr").val();//年利率
+		var period = $("#bid_period_select").val();//期限
+		var period_unid = $("#bid_period_unit_code").val();//期限单位
+		var repayment_type = $("#repayment_type").val();//还款方式
+		if(amount=='' || amount==null || amount==undefined){
+			$("#calculateLoanSumInterest").text('本息合计0.00元');
+			return;
+		}
+		if(period=='0' || repayment_type=='0'){
+			if(amount=='' || amount==null || amount==undefined){
+				$("#calculateLoanSumInterest").text('本息合计0.00元');
+			}else{
+				$("#calculateLoanSumInterest").text('本息合计'+(parseFloat(amount)).toFixed(2)+'元');
+			}
+			return;
+		}
+		var interest = 0;
+		if(${models.core.entity.t_product.PeriodUnit.MONTH.code}==period_unid) {//月标
+			//月标，等额本息的计算
+			if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==repayment_type){
+				var monthApr = apr/12/100;
+				var monthSum = amount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+				interest = (monthSum * period - amount);
+			}else{
+				interest = (amount*(apr/100)/12*period);
+			}
+		}else if(${models.core.entity.t_product.PeriodUnit.DAY.code}==period_unid) {//天标
+			interest = (amount*(apr/100)/360*period);
+		}
+		
+		if(isNaN(interest)){
+			interest = 0;
+		}
+		var sumInterest = parseFloat(amount)+parseFloat(interest);
+		$("#calculateLoanSumInterest").text('本息合计'+sumInterest.toFixed(2)+'元');
+	}
+	function calculateLoanServiceFee(){
+		var amount = $("#borrowmoney").val();//借款金额
+		var period = $("#bid_period_select").val();//期限
+		var period_unid = $("#bid_period_unit_code").val();//期限单位
+		
+		var service_fee_rule = $("#service_fee_rule").val();
+		var replacequot = service_fee_rule.replace(/(&quot;)/g, '');//去掉双引号
+		var ruleJson = eval("("+replacequot+")");
+		var loan_amount_rate = ruleJson.loan_amount_rate,
+		sub_period = ruleJson.sub_period,
+		sub_loan_amount_rate = ruleJson.sub_loan_amount_rate;
+		
+		if(amount=='' || amount==null || amount==undefined){
+			$("#calculateLoanServiceFee").text('服务费0.00元');
+			return;
+		}
+		if(period=='0'){
+			$("#calculateLoanServiceFee").text('服务费0.00元');
+			return;
+		}
+		var serviceFee = 0;
+		if(${models.core.entity.t_product.PeriodUnit.MONTH.code}==period_unid) {//月标
+			if(parseInt(period)>parseInt(sub_period)){
+				serviceFee = amount*(loan_amount_rate/100)+amount*(period-sub_period)*(sub_loan_amount_rate/100);// 公式：按借款本金 * ? % + 本金*（期数 - ?个月）* ? %
+			}else{
+				serviceFee = amount*(loan_amount_rate/100)
+			}
+			if(serviceFee>(amount*0.5)){// 不超过借款金额50% 
+				serviceFee = amount*0.5;
+			}
+		}else if(${models.core.entity.t_product.PeriodUnit.DAY.code}==period_unid) {//天标
+			serviceFee = amount*(loan_amount_rate/100)/360*period// 公式：按借款本金 * ?% /360 * 借款天数 
+			if(serviceFee>(amount*0.5)){// 不超过借款金额50% 
+				serviceFee = amount*0.5;
+			}
+		}
+		if(isNaN(serviceFee)){
+			serviceFee = 0;
+		}
+		$("#calculateLoanServiceFee").text('服务费'+serviceFee.toFixed(2)+'元');
+	}
+</script>

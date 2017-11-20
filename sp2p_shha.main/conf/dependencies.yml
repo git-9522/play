@@ -1,0 +1,40 @@
+# Application dependencies
+
+require:
+    - play
+    - sp2p_shha.basic -> sp2p_shha.basic
+    - sp2p_shha.common -> sp2p_shha.common
+    - sp2p_shha.core -> sp2p_shha.core
+    - sp2p_shha.payment -> sp2p_shha.payment
+    - sp2p_shha.ext.redpacket -> sp2p_shha.ext.redpacket
+    - sp2p_shha.ext.experiencebid -> sp2p_shha.ext.experiencebid
+    - sp2p_shha.ext.cps -> sp2p_shha.ext.cps
+    - sp2p_shha.ext.wealthcircle -> sp2p_shha.ext.wealthcircle
+    - sp2p_shha.app -> sp2p_shha.app
+    - sp2p_shha.wechat -> sp2p_shha.wechat
+    - sp2p_shha.ext.cash -> sp2p_shha.ext.cash
+    - sp2p_shha.ext.mall -> sp2p_shha.ext.mall
+    - sp2p_shha.ext.rate -> sp2p_shha.ext.rate
+    - sp2p_shha.activity -> sp2p_shha.activity
+    - sp2p_shha.ext.fdd -> sp2p_shha.ext.fdd
+
+repositories:
+    - confs:
+        type: local
+        artifact: ${application.path}/../[module]
+        contains: 
+             - sp2p_shha.basic -> sp2p_shha.basic
+             - sp2p_shha.common -> sp2p_shha.common
+             - sp2p_shha.core -> sp2p_shha.core
+             - sp2p_shha.payment -> sp2p_shha.payment
+             - sp2p_shha.ext.redpacket -> sp2p_shha.ext.redpacket
+             - sp2p_shha.ext.experiencebid -> sp2p_shha.ext.experiencebid
+             - sp2p_shha.ext.cps -> sp2p_shha.ext.cps
+             - sp2p_shha.ext.wealthcircle -> sp2p_shha.ext.wealthcircle
+             - sp2p_shha.app -> sp2p_shha.app
+             - sp2p_shha.wechat -> sp2p_shha.wechat
+             - sp2p_shha.ext.cash -> sp2p_shha.ext.cash
+             - sp2p_shha.ext.mall -> sp2p_shha.ext.mall
+             - sp2p_shha.ext.rate -> sp2p_shha.ext.rate
+             - sp2p_shha.activity -> sp2p_shha.activity
+             - sp2p_shha.ext.fdd -> sp2p_shha.ext.fdd

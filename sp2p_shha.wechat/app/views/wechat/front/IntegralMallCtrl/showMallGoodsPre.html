@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、出借新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、出借新方向！" />
+        <meta name="description" content="虹金所_引领投资、出借新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+        #{get 'moreStyles' /}
+		<!-- 页面js -->
+		<script type="text/javascript" data-main="/public/wechat/javascripts/wechat.js" src="@{'/public/wechat/javascripts/require.js'}" ></script>
+		#{get 'moreScripts' /}
+    </head>
+    <body>
+    	<form action="@{wechat.front.IntegralMallCtrl.exchangeGoods()}" method="POST" id="exchangeGoods">
+	    	<input type="hidden" name="goodsSign" value="${goods?.sign}" />
+	    	<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}" />
+	    	<div class="q-spbtm">
+				<div class="q-spdivtop">
+					<img src="${goods?.image_url}"/>
+				</div>
+				
+				#{if currUser != null && goods?.type == 0 && defaultAddress != null}
+					<input type="hidden" id="addressId" name="addressId" value="${defaultAddress?.sign}"/>
+					<div class="q-spdzdiv" id="defaultAddress">
+						<a href="javascript:void(0);" onclick="selAddress()" class="flex">
+							<dl class="flex-1">
+								<dt><span>${defaultAddress?.receiver}</span>${defaultAddress?.tel}</dt>
+								<dd>${defaultAddress?.getDetailAddress()}</dd>
+							</dl>
+							<img src="@{'/public/wechat/images/goimg.png'}"/>
+						</a>
+					</div>
+				#{/if}
+				
+				#{else}#{if goods?.type == 0}
+				<div class="q-spdzdiv">
+					<a href="javascript:void(0);" onclick="selAddress()" class="flex">
+						<dl class="flex-1">
+							<dt style="line-height:50px;"><span>选择地址</span></dt>
+						</dl>
+						<img src="@{'/public/wechat/images/goimg.png'}"/>
+					</a>
+				</div>
+				#{/if}#{/else}
+				<div class="q-spdiv02 q-padding">
+					<p class="p01">${goods?.name}</p>
+					<p class="p02">尊享价：<span class="q-color">${goods?.spend_scroe} 虹银</span></p>
+				</div>
+				<div class="q-spdiv03 flex q-padding q-bgfff">
+					<p class="flex-1">数量</p>
+					<div class="q-sjdiv">
+						<span onclick="jian()">-</span>
+						<input class="q-date" type="text" name="exchangeNum" id="exchangeNum" value="1" />
+						<span onclick="jia()">+</span>
+					</div>
+				</div>
+				<div class="q-sddiv04">
+					<p class="p01">可用积分 : <span class="q-color">${scoreBalance}</span></p>
+					<p class="p02">可兑份数 : #{if !goods?.is_unlimited_exc_max}
+												${(goods?.exchange_maximum-hasExchangeNum) >= 0? goods?.inventory >= (goods?.exchange_maximum-hasExchangeNum)?goods?.exchange_maximum-hasExchangeNum : goods?.inventory : 0} 份
+											#{/if}
+											#{else}
+												#{if !goods?.is_unlimited_inven}${goods?.inventory} 份#{/if}#{else}无限#{/else}
+											#{/else}</p>
+					<p class="p03">已兑换 ${goods?.exchanged_num}件，剩余<span class="q-color q-fulldate">${goods?.inventory}</span> 件</p>
+				</div>
+				<a href="@{wechat.front.IntegralMallCtrl.goodsDescriptionPre(goods?.sign)}" class="q-sddiv05 flex q-padding">
+					<p class="flex-1">查看商品详情</p>
+					<img src="@{'/public/wechat/images/goimg.png'}"/>
+				</a>
+				#{if count >= goods.min_invest_count}
+				<div class="q-padding q-spdiv06">
+					<a class="q-link100 ljdh">立即兑换</a>
+				</div>
+				#{/if}
+				#{else}
+				<div class="q-padding q-spdiv06">
+					<a class="q-link100" href="@{wechat.front.InvestCtrl.toWechatInvestPre}">去投资>></a>
+				</div>
+				#{/else}
+			</div>
+		</form>
+		
+		<!--弹窗-->
+		<div id="addAddress" style="display:none;">
+			<div class="q-tcbg" style="display: block;"></div>
+			<div class="q-tcdiv">
+				<p class="p01">很抱歉</p>
+				<p class="p02">您还没有设置收货地址，请设置您的收货地址</p>
+				<a href="@{wechat.front.IntegralMallCtrl.addressListPre()}" class="q-link100 mt30">设置地址</a>
+			</div>
+		</div>
+		<!--弹窗-->
+		
+		<!--警告弹窗-->
+		<div id="warm" style="display:none;">
+			<div class="q-tcbg" style="display: block;"></div>
+			<div class="q-tcdiv">
+				<p class="p01">提示</p>
+				<p class="msgTest p02"></p>
+				<a href="javascript:void(0)" class="close q-link100 mt30">确定</a>
+			</div>
+		</div>
+		<!--弹窗-->
+		
+		<!--收货地址弹窗-->
+		<div class="q-tcbg tc2" style="display: none;"></div>
+		<div class="q-tcdiv tc2" style="display: none;">
+			<div id="listOfAddress">
+			
+			</div>
+			<div class="q-padding mt30">
+				<a href="@{wechat.front.IntegralMallCtrl.addAddressReadyPre(goods?.sign)}" class="q-link100">＋新增地址</a>
+			</div>
+		</div>
+		<!--收货地址弹窗-->
+		
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+    <script type="text/javascript">
+    	require(['wechat'],function(wechat){
+    		#{if flash?.error}
+				alertWin('${flash?.error}');
+			#{/if}
+    		#{if flash?.success}
+				alertWin('${flash?.success}');
+			#{/if}
+    		
+    		//兑换
+			$(".ljdh").click(function(){
+				#{ifnot currUser}
+					window.location.href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}";
+					return false;
+				#{/ifnot}
+				#{if isSimulated}
+			    	alertWin("模拟登录不能执行该操作");
+			    	return false;
+			    #{/if}
+			    #{else}
+					var scoreBalance = "${scoreBalance?:'0'}";//可用积分
+					var exchangeNum = $('#exchangeNum').val();//兑换份数
+					var spendScroe = "${goods?.spend_scroe?:'0'}";//单价
+					//总价
+					var totalScore = parseInt(exchangeNum)*parseInt(spendScroe);
+					
+					if(parseInt(scoreBalance)<parseInt(totalScore)){
+						alertWin('可用积分不足!');
+						return false;
+					}
+					var type = ${goods?.type};
+					var address = $("#addressId").val();
+					if(address == null && type == 0){
+						alertWin('请选择收货地址!');
+						return false;
+					}
+			   		$("#exchangeGoods").submit();
+			    #{/else}
+			});
+			
+			//查询所有地址
+			function listOfAddressPre(){
+				$.ajax({
+					url : "@{wechat.front.IntegralMallCtrl.addressListPre()}",
+					type : "GET",
+					data : {
+					},
+					success : function(data) {
+						var flag = interceptorCheck(data);
+						if(!flag){
+							return;
+						}
+						$("#listOfAddress").html(data);
+					}
+				});
+			}
+			
+			listOfAddressPre();
+		});
+		
+    	
+    	
+    	function alertWin(msg){
+			$('#warm').css("display","block");
+			$('.q-tcdiv .msgTest').text(msg);
+		}
+   		
+   		$('.close').click(function(){
+   			$('#warm').css("display","none");
+   		});
+   		
+   		function selAddress(){
+   			#{ifnot currUser}
+				window.location.href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}";
+				return false;
+			#{/ifnot}
+			
+			$(".choseAdd").each(function(){
+	    		$(this).parent().children("img").css("display","none");
+	    		if($(this).val()==$("#addressId").val()){
+	    			$(this).parent().children("img").css("display","block");
+	    		}
+    		});
+			
+			$(".tc2").show();
+   		}
+   		
+    	function jian(){
+    		var txtval = parseInt($(".q-date").val());
+    		
+    		if (txtval <= 1) {
+				$(".q-date").val(1);
+			}else{
+				$(".q-date").val(txtval-1);		
+			}
+			
+    	}
+    	
+    	function jia(){
+    		var txtval = parseInt($(".q-date").val());
+    	
+    		var fulldate = $(".q-fulldate").text();
+    		
+    		if(txtval >= fulldate){
+				$(".q-date").val(fulldate);
+			}else{
+				$(".q-date").val(txtval+1);
+			}
+			
+    	}
+    	
+   </script>
+</html>

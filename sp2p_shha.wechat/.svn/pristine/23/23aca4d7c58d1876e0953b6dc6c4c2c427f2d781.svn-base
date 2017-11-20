@@ -1,0 +1,433 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+
+	<!-- 列表 -->
+	<section class="detail-menu flex">
+		<a href="javascript:void(0);" class="flex-1 ">${columns?.get(common.constants.ColumnKey.WEALTH_INVEST_MINE)?:'我的理财'}</a> <a
+			href="javascript:void(0);" class="flex-1">${columns?.get(common.constants.ColumnKey.WEALTH_INVEST_BID)?:'我的借款'}</a> <a
+			href="javascript:void(0);" class="flex-1">${columns?.get(common.constants.ColumnKey.WEALTH_INVEST_MYTRANSFER)?:'我的受让'}</a> <a
+			href="javascript:void(0);" class="flex-1">${columns?.get(common.constants.ColumnKey.WEALTH_INVEST_TRANSFER)?:'我的转让'}</a>
+	</section>
+	<!-- 我的理财 -->
+	<div class="assets" id="accountInvest" >
+		<p class="xf-load" id="investLoadMore"></p>
+	</div>
+	<!-- 我的借款 -->
+	<div class="assets" style="display:none;" id="accountLoan">
+		<p class="xf-load" id="loanLoadMore"></p>
+	</div>
+	<!-- 我的受让 -->
+	<div class="assets myzr" style="display:none;" id="accountInDebt">
+		<p class="xf-load" id="inDebtLoadMore"></p>
+	</div>
+	<!-- 我的转让 -->
+	<div class="assets myzr" style="display:none;" id="accountOutDebt">
+		<p class="xf-load" id="outDebtLoadMore"></p>
+	</div>
+
+</div>
+<script type="text/javascript">
+var loadInvest = 0;//未加载过我的理财
+var loadLoan = 0;//未加载过我的借款
+var loadInDebt = 0;//未加载过我的受让
+var loadOutDebt = 0;//未加载过我的转让
+	require([ 'wechat' ], function() {
+		
+		$(".detail-menu>a").click(function(){
+			$(".detail-menu>a").removeClass("click");
+			$(this).addClass("click");
+			var index = $(this).index();
+			 if(index == 0 && loadInvest == 0) {//判断是否已加载
+				accountInvestPre(1);//我的理财
+				var myinvestFirst = $("#accountInvest").find("h3").first();
+				myinvestFirst.click();
+			} else if(index == 1 && loadLoan == 0) {
+				accountLoanPre(1);//我的借款
+				var myLoanFirst = $("#accountLoan").find("h3").first();
+				myLoanFirst.click();
+			} else if(index == 2 && loadInDebt == 0) {
+				accountInDebtPre(1);//我的受让
+				 var myInDebtFirst = $("#accountInDebt").find("h3").first();
+				myInDebtFirst.click(); 
+			} else if(index == 3 && loadOutDebt == 0) {
+				accountOutDebtPre(1);//我的转让
+				var myOutDebtFirst = $("#accountOutDebt").find("h3").first();
+				myOutDebtFirst.click(); 
+			} 
+			$(".assets").not(index).slideUp(300);
+			$(".assets").eq(index).slideDown(300);	
+		});
+		$(function(){
+			accountInvestPre(1);//默认显示我的理财
+			var myinvestFirst = $("#accountInvest").find("h3").first();
+			myinvestFirst.click();
+		});
+//		require(['script']);
+	});
+	//-------------------------------------------------->
+	//我的理财(仅显示标题子类，no)
+	function accountInvestPre(currPage){
+		$(".detail-menu>a").eq(0).addClass("click");
+		$.ajax({
+			url : "@{wechat.front.account.MyFundCtrl.accountInvestPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage
+			},
+			async:false,
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$(data).insertBefore("#investLoadMore");
+				//$("#accountInvest").append(data);
+				loadInvest = 1;//标记为已加载
+				if(parseInt($("#investCurrPage").val())>=parseInt($("#investTotalPageCount").val())){
+					$("#investLoadMore").html("<a>没有更多了</a>");
+				} else{
+					var investCurrPage = parseInt($("#investCurrPage").val()) + 1 ;
+					$("#investCurrPage").remove();
+					$("#investTotalPageCount").remove();
+					$("#investLoadMore").html("<a onclick='accountInvestPre("+investCurrPage+")'>加载更多</a>");
+				}
+			}
+		});
+	}
+	//我的理财(折叠/展开我的理财详细信息)
+	function showAndHideInvest(dom,investId){
+		var ne = dom.next();
+		if(ne.length>0 && ne.html().length>0){//数据已经记载
+			if(ne.is(":hidden")){
+				ne.slideDown(300);
+				dom.addClass("click");
+				$("#accountInvest").find("h3").each(function(){
+					var d = $(this);
+					if(!dom.is(d)){
+						d.next().slideUp(300);
+						d.removeClass("click")
+					} 
+				});
+			} else {
+				dom.removeClass("click")
+				ne.slideUp(300);
+			}
+		} else {
+			$.ajax({
+				url : "@{wechat.front.account.MyFundCtrl.accountInvestDetailPre()}",
+				type : "GET",
+				async:false,
+				data : {
+					"investId" : investId
+				},
+				success:function(data){
+					var flag = interceptorCheck(data);
+					if(!flag){
+						return;
+					}
+					$(ne).append(data);
+					ne.slideDown(300);
+					dom.addClass("click");
+					$("#accountInvest").find("h3").each(function(){
+						var d = $(this);
+						if(!dom.is(d)){
+							d.next().slideUp(300);
+							d.removeClass("click")
+						} 
+					});
+				}
+			});
+		}
+	}
+	//下拉显示理财账单
+	function pullDownInvest(dom, investId){
+		var ne = dom.next();
+		if(ne.length>0 && ne.html().length>0){//数据已经记载
+			if(ne.is(":hidden")){
+				ne.slideDown(300);
+				dom.addClass("click");
+			} else {
+				ne.slideUp(300);
+				dom.removeClass("click")
+			}
+		} else {
+			 $.ajax({
+				url : "@{wechat.front.account.MyFundCtrl.pullDownMyBillInvestPre()}",
+				type : "GET",
+				data : {
+					"investId" :investId
+				},
+				success : function(data){
+					var flag = interceptorCheck(data);
+					if(!flag){
+						return;
+					}
+					$(ne).append(data);
+					ne.slideDown(300);
+					dom.addClass("click");
+				}
+			}); 
+		}
+	}
+	
+	//-----------------------我-的-借-款--------------------------->
+	//我的借款
+	function accountLoanPre(currPage){
+		$.ajax({
+			url : "@{wechat.front.account.MyFundCtrl.accountLoanPre()}",
+			type : "GET",
+			async:false,
+			data : {
+				"currPage" : currPage
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$(data).insertBefore("#loanLoadMore");
+			//	$("#accountLoan").append(data);
+				loadLoan = 1;//标记为已加载
+				if(parseInt($("#loanCurrPage").val())>=parseInt($("#loanTotalPageCount").val())){
+					$("#loanLoadMore").html("<a>没有更多了</a>");
+				} else{
+					var loanCurrPage = parseInt($("#loanCurrPage").val()) + 1 ;
+					$("#loanCurrPage").remove();
+					$("#loanTotalPageCount").remove();
+					$("#loanLoadMore").html("<a onclick='accountLoanPre("+loanCurrPage+",1)'>加载更多</a>");
+				}
+			}
+		});
+	}
+	
+	//我的借款(折叠/展开我的借款详细信息)
+	function showAndHideLoan(dom,bidId){
+		var ne = dom.next();
+		if(ne.length>0 && ne.html().length>0){//数据已经记载
+			if(ne.is(":hidden")){
+				ne.slideDown(300);
+				dom.addClass("click");
+				$("#accountLoan").find("h3").each(function(){
+					var d = $(this);
+					if(!dom.is(d)){
+						d.next().slideUp(300);
+						d.removeClass("click");
+					} 
+				});
+			} else {
+				ne.slideUp(300);
+				dom.removeClass("click");
+			}
+		} else {
+			$.ajax({
+				url : "@{wechat.front.account.MyFundCtrl.accountLoanDetailPre()}",
+				type : "GET",
+				async:false,
+				data : {
+					"bidId" : bidId
+				},
+				success:function(data){
+					var flag = interceptorCheck(data);
+					if(!flag){
+						return;
+					}
+					$(ne).append(data);
+					ne.slideDown(300);
+					dom.addClass("click");
+					$("#accountLoan").find("h3").each(function(){
+						var d = $(this);
+						if(!dom.is(d)){
+							d.next().slideUp(300);
+							d.removeClass("click");
+						} 
+					});
+				}
+			});
+		}
+	}
+	
+
+	//下拉显示借款账单
+	function pullDownBill(dom,bidId){
+		var ne = dom.next();
+		if(ne.length>0 && ne.html().length>0){//数据已经记载
+			if(ne.is(":hidden")){
+				ne.slideDown(300);
+				dom.addClass("click");
+			} else {
+				ne.slideUp(300);
+				dom.removeClass("click");
+			}
+		} else {
+			 $.ajax({
+					url : "@{wechat.front.account.MyFundCtrl.pullDownMyBillPre()}",
+					type : "GET",
+					data : {
+						"bidId" :bidId
+					},
+					success : function(data){
+						var flag = interceptorCheck(data);
+						if(!flag){
+							return;
+						}
+						$(ne).append(data);
+						ne.slideDown(300);
+						dom.addClass("click");
+					}
+				});
+		}
+	}
+	
+	//-------------我-的-受-让------------------------------------->
+	//我的受让(仅显示标题子类，no)
+	function accountInDebtPre(currPage){
+		$.ajax({
+			url : "@{wechat.front.account.MyFundCtrl.accountInDebtPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage
+			},
+			async:false,
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$(data).insertBefore("#inDebtLoadMore");
+			//	$("#accountInDebt").append(data);
+				loadInDebt = 1;//标记为已加载
+				if(parseInt($("#inDebtCurrPage").val())>=parseInt($("#inDebtTotalPageCount").val())){
+					$("#inDebtLoadMore").html("<a>没有更多了</a>");
+				} else{
+					var inDebtCurrPage = parseInt($("#inDebtCurrPage").val()) + 1 ;
+					$("#inDebtCurrPage").remove();
+					$("#inDebtTotalPageCount").remove();
+					$("#inDebtLoadMore").html("<a onclick='accountInDebtPre("+inDebtCurrPage+")'>加载更多</a>");
+				}
+			}
+		});
+	}
+	
+	//-------------我-的-转-让------------------------------------->
+	//我的转让(仅显示标题子类，no)
+	function accountOutDebtPre(currPage){
+		$.ajax({
+			url : "@{wechat.front.account.MyFundCtrl.accountOutDebtPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage
+			},
+			async:false,
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$(data).insertBefore("#outDebtLoadMore");
+			//	$("#accountOutDebt").append(data);
+				loadOutDebt = 1;//标记为已加载
+				if(parseInt($("#outDebtCurrPage").val())>=parseInt($("#outDebtTotalPageCount").val())){
+					$("#outDebtLoadMore").html("<a>没有更多了</a>");
+				} else{
+					var outDebtCurrPage = parseInt($("#outDebtCurrPage").val()) + 1 ;
+					$("#outDebtCurrPage").remove();
+					$("#outDebtTotalPageCount").remove();
+					$("#outDebtLoadMore").html("<a onclick='accountOutDebtPre("+outDebtCurrPage+")'>加载更多</a>");
+				}
+			}
+		});
+	}
+	
+	//我的受让/转让(折叠/展开我的受让详细信息)
+	function showAndHideInDebt(dom,debtId){
+		var ne = dom.next();
+		if(ne.length>0 && ne.html().length>0){//数据已经记载
+			if(ne.is(":hidden")){
+				ne.slideDown(300);
+				dom.addClass("click");
+				$("#accountInDebt").find("h3").each(function(){
+					var d = $(this);
+					if(!dom.is(d)){
+						d.next().slideUp(300);
+						d.removeClass("click");
+					} 
+				});
+			} else {
+				ne.slideUp(300);
+				dom.removeClass("click");
+			}
+		} else {
+			$.ajax({
+				url : "@{wechat.front.account.MyFundCtrl.accountDebtDetailPre()}",
+				type : "GET",
+				async:false,
+				data : {
+					"debtId" : debtId
+				},
+				success:function(data){
+					var flag = interceptorCheck(data);
+					if(!flag){
+						return;
+					}
+					$(ne).append(data);
+					ne.slideDown(300);
+					dom.addClass("click");
+					$("#accountInDebt").find("h3").each(function(){
+						var d = $(this);
+						if(!dom.is(d)){
+							d.next().slideUp(300);
+							d.removeClass("click");
+						} 
+					});
+				}
+			});
+			
+		}
+	}
+	function showAndHideOutDebt(dom,debtId){
+		var ne = dom.next();
+		if(ne.length>0 && ne.html().length>0){//数据已经记载
+			if(ne.is(":hidden")){
+				ne.slideDown(300);
+				dom.addClass("click");
+				$("#accountOutDebt").find("h3").each(function(){
+					var d = $(this);
+					if(!dom.is(d)){
+						d.next().slideUp(300);
+						d.removeClass("click");
+					} 
+				});
+			} else {
+				ne.slideUp(300);
+				dom.removeClass("click");
+			}
+		} else {
+			$.ajax({
+				url : "@{wechat.front.account.MyFundCtrl.accountDebtDetailPre()}",
+				type : "GET",
+				async:false,
+				data : {
+					"debtId" : debtId
+				},
+				success:function(data){
+					var flag = interceptorCheck(data);
+					if(!flag){
+						return;
+					}
+					$(ne).append(data);
+					ne.slideDown(300);
+					dom.addClass("click");
+					$("#accountOutDebt").find("h3").each(function(){
+						var d = $(this);
+						if(!dom.is(d)){
+							d.next().slideUp(300);
+							d.removeClass("click");
+						} 
+					});
+				}
+			});
+			
+		}
+	}
+</script>

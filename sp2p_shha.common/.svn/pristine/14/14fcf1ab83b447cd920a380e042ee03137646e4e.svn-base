@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>p2p网络借贷投资理财平台-虹金所 | 高端金融理财平台 | 虹金所_引领投资、理财新方向!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="虹金所,虹奥财富,上海网络借贷,P2P网络借贷">
+    <meta name="description" content="虹金所为上海虹奥财富旗下P2P网络借贷平台，为广大用户提供一个安全、诚信、低风险、回报稳定的理财新渠道。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=1200px">
+    <link rel="shortcut icon" type="image/png" href="/data/attachments/64c09f1d-6e99-4347-96b0-46c778da714d">
+    <link rel="stylesheet" href="../stylesheets/reset.css">
+    <link rel="stylesheet" href="../stylesheets/spread.css">
+    <script src="../javascripts/jquery.js"></script>
+    
+</head>
+<body>
+    <div class="spread_top">
+        <div class="clearfix top_cen">
+            <a href="/" class="logo mt25 left clearfix" title="" target="">
+               <img src="../images/logo.png" onerror="this.src='../images/logo.png'" height="56" class="left lazy" alt="logo">
+            </a>
+            <div class="top_right">已有账号！ <a href="/loginAndRegiste/login.html" class="go_shouye corange">立即登录</a></div>
+        </div>
+    </div>
+    <div class="spread_banner">
+        <div class="banner_cen">
+            <div class="spread_enroll">
+                <h3>注册送3975元红包</h3>
+                <div class="enroll_cen">
+                   <form action="/loginAndRegiste/registering" method="post" id="registerFrom" novalidate="novalidate">
+                        <ul class="spread_register">
+                            <li class="clearfix">
+                                <div class="spread_wrap spread1">
+                                    <input type="text" name="mobile" id="mobile" class="text" value="" maxlength="11" placeholder="手机号">
+                                </div>
+                                <p id="mobile-error" class="error register-error" style="display: block;"></p>
+                            </li>
+                            <li class="clearfix">
+                                <div class="spread_wrap spread2">
+                                    <input type="password" id="password" name="password" class="en_pass" value="" placeholder="请输入密码" maxlength="15">
+                                </div>
+                                <p id="password-error" class="error register-error" style="display: block;"></p>
+                            </li>
+                            <li class="clearfix">
+                                <div class="spread_wrap spread_code clearfix spread6">
+                                    <div class="codetext clearfix">
+                                        <input type="text" name="code" id="code" class="text" value="" placeholder="验证码" maxlength="6">
+                                        <input type="hidden" name="randomId" id="randomId" value="">
+                                        <img src="" onclick="refreshCaptcha(true);" id="captchaImage" class="codeimg" height="37" alt="" title="换一张" />
+                                    </div>
+                                </div>
+                                <p id="code-error" class="error register-error" style="display: block;"></p>
+                            </li>
+                            <li class="clearfix">
+                                <div class="spread_wrap spread_code clearfix spread3">
+                                    <div class="codetext">
+                                        <input type="text" name="smsCode" id="smsCode" class="text" value="" placeholder="验证码" maxlength="6">
+                                        <input type="hidden" id="flag" value="1">
+                                        <input type="hidden" id="scene" name="scene" value="PC_REGISTER">
+                                    </div>
+                                    <!-- 按钮点击后添加disabled属性 -->
+                                 <input type="button" onclick="sendCode();" id="getsmscode" value="获取验证码" class="getcode-btn">
+                                </div>
+                                <p id="smsCode-error" class="error register-error" style="display: block;"></p>
+                            </li>
+                            <li class="spread_more" style="height: 40px; margin-bottom: 5px;">
+                                <label class="register-agree">
+                                    <input type="checkbox" name="readandagree"  agree="false" id="readandagree">
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;阅读并同意
+                                    <a target="_blank" title="" href="/loginAndRegiste/registerdeal.html">《虹金所网站注册协议》</a>
+                                </label>
+                                <p id="readandagree-error" class="error register-error" style="display: block;"></p>
+                            </li>
+                            <li class="spread_more">
+                                <input type="submit" value="立即领取3975元红包">
+                            </li>    
+                        </ul>
+                        <input  id="recommendCode"  type="hidden"/>  
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="spread_icon">
+        <ul class="gai_incon">
+        	<li class="incon2">
+                <p>上海银行存管平台</p>
+            </li>
+            <li class="incon1">
+                <p>上海金融信息协会会员</p>
+            </li>
+            <li class="incon3">
+                <p>上海信息化常务理事单位</p>
+            </li>
+            <li class="incon4">
+               <p>安全保障</p>
+            </li>
+        </ul>
+    </div>
+    <div class="spread_form">
+        <ul class="form_cen clearfix">
+            <li class="form_first">
+                <img src="../images/spread/spread_onc1.png" alt="">
+                <p class="form_font">总部位于上海</p>
+            </li>
+            <li class="form_middle">
+                <img src="../images/spread/spread_onc2.png" alt="">
+                <p class="form_font">注册资本超过1亿元人民币</p>
+            </li>
+            <li class="form_last">
+                <p>平台数据统计</p>
+                <ul class="fonm_list">
+                    <li class="clearfix"><i class="i1"></i><p>累计注册<span>59626</span>人</p></li>
+                    <li class="clearfix"><i class="i2"></i><p>累计成交额<span>2</span>亿<span>2514</span>万元</p></li>
+                    <li class="clearfix"><i class="i3"></i><p>为理财人赚取收益<span>400</span>万元</p></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="spread_box">
+       <div class="box_cen">
+            <ul class="box_list clearfix">
+                <li class="box_one">
+                    <img src="../images/spread/spread_img1.png" alt="">
+                    <a ></a>
+                </li>
+                <li class="box_two">
+                    <img src="../images/spread/spread_img2.png" alt="">
+                    <a ></a>
+                </li>
+                <li class="box_thr">
+                    <img src="../images/spread/spread_img3.png" alt="">
+                    <a ></a>
+                </li>
+            </ul>
+            <h3>权威认证机构</h3>
+            <ul class="spread_book clearfix">
+                            <li>
+                    <img src="../images/spread/spread_book2.png" alt="">
+                    <span>2016.08</span>
+                    <p>中国互联网金融行业<br/>百强企业</p>
+                </li>
+                <li>
+                    <img src="../images/spread/spread_book1.png" alt="">
+                    <span>2016.03</span>
+                    <p>上海信息化理事会<br/>常务理事单位</p>
+                </li>
+                <li>
+                    <img src="../images/spread/spread_book3.png" alt="">
+                    <span>2015.03</span>
+                    <p>315协消费者信得过品牌</p>
+                </li>
+                <li>
+                    <img src="../images/spread/spread_book4.png" alt="">
+                    <span>2015.03</span>
+                    <p>2015年度企业<br/>战略联盟单位</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="spread_bottom">
+        <div class="spread_botc">
+           <div class="spread_center">
+               <div class="spread_arr">
+                   <p>已有
+                        <span>5</span>
+                        <span>9</span>
+                        <span>6</span>
+                        <span>2</span>
+                        <span>6</span>
+                        人领取了红包
+                    </p>
+               </div>
+           </div>
+        </div>
+    </div>
+    <div class="spread_new">
+        <div class="spread_new_cen">
+            <img src="../images/spread/spread_box.png" alt="" class="spread_bao">
+            <a  class="spred_link">注册领取 <span>3975</span> 元红包</a>
+            <div class="spread_app">
+                <p>扫一扫 下载手机APP</p>
+                <img src="../images/spread/spread_er.png" alt="">
+            </div>
+        </div>
+    </div>
+    <script src="../javascripts/validation/jquery.validate.js"></script>
+    <script src="../javascripts/validation/my.validateExt.js" type="text/javascript"></script>
+    <script>
+        $(function(){
+        	$('#mobile').focus();
+    		oScorll($('.spred_link'));
+            oScorll($('.box_one'));
+            oScorll($('.box_two'));
+            oScorll($('.box_thr'));
+            function oScorll(oSl){
+                oSl.click(function(){
+                    $(window).scrollTop(0);
+                    $('#mobile').focus();
+                })
+            }
+			var id = getQueryString("id");
+           $('.spread_off').click(function(){
+               $('.spread_new').hide()
+           });
+           $('#readandagree').click(function(){
+               if($(this).attr('agree')=='false'){
+                   $(this).attr('agree','true');
+                   $('.spread_agree').addClass('spread_agree1');
+               }else if($(this).attr('agree')=='true'){
+                   $(this).attr('agree','false');
+                   $('.spread_agree').removeClass('spread_agree1');
+
+               }
+           });
+           oKeyup($(".spread1 input"));
+           oKeyup($(".spread4 input"));
+           function oKeyup(oKe){
+                oKe.keyup(function() {
+                    this.value = this.value.replace(/[^\d]/g,'').replace(/(\d)(?=\d)/g, "$1");
+                })
+            };
+           //取消获取验证码按钮禁用效果
+			$(".getcode-btn").removeAttr("disabled");
+            $("#registerFrom").validate({
+                errorPlacement: function(error, element) {
+                    if(element.is("#mobile")){
+                        $("p[id='mobile-error']").remove();
+                        error.addClass('error register-error').appendTo(element.parent());
+                    }else if(element.is("#code")){
+						$("p[id='code-error']").remove();
+						error.addClass('register-error').appendTo(element.parent());
+					}else if(element.is("#smsCode")){
+                        $("p[id='smsCode-error']").remove();
+                        error.addClass('register-error').appendTo(element.parent());
+                    }else if(element.is("#password")){
+                        $("p[id='password-error']").remove();
+                        error.addClass('register-error').appendTo(element.parent());
+                    }else if(element.is("#readandagree")){
+                        $("p[id='readandagree-error']").remove();
+                        error.addClass('register-error').appendTo(element.parent());
+                    }else if(element.is("#recommendCode")){
+                        $("p[id='recommendCode-error']").remove();
+                        error.addClass('register-error').appendTo(element.parent());
+                    }
+                },
+                success:function(label){
+                    label.removeClass('error register-error');
+                },
+                errorElement:'p',
+                rules:{
+                    "mobile":{
+                        required:true,
+                        isMobile:true,
+                        remote:{
+                             url: "/front/validation/checkusermobile",
+                             type: "post",
+                             dataType: "json",
+                             data: {
+                                 mobile: function() {
+                                    return $("input[id='mobile']").val();
+                                }
+                            }
+                        }
+                    },
+					"code":{
+						required:true,
+						digits:true
+					},
+                    "smsCode":{
+                        required:true,
+                        digits:true,
+                        minlength:6
+                    },
+                    "password":{
+                        required:true,
+                        isPassWord:true,
+                        rangelength:[6,15]
+                    },
+                    "readandagree":{
+                        required:true
+                    },
+                    "recommendCode":{
+                        rangelength:[11,12],
+                        remote:{
+                             url: "/front/validation/checkrecommendcode",
+                             type: "post",
+                             dataType: "json",
+                             data: {
+                                 recommendCode: function() {
+                                    return $("input[id='recommendCode']").val();
+                                }
+                            }
+                        }
+                    },
+                },
+                messages:{
+                    "mobile":{
+                        required:"手机号不能为空",
+                        isMobile:"手机号格式不正确",
+                        remote:"该手机号已被占用"
+                    },
+					"code":{
+						required:"验证码不能为空",
+						digits:"验证码不正确"
+					},
+                    "smsCode":{
+                        required:"短信验证码不能为空",
+                        digits:"短信验证码不正确",
+                        minlength:"短信验证码不正确"
+                    },
+                    "password":{
+                        required:"密码不能为空",
+                        isPassWord:"密码格式不正确",
+                        rangelength:"密码格式不正确"
+                    },
+                    "readandagree":{
+                        required:"协议未勾选"
+                    },
+                    "recommendCode":{
+                        rangelength:"请输入11位CPS推广码或者12位财富圈邀请码",
+                        remote:"推广码不存在"
+                    },
+                },
+                submitHandler:function(form){
+                    $.ajax({
+                        url : "/loginAndRegiste/checksmscode",
+                        type : "POST",
+                        data : {
+                            "mobile": $("#mobile").val(),
+                            "randomId": $("#randomId").val(),
+                            "code": $("#code").val(),
+                            "smsCode": $("#smsCode").val(),
+                            "type" : 2,
+                            "scene": "PC_REGISTER"
+                        },
+                        success : function(data){
+                            if (data.code < 1) {
+                                if($("#smsCode-error").length == 0){
+                                    $("#smsCode").after("<p style='display: block;' class='error register-error' id='smsCode-error'>"+data.msg+"</p>");
+                                }else{
+                                    $("#smsCode-error").addClass("error register-error").css("display","block");
+                                    $("#smsCode-error").html(data.msg);
+                                }
+                            } else {
+                                $("#smscode-error").css("display","none");
+                                $("#smscode-error").html('');
+                                form.submit();
+                            }
+                        }
+                    });
+                }
+            });
+            
+          
+        });
+        refreshCaptcha(true);
+          /* 验证码刷新 */
+            /* 验证码刷新 */
+            function refreshCaptcha(isRefresh){
+                $.post("/common/captcha/flushcaptcha.html",function(data){
+                    var arr=eval(data);
+                    var randomid = arr.randomID;
+                    $("#captchaImage").attr("src","/common/captcha/createcaptcha.html?uuid="+randomid);	
+                    $("#randomId").val(randomid);
+                });
+                if(isRefresh){
+                    $("#code").next("p").remove();
+                    $("#code").removeClass("text-error focus");
+                }
+                $("#code").val("");
+            }
+            String.prototype.isMobileNum = function() {
+		
+                return (new RegExp(/^((13[0-9])|(14[4,7])|(15[^4,\D])|(17[0-9])|(18[0-9]))(\d{8})$/).test(this));
+            }
+            var flag = true;
+            /* 发送手机验证码  */
+function sendCode(){
+
+                if($("#flag").val() == 2){
+                    $("#code").val('');
+                    $("#getsmscode").val("获取验证码");
+                    $("#flag").val("1");
+                    $("#code-error").addClass("error register-error").css("display","block").html("请重新输入图文验证码");
+                }
+
+                var mobile = $("#mobile").val().trim();
+                var randomId = $("#randomId").val().trim();
+                var code = 	$("#code").val().trim();
+
+                if(mobile == ''){
+                    if($("#mobile-error").length == 0){
+                        $("#mobile").after("<p style='display: block;' class='error register-error' id='mobile-error'>手机号不能为空</p>");
+                    }
+
+                    return;
+                }else if (!mobile.isMobileNum()) {
+                    if($("#mobile-error").length == 0){
+                        $("#mobile").after("<p style='display: block;' class='error register-error' id='mobile-error'>手机号格式不正确</p>");
+                    }
+
+                    return;
+                }
+                if(code == ''){
+                    if($("#code-error").length == 0){
+                        $("#code").after("<p style='display: block;' class='error register-error' id='code-error'>验证码不能为空</p>");
+                    }
+
+                    return;
+                }
+                $.ajax({
+                         url:"/front/validation/checkusermobile",
+                         type: "POST",
+                         async:false,
+                         data:{
+                             'mobile':mobile
+                         },
+                         success:function(data){
+                            if(!data){
+                                flag = true;
+                            }else{
+                                flag = false;
+                            }
+                        }
+                 });
+                 //根据手机号码和验证码判断是否应该发送短信验证码
+                if(flag){
+
+                    return;
+                }
+
+                 $.ajax({
+                    url : "/loginAndRegiste/sendcodeofregister",
+                    type : "POST",
+                    data : {
+                        "mobile" : mobile,
+                        "randomId" : randomId,
+                        "code" : code,
+                        "scene" : "PC_REGISTER"
+                    },
+                    dataType:"json",
+                    success : function(data) {
+                        /* 判断短信验证码发送是否成功 */
+                        if(data.code < 1){
+                            if(data.code == -2){
+                                //手机号码错误提示
+                                if($("#mobile-error").length == 0){
+                                    $("#mobile").after("<p style='display: block;' class='error register-error' id='mobile-error'>"+data.msg+"</p>");
+                                }else{
+                                    $("#mobile-error").addClass("error register-error").css("display","block");
+                                    $("#mobile-error").html(data.msg);
+                                }
+                                refreshCaptcha(false); //刷新验证码
+                            }else if(data.code == -3){
+                                //验证码错误提示
+                                if($("#code-error").length == 0){
+                                    $("#captchaImage").after("<p style='display: block;' class='error register-error' id='code-error'>"+data.msg+"</p>");
+                                }else{
+                                    $("#code-error").addClass("error register-error").css("display","block");
+                                    $("#code-error").html(data.msg);
+                                }
+                                refreshCaptcha(false); //刷新验证码
+                            }else if(data.code == -4){
+                                //短信提示
+                                if($("#smsCode-error").length == 0){
+                                    $("#code-note").after("<p style='display: block;' class='error register-error' id='smsCode-error'>"+data.msg+"</p>");
+                                }else{
+                                    $("#smsCode-error").addClass("error register-error").css("display","block");
+                                    $("#smsCode-error").html(data.msg);
+                                }
+                            }
+                            $("#flag").val("1");
+                        } else {
+                            /* 短信发送成功，清除页面错误提示 */
+                            $("#mobile-error").css("display","none");
+                            $("#mobile-error").html('');
+                            $("#code-error").css("display","none");
+                            $("#code-error").html('');
+                            $("#smsCode-error").css("display","none");
+                            $("#smsCode-error").html('');
+
+                            if(!$(".getcode-btn").prop("disabled")){
+                            $(".getcode-btn").prop("disabled",true).next(".code-note").show();
+                                var getCode = $(".getcode-btn"),
+                                    timeid,
+                                    i = 60;//再次获取验证码等待时间
+                                getCode.val(i+'s');
+                                timeid = setInterval(function(){
+                                    if(i > 1){
+                                        i--;
+                                        getCode.val(i+'s');
+                                    }else{
+                                        getCode.removeAttr("disabled");
+                                        getCode.val('再次获取');
+                                        clearInterval(timeid);
+                                        $("#flag").val("2");
+                                    }
+                                },1000);
+                            }
+                        }
+                    }
+                });
+            }
+            checkRecommendCode();
+function checkRecommendCode(recommendCode)  {
+	var recommendCode=getQueryString('recommendCode');
+	$.post('/loginAndRegiste/checkRecommendCode',  { "recommendCode" : recommendCode} ,function(data) {
+		if(data.code==1){
+			$("#recommendCode").val(data.obj);
+			$("#recommendCode").attr("name", "recommendCode");
+		}
+	})
+}  
+function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?652a94abffc87db62109ab474047f10e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

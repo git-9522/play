@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>p2p新手指引专享红包_ p2p平台注册 -我是新手-虹金所</title>
+<link rel="stylesheet" href="/public/front/stylesheets/reset.css">
+<link rel="stylesheet" href="/public/front/stylesheets/mynew.css">
+<meta name="keywords" content="p2p平台注册, p2p新手专享, p2p新手红包, p2p新手指引" />
+<meta name="description" content="虹金所新手指引教程,注册领取3975元新手专享红包。虹金所提供多种理财产品,100元起投,最高期待年回报率12%,远超余额宝,多种期限可选。" />
+<script type="text/javascript" src="@{'public/front/javascripts/jquery-1.12.1.min.js'}"></script>
+</head>
+<body>
+	<ul class="swiper_wrapper">
+		       <!-- 头部部分 -->
+       <div class="header">
+            <div class="top">
+                <div class="container">
+                    <div class="left fs12">
+                        <img src="/public/front/images/top1.png" class="f-top-img1">
+                        客服热线：400-637-6969（8:30-17:00）
+                    </div>
+                    <div class="right mr20">
+                        <a href="@{front.FrontHomeCtrl.invitePre()}" class="left cbu">邀请好友</a>
+                        <i class="left split-line"></i>
+                        <a href="@{front.FrontHomeCtrl.activePre()}" class="left cbu">新手好礼</a>
+                        <i class="left split-line"></i>
+                        <a href="@{front.FrontHomeCtrl.toActivityCenterPre()}" class="left cbu">活动中心</a>
+                        <i class="left split-line"></i>
+                        <a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="left cbu">帮助中心</a>
+                        <i class="left split-line"></i>
+						#{if currUser == null}
+	                    <a href="@{front.LoginAndRegisteCtrl.loginPre()}" class="cblue left">登录</a>
+	                    <i class="left split-line"></i>
+	                    <a href="@{front.LoginAndRegisteCtrl.registerPre()}" class="cblue left">注册</a>
+	                    #{/if}
+	                    #{else}
+	                    <i class="left split-line"></i>
+	                    <a href="@{front.account.MyAccountCtrl.homePre()}" class="cblue left ">${currUser?.name}</a>
+	                    <i class="left split-line"></i>
+	                    <a href="@{front.LoginAndRegisteCtrl.loginOutPre()}" class="cblue left">退出</a>
+	                     #{/else}
+                    </div>
+                </div>
+            </div>
+            <div class="navbox bgf">
+                <div class="gai_innerbox">
+                    <div class="container clearfix">
+                        <a href="@{front.FrontHomeCtrl.frontHomePre()}" class="logo left clearfix" title="" target="">
+                           <img src="/public/front/images/logo1.png"  height="56" class="left lazy" alt="logo">
+                            <div class="left f-logo2">
+                                <img src="/public/front/images/logo2.png" height="49">
+                            </div>
+                        </a>
+                        <ul class="gai_nav right clearfix">
+                            <li class=""><a href="@{front.FrontHomeCtrl.frontHomePre()}" title="" target="" >首页</a></li>
+                            <li class="gai_nav_act gai_tim relative">
+                                <a href="@{front.invest.InvestCtrl.toInvestPre()}">我要出借</a>
+                                <div class="gai_dropdown absolute bgf">
+                                    <ul>
+                                        <li><a href="@{front.invest.InvestCtrl.toInvestPre()}">散标投资</a></li>
+                                        <li><a href="@{front.invest.InvestCtrl.toDebtPre()}">债权转让</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li style="margin-left:20px;"><a href="@{front.LoanCtrl.toLoanPre()}" title="" target="">我要借款</a></li>
+                            <li><a href="@{front.FrontHomeCtrl.toSafetyPre()}" title="" target="">安全保障</a></li>
+                            <li><a href="@{front.FrontHomeCtrl.aboutUsPre()}" title="" target="">关于我们</a></li>
+                            <li class="gai_nav_act gai_shequ relative ord" >
+                                <a href="@{front.newbie.NewbieCtrl.toNewbiePre()}" class="selected">社区中心</a>
+                                <div class="gai_dropdown absolute bgf">
+                                    <ul>
+                                        <li><a href="@{front.newbie.NewbieCtrl.toNewbiePre()}">我是新手</a></li>
+                                        <li><a href="@{front.mallFront.MallFrontCtrl.mallFrontPre()}">虹银商城</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- swiper1部分 -->
+		<li class="swiper1">
+			<div class="s_center auto">
+				<img class="s1_com" src="/public/front/images/swiper1_1.png" />
+				<ul class="s1_icon">
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<ul class="s1_zh">
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<div class="cloud1"></div>
+				<div class="cloud2"></div>
+			</div>
+			<ul class="wave">
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</li>
+		<!-- swiper1部分 -->
+		<!-- swiper2部分 -->
+		<li class="swiper2">
+			<div class="s_center auto">
+				<div class="swiper_title">
+					01
+					<h1>什么是虹金所</h1>
+				</div>
+				<div class="swiper2_font"></div>
+				<div class="swiper2_img">
+				</div>
+			</div>
+		</li>
+		<!-- swiper2部分 -->
+		<!-- swiper3部分 -->
+		<li class="swiper3">
+			<div class="s_center auto">
+				<div class="swiper_title">
+					02
+					<h1>虹金所优势</h1>
+				</div>
+				<div class="sweiper3_center">
+					<ul class="swiper3_quan">
+						<li class="yuan1"></li>
+						<li class="yuan2"></li>
+					</ul>
+					<ul class="swiper3_font">
+						<li class="s3_f1"></li>
+						<li class="s3_f2"></li>
+						<li class="s3_f3"></li>
+					</ul>
+				</div>
+				<!-- <a class="swiper3_btn" href="http://www.hjs360.cn/invest/toinvest.html"></a>-->
+			</div>
+		</li>
+		<!-- swiper3部分 -->
+		<!-- swiper4部分 -->
+		<li class="swiper4">
+			<div class="s_center auto">
+				<div class="swiper_title">
+					03
+					<h1>虹金所理财产品</h1>
+				</div>
+				<ul class="swiper4_main">
+					<li class="s4_main1"><a
+						href="http://www.hjs360.cn/invest/toinvest.html"></a></li>
+					<li class="s4_main2"><a
+						href="http://www.hjs360.cn/invest/toinvest.html"></a></li>
+				</ul>
+			</div> 
+		</li>
+		<!-- swiper4部分 -->
+		<!-- swiper5部分 -->
+		<li class="swiper5">
+			<div class="s_center auto">
+				<div class="swiper_title">
+					04
+					<h1>如何投资</h1>
+				</div>
+				<div class="s5_fm">
+					<div class="s5_title">一、注册成为会员</div>
+					<ul class="s5_font">
+						<li class="h5_active">输入网址<a href="http://www.hjs360.cn/">www.hjs360.cn</a>，登录虹金所官方网站。点击<a
+							href="http://www.hjs360.cn/loginAndRegiste/register.html">“免费注册”</a>进入账户注册界面。
+						</li>
+						<li>完成会员注册后，点击网站右上角<a
+							href="http://www.hjs360.cn/account/security/security.html">“安全中心”</a>，进入到安全中心完成实名认证。界面如下所示：
+						</li>
+						<li>登录后，进入到<a href="http://www.hjs360.cn/account/home.html">“会员中心”>“充值提现”</a>
+							，点击充值，进入到充值界面。
+						</li>
+						<li>点击<a href="http://www.hjs360.cn/invest/toinvest.html">“我要出借”</a>按钮，选择具体的标，开始投资。
+						</li>
+					</ul>
+				</div>
+				<div class="s5_bor">
+					<img src="/public/front/images/swiper5_img1.jpg" alt="">
+					<ul class="s5_lab">
+						<li class="lab1 ap5"></li>
+						<li class="lab2"></li>
+					</ul>
+				</div>
+				<ul class="s5_btn">
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</li>
+		<!-- swiper5部分 -->
+		<!-- swiper6部分 -->
+		<li class="swiper6">
+			<div class="s_center auto">
+				<div class="swiper_title">
+					05
+					<h1>如何计算收益</h1>
+				</div>
+				<div class="f6_font">收益计算器，收益早知晓，按需选择投资产品</div>
+				<div class="s6_main">
+					<ul class="s6_add">
+						<li><span>投资金额：</span> <input value="10000" type="text">
+							<i>元</i></li>
+						<li><span>产品期限：</span>
+							<div class="s6_se">1个月</div>
+							<div class="s6_lab2">
+								<p>1月份</p>
+								<p>2月份</p>
+								<p>3月份</p>
+								<p>4月份</p>
+								<p>5月份</p>
+								<p>6月份</p>
+								<p>7月份</p>
+								<p>8月份</p>
+								<p>9月份</p>
+								<p>10月份</p>
+								<p>11月份</p>
+								<p>12月份</p>
+							</div> <img src="/public/front/images/s6_jiantou.png" alt=""></li>
+						<li><span>预期年化：</span> <input class="s6_se s6_c" value="12"
+							type="text"> <i class="s6_mou">%</i></li>
+					</ul>
+					<div class="s6_img"></div>
+					<ul class="s6_lucre">
+						<li><span class="s6_oc">虹金所</span>
+							<div class="s6_line"></div> <span class="s6_num">约100.00元</span>
+						</li>
+						<li><span class="s6_oc">某宝类</span>
+							<div class="s6_line"></div> <span class="s6_num">约20.41元</span></li>
+						<li><span class="s6_oc">活期类</span>
+							<div class="s6_line"></div> <span class="s6_num">约2.91元</span></li>
+						<li class="s6_of">投资有风险，理财需谨慎，以上收益仅供参考</li>
+					</ul>
+				</div>
+				<div class="s6_btn"></div>
+			</div>
+		</li>
+		<!-- swiper6部分 -->
+	</ul>
+	<!-- 按钮切换部分 -->
+	<div class="swiper_choose">
+		<ul class="choose_quan">
+			<li class="choose_active"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<a href="http://www.hjs360.cn/loginAndRegiste/register.html"
+		class="qianbao"></a>
+	<!-- 按钮切换部分 -->
+</body>
+<script src="/public/front/javascripts/jquery.mousewheel.js"></script>
+<script src="/public/front/javascripts/mynew.js"></script>
+</html>

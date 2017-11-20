@@ -1,0 +1,58 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+	<div class="receivable">
+	      <div class="detail">
+	                <div class="detail-tab flex">
+	                    <span class="pl20 flex-1">账单编号</span>
+	                    <span class="flex-1 ">应收本息</span>
+	                    <span class="flex-1 tr">到期时间</span>
+	                </div>
+	                <div class="detail-main">
+	                    <ul class="detail-history" id="receive_bill">
+	                    
+	           
+	                    </ul>
+	                    <p class="xf-load" id="loadmore"></p>
+	                </div>
+	       </div>
+	</div>  
+</div>         
+
+    <!-- 页面js -->
+<script type="text/javascript">
+require(['wechat'],function(){
+    showReceivePage(1,5);
+});
+
+    
+function showReceivePage (currPage,pageSize) {
+	$.ajax({
+		url : "@{wechat.front.account.MyReceiveBillCtrl.pageOfReceiveBillPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data){ 
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}	
+			$("#receive_bill").append(data);
+			
+			if(parseInt($("#investCurrpage").val()) >= parseInt($("#totalPageCount").val())){	
+				$("#loadmore").html("<a>没有更多了</a>");
+			}
+			else{
+				var investCurrpage = parseInt($("#investCurrpage").val()) + 1 ;
+				$("#investCurrpage").remove();
+				$("#totalPageCount").remove();
+
+				$("#loadmore").html("<a  onclick='showReceivePage ("+investCurrpage+",5)'>加载更多</a>");
+			}
+			
+		}
+	});
+}
+</script>

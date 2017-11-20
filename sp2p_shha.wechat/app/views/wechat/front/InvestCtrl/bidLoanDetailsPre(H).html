@@ -1,0 +1,84 @@
+
+
+#{if currUser}
+    <h3 class="detail-titile">借款描述</h3>
+    <article class="detail-main newline">${loanUser?.description}</article>
+
+
+    <h3 class="detail-titile">会员信息</h3>
+    <ul class="detail-main detail-history ">
+   
+        <li class="flex">
+            <div class="flex-1">姓名</div>
+            <div class="flex-1 tr">#{asterisk str:"${loanUser?.realityName}", start:1, end:0, count:2/}</div>
+        </li>
+         <li class="flex">
+            <div class="flex-1">信用评分</div>
+            <div class="flex-1 tr">${loanUser?.creditLevelId?:'----'}分</div>
+        </li>
+          <li class="flex">
+            <div class="flex-1">性别</div>
+            <div class="flex-1 tr">${loanUser?.sex?:'----'}</div>
+        </li>
+         <li class="flex">
+            <div class="flex-1">年龄</div>
+            <div class="flex-1 tr">${loanUser?.age?:'----'}岁</div>
+        </li>
+         <li class="flex">
+            <div class="flex-1">学历</div>
+            <div class="flex-1 tr">${loanUser?.education?:'----'}</div>
+        </li>
+       <li class="flex">
+            <div class="flex-1">婚姻</div>
+            <div class="flex-1 tr">${loanUser?.marital?:'----'}</div>
+        </li>
+ 
+    </ul>
+  
+    <h3 class="detail-titile">资产情况</h3>
+    <ul class="detail-main detail-history ">
+        <li class="flex">
+            <div class="flex-1">工作年限</div>
+            <div class="flex-1 tr"> ${loanUser?.workExperience?:'----'}</div>
+        </li>
+         <li class="flex">
+            <div class="flex-1">房产</div>
+            <div class="flex-1 tr">${loanUser?.house?:'----'}</div>
+        </li>
+          <li class="flex">
+            <div class="flex-1">车产</div>
+            <div class="flex-1 tr">${loanUser?.car?:'----'}</div>
+        </li>
+         <li class="flex">
+            <div class="flex-1">年收入</div>
+            <div class="flex-1 tr">${loanUser?.annualIncome?:'----'}</div>
+        </li>
+         <li class="flex">
+            <div class="flex-1">资产估值</div>
+            <div class="flex-1 tr">  ${loanUser?.netAsset?:'----'}</div>
+        </li>
+    </ul>
+    
+    <h3 class="detail-titile">审核情况</h3>
+    <ul class="detail-main">
+    #{list bidItemOfSupervisorSubjects, as:'bidItemOfSupervisorSubjects'}
+        <li class="flex">
+            <div class="flex-1">${bidItemOfSupervisorSubjects?.bid_audit_subject?.name}</div>
+            <div class="flex-1 tr">认证通过</div>
+        </li>
+    #{/list}    
+
+    </ul>
+    <h3 class="detail-titile">风控审核</h3>
+    <article class="detail-main newline">${loanUser?.preauditSuggest}</article>
+#{/if}
+#{else}
+	<p class="detail-p1">请<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+#{/else}
+
+<script type="text/javascript">
+require(['wechat'],function(){
+	//文本域换行 
+	$(this).newline();
+})			
+</script>

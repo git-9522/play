@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/wx-my-alert.css'}" />
+        <link rel="stylesheet" type="text/css" href="@{'public/front/themes/default/color.css'}" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/swiper-3.4.2.min.css'}"/>
+        #{get 'moreStyles' /}
+		<!-- 页面js -->
+		<script type="text/javascript" data-main="/public/wechat/javascripts/wechat.js" src="@{'public/wechat/javascripts/require.js'}" ></script>
+		#{get 'moreScripts' /}
+    </head>
+    <body>
+    	<div class="q-footerlinkbtm">
+    	<form action="@{wechat.front.InvestCtrl.invest}" method="POST" id="invest_bid" >
+			<input type="hidden" name="bidSign" value="${bid?.sign}"/>
+			<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}" />
+			<input type="hidden" id="redPacketSign" name="redPacketSign" value="" />
+			<input type="hidden" id="cashSign" name="cashSign" value="" />
+			<input type="hidden" id="rateSign" name="rateSign" value="" />
+			<input type="hidden" id="investPassword" name="investPassword" value="" />
+	    	
+	    	<div class="q-tztopdiv">
+	    		<div class="q-tzdiv01 tc">
+	    			#{if models.core.entity.t_product.ProductType.NEWBIE.code == bid?.product_id}
+						<span class="q-xsspan">新手标</span>
+					#{/if}
+	    			<p class="p01"><span>${bid?.apr}%</span>#{if bid?.is_invest_reward}+${bid?.reward_rate}%#{/if}</p>
+	    			<p class="p02">历史年化收益率 <img src="@{'/public/wechat/images/iimg.png'}"/></p>
+	    		</div>
+	    		<div class="q-tzdiv02 flex">
+	    			<dl class="flex-1">
+	    				<dt>起购金额</dt>
+	    				<dd><span>#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}</span>元/份</dd>
+	    			</dl>
+	    			<dl class="flex-1">
+	    				<dt>投资期限</dt>
+	    				<dd><span>${bid?.period}</span>${bid?.period_unit?.getShowValue()}</dd>
+	    			</dl>
+	    		</div>
+	    	</div>
+	    	<div class="q-tztopdiv02 flex q-padding">
+	    		<dl class="flex-1">
+	    			<dt>剩余金额<span>#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney}</span><i class="q-color">元</i></dt>
+	    			<dd>可用资金<span>${balance}</span><i class="q-color">元</i> <a href="@{wechat.front.account.MyAccountCtrl.toRechargePre()}" >充值</a></dd>
+	    			<dd class="mt15">截止时间<span>${bid?.invest_expire_time?.format("yyyy/MM/dd HH:mm:ss")}</span></dd>
+	    		</dl>
+	    		<dl class="q-tzdl">
+	    		<a href="@{wechat.front.WechatHomeCtrl.mulSecurityPre()}">
+	    			<dt><img src="@{'/public/wechat/images/tzion.png'}"/></dt>
+	    			<dd>多重保障</dd>
+	    		</a>
+	    		</dl>
+	    	</div>
+	    	<div class="q-tzdiv03 mt15 q-padding q-bgfff clearfix">
+	    		<ul class="q-tzul01">
+	    			<li class="f-lc-yh #{if countRedPacket > 0} q-on #{/if}" id="redPacketSpan" _value="${rewardRedPacket}">
+	    				<i><img src="@{'/public/wechat/images/gouimg.png'}"/></i>使用红包
+	    			</li>
+	    			<li class="f-lc-yh #{if countRedPacket == 0 && countCash > 0} f-on #{/if}" id="cashSpan" _value="${rewardCash}">
+	    				<i><img src="@{'/public/wechat/images/gouimg.png'}"/></i>使用现金券
+	    			</li>
+	    		</ul>
+	    		<select class="rc mt15" name="">
+	    			<option value="">请选择</option>
+	    		</select>
+	    		<ul onchange="calculateIncome()" class="q-tzul01 mt30 q-tzul02 addRate">
+	    		
+	    		</ul>
+	    	</div>
+	    	<div class="q-tzdiv04  mt15 q-padding q-bgfff clearfix">
+	    		<p class="p01">购买金额</p>
+	    		<div class="clearfix q-qtdiv">
+	    			<input type="number" class="l-text flex-1" id="invest_amount" name='investAmt'  value="#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}" placeholder="请输入购买金额" oninput="$(this).ndigitInteger(6);calculateIncome()" onkeyup="calculateIncome(); #{if currUser} queryRewardRecord();queryRateRecord(); #{/if}" maxlength="6"/>
+	    			<span class="q-alltou">全投</span>
+	    		</div>
+	    		
+	    		<div class="textbox mt20">
+					<div class="relative">
+					</div>
+			   </div>
+			   <p class="p02">预期收益:<span class="color1" id="invest_expece_income">0.00元</span></p>
+			   <a href="@{wechat.front.InvestCtrl.bidLoanDetailsPre(bid.id)}" class="p03">点击查看详情</a>
+	    	</div>
+	    	
+	    	#{if preRelease}
+     			<input type="button" class="graybtn condition-btn" value="预发售">
+		    #{/if}
+		    #{elseif models.core.entity.t_bid.Status.PREAUDITING.equals(bid?.status)}
+			    <input type="button" class="graybtn condition-btn" value="${bid?.status?.value}">
+			#{/elseif}
+			#{elseif models.core.entity.t_bid.Status.FUNDRAISING.equals(bid?.status)}
+				<a href="javascript:void(0);" class="q-link100 q-btmlink">我要出借</a>
+			#{/elseif}
+			#{else}
+				<input type="button" class="graybtn condition-btn bd-bnt2" value="已售罄">
+    		#{/else}
+    	</div>
+		<!--弹窗-->
+		<div id="password" style="display:none;">
+			<div class="q-tcbg" style="display: block;"></div>
+			<div class="q-tcdiv">
+				<p class="p01">请输入组员密码</p>
+				<input type="text" class="j-input" maxlength="6" id="invest_password_input"  name='investPassword'>
+				<a href="javascript:void(0)" class="bdbtn q-btmlink">立即投标</a>
+			</div>
+		</div>
+		<!--弹窗-->
+    </form>	
+    
+    <!--弹窗-->
+	<div id="warm" style="display:none;">
+		<div class="q-tcbg" style="display: block;"></div>
+		<div class="q-tcdiv">
+			<p class="p01">提示</p>
+			<p class="msgTest p02"></p>
+			<a href="javascript:void(0)" class="close q-link100 mt30">确定</a>
+		</div>
+	</div>
+	<!--弹窗-->
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+   	<script type="text/javascript">
+
+		function alertWin(msg){
+			$('#warm').css("display","block");
+			$('.q-tcdiv .msgTest').text(msg);
+		}
+   		
+   		$('.close').click(function(){
+   			$('#warm').css("display","none");
+   		});
+   		
+   		require(['wechat'],function(){
+			#{if flash?.error}
+				alertWin('${flash?.error}');
+			#{/if}
+    		#{if flash?.success}
+				alertWin('${flash?.success}');
+			#{/if}
+		});
+		
+   		//红包现金券
+   		function queryRewardRecord() {
+			var rewardTypeSign = "";
+			$(".f-lc-yh").each(function(){
+				if ($(this).hasClass("q-on")) {
+					rewardTypeSign = $(this).attr("_value");
+				}
+			});
+			
+			if (rewardTypeSign == "") {
+				return;
+			}
+			
+			var bidPeriod = 0;
+			if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+				bidPeriod = ${bid?.period};
+			}
+			
+			$.ajax({
+				url : "@{wechat.front.InvestCtrl.rewardRecord()}",
+				type : "POST",
+				data : {
+					"investAmount" : $("#invest_amount").val(),
+					"rewardTypeSign" : rewardTypeSign,
+					"bidPeriod" : bidPeriod
+				},
+				success : function(data) {
+					if(data.code < 1){
+						alertWin(data.msg);
+					}else{
+						var rewardMap = data.obj;
+						if(rewardMap.rewardList == null || rewardMap.rewardList.length <= 0){
+							$(".rc").html("<option>请选择</option>");
+							return;
+						}
+						$(".rc").html("");
+						for(var i=0; i<rewardMap.rewardList.length; i++){
+							
+							var bidPeriod = rewardMap.rewardList[i].bid_period;
+							
+							if(typeof bidPeriod != 'undefined' && parseInt(bidPeriod) > 0){
+								$(".rc").append("<option value='" + rewardMap.rewardList[i].sign + "'>" + rewardMap.rewardList[i].amount + "元（最低投资" + rewardMap.rewardList[i].use_rule + "元，标的期限" + bidPeriod + "个月）</option>");
+							}else{
+								$(".rc").append("<option value='" + rewardMap.rewardList[i].sign + "'>" + rewardMap.rewardList[i].amount + "元（最低投资" + rewardMap.rewardList[i].use_rule + "元）</option>");
+							}
+						}
+					}
+				}
+			});
+		}
+		
+		//是否使用优惠
+        $(".f-lc-yh").click(function(){
+        	#{if currUser}
+        	var attr = $(this).attr("id");
+        	
+        	if (attr == "redPacketSpan") {
+        		if (${countRedPacket} <= 0) {
+        			alertWin("您没有可用的红包，不能勾选该项");
+        			return;
+        		}
+        		
+        	$(this).toggleClass("q-on").siblings().removeClass("q-on");
+        	} else if (attr == "cashSpan") {
+        		if (${countCash} <= 0) {
+        			alertWin("您没有可用的现金券，不能勾选该项");
+        			return;
+        		}
+        		
+        		$(this).toggleClass("q-on").siblings().removeClass("q-on");
+        	}
+        	#{/if}
+        	#{else}
+        		$(this).toggleClass("q-on").siblings().removeClass("q-on");
+        	#{/else}
+        });
+        
+		//加息卷
+		function queryRateRecord() {
+			
+			var bidPeriod = 0;
+			if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+				bidPeriod = ${bid?.period};
+			}
+			
+			$.ajax({
+				url : "@{front.invest.InvestCtrl.rateRecord()}",
+				type : "POST",
+				async: false,
+				data : {
+					"investAmount" : $("#invest_amount").val(),
+					"bidPeriod" : bidPeriod
+				},
+				success : function(data) {
+					if(data.code < 1){
+						alertWin(data.msg);
+					}else{
+						var rewardMap = data.obj;
+						if(rewardMap.rateList == null || rewardMap.rateList.length <= 0){
+							$(".addRate").html("");
+							return;
+						}
+						$(".addRate").html("");
+						for(var i=0; i<rewardMap.rateList.length; i++){
+							
+							var bidPeriod = rewardMap.rateList[i].bid_period;
+							
+							if(typeof bidPeriod != 'undefined'){
+								$(".addRate").append("<li onclick='changeRate(this)' value='" + rewardMap.rateList[i].sign + "' ids='"+rewardMap.rateList[i].rate+"' addrule='"+rewardMap.rateList[i].use_rule+"'><i></i>+" + rewardMap.rateList[i].rate + "%加息券</li>");
+							}
+						}
+						firstRate();
+					}
+				}
+			});
+		}
+		
+		//默认选中第一个加息券
+		function firstRate(){
+			$(".addRate li").eq(0).addClass("q-on");
+		}
+		
+		//是否使用加息券
+		function changeRate(_this){
+			 $(_this).addClass("q-on").siblings().removeClass("q-on");
+		}
+		
+		//投标
+		$(".q-btmlink").click(function(){
+			#{ifnot currUser}
+				window.location.href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}";
+			#{/ifnot}
+			#{else}
+			var str = '您投资的标的为：' + ${bid?.period} + '月标；加入金额：' + $('#invest_amount').val() + '元；';
+			var rewardType;
+			$(".f-lc-yh").each(function(){
+				if ($(this).hasClass("q-on")) {
+					rewardType = $(this).attr("id");
+				}
+			});
+			if(rewardType == "redPacketSpan"){
+				var cost = $(".rcr").find("option:selected").attr('data');
+				if(cost != '') {
+					str += "使用红包金额：" + cost + "元；";
+				}
+			}else if(rewardType == "cashSpan"){
+				var cost = $(".rcr").find("option:selected").attr('data');
+				if(cost != '') {
+					str += "使用现金券金额：" + cost + "元；";
+				}
+			}
+			//使用加息卷
+			$("#rateSign").val($(".addRate").val());
+			var cost = $(".addRate").find("option:selected").attr('ids');
+			if(cost != '' && cost != undefined) {
+				str += "使用加息券：" + cost + "%；";
+			}
+			confirm(str ,doInvest);
+			#{/else}
+		});		
+		
+		function doInvest(){
+			#{ifnot currUser}
+				window.location.href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}";
+				return false;
+			#{/ifnot}
+			#{if isSimulated}
+		    	alertWin("模拟登录不能执行该操作");
+		    	return false;
+		    #{/if}
+		    #{else}
+			var userBalance = "${balance?:'0'}";//可用余额
+			var investAmount = $('#invest_amount').val();//投标金额或者投标份数
+			var buy_type = "${bid?.buy_type?.code?:'0'}";//购买方式
+			var bid_min_invest = ${bid?.min_invest_amount?:'0'};//起投
+			var bid_max_invest = ${bid?.amount?:'0'}-${bid?.has_invested_amount?:'0'};//可投金额
+			var is_invest_password = ${bid?.is_invest_password};//是否开启投标密码
+			var rewardType = "";
+			$(".f-lc-yh").each(function(){
+				if ($(this).hasClass("q-on")) {
+					rewardType = $(this).attr("id");
+				}
+			});
+			
+			if(rewardType == "redPacketSpan"){
+				$("#redPacketSign").val($(".rc").val());
+			}else if(rewardType == "cashSpan"){
+				$("#cashSign").val($(".rc").val());
+			}
+			//使用加息卷
+			$("#rateSign").val($(".addRate").val());
+			
+			#{if bid?.user_id==currUser?.id}
+				var selfBid = 'true';
+			#{/if}
+			#{else}
+				var selfBid = 'false';
+			#{/else}
+			if(selfBid=='true'){
+				alertWin('不能投资自己的借款项目!');
+				return false;
+			}
+			
+			if(parseInt(buy_type)==1){//按金额购买
+				if(investAmount==null || investAmount=='' || investAmount==undefined){
+					alertWin('请输入购买金额!');
+					return false;
+				}
+				//可投金额大于起购金额时，投资金额必须大于或等于起购金额
+				if(parseInt(bid_max_invest)>=parseInt(bid_min_invest)){
+					if(parseInt(bid_min_invest)>parseInt(investAmount)){
+						alertWin('不能小于最低购买金额!');
+						return false;
+					}
+				}else{
+					if(parseInt(bid_max_invest)!=parseInt(investAmount)){
+						alertWin('请全部投完!');
+						return false;
+					}
+				}
+				if(parseInt(bid_max_invest)<parseInt(investAmount)){
+					alertWin('不能大于可投金额!');
+					return false;
+				}
+				if(parseFloat(userBalance)<parseFloat(investAmount)){
+					alertWin('可用金额不足!');
+					return false;
+				}
+			}else if(parseInt(buy_type)==2){//按份数购买
+				if(investAmount==null || investAmount=='' || investAmount==undefined){
+					alertWin('请输入购买份数!');
+					return false;
+				}
+				var lostCopies = parseInt(bid_max_invest)/parseInt(bid_min_invest);//剩余可投份数
+				if(parseInt(investAmount)>parseInt(lostCopies)){
+					alertWin('购买份数超出!');
+					return false;
+				}
+				var investAmt = parseInt(investAmount)*parseInt(bid_min_invest);//投资金额
+				if(parseFloat(userBalance)<parseFloat(investAmt)){
+					alertWin('可用余额不足!');
+					return false;
+				}
+			}else{
+				return false;
+			}
+			
+			//投资密码
+			if(is_invest_password){
+				
+					$("#password").css("display", "block");
+					var invest_password = $("#invest_password_input").val();
+					if(invest_password == ""){
+						alertWin('请输入投资密码!');
+						return false;
+					}
+					
+					$("#investPassword").val(invest_password);
+					
+					$("#dialogClose").trigger("click");
+				
+			}
+	        $("#invest_bid").submit();
+		    #{/else}
+		}	
+		
+	function calculateIncome(){
+			var invest = parseInt($("#invest_amount").val());
+			//按份数购买时，投资金额=每份金额*份数
+			#{if models.core.entity.t_product.BuyType.PURCHASE_BY_COPY.code==bid?.buy_type.code}
+			var investAmount = parseInt($("#invest_amount").val())*${bid?.min_invest_amount};
+			#{/if}
+			#{else}
+			var investAmount = parseInt($("#invest_amount").val());
+			#{/else}
+			if(investAmount==''){
+				$("#invest_expece_income").html("0.00 元");
+				return;
+			}
+			var apr = ${bid?.apr};
+			var period = ${bid?.period};
+			var income = '0.00';
+			
+			if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+				//月标，等额本息的计算
+				if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==${bid?.repayment_type?.code}){
+					var monthApr = apr/12/100;
+					var monthSum = investAmount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+					income = (monthSum * period - investAmount).toFixed(2);
+				}else{
+					income = ((investAmount*(apr/100)/12)*period).toFixed(2);
+				}
+			}else{
+				income = ((investAmount*(apr/100)/360)*period).toFixed(2);
+			}
+			//使用加息卷
+			var addIncome = '0.00';
+			var addRate = $(".addRate .q-on").attr("ids");
+			var addrule = $(".addRate .q-on").attr("addrule");
+			
+			if(typeof addRate != "undefined" && addRate != "" && parseInt(investAmount) >= parseInt(addrule)){
+				
+				if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+					//月标，等额本息的计算
+					if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==${bid?.repayment_type?.code}){
+						var monthApr = addRate/12/100;
+						var monthSum = investAmount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+						addIncome = (monthSum * period - investAmount).toFixed(2);
+					}else{
+						addIncome = ((investAmount*(addRate/100)/12)*period).toFixed(2);
+					}
+				}else{
+					addIncome = ((investAmount*(addRate/100)/360)*period).toFixed(2);
+				}
+			}
+			
+			if(isNaN(addIncome)){
+				addIncome = '0.00';
+			}
+			if(isNaN(income)){
+				income = '0.00';
+			}
+			income = parseFloat(income)+parseFloat(addIncome)
+			$("#invest_expece_income").html(income.toFixed(2)+"元");
+		}
+		
+		// *根据屏幕尺寸改变根元素字体
+		// 翻页效果
+		$(function(){
+			var ruler=slideruler({
+				ID:".relative",
+				minValue:0,
+				maxValue:#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney},
+				interval:1000,
+				tabwin:200
+			})
+		});
+		function slideruler(obj){
+			var _this=document.querySelector(obj.ID),
+				innerHtml="",
+				hbox=obj.tabwin,
+				len=obj.maxValue/obj.interval+1,
+				win=$(obj.ID).width(),
+				wobj=win/2,
+				startX,endX,speed=0,moveX,leftX=0,
+				row,sum,slow,pay,val;
+				$(obj.ID).append("<ul class='line'></ul>").append("<span class='bigline'></span>");
+				for(i=0;i<len;i++)
+				{
+					innerHtml+="<li><span>"+i*obj.interval+"</span></li>"
+				}
+				innerHtml+="<li><span>更多</span></li>"
+				$(".line").append(innerHtml);
+				$(".line").width(hbox*(len+1));
+				document.addEventListener("touchstart", function (e){
+					startX = e.touches[0].pageX;
+				});
+				document.addEventListener("touchend", function(e){
+					endX=leftX;
+				});
+				_this.addEventListener('touchmove', function (event) {
+						moveX=event.touches[0].pageX;
+						speed=moveX-startX;
+						sum=-parseInt($(".line").css("margin-left"))+wobj;
+						row=parseInt(sum/hbox),
+						slow=parseInt(sum%hbox/(hbox/1))*obj.interval/1;
+						pay=row*obj.interval+slow;
+						if(endX!=null)
+						{
+							leftX=speed+endX;
+						}else{
+							leftX=speed;
+						}
+						if(leftX>=wobj)
+						{
+							pay=0;
+							leftX=wobj;
+						}
+						if(leftX<=win-hbox*(len-1)-wobj)
+						{
+							pay=obj.maxValue;
+							leftX=win-hbox*(len-1)-wobj;
+						}
+						
+						$(".txt").css({"margin-left":leftX+"px"})
+						$(".line").css({"margin-left":leftX+"px"})
+						$(".l-text").val(pay);
+						calculateIncome(); 
+						#{if currUser} 
+							queryRewardRecord();
+							queryRateRecord(); 
+						#{/if}
+						$(".l-text02").val(pay/1000);
+				})
+						$(".l-text02").blur(function(){
+							val=$(this).val()*1000;
+							$(".l-text").val(val);
+							if(val>obj.maxValue)
+							{
+								leftX=win-hbox*len-wobj;
+							}else if(val<0)
+							{
+								pay=0;
+								leftX=obj;
+								$(".l-text02").val(0);
+							}
+							else{
+
+								leftX=wobj-(val/obj.interval*hbox+val%obj.interval*(hbox/10)/obj.interval/10);
+							}
+							endX=leftX;
+							$(".txt").animate({"margin-left":leftX+"px"})
+							$(".line").animate({"margin-left":leftX+"px"})
+						})
+						$(".l-text").blur(function(){
+							val=$(this).val();
+							val02=parseInt($(this).val()/1000);
+							$(".l-text02").val(val02);
+							if(val>obj.maxValue)
+							{
+								leftX=win-hbox*len-wobj;
+							}else if(val<0)
+							{
+								pay=0;
+								leftX=obj;
+								$(".l-text").val(0);
+							}
+							else{
+
+								leftX=wobj-(val/obj.interval*hbox+val%obj.interval*(hbox/10)/obj.interval/10);
+							}
+							endX=leftX;
+							$(".txt").animate({"margin-left":leftX+"px"})
+							$(".line").animate({"margin-left":leftX+"px"})
+						})
+						$(".q-alltou").click(function(){
+							#{if currUser} 
+								if(${balance} < #{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney}){
+									$(".l-text").val(${balance});
+								}else{
+									$(".l-text").val(#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney});
+								}
+
+								queryRewardRecord();
+								queryRateRecord(); 
+							#{/if}
+							#{else}
+								$(".l-text").val(#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney});
+							#{/else}
+							
+							calculateIncome(); 
+							
+							leftX=win-hbox*len-wobj+hbox;
+							endX=leftX;
+							$(".txt").animate({"margin-left":leftX+"px"})
+							$(".line").animate({"margin-left":leftX+"px"})
+						});
+		}
+   	</script>
+</html>

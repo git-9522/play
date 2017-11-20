@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<div class="q-footerlinkbtm">
+			<ul class="flex q-lcul">
+				<li class="flex-1">
+					<a href="@{wechat.front.InvestCtrl.bidLoanDetailsPre(bidId)}">项目详情</a>
+				</li>
+				<li class="flex-1 q-on">
+					<a href="javascript:void(0);">回款计划</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.InvestCtrl.investRecordPre(bidId)}">投资记录</a>
+				</li>
+			</ul>
+			#{if currUser}
+			     <div class="detail-tab flex">
+			        <span class="pl20 width140">期数</span>
+			        <span class="flex-1">应还本息</span>
+			        <span class="flex-1 tc">到期时间</span>
+			        <span class="flex-1 tr pr20">状态</span>
+			    </div>
+			    <ul class="q-xqlist q-padding q-bgfff">
+					#{list pageBean.page}
+						<li class="flex">
+					        <div class="width120">${_?.period}/${_?.totalPeriod}</div>
+					        <div class="flex-1">${_?.principalInterest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元 </div>
+					        <div class="flex-1 tc">${_?.repaymentTime?.format(common.constants.Constants.DATE_FORMATE)}</div>
+					        <div class="flex-1 tr">${_?.status}</div>
+					    </li>
+					#{/list}
+				</ul>
+			#{/if}
+			#{else}
+				<p class="detail-p1">请<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+			#{/else}
+			<!-- 	footer-->
+		       	<a href="@{wechat.front.InvestCtrl.investWechatPre(bidId)}" class="q-link100 q-btmlink">我要出借</a>
+	       	</div>
+	    </div>
+        <!-- 	footer-->
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

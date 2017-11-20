@@ -1,0 +1,47 @@
+@charset "utf-8";
+
+:root ,body{height:100%;}
+html { font-size:16px;}
+body { font-family:Helvetica; background-color:#fff; color:#333;display:-webkit-box;display:box;-webkit-box-orient:vertical;}
+.ellipsis { white-space:nowrap; text-overflow:ellipsis; overflow:hidden}
+body{-webkit-tap-highlight-color:rgba(0,0,0,0)}
+
+
+/**公共底部**/
+#bottom{ width:100%; height:3.2rem; background:#fff; position:fixed; bottom:0; left:0;border-top:1px solid #d2d2d2;}
+#bottom .order_list{ padding:0.2rem 0;}
+#bottom .order_list li{ float: left; width:25%; text-align:center; position:relative;}
+#bottom .order_list li a{ font-size:0.75rem; color:#4c4c4c;}
+#bottom .order_list li.on a{ color:#ff5256}
+#bottom .order_list li a .or{ display:block; width:24px; height:24px; background:url(../images/icon/home-nav-btn.png) no-repeat; background-size:96px 48px;  margin:0 auto 0.1rem;}
+#bottom .order_list li a .or1{background-position:0 0;}
+#bottom .order_list li a .or2{background-position:-24px 0;}
+#bottom .order_list li a .or3{background-position:-48px 0;}
+#bottom .order_list li a .or4{background-position:-72px 0;}
+#bottom .order_list li a .or1_hover{background-position:0px -24px;}
+#bottom .order_list li a .or2_hover{background-position:-24px -24px;}
+#bottom .order_list li a .or3_hover{background-position:-48px -24px;}
+#bottom .order_list li a .or4_hover{background-position:-72px -24px;}
+
+
+
+@media screen and (max-width:321px) {
+html { font-size: 87.5%; }
+}
+@media screen and (min-width:321px) and (max-width:375px) {
+html { font-size:100%; }
+}
+@media screen and (min-width:376px) and (max-width:414px) {
+html { font-size: 100% }
+
+}
+@media screen and (min-width:415px) and (max-width:639px) {
+html { font-size: 125%; }
+
+}
+@media screen and (min-width:750px) and (max-width:799px) {
+html {font-size:140%;}
+}
+ @media screen and (min-width:800px) {
+html { font-size: 150%; }
+}

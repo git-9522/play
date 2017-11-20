@@ -1,0 +1,76 @@
+#{extends 'common/wechatMain.html' /}
+<div class="center">
+<ul class="xf-security">
+	#{if userFund?.payment_account != null && userFund?.payment_account !=""}
+		#{ifnot userFund?.is_actived}
+    	<li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.bosAcctActivatePre()}'">
+        	<div class="flex-1">资金托管开户</div>
+        	<div>未激活</div>
+    	</li>
+    	#{/ifnot}
+    	#{else}
+	    <li class="flex">
+	        <div class="flex-1">资金托管开户</div>
+	        <div>已开户</div>
+	    </li>
+	    #{/else}
+    #{/if}
+    #{else}
+   	<li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.createAccountPre()}'">
+       	<div class="flex-1">资金托管开户</div>
+       	<div>未开户</div>
+   	</li>
+    #{/else}
+    
+    #{if userInfo.reality_name != null && userInfo.reality_name != '' && userInfo.id_number != null && userInfo.id_number != ''}
+    <li class="flex">
+        <div class="flex-1">实名认证</div>
+        <div>已认证 </div>
+    </li>
+    #{/if}
+    #{else}
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.certificationPre()}'">
+        <div class="flex-1">实名认证</div>
+        <div>未认证</div>
+    </li>
+    #{/else}
+    
+    <li class="flex">
+        <div class="flex-1">手机号</div>
+        <div>
+        	#{if user?.mobile != null && user?.mobile != ''}
+        		${user?.mobile}
+        	#{/if}
+        	#{else}
+        		未绑定
+        	#{/else}
+        </div>
+    </li>
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.updateUserEmailPre()}'">
+        <div class="flex-1">个人邮箱</div>
+        <div>
+        	#{if userInfo?.email == null || userInfo?.email == ""}
+        		未绑定
+        	#{/if}
+        	#{else}
+        		${userInfo?.email}
+        	#{/else}
+        </div>
+    </li>
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.updateUserBankCardPre()}'">
+        <div class="flex-1">银行卡</div>
+        <div>
+        	#{if cardList.size() <= 0}
+         	未绑定
+        	#{/if}
+        	#{else}
+        		已绑定
+        	#{/else}
+        </div>
+    </li>
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.updateUserPasswordPre()}'">
+        <div class="flex-1">修改密码</div>
+        <div>已保护</div>
+    </li>
+</ul>
+</div>

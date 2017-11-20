@@ -1,0 +1,64 @@
+.ne_toact_cen {
+    width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+}
+.ne_tocat_nav {
+    width: 1120px;
+    height: 65px;
+    line-height: 65px;
+    margin: 0 auto;
+    border-bottom: 1px solid #e7e7e7;
+}
+.ne_tocat_nav>li {
+    float: left;
+    width: 74px;
+    margin-right: 20px;
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+}
+.ne_tocat_nav>li.to_list {
+    color: #ff5256;
+    background: url(../images/ne-rebot.png) no-repeat center bottom;
+}
+.ne_tocat_list {
+    margin-top: 35px;
+    padding-bottom: 15px;
+}
+.ne_tocat_list>li {
+    width: 1160px;
+    margin-left: 40px;
+    display: none;
+}
+.ne_tocat_list>li.ne_tocat_act {
+    display: block;
+}
+.tocat_flex {
+    width: 350px;
+    height: 300px;
+    border: 1px solid #e7e7e7;
+    margin-right: 34px;
+    margin-bottom: 35px;
+}
+.tocat_flex>img {
+    display: block;
+    width: 350px;
+    height: 186px;
+}
+.tocat_flex>a {
+    display: block;
+    width: 105px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    background: url(../images/ne-flex-btn.png) no-repeat center;
+    box-shadow: 0px 1px 5px 0px #fd7074;
+    margin: 10px auto 0;
+}
+.tocat_flex>a.toact_end {
+    background: #c8c8c8;
+    box-shadow: none;
+}

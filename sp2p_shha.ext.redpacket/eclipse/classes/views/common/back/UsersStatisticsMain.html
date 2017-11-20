@@ -1,0 +1,13 @@
+*{
+会员的Main页面
+}*
+
+#{extends 'common/supervisorMain.html' /}
+#{set AItem:10 /}
+<!-- 二级导航 -->
+<ul class="back-secnav">
+	<li><a href="@{back.BackStatisticsCtrl.usersStatisticsPre(0,0)}">用户统计</a></li>
+	<li><a href="@{back.BackStatisticsCtrl.usersStatisticsPre(0,0)}">待确认</a></li>
+</ul>
+
+#{doLayout /}

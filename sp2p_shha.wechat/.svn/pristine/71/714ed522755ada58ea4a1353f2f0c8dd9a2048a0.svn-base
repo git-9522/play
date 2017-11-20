@@ -1,0 +1,9 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center contact">
+<p>${settings?.get(common.constants.SettingKey.COMPANY_NAME)}<br/>联系电话<br/>
+<span class="major f18"><a href="tel:${settings?.get(common.constants.SettingKey.COMPANY_TEL)}" style="color:#F77B0F;">${settings?.get(common.constants.SettingKey.COMPANY_TEL)}</a></span></p>
+<p>邮箱<br/><span class="major f18">${settings?.get(common.constants.SettingKey.COMPANY_EMAIL)}</span></p>
+<p>公司地址<br/>${settings?.get(common.constants.SettingKey.COMPANY_ADDRESS)}</p>
+<iframe src="@{wechat.front.WechatHomeCtrl.baidumapPre()}" class="baidumap"></iframe>
+</div>

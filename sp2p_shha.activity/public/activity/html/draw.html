@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=yes" />
+    <title>抽奖</title>
+    <link rel="stylesheet" href="../stylesheets/reset.css">
+    <link rel="stylesheet" href="../stylesheets/cjApp.css">
+</head>
+
+<body>
+    <div class="page1">
+        <img src="../images/cjApp/choujiang_bg.jpg" alt="">
+    </div>
+    </div>
+    <div class="page2">
+        <img src="../images/cjApp/choujiang_bg1.jpg" alt="">
+        <div class="plate_img"></div>
+        <ul class="draw1_biao">
+            <li class="draw1_biao1">
+                <h3>一月标</h3>
+                <span>抽奖</span>
+                <p>拥有<span>0</span>次抽奖</p>
+            </li>
+            <li class="draw1_biao2">
+                <h3>三月标</h3>
+                <span>抽奖</span>
+                <p>拥有<span>0</span>次抽奖</p>
+            </li>
+            <li class="draw1_biao3">
+                <h3>六月标</h3>
+                <span>抽奖</span>
+                <p>拥有<span>0</span>次抽奖</p>
+            </li>
+        </ul>
+        <div class="dowebok">
+            <div class="plate">
+                <ul class="plate_ban">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+
+                </ul>
+                <a class="plateBtn" href="javascript:" title="开始抽奖">开始抽奖</a>
+            </div>
+            <div class="result">
+                <div class="tankuang">
+                    <p class="resultTxt">1188.00</p>
+                    <a class="resultBtn" href="javascript:" title="关闭">关闭</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page3">
+        <img src="../images/cjApp/choujiang_new1.jpg" alt="">
+        <div class="page3_font">
+            <ul class="pf_list">
+                <li>活动时间：2017.09.01-2017.09.30</li>
+                <li><span class="left">活动规则：</span>
+                    <p class="left">用户一月标（包含新手标、预约标、一月标）累计投资额每满1000元即可获得一次开启宝箱机会，</br>用户三月标（包含三月预约标、三月标）累计投资额每满1000元即可获得一次开启宝箱机会，</br>用户六月标（包含六月预约标、六月标）累计投资额每满1000元即可获得一次开启宝箱机会，</p>
+                </li>
+                <li>活动提示：3个工作日内，平台对获奖用户核实无误后随即发放奖励；首次投资用户均可参与此活动。</li>
+            </ul>
+        </div>
+    </div>
+    <div class="dialog" style="z-index:999999;">
+        <div class="dialog-bg"></div>
+        <div class="dialog-cont back-alertcont" style="left: 48px; top: -64px; opacity: 1; margin-top: 0px;">
+            <h2 class="dialog-head"><span class="left">平台提示</span></h2>
+            <div class="alertmsg"></div>
+            <div class="alerthandle">
+                <input type="button" class="btn dialog-console" value="确定">
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" data-main="../javascripts/activity.js" src="../javascripts/require.js" ></script>
+<script src="../javascripts/lib/jquery.js"></script>
+<script src="../javascripts/rem.js"></script>
+<script src="../javascripts/jquery.rotate.min.js"></script>
+<script>
+require(['activity'],function(){
+        var $plateBtn = $('.plateBtn');
+        var $result = $('.result');
+        var $resultTxt = $('.resultTxt');
+        var $resultBtn = $('.resultBtn');
+        var startInterval;
+        var angle = 0;
+        var flag = true;
+        var onOff = true;
+        var oNum = '';
+        
+        var period1 = 0;
+        var period3 = 0;
+        var period6 = 0;
+        
+        var userId = getQueryVariable("userId");
+		var type = getQueryVariable("type");
+
+        for (var i = 0; i < $('.plate_ban>li').length; i++) {
+            $('.plate_ban>li').eq(i).css('transform', 'rotate(' + (parseFloat(-22.5 + i * 45)) + 'deg)');
+        }
+        oAjax1();
+
+        function oAjax1() {
+            $.ajax({
+                url: '/activity/moonCakeLottery.html',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "type": type,
+                    "userId" : userId
+                },
+                success: function (data) {
+                    if (data.code == 1) {
+                    	period1 = data.obj.period1;
+                    	period3 = data.obj.period3;
+                    	period6 = data.obj.period6;
+                        $('.draw1_biao1>p>span').html(period1);
+                        $('.draw1_biao2>p>span').html(period3);
+                        $('.draw1_biao3>p>span').html(period6);
+                    } else if (data.code != 1) {
+                        if (data.code == -100) {
+                            window.location.href = "/wx/loginAndRegiste/login.html";
+                        } else {
+                            $('.alertmsg').html(data.msg);
+                            $('.dialog').show();
+                        }
+                    }
+                }
+            });
+        };
+        $('.draw1_biao>li>span').click(function () {
+            if (onOff == true) {
+                onOff = false;
+                if ($(this).parent('li').index() == 0) {
+                    oNum = 1;
+                    $('.plateBtn').css('backgroundImage', 'url(../images/cjApp/rotate1.png)');
+                    $('.plate_img').css('backgroundImage', 'url(../images/cjApp/draw_pan_bg1.png)');
+                    $('.dowebok').css('backgroundImage', 'url(../images/cjApp/draw1_pan1.png)');
+                    rotate(period1);
+                } else if ($(this).parent('li').index() == 1) {
+                    $('.plateBtn').css('backgroundImage', 'url(../images/cjApp../imagese2.png)');
+                    $('.plate_img').css('backgroundImage', 'url(../images/cjApp/draw_pan_bg2.png)');
+                    $('.dowebok').css('backgroundImage', 'url(../images/cjApp/draw1_pan2.png)');
+                    oNum = 3;
+                    rotate(period3);
+                } else if ($(this).parent('li').index() == 2) {
+                    $('.plateBtn').css('backgroundImage', 'url(../images/cjApp/rotate3.png)');
+                    $('.plate_img').css('backgroundImage', 'url(../images/cjApp/draw_pan_bg3.png)');
+                    $('.dowebok').css('backgroundImage', 'url(../images/cjApp/draw1_pan3.png)');
+                    oNum = 6;
+                    rotate(period6);
+                }
+            }
+
+        })
+        /*Math.random()是中奖概率*/
+        function rotate(size) {
+            // 控制按钮
+            if (flag && size > 0) {
+                // 先不停的转
+                startRotate();
+                // 等待3s
+                flag = false;
+                $.ajax({
+                    url: '/activity/doMoonCakeLottery.html',
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        "period": oNum,
+                        "type": type,
+                        "userId" : userId
+                    },
+                    success: function (result) {
+                        endRotate();
+                        if (result.code != 1) {
+                            rotateFunc(0, result.msg);
+                            if (data.code == -100) {
+                                window.location.href = "/wx/loginAndRegiste/login.html";
+                            } else {
+                                $('.alertmsg').html(data.msg);
+                                $('.dialog').show();
+                            }
+                            onOff = true;
+                        } else {
+                            /*console.info(result.obj.prizeId)*/
+                            rotateFunc(calcAngle(result.obj.index), formatMoney(result.obj.awardMoney));
+                            onOff = true;
+                            oAjax1();
+                        }
+                    },
+                    error: function () {
+                        endRotate();
+                        flag = true;
+                        onOff = true;
+                    }
+                });
+            } else {
+                if (size <= 0) {
+                	$('.alertmsg').html('您的当前抽奖次数为0');
+                    $('.dialog').show();
+                }
+                onOff = true;
+            }
+        }
+
+        var rotateFunc = function (angle, text) { //awards:奖项，angle:奖项对应的角度
+            $plateBtn.stopRotate();
+            $plateBtn.rotate({
+                angle: 0,
+                duration: 5000,
+                animateTo: angle + 3600, //angle是图片上各奖项对应的角度，1440是让指针固定旋转4圈
+                callback: function () {
+                    if (angle != 0) {
+                        $resultTxt.html(text);
+                        $result.show();
+                    } else {
+                        window.alert(text);
+                    }
+                    flag = true;
+                }
+            });
+        };
+        var startRotate = function () {
+            startInterval = setInterval(
+                function () {
+                    angle += 36;
+                    $plateBtn.rotate({
+                        angle: angle
+                    });
+                },
+                50
+            );
+        }
+        var endRotate = function () {
+            window.clearInterval(startInterval);
+        }
+
+        $resultBtn.click(function () {
+            $result.hide();
+        });
+
+        function calcAngle(index) {
+            var first = -112.5;
+            var every = 45;
+            var current = $plateBtn.getRotateAngle();
+            return (360 - 180) + index * every + first;
+        }
+    });
+
+    function formatMoney(value) {
+        if (value % 1.0 != 0)
+            return value;
+        else
+            return parseInt(value);
+    }
+    
+    function getQueryVariable(variable)	{
+    	var query = window.location.search.substring(1);
+       	var vars = query.split("&");
+       	for (var i = 0; i < vars.length; i++) {
+        	var pair = vars[i].split("=");
+           	if(pair[0] == variable){
+           		return pair[1];
+           	}
+       	}
+       	return "";
+	}
+    
+    $('.alerthandle>input').click(function(){
+        $('.dialog').hide();
+    })
+</script>
+
+</html>

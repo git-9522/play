@@ -1,0 +1,89 @@
+#{extends 'common/front/accountMain.html' /}
+#{set title:'我的财富 | 实名认证' /}
+#{set smallclass:3 /}
+
+<!-- 实名认证 -->
+<div class="account-infor">
+	<div class="account-inforbox info-div" id="emergencyContactDiv">
+		<h3 class="account-infortitle">
+			<span class="left c3">实名认证</span>
+		</h3>
+		<div class="account-error" id="emergencyContact-error"></div>
+		<table width="100%">
+			<tr height="67">
+				<td align="right" width="88">真实姓名</td>
+				<td width="290">
+					<input type="text" id="realName" name="realName" class="text" maxlength="20" value="${userInfo?.reality_name}" />
+				</td>
+				<td align="right" width="88">身份证</td>
+				<td width="290">
+					<input type="text" id="idNumber" name="idNumber" class="text" maxlength="19" value="${userInfo?.id_number}" />
+				</td>
+				<td align="right" width="88"></td>
+				<td width="290"></td>
+			</tr>
+		</table>
+	</div>
+	
+	#{if (userInfo?.reality_name == null || userInfo?.reality_name == "") || (userInfo?.id_number == null || userInfo?.id_number == "")}
+	<!-- 编辑保存按钮 -->
+	<div class="account-inforbox" style="text-align: center;border: 0">
+		<input type="button" value="保 存" class="condition-btn btn" id="saveOrUpdateRealName"/>
+	</div>
+	#{/if}
+</div>
+<!-- main end-->
+
+<script type="text/javascript">
+	require(['front'],function(front){
+		require(['account']);
+		
+		//实名认证
+		$("#saveOrUpdateRealName").click(function(){
+			var realName = $("#realName").val();//真实姓名
+			if(!realName.isNotBlank()){
+				$("#emergencyContact-error").css("display", "block");
+				$("#emergencyContact-error").html("请填写真实姓名");
+				
+				return;
+			} else {
+				$("#emergencyContact-error").hide();
+			}
+			
+			
+			var idNumber = $("#idNumber").val();//身份证号码
+			if(!idNumber.isNotBlank()){
+				$("#emergencyContact-error").css("display", "block");
+				$("#emergencyContact-error").html("请填写身份证号码");
+				
+				return;
+			} else {
+				$("#emergencyContact-error").hide();
+			}
+			
+			$.ajax({
+				url : "@{front.account.MySecurityCtrl.updateRealName()}",
+				type : "POST",
+				data : {
+					"realName" : realName,
+					"idNumber" : idNumber
+				},
+				dataType:"json",
+				success : function(data) {
+					var flag = interceptorCheck(data);
+					if(!flag){
+						return;
+					}
+					if(data.code < 1){
+						$("#emergencyContact-error").css("display", "block");
+						$("#emergencyContact-error").html(data.msg);
+					}else {
+						$("#emergencyContact-error,#assets-error,#basic-error").hide();
+						weakDialog(data.msg);
+						window.location.href="@{front.account.MySecurityCtrl.fyBindBankCardPre()}";
+					}
+				}
+			});
+		});
+	});
+</script>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>#{get 'title'/}${' | '+settings?.get(common.constants.SettingKey.SEO_TITLE)+' | '+settings?.get(common.constants.SettingKey.PLATFORM_NAME)}</title>
+		<meta name="keywords" content="${settings?.get(common.constants.SettingKey.PLATFORM_NAME)}" />
+		<meta name="description" content="${settings?.get(common.constants.SettingKey.PLATFORM_NAME)}" />
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="shortcut icon" type="image/png" href="${settings?.get(common.constants.SettingKey.PLATFORM_ICON_FILENAME)}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/front.css'}" />
+		<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/rules.css" />
+				<!-- 皮肤背景、颜色 -->
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/themes/'+settings?.get(common.constants.SettingKey.THEME_NAME)+'/background.css'}" />
+		#{if settings?.get(common.constants.SettingKey.THEME_CUSTOMIZE).equals('0')}
+			<link rel="stylesheet" type="text/css" href="@{'/public/front/themes/'+settings?.get(common.constants.SettingKey.THEME_NAME)+'/color.css'}" />
+		#{/if}
+		
+		#{get 'moreStyles' /}
+		<!-- 皮肤背景、颜色 -->
+		<script src="/public/front/javascripts/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript"> var isscore=false;</script>
+		#{get 'moreScripts' /}	
+		
+	</head>
+	<body>
+
+		<div class="login-body bgf #{get 'moreClass' /}">
+		   <!-- 头部部分 -->
+           <div class="header">
+                <div class="top">
+                    <div class="container">
+                        <div class="left fs12">
+                            <img src="/public/front/images/top1.png" class="f-top-img1">
+                            客服热线：${settings?.get(common.constants.SettingKey.COMPANY_TEL)}
+                        </div>
+                        <div class="right mr20">
+                        	<a href="@{front.FrontHomeCtrl.invitePre()}" class="left cbu">邀请好友</a>
+		                    <i class="left split-line"></i>
+		              	    <a href="@{front.FrontHomeCtrl.activePre()}" class="left cbu">新手好礼</a>
+		                    <i class="left split-line"></i>
+		                    <a href="@{front.FrontHomeCtrl.toActivityCenterPre()}" class="left cbu">活动中心</a>
+                            <i class="left split-line"></i>
+                            <a href="@{front.FrontHomeCtrl.toActivityCenterPre()}" class="left cbu">帮助中心</a>
+                            <i class="left split-line"></i>
+
+                            <a href="@{front.LoginAndRegisteCtrl.loginPre()}" class="cblue left">登录</a>
+                            <i class="left split-line"></i>
+                            <a href="@{front.LoginAndRegisteCtrl.registerPre()}" class="cblue left">注册</a>  
+                        </div>
+                    </div>
+                </div>
+                <div class="navbox bgf">
+                    <div class="gai_innerbox">
+                        <div class="container clearfix">
+                            <a href="@{front.FrontHomeCtrl.frontHomePre()}" class="logo left clearfix" title="" target="">
+                              	 <img src="${settings?.get(common.constants.SettingKey.PLATFORM_LOGO_FILENAME)}"  onerror="this.src='/public/common/default.jpg'" height="56" class="left" alt="logo" >
+                                <div class="left f-logo2">
+                                    <img src="/public/front/images/logo2.png" height="49">
+                                </div>
+                            </a>
+                            <a href="@{front.FrontHomeCtrl.frontHomePre()}" class="go_shouye cblue right">返回首页</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 头部部分 -->
+		<!-- main Content start -->
+			#{doLayout /}
+		<!-- main Content start -->
+		
+			<!-- 登录注册footer start -->
+			<div class="footer-msg">
+			    <div class="lop_link">
+			        <a href="@{front.FrontHomeCtrl.aboutUsPre()}?index=0">公司简介</a>|
+			        <a href="@{front.FrontHomeCtrl.aboutUsPre()}?index=5">联系我们</a>|
+			        <a href="">网贷问答</a>|
+			        <a href="">安全保障</a>|
+			        <a href="@{front.FrontHomeCtrl.aboutUsPre()}?columnkey=info_report">媒体报道</a>|
+			        <a href="">帮助中心</a>
+			    </div>
+			    <p>2016 ${settings?.get(common.constants.SettingKey.PLATFORM_NAME)} ${settings?.get(common.constants.SettingKey.SITE_ICP_NUMBER)} ${settings?.get(common.constants.SettingKey.COMPANY_NAME)}</p>
+			    <p>地址：${settings?.get(common.constants.SettingKey.COMPANY_ADDRESS)}</p>
+			</div>
+			<!-- 登录注册footer end -->
+		</div>
+	</body>
+</html>

@@ -1,0 +1,8 @@
+1510725428157	Extract local variable 'currUser'
+1510729097210	Delete element
+1510736641537	Delete element
+1510736680809	Rename type 'DebtTransfer'
+1510738785093	Rename type 'DebtTransferDetail'
+1510739254741	Extract local variable 'wechatFindDebtDetailById'
+1510800024800	Rename resource '新手活动.html'
+1510882416802	Move file

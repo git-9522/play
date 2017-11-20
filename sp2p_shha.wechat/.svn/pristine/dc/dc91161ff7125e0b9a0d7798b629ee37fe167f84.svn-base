@@ -1,0 +1,30 @@
+#{if userDebtDetail}
+<li class="flex">
+            <div>转让期数</div>
+            <div class="flex-1 tr">${userDebtDetail?.transfer_period}</div>
+        </li>
+        <li class="flex">
+            <div>债权总额  </div>
+            <div class="flex-1 tr">${userDebtDetail?.debt_amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>转让价格  </div>
+            <div class="flex-1 tr">${userDebtDetail?.transfer_price?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>成交时间   </div>
+            <div class="flex-1 tr">${userDebtDetail?.transaction_time?.format(common.constants.Constants.DATE_FORMATE)?:'----'}</div>
+        </li>
+        <li class="flex">
+            <div>状态   </div>
+            <div class="flex-1 tr">${userDebtDetail?.status?.value}</div>
+        </li>
+        <li class="tr">
+			#{if models.core.entity.t_debt_transfer.Status.SUCC.equals(userDebtDetail?.status)}
+				<a href="@{wechat.front.account.MyFundCtrl.showDebtPactPre(userDebtDetail?.sign)}" class="contract2">协议</a>
+			#{/if}
+			#{else}
+				<a class="contract2 gray" >协议</a>
+			#{/else}
+        </li>
+#{/if}

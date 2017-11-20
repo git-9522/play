@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+		<p class="q-bztitle">银行级网站技术<span>放心</span></p>
+		<div class="q-padding">
+			<!--<div class="q-bzone">
+				<span class="q-jbspan">1</span>
+				<p class="q-title"> -百人技术团队保驾护航-</p>
+				<p class="q-cent">
+					虹金所已成功通过中华人民共和国公安部信息安全等级认证，具有雄厚的信息系统安全保证，为用户资金及个人信息提供360度无死角的信息安全保障。
+
+借贷关系并收取相关报酬的居间服务有着明确的法律基础。
+				</p>
+			</div>-->
+			<div class="q-bzone mt30">
+				<span class="q-jbspan">1</span>
+				<p class="q-title"> -百人技术团队保驾护航-</p>
+				<p class="q-cent">
+					虹金所建立了专业的百人技术团队，从技术层面，内部建设和隐私管理等方面，为广大用户提供24小时在线技术支持服务。
+
+
+<!--达56,000,000.00元-->
+				</p>
+			</div>
+		</div>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

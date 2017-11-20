@@ -1,0 +1,35 @@
+package models.wechat.bean;
+
+public class Snippet {
+	/**
+	 * 分页查询处于竞拍和成功状态的债权
+	 *
+	 * @param currPage
+	 * @param pageSize
+	 * @return
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年3月28日
+	 */
+	public PageBean<DebtTransfer> pageOfDebtTransfer(int currPage,int pageSize,int status){
+		
+		StringBuffer countSQL = new StringBuffer(" SELECT count(id) FROM t_debt_transfer dt WHERE dt.status in (:status) ");
+		StringBuffer querySQL = new StringBuffer(" SELECT  dt.id AS id, dt.end_time as end_time, dt.time AS time, dt.invest_id AS invest_id, dt.user_id AS user_id, dt.title AS title, dt.debt_amount  debt_amount, dt.debt_principal AS debt_principal, dt.transfer_price AS transfer_price, dt.transfer_period AS period, dt.status AS status FROM t_debt_transfer dt WHERE dt.status in (:status) ORDER BY dt.status, dt.id DESC");
+		
+		Map<String, Object> condition = new HashMap<String, Object>();
+		List<Integer> statusList = new LinkedList<Integer>();
+		statusList.add(t_debt_transfer.Status.AUCTING.code);
+		statusList.add(t_debt_transfer.Status.SUCC.code);
+		if(status == 99){
+			condition.put("status", statusList);
+		}else if (status == 1){
+			condition.put("status", t_debt_transfer.Status.AUCTING.code);
+		}else{
+			condition.put("status", t_debt_transfer.Status.SUCC.code);
+		}
+		
+		
+		return debtTransferDao.pageOfBeanBySQL(currPage, pageSize, countSQL.toString(), querySQL.toString(), DebtTransfer.class, condition);
+	}
+}
+

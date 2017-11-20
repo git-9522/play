@@ -1,0 +1,4 @@
+self: play -> sp2p_shha.basic 0.1
+
+require:
+    - play

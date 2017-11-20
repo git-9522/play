@@ -1,0 +1,269 @@
+#{extends 'common/frontMain.html' /}
+
+	<!-- main -->
+		<!-- 二级导航 -->
+		<div class="second-navbox">
+			<ul class="container clearfix second-nav">
+				<li><a href="@{front.account.MyAccountCtrl.homePre()}" title="" target="">账户首页</a></li>
+				<li><a href="@{front.account.MyFundCtrl.accountManagePre()}" title="" target="">资产管理</a></li>
+				<li><a href="@{front.account.MyDealCtrl.toDealRecordsPre()}" title="" target="">交易记录</a></li>
+				#{ifnot currUser?.is_corp}
+					<li><a href="@{front.account.MyInfoCtrl.toUserInfoPre()}" title="" target="">会员信息</a></li>
+				#{/ifnot}
+				#{else}
+					<li><a href="@{front.account.MyInfoCtrl.toCorpInfoPre()}" title="" target="">企业信息</a></li>
+				#{/else}
+				<li><a href="@{front.account.MySecurityCtrl.securityPre()}" title="" target="">安全中心</a></li>
+				<li><a href="@{front.account.MyRewardCtrl.awardPre()}" title="" target="">我的奖励</a></li>
+			</ul>
+		</div>
+		<!-- 二级导航end -->
+		
+		<div class="container account-container">
+			<!-- 用户信息 -->
+			<div class="userinfor">
+				<div class="userbase clearfix c3">
+					<label class="userheadimg left">
+						<img src="${currUser?.photo}" onerror="this.src='/public/common/defaultUser.png'" alt="" title="" width="58" height="58" />
+						<input type="file" name="imgFile" id="imgFile" accept=".jpg,.jpeg,.png,.gif" onchange="upload()" />
+						<span class="upimg-note">更换头像</span>
+					</label>
+					<span class="left">你好！<a class="" title="设置基本信息" target="" href="@{front.account.MyInfoCtrl.toUserInfoPre()}">${currUser?.name}</a></span>
+					<i class="userdegree left" data-title="信用等级：钻石"></i>
+					#{if currUser!=null}
+					#{if currUser.payment_account != ""}
+					<!-- 已开通 -->
+					<span class="left">你已开通资金托管</span>
+					#{/if}
+					#{else}
+						#{ifnot currUser?.is_corp}
+						<!-- 未开通 -->
+						<a href="@{front.account.MySecurityCtrl.createAccountPre()}" target="_blank" class="trusteeship-openbtn major left">您尚未开通资金托管，立即开通</a>
+						#{/ifnot}
+						#{else}
+						<a href="javascript:;" class="trusteeship-openbtn major left" onclick="corpRegisterQuery()">企业开户状态查询</a>
+						#{/else}
+					#{/else}
+					#{/if}
+					 <div class="left userapprove">
+					 	<!-- 已认证添加类名 approved -->
+					 	<a href="@{front.account.MySecurityCtrl.securityPre()}" data-title="手机认证" class="icon phone-approve #{if currUser?.is_mobile}approved#{/if}"></a>
+					 	<a href="@{front.account.MySecurityCtrl.securityPre()}" data-title="邮箱认证" class="icon email-approve #{if currUser?.is_email_verified}approved#{/if}"></a>
+					 	<a href="@{front.account.MySecurityCtrl.securityPre()}" data-title="实名认证" class="icon name-approve #{if currUser?.is_real_name}approved#{/if}"></a>				 	
+					 </div>
+					 <div class="left safelevel">
+					 	<span class="left">安全等级：</span>
+					 	<div class="left safelevel-bar">
+					 		<div class="safelevel-value" style="width: ${currUser?.schedule}%;"></div>
+					 	</div>
+					 	<!--<span class="major">弱</span>
+					 	<a href="accountSafe.html" title="" target="" class="assistant safelevel-up">[提升]</a>-->
+					 </div>
+					 <a href="@{front.account.MyAccountCtrl.showNoticePre()}" class="icon left usermsg-notice" data-title="站内消息"><i class="major" id="notic_num"></i></a>
+					 <span class="l-signum left">
+					 	当前积分： <em>${currUser?.score_balance?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}分</em>
+					 </span>
+					 <a href="javascript:void(0)" class="l-sign left sign-bnt">
+					 	<i class="icon"></i>
+					 	<em>签到</em>
+					 </a>
+				</div>
+			</div>
+			<!-- 用户信息end -->
+			<!-- 资产状态 -->
+			<div class="userasset">
+				<div class="clearfix userasset-box none" id="userasset">
+					
+				</div>
+				<span class="userasset-control selected">资产状态<i class="icon"></i></span>
+			</div>
+			<!-- 资产状态end -->
+			
+			<!-- main Content start -->
+			#{doLayout /}
+			<!-- main Content start -->
+	</div>
+	<!-- main end-->
+	
+	<!-- 开户弹窗 -->
+	<div class="dialog open-dialog">
+		<div class="dialog-bg"></div>
+		<div class="dialog-cont trusteeship-dialog">
+			<h2 class="dialog-head">
+				<span class="left">平台提示</span>
+				<i class="dialog-close right" title="关闭" >×</i>
+			</h2>
+			<div class="trusteeship-cont">
+				<div class="trusteeship-wrap">
+					<i class="trusteeship-icon"></i>
+					<p class="major">请在新页面完成资金托管开户。</p>
+					<a href="" class="bdbtn">开户成功</a>
+					<p class="trusteeship-help"><a href="" class="c9">开户遇到问题></a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 领取体验金弹窗 -->
+	<div class="dialog test-dialog">
+		<div class="dialog-bg"></div>
+		<div class="dialog-cont">
+			<p>
+				恭喜您！获得<span class="major">5000元</span>理财体验金！
+			</p>
+		</div>
+	</div>
+
+	<!-- 签到成功！弹窗 -->
+	<div class="dialog sign-dialog">
+	
+	</div>
+
+<script type="text/javascript">
+require(['front'],function(front){
+	
+	//账户首页资产信息展开
+	#{if isHome}
+		$('.userasset-box').stop(true,true).slideDown(300);
+		$('.userasset-control').removeClass('selected');
+		getUserAsset();
+	#{/if}
+	
+	//上传功能的js
+	require(["ajaxfileupload"]);
+	
+	//开户弹窗
+	$(".trusteeship-openbtn").click(function(){
+		$("#account_main_register_dialog").dialog();
+	});
+	
+	$('.account-redbox').click(function(){
+		$('.red-dialog').dialog();
+	});
+	$('.get-testbtn').click(function(){
+		$('.test-dialog').dialog();
+	});
+	$('.sign-bnt').click(function(){
+		$.ajax({
+			url : "@{front.account.MyAccountCtrl.signIn()}",
+			type : "POST",
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if (!flag) {
+					
+					return;
+				}
+				
+				$(".sign-dialog").html(data);
+				$('.sign-dialog').dialog();
+			}
+		});
+	});
+	
+	//账户资产状况收缩
+	$('body').on('click','.userasset-control',function(){
+		var userasset = $('.userasset-box');
+		if(userasset.is(':hidden')){
+			userasset.stop(true,true).slideDown(300);
+			$(this).removeClass('selected');
+			getUserAsset();
+		}else{
+			userasset.stop(true,true).slideUp(300);
+			$(this).addClass('selected');
+		}
+	});
+
+	//查询用户的未读消息数
+	getNoticeNum();
+});
+
+function upload(){
+	#{if isSimulated}
+			alert("模拟登录不能执行该操作");
+			return false;
+	#{/if}
+	#{else}
+		var fileId = "imgFile";
+		var file = $("#" + fileId).val();
+		var pos = file.lastIndexOf("\\");
+		var fileName = file.substring(pos + 1);
+		
+		$.ajaxFileUpload({
+			url : '@{front.account.MyAccountCtrl.updatePhoto()}',
+			secureuri : false,
+			fileElementId : fileId,
+			data:{
+				"fileName":fileName
+			},
+			dataType : 'json',
+			success : function(data) {
+				console.info(data);
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				if(data.code == 1){
+					$("#image").attr("src", data.obj);
+					$("#imgFile").val('');
+				} else {
+				alert(data.msg);
+				}
+			}
+		})
+	#{/else}
+	
+}
+
+function getUserAsset(){
+	$.ajax({
+		url : "@{front.account.MyAccountCtrl.userHeadFundInfo()}",
+		type : "POST",
+		success : function(data) {
+			
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			
+			$("#userasset").html(data);
+		}
+	});
+}
+
+function getNoticeNum() {
+	
+	$.ajax({
+		url : "@{front.account.MyAccountCtrl.getNoticeNum()}",
+		type : "POST",
+		dataType:"json",
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			if(data.code < 1 ){
+				alert(data.msg);
+			} else {
+				$("#notic_num").html(data.obj);
+			}
+		}
+	});
+}
+
+function corpRegisterQuery() {
+	$.ajax({
+		url : "@{front.account.MySecurityCtrl.corpRegisterQuery()}",
+		type : "POST",
+		dataType:"json",
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			alert(data.msg + ",请去安全中心重新开户！");
+		}
+	});
+}
+
+</script>	
+	

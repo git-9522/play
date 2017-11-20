@@ -1,0 +1,15 @@
+<p class="q-sptitle m20">虚拟商品</p>
+  	<ul class="q-spul clearfix q-spul02">
+  	   #{list items:pageBean?.page }
+  		<li onclick="location.href='@{front.mallFront.MallFrontCtrl.showGoodsDetailPre(_?.sign)}'">
+  			<img class="q-spimg02" src="${_?.image_url}" onerror="this.src='/public/common/default.jpg'" />
+  			<div class="q-spbtm">
+  				<dl class="left">
+  					<dt>${_?.name}</dt>
+  					<dd>尊享价: <span>${_?.spend_scroe}</span> 虹银</dd>
+  				</dl>
+  				<a href="@{front.mallFront.MallFrontCtrl.showGoodsDetailPre(_?.sign)}" class="q-splink right mt10">立即兑换</a>
+  			</div>
+  		</li>
+  		#{/list}
+  	</ul>

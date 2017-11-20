@@ -1,0 +1,66 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'金融课堂' /}
+#{set smallclass:0 /}
+#{set AItem:0 /}
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/financing.css" />
+ <div class="section">
+<!--         <div class="ne_fina_nav"> -->
+<!--             <div class="ne_fina_ncen clearfix"> -->
+<!--                 <ul class="ne_ncen_list left clearfix"> -->
+<!--                     <li class="ncen_list_act"><a href="">理财资讯</a></li> -->
+<!--                 </ul> -->
+<!--             </div> -->
+<!--         </div> -->
+		<input type="hidden" id="keywords" name="keywords" value=""/>
+		 <input type="hidden" id="infosCurrpage" value="${page?.currPage}"/>
+		<input type="hidden" id="infosPagesize" value="${page?.pageSize}"/>
+		<input type="hidden" id="columnkey" name="columnkey" value="info_story" />
+        <div class="ne_fina_main">
+            <h3 class="c6 fs14 lh50">您现在的位置：首页 > 金融课堂 </h3>
+            <div class="ne_fina_cen">
+<!--                 <ul class="ne_fina_list clearfix"> -->
+<!--                     <li class="fina_list_act">全部</li> -->
+<!--                     <li>投资秘籍</li> -->
+<!--                     <li>理财攻略</li> -->
+<!--                     <li>疑难解答</li> -->
+<!--                 </ul> -->
+				<div id="showInfos">
+                
+                </div>
+            </div>
+        </div>
+    </div>
+   <script type="text/javascript">
+	require(['front'],function(front){
+		loadMoreInfos(1);
+	});
+	function loadMoreInfos(currPage){
+		//var nowSize = $("#infosPagesize").val();
+		//var nowPage = $("#infosCurrpage").val();
+		//var totalSize = ${page?.totalCount};
+		var keywords = $("#keywords").val();
+		
+		//$("#infosPagesize").val(parseInt(nowSize)+3);
+		//$("#infosCurrpage").val(parseInt(nowPage)+1);
+		//var pageSize = $("#infosPagesize").val();
+		//var currPage = $("#infosCurrpage").val();	
+		$.ajax({
+			url : "@{front.InformationCtrl.loadMoreInfosPre()}",
+			type : "GET",
+			data : {
+				"columnkey" : $("#columnkey").val(),
+				"currPage" : currPage,
+				"pageSize" : 5,
+				"keywords" : keywords
+			},
+			success : function(data) {
+				/* $(data).appendTo($("#news_list"));
+				if(parseInt(nowSize)+3 >= parseInt(totalSize)){
+					$(".loadmore").html("<span>没有更多了</span>");
+					return;
+				}  */
+				$("#showInfos").html(data);
+			}
+		});
+	}
+</script> 

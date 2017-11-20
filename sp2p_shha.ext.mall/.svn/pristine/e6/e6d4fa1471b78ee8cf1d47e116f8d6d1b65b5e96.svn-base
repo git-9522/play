@@ -1,0 +1,47 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_shha.ext.mall
+#
+# ~~~~
+
+# 前台-账户中心-我的账户-我的积分控制器(controllers.front.account.MyScoreCtrl)
+GET  /account/score/{action}.html                   front.account.MyScoreCtrl.{action}Pre
+POST /account/score/{action}                        front.account.MyScoreCtrl.{action}
+
+
+# 后台-积分商城-积分控制器(controllers.back.mall.ScoreCtrl)
+GET  /supervisor/mail/score/{action}.html                      back.mall.ScoreCtrl.{action}Pre
+POST /supervisor/mail/score/{action}                           back.mall.ScoreCtrl.{action}
+
+# 后台-积分商城-积分规则(controllers.back.mall.MallSettingCtrl)
+GET  /supervisor/mail/setting/{action}.html                      back.mall.MallSettingCtrl.{action}Pre
+POST /supervisor/mail/setting/{action}                           back.mall.MallSettingCtrl.{action}
+
+
+# 后台-积分商城-积分商品(controllers.back.mall.GoodsCtrl)
+GET  /supervisor/mail/goods/{action}.html                      back.mall.GoodsCtrl.{action}Pre
+POST /supervisor/mail/goods/{action}                           back.mall.GoodsCtrl.{action}
+
+# 后台-积分商城-奖品(controllers.back.mall.RewardsCtrl)
+GET  /supervisor/mail/reward/{action}.html                      back.mall.RewardsCtrl.{action}Pre
+POST /supervisor/mail/reward/{action}                           back.mall.RewardsCtrl.{action}
+
+# 后台-积分商城-实物兑换(controllers.back.mall.ExchangeCtrl)
+GET  /supervisor/mail/exchange/{action}.html                      back.mall.ExchangeCtrl.{action}Pre
+POST /supervisor/mail/exchange/{action}                           back.mall.ExchangeCtrl.{action}
+
+# 前台-积分商城-首页(controllers.front.mallFront.MallFrontCtrl)
+GET  mail/mallFront/{action}.html                      			front.mallFront.MallFrontCtrl.{action}Pre
+POST mail/mallFront/{action}                           			front.mallFront.MallFrontCtrl.{action}
+
+
+
+
+
+
+
+
+
+
+

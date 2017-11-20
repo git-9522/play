@@ -1,0 +1,49 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+	<!-- 理财标列表 -->
+	<ul class="xf-disperse-list" id="financial_bid">
+		#{include 'wechat/front/InvestCtrl/showWechatBidsPre.html' /}
+	</ul>
+	<!-- 加载更多  -->
+	<p class="xf-load" id="loadmore">
+		#{if pageBean?.currPage >= pageBean?.totalPageCount}
+		    <a>没有更多了</a>
+		#{/if}
+		#{else}
+			<a  onclick='showPage (${pageBean?.currPage+1},5)'>加载更多项目</a>
+		#{/else} 
+	</p> 
+</div>
+
+<script type="text/javascript">
+function showPage (currPage,pageSize) {
+	$.ajax({
+		url : "@{wechat.front.InvestCtrl.showWechatBidsPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data){ 
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}			
+			$("#financial_bid").append(data);
+			
+			if(parseInt($("#investCurrpage").val()) >= parseInt($("#totalPageCount").val())){	
+					$("#loadmore").html("<a>没有更多了</a>");
+			}
+			else{
+				var investCurrpage = parseInt($("#investCurrpage").val()) + 1 ;
+				$("#investCurrpage").remove();
+				$("#totalPageCount").remove();
+
+				$("#loadmore").html("<a  onclick='showPage ("+investCurrpage+",5)'>加载更多项目</a>");
+			}
+			
+		}
+	});
+}
+</script>

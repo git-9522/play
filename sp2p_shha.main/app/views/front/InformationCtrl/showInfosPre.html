@@ -1,0 +1,60 @@
+#{extends 'common/front/frontFootMain.html' /}
+#{set title:'资讯公告' /}
+#{set smallclass:1 /}
+		
+        <div class="w-side bgf border mt20" id="showInfos">
+		
+        </div>
+        <input type="hidden" id="infosCurrpage" value="${page?.currPage}"/>
+		<input type="hidden" id="infosPagesize" value="${page?.pageSize}"/>
+		<input type="hidden" id="columnkey" name="columnkey" value="${columnkey}" />
+    </div>
+    <!--内容 end-->
+
+<script type="text/javascript">
+	require(['front'],function(front){
+		// 导航选中效果
+		require(['newsearch','share']);
+		
+		$(function(){
+			var keywords = "${keywords}";
+			if(keywords != "") {
+				$("#keywords").show();
+			} else {
+				$("#keywords").hide();
+			}
+		});
+		
+		loadMoreInfos(1);
+	});
+
+	function loadMoreInfos(currPage){
+		//var nowSize = $("#infosPagesize").val();
+		//var nowPage = $("#infosCurrpage").val();
+		//var totalSize = ${page?.totalCount};
+		var keywords = $("#keywords").val();
+		
+		//$("#infosPagesize").val(parseInt(nowSize)+3);
+		//$("#infosCurrpage").val(parseInt(nowPage)+1);
+		//var pageSize = $("#infosPagesize").val();
+		//var currPage = $("#infosCurrpage").val();	
+		$.ajax({
+			url : "@{front.InformationCtrl.loadMoreInfosPre()}",
+			type : "GET",
+			data : {
+				"columnkey" : $("#columnkey").val(),
+				"currPage" : currPage,
+				"pageSize" : 3,
+				"keywords" : keywords
+			},
+			success : function(data) {
+				/* $(data).appendTo($("#news_list"));
+				if(parseInt(nowSize)+3 >= parseInt(totalSize)){
+					$(".loadmore").html("<span>没有更多了</span>");
+					return;
+				}  */
+				$("#showInfos").html(data);
+			}
+		});
+	}
+</script>

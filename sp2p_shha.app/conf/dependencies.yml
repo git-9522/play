@@ -1,0 +1,28 @@
+self: play -> sp2p_shha.app 0.1
+
+require:
+    - play
+    - sp2p_shha.basic -> sp2p_shha.basic
+    - sp2p_shha.common -> sp2p_shha.common
+    - sp2p_shha.core -> sp2p_shha.core
+    - sp2p_shha.payment -> sp2p_shha.payment
+    - sp2p_shha.ext.cps -> sp2p_shha.ext.cps
+    - sp2p_shha.ext.experiencebid -> sp2p_shha.ext.experiencebid
+    - sp2p_shha.ext.redpacket -> sp2p_shha.ext.redpacket
+    - sp2p_shha.ext.wealthcircle -> sp2p_shha.ext.wealthcircle
+    - sp2p_shha.ext.mall -> sp2p_shha.ext.mall
+    
+repositories:
+    - confs:
+        type: local
+        artifact: ${application.path}/../[module]
+        contains: 
+             - sp2p_shha.basic -> sp2p_shha.basic
+             - sp2p_shha.common -> sp2p_shha.common
+             - sp2p_shha.core -> sp2p_shha.core
+             - sp2p_shha.payment -> sp2p_shha.payment
+             - sp2p_shha.ext.cps -> sp2p_shha.ext.cps
+             - sp2p_shha.ext.experiencebid -> sp2p_shha.ext.experiencebid
+             - sp2p_shha.ext.redpacket -> sp2p_shha.ext.redpacket
+             - sp2p_shha.ext.wealthcircle -> sp2p_shha.ext.wealthcircle
+             - sp2p_shha.ext.mall -> sp2p_shha.ext.mall

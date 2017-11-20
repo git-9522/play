@@ -1,0 +1,90 @@
+#{extends 'front/mallFront/frontMallMain.html' /}
+#{set title:'兑换商城'/}
+#{set AItem:0 /}
+ <link rel="stylesheet" href="/public/front/stylesheets/flex_shop.css">
+<div class="shop_main">
+        <div class="shop_banner"></div>
+        <div class="dummy_shop">
+            <h3 class="fs24 c3 shop_title">虚拟商品</h3>
+            <ul class="dummy_list clearfix" id="VirtualGoods">
+            </ul>
+        </div>
+        <div class="enty_shop">
+            <h3 class="fs24 c3 shop_title">实物商品</h3>
+            <ul class="enty_list clearfix" id="EntityGoods">
+            </ul>
+        </div>
+    </div>
+  <script type="text/javascript">
+	require(['front'],function(front){
+		
+		require(['banner','slideleft']);
+		
+        //顶部二维码
+        $(".f-top-img3").hover(function(){
+            $(".f-top-ewm").show();
+        },function(){
+            $(".f-top-ewm").hide();
+        });
+        //底部客服邮箱
+        $(".f-foot-yx").hover(function(){
+            $(".f-foot-kfyx").show();
+        },function(){
+            $(".f-foot-kfyx").hide();
+        });
+        //标2左边栏切换
+        $(".f-left2-ul li").click(function(){
+            $(".f-left2-ul li").removeClass("f-on");
+            $(this).addClass("f-on");
+        });
+           
+        listOfEntityGoodsPre(1,20);
+        listOfVirtualGoodsPre(1,20);
+	});
+	
+	//实物商品
+	function listOfEntityGoodsPre(currPage, pageSize){
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.listOfEntityGoodsPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#EntityGoods").html(data);
+				// 表格隔行换色
+				$('.account-table').each(function(){
+					$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+				});
+			}
+		 });
+	}
+	
+	//虚拟商品
+	function listOfVirtualGoodsPre(currPage, pageSize){
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.listOfVirtualGoodsPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#VirtualGoods").html(data);
+				// 表格隔行换色
+				$('.account-table').each(function(){
+					$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+				});
+			}
+		 });
+	}
+</script>  

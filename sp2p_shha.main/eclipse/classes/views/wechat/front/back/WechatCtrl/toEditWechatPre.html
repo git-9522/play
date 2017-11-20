@@ -1,0 +1,86 @@
+#{extends 'wechat/back/WechatCtrl/weixinMain.html' /}
+	#{set title:'微信 | 微信欢迎语设置' /}
+	#{set smallclass:0 /}
+	#{set crumbs:'微信>微信欢迎语设置' /}
+
+<div class="back-main">
+	<!-- 左侧菜单 -->
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">欢迎语设置</span>
+				#{rightMng rightId:1001002}
+				<a href="javascript:void(0);" class="right iconfont finance-edit" data-title="编辑">&#xe602;</a>
+				#{/rightMng}
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">欢迎语：</span>
+					<div class="liright">
+						<textarea class="back-textarea back-msgarea required" minlength="1" maxlength="240">${content}</textarea>						
+					</div>
+				</li>
+				<li>
+					<span class="lileft"></span>
+					<div class="liright">
+						(必须包含'点击这里'字样,方便后台程序作处理)						
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+require(["back"],function(back){	
+	require(["editor"],function(editor){
+		
+		$(".back-infor").each(function(){
+			var that = this,
+				editBtn = $(this).find(".finance-edit"),
+				editText = $(this).find("textarea");
+			editText.prop("disabled",true);
+			editBtn.click(function(){
+				disable = editText.prop("disabled");
+				if(disable){
+					editBtn.html("&#xe630;").data("title","保存");
+					
+					$(".titlebox").text(editBtn.data('title'));
+					editText.prop("disabled",!disable);
+					editText.eq(0).focus();
+				}else{
+					var noticeSign = editBtn.parent().children("input").val();
+					var content = editText.val();
+					$.ajax({
+						url : "@{wechat.back.WechatCtrl.editWechat()}",
+						type : "POST",
+						data : {
+							"content":content
+						},
+						dataType:"json",
+						success : function(result) {
+							var flag = interceptorCheck(result);
+							if(!flag){
+								return;
+							}
+							if(result.code < 1){
+								alert(result.msg,function(){
+									editText.eq(0).focus();
+								});
+							}else {
+								weakDialog(result.msg);
+								editBtn.html("&#xe602;").data("title","编辑");
+								$(".titlebox").text(editBtn.data('title'));
+								editText.prop("disabled",!disable);
+							}
+						}
+					});
+				}
+				
+			});
+		});
+	});
+});
+</script>

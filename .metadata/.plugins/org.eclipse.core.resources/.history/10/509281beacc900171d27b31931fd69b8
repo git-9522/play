@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>发现-虹金所</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/bottom.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/reset.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/style.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/swiper.min.css'}" />
+<script type="text/javascript" src="@{'/public/wechat/newedition/js/jquery-1.8.3.min.js'}"></script>
+</head>
+
+<body>
+<div class="header" style="display:block;"> <span class="title_name">发现</span> </div>
+<div class="content2">
+  <div class="find_menu clearfix">
+    <ul>
+      <li><a href="@{wechat.front.DiscoverCtrl.goInfoReportPre()}"><i class="menu_ico m1"></i>媒体报道</a></li>
+      <li><a href="@{wechat.front.DiscoverCtrl.goFinancialClassroomPre()}"><i class="menu_ico m2"></i>金融课堂</a></li>
+      <li><a href="@{wechat.front.DiscoverCtrl.getAllHelpCenterPre()}"><i class="menu_ico m3"></i>常见问题</a></li>
+      <li style=" border-right:0;"><a href="@{wechat.front.DiscoverCtrl.getOperationDataPre()}"><i class="menu_ico m4"></i>信息披露</a></li>
+    </ul>
+  </div>
+  <div class="find_ad">
+    <p class="find_tit">活动中心</p>
+    <ul class="list clearfix">
+      #{if page?.page}
+	  #{list items:page?.page,as:'active'}
+	  <li><a href="${active?.url}"><img src="${active?.image_url}"></a></li>
+	  #{/list}
+	  #{/if}
+    </ul>
+  </div>
+  <div class="find_shop">
+    <p class="find_tit"><a href="">虹银商城<i></i></a></p>
+    <a href="###" class="ad_img"><img src="@{'/public/wechat/newedition/images/find-shop.png'}"></a>
+  </div>
+</div>
+<!--底部  st-->
+<div id="bottom">
+  <div class="order_list clearfix">
+    <ul>
+      <li><a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}"><span class="or or1"></span>
+        <p>虹金所</p>
+        </a></li>
+      <li><a href="@{wechat.front.InvestCtrl.toWechatInvestPre()}"><span class="or or2"></span>
+        <p>出借</p>
+        </a></li>
+      <li class="on"><a href="###"><span class="or or3 or3_hover"></span>
+        <p>发现</p>
+        </a></li>
+      <li><a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}"><span class="or or4"></span>
+        <p>我的</p>
+        </a></li>
+    </ul>
+  </div>
+</div>
+<!--底部  ed--> 
+<script type="text/javascript">
+/**公共底部js**/
+$(function(){
+	$(".order_list a").click(function(){
+		$(this).css("color","#ff5256");
+		$(this).parent().siblings().find("a").css("color","#4c4c4c");
+		$(this).children(".or").css("background-position-y","-25px");
+		$(this).parent().siblings().find(".or").css("background-position-y","0")
+	});
+	})
+</script>
+</body>
+</html>

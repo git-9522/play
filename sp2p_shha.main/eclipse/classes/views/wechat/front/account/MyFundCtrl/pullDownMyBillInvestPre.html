@@ -1,0 +1,7 @@
+#{list billInvestList}
+	<li class="flex"  onclick="location.href='@{wechat.front.account.MyFundCtrl.investBillDetailsPre(_?.id)}'">
+	    <div class="flex-1">${_?.bill_invest_no}</div>
+	    <div class="flex-1 tc">${_?.corpus_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+	    <div class="flex-1 tr">${_?.receive_time?.format(common.constants.Constants.DATE_FORMATE)}</div>
+	</li>
+#{/list}

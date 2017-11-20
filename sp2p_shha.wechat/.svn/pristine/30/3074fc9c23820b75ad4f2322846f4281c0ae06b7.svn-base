@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<!--背景-->
+    	<div class="q-qdbg"></div>
+    	<!--头部-->
+    	<div class="q-qdtitletop clearfix q-padding">
+    		<a href="javascript:void(0);" onclick="self.location=document.referrer;"><span class="span01"></span></a>
+    		<span class="span02">规则</span>
+    	</div>
+    	<!--日历-->
+		<a href="" class="q-qdtop">累积已获得${currUser?.score_balance?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}虹银<i></i></a>
+		<div class="q-padding">
+			<div class="q-rlall q-bgfff">
+				<div class="q-qdrltop flex q-padding">
+	       			<span class="q-left"></span>
+	       			<div class="flex-1 ">
+	       				<span class="f-year">2017</span>年<span class="f-month">05</span>月
+	       			</div>
+	       			<span class="q-right"></span>
+	       		</div>
+				<div class="q-qddate">
+	       			<ul class="q-datetopul clearfix">
+	       				<li>日</li>
+	       				<li>一</li>
+	       				<li>二</li>
+	       				<li>三</li>
+	       				<li>四</li>
+	       				<li>五</li>
+	       				<li>六</li>
+	       			</ul>
+	       			<ul class="q-datelist clearfix">
+
+	       			</ul>
+	       			<div class="q-datexl">
+	       				<i></i>
+	       			</div>
+	       		</div>
+			</div>
+		</div>
+<!--		弹窗-->
+		<div class="q-tcbg" style="display: none;"></div>
+		<div class="q-tcdivqd q-paddingdq">
+			<img class="q-dqsmimg" src="@{'/public/wechat/images/qdsm.png'}"/>
+			<p class="">1、打开页面即完成当日签到;</p>
+			<p>2、如果中断了签到，很可惜，只能重新开始计算签到天数;</p>
+			<p>3、所得虹银可在虹银商城中用于兑换礼品、礼券、红包等，也可用来提现抵扣、参与秒杀、抽奖等其它站内活动;</p>
+			<p>4、坚持签到，就会有更大的惊喜等着你！</p>
+		</div>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+    <script type="text/javascript">
+    	$(".q-qdtitletop .span02").click(function(){
+    		$(".q-tcbg,.q-tcdivqd").show();
+    	});
+    	$(".q-tcbg").click(function(){
+    		$(".q-tcbg,.q-tcdivqd").hide();
+    	});
+    	$(function(){
+                //页面加载初始化年月
+                var mydate = new Date();
+                $(".f-year").html( mydate.getFullYear() );
+                $(".f-month").html( mydate.getMonth()+1 );
+                showDate(mydate.getFullYear(),mydate.getMonth()+1);
+                //日历上一月
+                $(".q-left").click(function(){
+                    var mm = parseInt($(".f-month").html());
+                    var yy = parseInt($(".f-year").html());
+                    if( mm == 1){//返回12月
+                        $(".f-year").html(yy-1);
+                        $(".f-month").html(12);
+                        showDate(yy-1,12);
+                    }else{//上一月
+                        $(".f-month").html(mm-1);
+                        showDate(yy,mm-1);
+                    }
+                    //切换前是否展开状态
+                    if( $(".q-datexl").attr("sta") == "1" ){
+                        $(".f-td").show();
+                    }
+                })
+                //日历下一月
+                $(".q-right").click(function(){
+                    var mm = parseInt($(".f-month").html());
+                    var yy = parseInt($(".f-year").html());
+                    if( mm == 12){//返回12月
+                        $(".f-year").html(yy+1);
+                        $(".f-month").html(1);
+                        showDate(yy+1,1);
+                    }else{//上一月
+                        $(".f-month").html(mm+1);
+                        showDate(yy,mm+1);
+                    }
+                    //切换前是否展开状态
+                    if( $(".q-datexl").attr("sta") == "1" ){
+                        $(".f-td").show();
+                    }
+                })
+                
+                //读取年月写入日历  重点算法!!!!!!!!!!!
+                function showDate(yyyy,mm){
+                    var dd = new Date(parseInt(yyyy),parseInt(mm), 0);   //Wed Mar 31 00:00:00 UTC+0800 2010  
+                    var daysCount = dd.getDate();            //本月天数  
+                    var mystr ="";//写入代码
+                    var icon = "";//图标代码
+                    var today = new Date().getDate(); //今天几号  21
+                    var monthstart = new Date(parseInt(yyyy)+"/"+parseInt(mm)+"/1").getDay()//本月1日周几  
+                    var lastMonth; //上一月天数
+                    var nextMounth//下一月天数
+                    if(  parseInt(mm) ==1 ){
+                        lastMonth = new Date(parseInt(yyyy)-1,parseInt(12), 0).getDate();
+                    }else{
+                        lastMonth = new Date(parseInt(yyyy),parseInt(mm)-1, 0).getDate();
+                    }
+                    if( parseInt(mm) ==12 ){
+                        nextMounth = new Date(parseInt(yyyy)+1,parseInt(1), 0).getDate();
+                    }else{
+                        nextMounth = new Date(parseInt(yyyy),parseInt(mm)+1, 0).getDate();
+                    }
+                    //计算上月空格数
+                    for(j=monthstart;j>0;j--){
+                        mystr += "<li class='f-td f-null f-lastMonth'><span>"+(lastMonth-j+1)+"</span></li>";
+                    }
+                    
+                    //本月单元格
+                    for(i=0;i<daysCount;i++){
+                         //这里为一个单元格，添加内容在此
+                        mystr += "<li class='f-td f-number'><span>"+(i+1)+"</span></li>"; 
+                    }
+                    
+                    //计算下月空格数
+                    for(k=0; k<35-(daysCount+monthstart);k++ ){//表格保持等高6行42个单元格
+                        mystr += "<li class='f-td f-null f-nextMounth'><span>"+(k+1)+"</span></li>";
+                    }
+
+                    //写入日历
+                    $(".q-datelist").html(mystr);
+                    //给今日加class
+                    if( mydate.getFullYear() == yyyy){
+                        if( (mydate.getMonth()+1 ) == mm){
+                            var today = mydate.getDate();
+                            var lastNum = $(".f-lastMonth").length;
+                            //$(".q-datelist li").eq(today+lastNum-1).addClass("f-today");
+                            $(".q-datelist li").eq(today+lastNum-1).find("span").addClass("q-on");
+                        }
+                    }
+                    
+                    #{list signInUserRecord}
+                    	var pastDay = new Date("${_?.time}");
+                    	if( pastDay.getFullYear() == yyyy){
+                    		if( (pastDay.getMonth()+1 ) == mm){
+	                    		var day = pastDay.getDate();
+	                    		var lastNum = $(".f-lastMonth").length;
+	                    		$(".q-datelist li").eq(day+lastNum-2).find("span").addClass("q-on2");
+                    		}
+                    	}
+                    #{/list}
+                }
+                
+            })
+</script>
+	</script>
+</html>

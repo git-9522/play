@@ -1,0 +1,664 @@
+#{extends 'common/frontMain.html' /}
+#{set title:bid?.title/}
+#{set AItem:1 /}
+<!-- 信息披露 添加 -->
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/jquery.jscrollpane.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/indetail.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/jquery.bxslider.css" />
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/jquery.fancybox.css"  media="screen"/>
+<style type="text/css">
+.fancybox-overlay{z-index: 20500 !important}
+.fancybox-skin{z-index: 20501 !important}
+</style>
+<!-- main -->
+<div class="container">
+        <div style="height:20px;"></div>
+        <div class="clearfix" style="height: 340px;">
+            <div class="detail-box detail-left left #{if jobs.IndexStatisticsJob.webProdMap.get(bid?.product_id+'')=='新虹投'}ne-detail-new #{/if}">
+                <h2 class="detail-head">
+                    <input type="hidden" id="bid_id" name="bidId" value="${bid?.id}">
+                    <p class="left c3 fs24">${jobs.IndexStatisticsJob.webProdMap.get(bid?.product_id+"")}</p>
+                    <span class="left c3 pu ml20">${bid?.bid_no}  ${bid?.title}</span>
+                </h2>
+                <ul class="f-lcxq-ul1 clearfix">
+                    <li class="tl brs">
+                        <span class="fs30 corange lh40">${bid?.apr}%#{if bid?.is_invest_reward}<span class="fs24">+${bid?.reward_rate}%</span>#{/if}</span>
+                        <br>
+                        <p class="mt20">期待年回报率</p>
+                    </li>
+                    <li class="center brs">
+                        <span class="fs30 corange lh40">#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}</span>
+                        <br>
+                        <p class="mt20">#{if models.core.entity.t_product.BuyType.PURCHASE_BY_AMOUNT.code==bid?.buy_type?.code}起购金额#{/if}#{else}每份金额#{/else}（元）</p>
+                    </li>
+                    <li class="center">
+                        <span class="fs30 corange lh40">${bid?.period}</span>
+                        <br>
+                        <p class="mt20">投资期限（${bid?.period_unit?.getShowValue()}）</p>
+                    </li>
+                </ul>
+
+                <div class="clearfix pl35 pr35 mt25">
+                    <span class="left f-350 mr40">项目金额： <span class="corange">#{formatIntMoney money:bid?.amount}#{/formatIntMoney}
+    			</span> 元</span>
+                    <span class="left">还款方式：${bid?.getRepayment_type().value}</span>
+                </div>
+                <div class="clearfix pl35 pr10 mt20">
+                    <span class="left f-350 clearfix mr20">
+                        <span class="left">募集进度：</span>
+                        <div class="f-jdt f-190 mr10 left mt7 ml5">
+                            <div class="f-jd" style="width:${bid?.loan_schedule}%;"></div>
+                            <span class="ne_son_dots"style="left:${bid?.loan_schedule}%"></span>
+                        </div>
+                        <span class="left color1">${bid?.loan_schedule}%</span>
+                    </span>
+                    <div class="clearfix left" style="width:380px;">
+                        <img src="/public/front/images/ii.png" class="left mt3 mr5" alt="">
+                        <span style="display:block; width:350px;" class="left">截止时间：${bid?.invest_expire_time?.format("yyyy/MM/dd HH:mm")}  起息方式T（成交日）+1</span>
+                    </div>
+                </div>
+                <div class="clearfix pl35 pr10 mt20"> <span class="left">发布机构：#{if bid?.is_agency} ${agencies?.name}#{/if}#{else}无#{/else}</span>
+                	  <a href="@{front.account.MyFundCtrl.showBidPactModelPre()}" target="_blank" class="corange right" style="margin-right: 150px;">《虹金所风险提示和服务保障协议》</a>
+                </div> 
+            </div>
+            
+      	<!-- 购买成功 -->
+		#{if flash?.investBidSuccess}
+			#{include "front/invest/InvestCtrl/investSuccess.html"/}
+		#{/if}
+		<!-- 购买页面 -->
+		#{else}
+			#{if preRelease}
+			#{include "front/invest/InvestCtrl/preRelease.html"/}
+			#{/if}
+			#{else}
+			#{include "front/invest/InvestCtrl/prepareInvest.html"/}
+			#{/else}
+		#{/else}
+	</div>
+        <!-- 优选投资 -->
+        <div class="ne_detail_box none">
+            <h3 class="fs20 c3 lh55 pl15 borb">优选投资</h3>
+            <ul class="ne_index_biao ne-unx borb clearfix">
+                <li class="borr">
+                    <h3 class="ml20 c3 fs20">1月</h3>
+                    <div class="ne_index_tips ne_tips3"></div>
+                    <div class="clearfix mt20">
+                        <div class="clearfix left ml20">
+                            <p class="c52 fs28">13.0%</p>
+                            <p class="fs12 c9">期待年回报率</p>
+                        </div>
+                        <a href="" class="ne_index_btn1 right mr15">我要出借</a>
+                    </div>
+                    <div class="clearfix mt20 c6 fs12 ml20">
+                        <p class="left none">距开始时间:<span>0天12时30分</span></p>
+                        <div class="ne_index_line left">
+                            <div class="ne_son_line" style="width:50%"></div>
+                            <span class="ne_son_dots" style="left:50%"></span>
+                        </div>
+                        <p class="right mr15">剩余可投:<span>663.42万</span>元</p>
+                    </div>
+                </li>
+                <li class="borr">
+                    <h3 class="ml20 c3 fs20">1月</h3>
+                    <div class="ne_index_tips ne_tips3"></div>
+                    <div class="clearfix mt20">
+                        <div class="clearfix left ml20">
+                            <p class="c52 fs28">13.0%</p>
+                            <p class="fs12 c9">期待年回报率</p>
+                        </div>
+                        <a href="" class="ne_index_btn1 right mr15">我要出借</a>
+                    </div>
+                    <div class="clearfix mt20 c6 fs12 ml20">
+                        <p class="left none">距开始时间:<span>0天12时30分</span></p>
+                        <div class="ne_index_line left">
+                            <div class="ne_son_line" style="width:50%"></div>
+                            <span class="ne_son_dots" style="left:50%"></span>
+                        </div>
+                        <p class="right mr15">剩余可投:<span>663.42万</span>元</p>
+                    </div>
+                </li>
+                <li class="borr">
+                    <h3 class="ml20 c3 fs20">1月</h3>
+                    <div class="ne_index_tips ne_tips3"></div>
+                    <div class="clearfix mt20">
+                        <div class="clearfix left ml20">
+                            <p class="c52 fs28">13.0%</p>
+                            <p class="fs12 c9">期待年回报率</p>
+                        </div>
+                        <a href="" class="ne_index_btn1 right mr15">我要出借</a>
+                    </div>
+                    <div class="clearfix mt20 c6 fs12 ml20">
+                        <p class="left none">距开始时间:<span>0天12时30分</span></p>
+                        <div class="ne_index_line left">
+                            <div class="ne_son_line" style="width:50%"></div>
+                            <span class="ne_son_dots" style="left:50%"></span>
+                        </div>
+                        <p class="right mr15">剩余可投:<span>663.42万</span>元</p>
+                    </div>
+                </li>
+                <li>
+                    <h3 class="ml20 c3 fs20">1月</h3>
+                    <div class="ne_index_tips ne_tips3"></div>
+                    <div class="clearfix mt20">
+                        <div class="clearfix left ml20">
+                            <p class="c52 fs28">13.0%</p>
+                            <p class="fs12 c9">期待年回报率</p>
+                        </div>
+                        <a href="" class="ne_index_btn1 right mr15">我要出借</a>
+                    </div>
+                    <div class="clearfix mt20 c6 fs12 ml20">
+                        <p class="left none">距开始时间:<span>0天12时30分</span></p>
+                        <div class="ne_index_line left">
+                            <div class="ne_son_line" style="width:50%"></div>
+                            <span class="ne_son_dots" style="left:50%"></span>
+                        </div>
+                        <p class="right mr15">剩余可投:<span>663.42万</span>元</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="detail-box mt30">
+            <ul class="detail-tabmenu tab-menu c3">
+                <li class="selected">项目详情</li>
+                <li class="">加入记录( ${bid?.invest_count} )</li>
+                <li class="">回款计划</li>
+            </ul>
+            <div class="detail-cont c3">
+                <!-- 未登录 
+                <div class="tab-cont">
+                    <p class="detail-unlogin">请<a href="login.html" class="major">登录</a>或<a href="register.html" class="major">注册</a>后查看</p>
+                </div>
+            -->
+
+                <!-- 项目详情 -->
+                <div class="tab-cont tab-cont-bg">
+                    <div class="tab-cont-msg tab-cont-msg1">
+                        <h3 class="lh50 c3 fs16">计划进度</h3>
+                        <ul class="tab-msg-time">
+                            <li class="msg-time1">
+                                <span class="mt80 fs16 c3">开始加入</span>
+                                <p class="fs14 c9 mt10">${bid?.time?.format("MM月dd日  HH:mm")}</p>
+                            </li>
+                            <li class="msg-time2">
+                                <span class="mt80 fs16 c3">进入锁定期</span>
+                                <p class="fs14 c9 mt10">${lockTime?.format("MM月dd日  HH:mm")}</p>
+                            </li>
+                            <li class="msg-time3">
+                                <span class="mt80 fs16 c3">到期退出</span>
+                                <p class="fs14 c9 mt10">${expireTime?.format("MM月dd日  HH:mm")}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-cont-msg tab-cont-msg2">
+                        <h3 class="lh50 c3 fs16">标的信息</h3>
+                        <table class="cont-tab1">
+                            <tr>
+                                <th class="cont-til"><div>项目名称</div></th>
+                                <td class="cont-font">${bid?.title}</td>
+                                <th class="cont-til"><div>保障方式</div></th>
+                                <td class="cont-font">${guaranteeMode}</td>
+                            </tr>
+                            <tr>
+                                <th class="cont-til"><div>年化收益率</div></th>
+                                <td class="cont-font">${bid?.apr}%</td>
+                                <th class="cont-til"><div>锁定期</div></th>
+                                <td class="cont-font">${bid?.period}${bid?.period_unit?.getShowValue()}</td>
+                            </tr>
+                            <tr>
+                                <th class="cont-til"><div>购买期限</div></th>
+                                <td class="cont-font">${bid?.invest_period}天</td>
+                                <th class="cont-til"><div>收益说明</div></th>
+                                <td class="cont-font">${bid?.getRepayment_type().value}</td>
+                            </tr>
+                            <tr>
+                                <th class="cont-til"><div>到期赎回方式</div></th>
+                                <td class="cont-font">${bid?.getRepayment_type().value}</td>
+                                <th class="cont-til"><div>购买条件</div></th>
+                                <td class="cont-font">无</td>
+                            </tr>
+                            <tr>
+                                <th class="cont-til"><div>每人购买限制</div></th>
+                                <td class="cont-font">起购金额#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}元,单笔投资不得超过可投标的金额</td>
+                                <th class="cont-til"><div>是否支持债权转让</div></th>
+                                <td class="cont-font">是</td>
+                            </tr>
+                            <tr>
+                                <th class="cont-til"><div>项目简介</div></th>
+                                <td class="cont-font" colspan="3">
+                                    <p class="left ml30 cont-first">${bid?.description}</p>
+                                    <span class="right mt10 corange mr20">更多>></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-cont-msg tab-cont-msg3">
+                        <h3 class="lh50 c3 fs16">借款人信息</h3>
+                        <ul class="cont3-iocn">
+                            <li>
+                                <img src="/public/front/images/tab-cont-pic1.png" alt="">
+                                <p class="fs14 center mt15 c6">身份证认证</p>
+                            </li>
+                            <li>
+                                <img src="/public/front/images/tab-cont-pic2.png" alt="">
+                                <p class="fs14 center mt15 c6">手机认证</p>
+                            </li>
+                              #{if bid?.guarantee_mode_id==1} 
+                            <li>
+                                <img src="/public/front/images/tab-cont-pic3.png" alt="">
+                                <p class="fs14 center mt15 c6">车产认证</p>
+                            </li>
+                             #{/if}
+                             #{if bid?.guarantee_mode_id==2}
+                            <li >
+                                <img src="/public/front/images/tab-cont-pic4.png" alt="">
+                                <p class="fs14 center mt15 c6">房产认证</p>
+                            </li>
+                             #{/if}
+                             #{if bid?.guarantee_mode_id==3}
+                              <li>
+                                <img src="/public/front/images/tab-cont-pic6.png" alt="">
+                                <p class="fs14 center mt15 c6">企业认证</p>
+                            </li>
+                             #{/if}
+                            <li>
+                                <img src="/public/front/images/tab-cont-pic5.png" alt="">
+                                <p class="fs14 center mt15 c6">工作证明</p>
+                            </li>
+                        </ul>
+                        <table class="cont-tab2">
+                            <tr>
+                                <th class="cont2-til">姓名</th>
+                                <td class="cont2-font">#{if !corpInfo}#{asterisk str:loanUserInfo?.reality_name, start:1, end:0, count:(loanUserInfo?.reality_name.size()-1)/}#{/if}</td>
+                                <th class="cont2-til">性别</th>
+                                <td class="cont2-font">${loanUserInfo?.sex?.name}</td>
+                                <th class="cont2-til">年龄</th>
+                                <td class="cont2-font">${loanUserInfo?.age}岁</td>
+                            </tr>
+                            <tr>
+                                <th class="cont2-til">户籍</th>
+                                <td class="cont2-font">#{if loanUserInfo?.prov_id!=null}${common.enums.Province.getProvByCode(loanUserInfo?.prov_id)?.name}#{/if}</td>
+                                <th class="cont2-til">工作/企业名称</th>
+                                <td class="cont2-font">#{if corpInfo}#{asterisk str:loanUserInfo?.reality_name, start:2, end:2, count:4/}#{/if} #{else}#{asterisk str:loanUserInfo?.work_unit, start:2, end:2, count:4/}#{/else}  </td>
+                             <th class="cont2-til">还款方式</th>
+                                <td class="cont2-font">${bid?.getRepayment_type().value}</td>
+                            </tr>
+                            <tr>
+                           		 #{if corpInfo||bid?.guarantee_mode_id==3}
+                                <th class="cont2-til">成立时间</th>
+                                <td class="cont2-font">${loanUserInfo?.start_time?.format(common.constants.Constants.DATE_PLUGIN6)}</td>
+                                <th class="cont2-til">注册资金</th>
+                                <td class="cont2-font">#{if corpInfo}${(corpInfo?.guar_corp_earnest_amt*0.0001)?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}#{/if}#{else}${(loanUserInfo?.registered_fund)?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}#{/else}万元</td>
+                                <th class="cont2-til"></th>
+                                <td class="cont2-font"></td>
+                            	#{/if}
+                            	#{else}
+                                <th class="cont2-til">工作年限</th>
+                                <td class="cont2-font">${loanUserInfo?.getWork_experience().value}</td>
+								 <th class="cont2-til"></th>
+                                <td class="cont2-font"></td>
+								 <th class="cont2-til"></th>
+                                <td class="cont2-font"></td>
+								#{/else}
+                            </tr>
+                            <tr>
+                                <th class="cont2-til">还款来源</th>
+                                <td class="cont2-font cont2-size" colspan="3">
+                                    <p class="tl lh30 pt10 pb10">${bid?.repayment_source}
+                                    </p>
+                                </td>
+                                <th class="cont2-til">担保措施</th>
+                                <td class="cont2-font">
+                                    <p class="pt10 lh30 pb10">${bid?.guarantee_measures}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+ 
+                </div>
+                <!-- 投标记录 -->
+                <div class="tab-cont" id="invest_record" style="display: none;">
+
+                </div>
+                <!-- 回款计划 -->
+                <div class="tab-cont" id="repayment_record" style="display: none;">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+   	<!-- 支付弹窗 -->
+	<div class="dialog tc1">
+		<div class="dialog-bg"></div>
+		<div class="dialog-cont trusteeship-dialog">
+			<h2 class="dialog-head">
+				<span class="left">平台提示</span>
+			</h2>
+			<div class="trusteeship-cont">
+				<div class="trusteeship-wrap">
+					<i class="trusteeship-icon"></i>
+					<p class="major">请在新页面完成支付。</p>
+					<a href="javascript:window.location.reload(true)" class="bdbtn">支付成功</a>
+					<p class="trusteeship-help"><a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="c9">支付遇到问题></a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- main end-->
+
+<!-- 会员分组弹窗 -->
+	<div class="dialog tc2">
+		<div class="dialog-bg"></div>
+		<div class="dialog-cont invest-dialog">
+			<h2 class="dialog-head">
+				<span class="left">投标密码</span>
+				<p href="javascript:void(0);" class="dialog-close hover-green" id="dialogClose">×</p>
+			</h2>
+			<div class="invest-trusteeship-cont">
+				<div class="trusteeship-wrap j-trusteeship-wrap">
+				<input type="text" class="j-input" maxlength="6" id="invest_password_input"/>
+				<a href="javascript:void(0)" class="bdbtn  ne_ind_btn " >立即投标</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> 
+    <!-- 信息披露 添加 -->
+<!-- <script  type="text/javascript" src="/public/front/javascripts/jquery-1.8.2.min.js"></script> -->
+<script type="text/javascript">
+	require(['front'],function(front){
+	require([ 'jquery.mousewheel', 'jquery.bxslider'], function() {
+    $(function () {
+        $('.cont-tab1 td.cont-font>span').click(function () {
+            $('.cont-first').addClass('cont-last');
+            $('.cont-first').removeClass('cont-first');
+            $(this).hide();
+        })
+    
+        $(document).ready(function () {
+            $('.cont-slider').bxSlider({
+                slideWidth: 1060,
+                minSlides: 4,
+                maxSlides: 4,
+                auto: true,
+                autoControls: false,
+                moveSlides: 1,
+                startSlide: 0,
+                slideMargin: 10
+            });
+        });
+    })
+    });
+    });
+</script>
+
+<script type="text/javascript">
+var tc2_show = false;
+require(['front'],function(front){	
+	
+	
+	// 导航选中效果
+	front.navSelected(1);
+	$(".detail-record").each(function(){front.treven($(this))});
+	require(['fancybox']);
+	
+	$(".detail-record").each(function(){front.treven($(this))});
+	if (${models.core.entity.t_bid.Status.FUNDRAISING.code} == ${bid?.status?.code}) {//筹款中
+		var EndTime = new Date('${bid?.invest_expire_time?.format(common.constants.Constants.DATE_PLUGIN)}').getTime();
+		var NowTime = ${sysNowTime?:0};
+		GetRTime(EndTime, NowTime, "count_down_time");
+	} else {
+		 $("#count_down_time").html('0天0时0分0秒');
+	}
+
+	$(".tab-menu").children().eq(1).click(function(){
+		if ($("#invest_record").find("tr").length > 1) {
+			return;
+		}
+		investRecordPre(function(data){
+			$("#invest_record").html(data);
+			trevenRows();
+			if(parseInt($("#investTotalSize").val())<=parseInt($("#investPagesize").val())){
+				$(".loadmore").html("<span>没有更多了</span>");
+			}
+		});
+	});
+	//回款计划
+	$(".tab-menu").children().eq(2).click(function(){
+
+		if ($("#repayment_record").find("tr").length > 1) {
+			return;
+		}
+		repaymentRecordPre(function(data){
+			$("#repayment_record").html(data);
+			trevenRows();
+			if(parseInt($("#repaymentTotalSize").val())<=parseInt($("#repaymentPagesize").val())){
+				$(".loadmore").html("<span>没有更多了</span>");
+			}
+		});
+	});
+	
+	
+	//投标
+	$(".ne_ind_btn").click(function(){
+		if($(this).hasClass('en')){return;}
+		var is_invest_password = ${bid?.is_invest_password};//是否开启投标密码
+		var investAmount = $('#invest_amount').val();//投标金额或者投标份数
+		var rewardType = "redPacketSpan";  //只有红包去掉现金券
+		var str = '您投资的标的为：' + ${bid?.period} + '月标；加入金额：' + investAmount + '元；';
+// 		$(".f-lc-yh").each(function(){
+// 			if ($(this).hasClass("f-on")) {
+// 				rewardType = $(this).attr("id");
+// 			}
+// 		});
+		if(rewardType == "redPacketSpan"){
+			var cost = $.trim($(".rcr").html());
+			if(cost != ''&&cost != "无") {
+				str += "使用红包金额：" +cost + "；";
+			}
+		}
+// 		else if(rewardType == "cashSpan"){
+// 			var cost = $(".rcc").find("option:selected").attr('data');
+// 			if(cost != '') {
+// 				str += "使用现金券金额：" + cost + "元；";
+// 			}
+// 		}
+		//使用加息卷
+		$("#rateSign").val($(".addRate").val());
+		var cost = $(".addRate").attr('ids');
+		if(typeof cost != 'undefined' ){
+			str += "使用加息券金额：" + cost + "%；";
+		}
+		
+			//投资密码
+		if(is_invest_password){
+			if(!tc2_show){
+				$('.tc2').dialog();
+				tc2_show = true;
+				return false;
+			}else{
+				if(!$(this).hasClass("dialog_btn")&&$('.tc2').css("display")=="none"){
+					$('.tc2').dialog();
+					tc2_show = true;
+					return false;
+				}
+				var invest_password = $("#invest_password_input").val();
+				if(invest_password == ""){
+					
+					weakDialog('请输入投资密码!');
+					return false;
+				}
+				
+				$("#investPassword").val(invest_password);
+				
+				$("#dialogClose").trigger("click");
+			}
+		}
+		confirm(str, doInvest);
+	});
+});
+
+//倒计时
+function GetRTime(EndTime, NowTime, domId){
+	if (NowTime == 0) {
+		NowTime = new Date().getTime();
+	}
+	var t =EndTime - NowTime;
+	timeShow(t, domId);
+    setInterval(function() {
+    	t = t-1000;
+    	timeShow(t, domId);
+    },1000);
+}
+function timeShow(t, domId){
+    var d=Math.floor(t/1000/60/60/24);
+    var h=Math.floor(t/1000/60/60%24);
+    var m=Math.floor(t/1000/60%60);
+    var s=Math.floor(t/1000%60);
+    $("#"+domId).html((d<0?0:d)+'天'+(h<0?0:h)+'时'+(m<0?0:m)+'分'+(s<0?0:s)+'秒');
+}
+
+function investRecordPre(callback){
+	var bidId = $("#bid_id").val();
+	var currPage = $("#investCurrpage").val();
+	var pageSize = $("#investPagesize").val();
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.investRecordPre()}",
+		type : "GET",
+		data : {
+			"bidId" : bidId,
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data) {
+			if(callback){
+				callback(data);
+			}
+		}
+	});
+}
+function repaymentRecordPre(callback){
+	var bidId = $("#bid_id").val();
+	var currPage = $("#repaymentCurrpage").val();
+	var pageSize = $("#repaymentPagesize").val();
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.repaymentRecordPre()}",
+		type : "GET",
+		data : {
+			"bidId" : bidId,
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data) {
+			if(callback){
+				callback(data);
+			}
+		}
+	});
+}
+
+//表格隔行换色
+function trevenRows(){
+	$('.detail-record').each(function(){
+		$(this).children('tbody').children('tr:not(.detail-record):even').addClass('treven');
+	});
+}
+
+//投标
+function doInvest() {
+	#{ifnot currUser}
+		window.location.href="@{front.LoginAndRegisteCtrl.loginPre()}";
+		return false;
+	#{/ifnot}
+	#{if isSimulated}
+    	alert("模拟登录不能执行该操作");
+    	return false;
+    #{/if}
+    #{else}
+	var userBalance = "${balance?:'0'}";//可用余额
+	var investAmount = $('#invest_amount').val();//投标金额或者投标份数
+	var buy_type = "${bid?.buy_type?.code?:'0'}";//购买方式
+	var bid_min_invest = ${bid?.min_invest_amount?:'0'};//起投
+	var bid_max_invest = ${bid?.amount?:'0'}-${bid?.has_invested_amount?:'0'};//可投金额
+	var is_invest_password = ${bid?.is_invest_password};//是否开启投标密码
+	var rewardType = "redPacketSpan";  //只有红包去掉现金券
+	var str = '您投资的标的为：' + ${bid?.period} + '月标；加入金额：' + investAmount + '元；';
+// 	$(".f-lc-yh").each(function(){
+// 		if ($(this).hasClass("f-on")) {
+// 			rewardType = $(this).attr("id");
+// 		}
+// 	});
+	if(rewardType == "redPacketSpan"){
+		$("#redPacketSign").val($(".rcr").attr("data-v"));
+	}
+// 	else if(rewardType == "cashSpan"){
+// 		$("#cashSign").val($(".rcc").val());
+// 	}
+	//使用加息卷
+	$("#rateSign").val($(".addRate").attr("data-v"));
+	var cost = $(".addRate").attr('ids');
+	if(typeof cost != 'undefined' ){
+		cost="";
+	}
+
+	#{if bid?.user_id==currUser?.id}
+		var selfBid = 'true';
+	#{/if}
+	#{else}
+		var selfBid = 'false';
+	#{/else}
+	if(selfBid=='true'){
+		weakDialog('不能投资自己的借款项目!');
+		return false;
+	}
+	
+	if(parseInt(buy_type)==1){//按金额购买
+		if(investAmount==null || investAmount=='' || investAmount==undefined){
+			weakDialog('请输入购买金额!');
+			return false;
+		}
+		//可投金额大于起购金额时，投资金额必须大于或等于起购金额
+		if(parseInt(bid_max_invest)>=parseInt(bid_min_invest)){
+			if(parseInt(bid_min_invest)>parseInt(investAmount)){
+				weakDialog('不能小于最低购买金额!');
+				return false;
+			}
+		}else{
+			if(parseInt(bid_max_invest)!=parseInt(investAmount)){
+				weakDialog('请全部投完!');
+				return false;
+			}
+		}
+		if(parseInt(bid_max_invest)<parseInt(investAmount)){
+			weakDialog('不能大于可投金额!');
+			return false;
+		}
+		if(parseFloat(userBalance)<parseFloat(investAmount)){
+			weakDialog('可用金额不足!');
+			return false;
+		}
+	}else if(parseInt(buy_type)==2){//按份数购买
+		if(investAmount==null || investAmount=='' || investAmount==undefined){
+			weakDialog('请输入购买份数!');
+			return false;
+		}
+		var lostCopies = parseInt(bid_max_invest)/parseInt(bid_min_invest);//剩余可投份数
+		if(parseInt(investAmount)>parseInt(lostCopies)){
+			weakDialog('购买份数超出!');
+			return false;
+		}
+		var investAmt = parseInt(investAmount)*parseInt(bid_min_invest);//投资金额
+		if(parseFloat(userBalance)<parseFloat(investAmt)){
+			weakDialog('可用余额不足!');
+			return false;
+		}
+	}else{
+		return false;
+	}
+    $('.tc1').dialog();
+    $("#invest_bid").submit();
+    #{/else}
+}
+</script>

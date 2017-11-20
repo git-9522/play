@@ -1,0 +1,38 @@
+
+<table class="account-table" width="100%">
+	<tr height="46">
+		<th>编号</th>
+		<th>积分场景</th>
+		<th>发生时间</th>
+		<th>明细科目</th>
+		<th>积分</th>
+	</tr>
+	
+	#{if pageBean.page}
+		#{list items:pageBean.page,as:'score'}
+			<tr height="56">
+				<td>${score_index}</td>
+				<td>${score?.getDeal_type().value}</td>
+				<td>${score?.time?.format(common.constants.Constants.DATE_PLUGIN)}</td>
+				<td>${score?.summary}</td>
+				<td>
+					#{if score?.getDeal_type().equals(models.common.entity.t_score_user.DealType.INCOME)}
+					+
+					#{/if}
+					#{else}
+					-
+					#{/else}
+					${score?.score?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}
+				</td>
+			</tr>
+		#{/list}
+	#{/if}
+</table>
+#{if pageBean?.page}
+	#{frontPageTag page:pageBean,showPage:'listOfScoreRecordsPre' /}
+#{/if}
+#{else}
+	<div class="norecord-box c9">
+		暂无记录
+	</div>
+#{/else}

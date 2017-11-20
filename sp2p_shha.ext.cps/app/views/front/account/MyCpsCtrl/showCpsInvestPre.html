@@ -1,0 +1,39 @@
+<div class="q-tcbg tc2" ></div>
+<div class="q-tcdiv q-tcdiv02 tc2" >
+<div class="q-tctop">
+	<p>投资记录</p>
+	<p id='errorInfo2' style="color:red"></p>
+	<img class="q-close" src="/public/front/images/close.png"/>
+	<input type="hidden" id="cpsSign" value="${cpsSign}">
+</div>
+<div class="q-tcbtm" >
+			<table class="q-dztab">
+				<tr>
+					<th >投资人</th>
+					<th >投资标的</th>
+					<th >投资时间</th>
+					<th >投资金额</th>
+				</tr>
+				#{if page?.page}
+				#{list items:page?.page,as:'invest'}
+				<tr>
+					<td>${invest?.userName}</td>
+					<td>${invest?.bidTitle}</td>
+					<td >${invest?.time?.format(common.constants.Constants.DATE_TIME_FORMATE)}</td>
+					<td >${invest?.investAmt?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}</td>
+				</tr>
+				#{/list}
+				#{/if}
+			</table>
+			#{frontPageTag page:page,showPage:'showCpsInvest' /}
+		</div>
+</div>
+<script>
+require(['front'],function(front){
+		$(".q-close").click(function(){
+			$(".tc1,.tc2").hide();
+		});
+});
+
+	
+</script>

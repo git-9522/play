@@ -1,0 +1,143 @@
+#{extends 'back/spread/ActivityCtrl/reversalActivityMain.html' /}
+	#{set title:'推广 | 翻牌活动 | 翻牌规则' /}
+	#{set smallclass:2 /}
+	#{set crumbs:'推广>翻牌活动>翻牌规则'/}
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<!-- 搜索按钮，控制搜索条件的显示隐藏 -->
+		<div class="back-search left #{if id || level }selected#{/if}">
+			<i class="iconfont searchicon">&#xe60a;</i>搜索<i class="iconfont arrowicon">&#xe603;</i>
+		</div>
+		
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			#{rightMng rightId:710002}
+			<a href="@{back.spread.ActivityCtrl.addReversalRulePre}"><b class="iconfont">&#xe631;</b>添加</a>
+			#{/rightMng}
+		</div>
+	</div>
+	<!-- 搜索条件，默认隐藏 -->
+	<div class="back-search-option" #{if id || level }style="display: block;"#{/if}>
+		<form action="@{back.spread.ActivityCtrl.showReversalRulesPre}" method="GET" id="showReversalRules">
+			<input type="hidden" id="currPage" name="currPage"/>
+	  		<input type="hidden" id="pageSize" name="pageSize" value="${pageBean?.pageSize}"/>
+	  		
+	  		<input type="text" class="iffocus" placeholder="编号" name="id" value="${id}" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" data-title="输入数字编号"/> 
+	  		<input type="text" class="iffocus" placeholder="规则等级" name="level" value="${level}" maxlength="15"/>
+	  		<input type="submit" class="bgbtn" value="搜索" />
+		</form>
+	</div>
+	<div class="back-cont">
+		<div class="back-box">
+			<table width="100%" class="back-table table-fixed">
+				<tr height="40">
+					<th width="70" class="align-left">
+						<span class="back-order">
+							编号
+						</span>
+					</th>
+					<th>创建时间</th>
+					<th>规则等级</th>
+					<th>中奖概率</th>
+					<th>单笔最低投资</th>
+					<th>单笔最高投资</th>
+					<th width="140">操作</th>
+				</tr>
+				#{if pageBean?.page}
+					#{list pageBean?.page}
+					<tr height="40">
+						<td class="align-left">
+							<label><input type="checkbox" class="back-tdcheck" />${_?.id}</label>
+						</td>
+						<td>
+							${_?.time.format(common.constants.Constants.DATE_PLUGIN)}
+						</td>
+						<td>
+							${_?.level}
+						</td>
+						<td>
+							${_?.probability}
+						</td>
+						<td>
+							#{ifnot _?.min < 0} 
+							${_?.min?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}元
+							#{/ifnot}
+							#{else}
+							无限制
+							#{/else}
+						</td>
+						<td>
+							#{ifnot _?.max < 0} 
+							${_?.max?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}元
+							#{/ifnot}
+							#{else}
+							无限制
+							#{/else}
+						</td>
+						<td class="back-handle">
+						#{rightMng rightId:710002}
+							<a href="@{back.spread.ActivityCtrl.editReversalRulePre(_?.sign)}" data-title="编辑" class="iconfont">&#xe602;</a>
+						#{/rightMng}
+						#{rightMng rightId:710002}
+							<a href="javascript:delRule('${_?.id}','${_?.sign}');" data-title="删除" class="iconfont"	>&#xe601;</a>
+						#{/rightMng}
+						</td>
+					</tr>
+					#{/list}
+					<!-- 表格数据统计 -->
+					<tr height="40">
+						<td colspan="7" class="back-lasttd">
+							<span class="back-choose left">
+								<input type="button" id="chooseAll" value="全选" />
+								<input type="button" id="chooseReverse" value="反选" />
+							</span>
+							<p class="back-table-totle left">
+							</p>
+						<!-- 分页组件 -->
+						#{backPageTag page:pageBean,showPage:"showReversalRules"/}
+						</td>
+					</tr>
+				#{/if}
+				#{else}
+					<tr height="58">
+						<td colspan="7" class="back-nodata"><i class="iconfont">&#xe613;</i>暂无记录</td>
+					</tr>
+				#{/else}
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		// 搜索 排序 选中
+		require(["search","linechecked"],function(){
+		});
+	});
+	function showReversalRules (currPage, pageSize) {
+		$("#currPage").val(currPage);
+		$("#pageSize").val(pageSize);
+		$("#showReversalRules").submit();
+	}
+	
+	//删除资讯 
+	function delRewards(id, sign){
+		confirm("编号"+id+"，执行删除",function(){
+			$.post('@{back.spread.ActivityCtrl.delReversalRule}',{sign:sign},function(data){
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				if(data.code<1){
+					alert(data.msg);
+					return;
+				}
+				location.reload();
+			});
+		})
+	}
+</script>

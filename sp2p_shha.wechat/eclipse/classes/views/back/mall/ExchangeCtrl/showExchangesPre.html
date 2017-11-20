@@ -1,0 +1,143 @@
+#{extends 'back/mall/ScoreCtrl/mailMain.html' /}
+	#{set title:'积分商城 | 实物派送' /}
+	#{set smallclass:2 /}
+	#{set crumbs:'积分商城>实物派送'/}
+
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<div class="left back-usermenu">
+			<a href="@{back.mall.ExchangeCtrl.showExchangesPre()}"  class="selected">所有</a>
+		</div>
+		
+		<!-- 搜索按钮，控制搜索条件的显示隐藏 -->
+		<div class="back-search left #{if numNo || goodsName }selected#{/if}">
+			<i class="iconfont searchicon">&#xe60a;</i>搜索<i class="iconfont arrowicon">&#xe603;</i>
+		</div>
+	</div>
+	<!-- 搜索条件，默认隐藏 -->
+	<div class="back-search-option" #{if numNo || goodsName }style="display: block;"#{/if}>
+		<form action="@{back.mall.ExchangeCtrl.showExchangesPre()}" method="GET" id="showExchangesPre">
+			<input type="hidden" id="currPage" name="currPage"/>
+	  		<input type="hidden" id="pageSize" name="pageSize" value="${pageBean?.pageSize}"/>
+	  		<input type="hidden" id="exports" name="exports"/>
+	  		
+	  		<input type="text" class="iffocus" placeholder="编号" name="numNo" value="${numNo}" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" data-title="输入数字编号"/> 
+	  		<input type="text" class="iffocus" placeholder="商品名称" name="goodsName" value="${goodsName}" maxlength="15"/>
+	  		<input type="submit" class="bgbtn" value="搜索" />
+		</form>
+	</div>
+	<div class="back-cont">
+		<div class="back-box">
+			<table width="100%" class="back-table table-fixed">
+				<tr height="40">
+					<th width="70" class="align-left">
+						<span class="back-order">
+							编号
+						</span>
+					</th>
+					<th>用户名</th>
+					<th>兑换物品</th>
+					<th>兑换日期</th>
+					<th>购买数量</th>
+					<th>所需积分</th>
+					<th>收货地址</th>
+					<th width="80">状态</th>
+					<th width="140">操作</th>
+				</tr>
+				#{if pageBean?.page}
+					#{list pageBean?.page}
+					<tr height="40">
+						<td class="align-left">
+							<input type="hidden" id="bidId" value="${_?.id}" name="goodsId"/>
+							<label><input type="checkbox" class="back-tdcheck" />${_?.id}</label>
+						</td>
+						<td>
+							${_?.user_name}
+						</td>
+						<td>
+							${_?.goods_name}
+						</td>
+						<td>
+							${_?.exchange_time?.format(common.constants.Constants.DATE_TIME_FORMATE)}
+						</td>
+						<td>
+							${_?.exchange_num}
+						</td>
+						<td>
+							${_?.spend_scroe}
+						</td>
+						<td>
+							#{if _?.address != '' && _?.address != null}
+								${_?.address}
+							#{/if}
+							#{else}
+								<span title="请客服联系客户">— —</span>
+							#{/else}
+						</td>
+						<td>
+							${_?.getStatus().value}
+						</td>
+						<td class="back-handle">
+						#{if _?.getStatus().code == 0}
+							#{rightMng rightId:1104002}
+								<a href="@{back.mall.ExchangeCtrl.toDeliveryPre(_?.sign)}"  >派送</a>
+							#{/rightMng}
+						#{/if}
+						#{else}
+							<a href="@{back.mall.ExchangeCtrl.toDeliveryDetailPre(_?.sign)}">详情</a>
+						#{/else}
+						
+							
+						</td>
+					</tr>
+					#{/list}
+					<!-- 表格数据统计 -->
+					<tr height="40">
+						<td colspan="9" class="back-lasttd">
+							<span class="back-choose left">
+								<input type="button" id="chooseAll" value="全选" />
+								<input type="button" id="chooseReverse" value="反选" />
+							</span>
+							<p class="back-table-totle left">
+							</p>
+						<!-- 分页组件 -->
+						#{backPageTag page:pageBean,showPage:"showExchangesPre"/}
+						</td>
+					</tr>
+				#{/if}
+				#{else}
+					<tr height="58">
+						<td colspan="9" class="back-nodata"><i class="iconfont">&#xe613;</i>暂无记录</td>
+					</tr>
+				#{/else}
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		// 搜索 排序 选中
+		require(["search","linechecked"],function(){
+		});
+	});
+	function showExchangesPre (currPage, pageSize) {
+		$("#currPage").val(currPage);
+		$("#pageSize").val(pageSize);
+		
+		$("#showExchangesPre").submit();
+	}
+	
+	function exportList(expor){
+		$("#exports").val(expor);
+		$("#showType").val(${showType});
+		
+		$("#showExchangesPre").submit();
+		
+	}
+	
+</script>

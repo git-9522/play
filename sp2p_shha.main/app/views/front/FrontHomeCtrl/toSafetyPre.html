@@ -1,0 +1,132 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: 信息披露/}
+#{set smallclass:0 /}
+#{set AItem:5 /}
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/inAll.css">
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/aboutUs.css" />
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/information.css">
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/jquery.fancybox.css" media="screen" />
+<div class="section">
+<div class="ne_about_seat">您当前所在的位置：虹金所 > 信息披露</div>
+        <div class="ne_about_cen clearfix">
+            <dl class="ne_about_nav left bgf">
+                <dt>信息披露</dt>
+               	<dd class="ne_about_act">安全保障</dd>
+                <dd>运营数据</dd>
+                <dd>存管报告</dd>
+            </dl>
+            <ul class="ne_about_main right bgf">
+                <li class="about_act ne_ic">
+                    <img src="/public/front/images/ne-safe-bg1.jpg" alt="">
+                    <div class="ne_ic1">
+                        <img src="/public/front/images/ne-safe-bg2.jpg" alt="">
+                        <a href="@{front.FrontHomeCtrl.bankDepositPre()}">了解银行存管>></a>
+                    </div>
+                    <img src="/public/front/images/ne-safe-bg3.jpg" alt="">
+                    <img src="/public/front/images/ne-safe-bg4.jpg" alt="">
+                    <img src="/public/front/images/ne-safe-bg5.jpg" alt="">
+                    <img src="/public/front/images/ne-safe-bg6.jpg" alt="">
+                </li>
+                <li>
+                   <div class="info_report">
+                        <div class="gai_about clearfix">
+                            <p>
+                                累计注册
+                                #{list items:jobs.IndexStatisticsJob.userCount+"",as:'tm'}
+								<span>${tm}</span>
+								#{/list}
+                                人
+                            </p>
+                            <p>
+                                累计成交额 
+             		#{formatHTMLShortMoney money:jobs.IndexStatisticsJob.totalBorrowAmount /}元
+                            </p>
+                            <p>
+                                为理财人赚取收益
+                              #{formatHTMLShortMoney money:jobs.IndexStatisticsJob.income /}元
+                            </p>
+                        </div>
+                        <h3 class="fs18 c6 mt20 lh50">平台运营报告</h3>
+                        <p class="fs14 c6 lh25 mt10">说明:</p>
+                        <p class="fs14 c6 lh25">为进一步加强平台透明化建设与信息公示披露，虹金所将定期推出运营<span class="corange">月报、季报、半年报、年报，</span>欢迎查看！</p>
+                        <ul class="info_report_list clearfix">
+                            <li class="report_list_act">
+                                <p>2017</p>
+                                <span></span>
+                            </li>
+<!--                             <li> -->
+<!--                                 <p>2016</p> -->
+<!--                                 <span></span> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <p>2015</p> -->
+<!--                                 <span></span> -->
+<!--                             </li> -->
+                        </ul>
+                        <div id="info_report">
+                       	<!--  运营报告 -->
+                        </div>
+                    </div>
+                </li>
+                <li>
+                   <div class="ne_yh clearfix">
+                        <a class="fancybox" href="/public/front/images/ne-yh1-2.jpg" data-fancybox-group="gallery" title="Lorem ipsum dolor sit amet"><img src="/public/front/images/ne-yh1-1.jpg" alt=""></a>
+                        <a class="fancybox" href="/public/front/images/ne-yh2-2.jpg" data-fancybox-group="gallery" title="Lorem ipsum dolor sit amet"><img src="/public/front/images/ne-yh2-1.jpg" alt=""></a>
+                        <a class="fancybox" href="/public/front/images/ne-yh3-2.jpg" data-fancybox-group="gallery" title="Lorem ipsum dolor sit amet"><img src="/public/front/images/ne-yh3-1.jpg" alt=""></a>
+                        <a class="fancybox" href="/public/front/images/ne-yh4-2.jpg" data-fancybox-group="gallery" title="Lorem ipsum dolor sit amet"><img src="/public/front/images/ne-yh4-1.jpg" alt=""></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+        <!-- 信息披露 添加 -->
+<script  type="text/javascript" src="/public/front/javascripts/jquery-1.8.2.min.js"></script>
+   <script type="text/javascript">
+   	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}
+	
+	require(['front'],function(front){
+		require(['jquery.fancybox','jquery.mousewheel'],function(){
+		  $('.fancybox').fancybox();
+		})
+            $('.ne_about_nav>dd').click(function(){ $(this).addClass('ne_about_act').siblings().removeClass('ne_about_act');
+                $('.ne_about_main>li').eq($(this).index()-1).addClass('about_act').siblings().removeClass('about_act');
+                if($(this).index()==2){
+                	loadMoreInfos(1);
+                }
+                
+            })
+            var id=getQueryString("id");
+            if(id){
+            	switch(id){
+            		case "1":
+            			 $('.ne_about_nav>dd').eq(1).click();
+            		break;
+            		case "2":
+            			 $('.ne_about_nav>dd').eq(2).click();
+            		break;
+            		default:
+            			 $('.ne_about_nav>dd').eq(0).click();
+            		break;
+            	}
+            }
+             
+        })
+        function loadMoreInfos(currPage){
+		$.ajax({
+			url : "@{front.InformationCtrl.showInfoReportsPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : 4,
+			},
+			success : function(data) {
+				$("#info_report").html(data);
+			}
+		});
+	}
+    </script>

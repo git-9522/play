@@ -1,0 +1,52 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: 信息披露/}
+#{set smallclass:0 /}
+#{set AItem:5 /}
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/aboutUs.css" />
+<div class="section">
+        <div class="ne_about_cen clearfix">
+            <dl class="ne_about_nav left bgf">
+                <dt>关于我们</dt>
+               	<dd class="ne_about_act">公司介绍</dd>
+                <dd>媒体报道</dd>
+                <dd>荣誉证书</dd>
+                <dd>发展历程</dd>
+                <dd>合作伙伴</dd>
+                <dd>加入我们</dd>
+                <dd>联系我们</dd>
+            </dl>
+            <ul class="ne_about_main right bgf">
+                <li class="about_act">
+                    1
+                </li>
+                <li>
+                    2
+                </li>
+                <li>
+                    3
+                </li>
+                <li>
+                    4
+                </li>
+                <li>
+                    5
+                </li>
+                <li>
+                    6
+                </li>
+                <li>
+                    7
+                </li>
+                <li>
+                    8
+                </li>
+            </ul>
+        </div>
+    </div>
+   <script type="text/javascript">
+	require(['front'],function(front){
+            $('.ne_about_nav>dd').click(function(){ $(this).addClass('ne_about_act').siblings().removeClass('ne_about_act');
+                $('.ne_about_main>li').eq($(this).index()-1).addClass('about_act').siblings().removeClass('about_act');
+            })
+        })
+    </script>

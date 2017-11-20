@@ -1,0 +1,27 @@
+#{list pageBean?.page}
+    <li onclick="location.href='@{wechat.front.DebtCtrl.debtWechatPre(_?.id)}'">
+ 		 <h3 class="xf-disperse-titile">${_?.debt_transfer_no}&nbsp;${_?.title}</h3>
+			<div class="flex">
+				<div class="flex-1 xf-index-detail">
+					<div class="product-list flex">
+						<span class="assistant"><em class="f16">${_?.debt_amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</em>元</span>
+						<span class=""><em class="c333">${_?.period}期</em></span>
+						<span class="flex-1"><em class="c333">#{formatIntMoney money:_?.transfer_price /}元</em></span>
+					</div>
+					<div class="product-list flex">
+						<span class="c999">债权总额</span>
+						<span class="c999">转让期数</span>
+						<span class="flex-1 c999">转让价格</span>
+					</div>
+				</div>
+				#{if models.core.entity.t_debt_transfer.Status.AUCTING.equals(_?.status) && sysNowTime?.compareTo(_?.end_time) == -1}
+					<a href="@{wechat.front.DebtCtrl.debtWechatPre(_?.id)}" class="btn product-btn">抢购</a>
+				#{/if}
+				#{else}
+					<a href="javascript:void(0)" class="graybtn product-btn">已售完</a>
+				#{/else}
+			</div>
+    </li>
+#{/list}
+<input type="hidden" id="investCurrpage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="totalPageCount" value="${pageBean?.totalPageCount}"/>

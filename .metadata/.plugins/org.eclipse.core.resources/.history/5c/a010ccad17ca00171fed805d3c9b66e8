@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>我的-虹金所</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link href="@{'/public/wechat/newedition/css/reset.css'}" type="text/css" rel="stylesheet">
+<link href="@{'/public/wechat/newedition/css/style.css'}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="@{'/public/wechat/newedition/js/jquery-1.8.3.min.js'}"></script>
+</head>
+
+<body style="background:#f8f8f8">
+<div class="header header3" style="display:block;"> <span class="title_name">我的</span><span class="title_right"><!-- 消息 --></span> </div>
+<div class="content2">
+  <div class="my_header clearfix">
+    <p class="my_header_photo"><img src="@{'/public/wechat/newedition/images/icon/my-photo.png'}"></p>
+    <div class="my_header_message">
+   <!--    <p>昵称<span class="vip">V1</span>3000积分</p> -->
+      <p>${currUser?.getTelName()}</p>
+    </div>
+    <a href="@{wechat.front.account.MySecurityCtrl.securityPre()}" class="my_header_icon"></a> </div>
+  <div class="my_money clearfix">
+    <div class="my_money_l"> 可用金额<br>
+      <span>${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span></div>
+    <ul class="my_money_r">
+      <li class="r1"><a href="@{wechat.front.account.MyAccountCtrl.toRechargePre()}">充&nbsp;值</a></li>
+      <li class="r2"><a href="@{wechat.front.account.MyAccountCtrl.toWithdrawPre()}">提&nbsp;现</a></li>
+    </ul>
+  </div>
+  <div class="my_award">
+    <h2>我的奖励</h2>
+    <ul class="my_award_down clearfix">
+      <li><a href="@{wechat.front.account.MyRewardCtrl.showMyRedPacketPre()}">红包<br>
+        <span>${totalUserRedPacket?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span></a></li>
+      <span class="dian"></span>
+      <li><a href="@{wechat.front.account.MyRewardCtrl.showMyCashPre()}">现金券<br>
+        <span>${cashSum?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span></a></li>
+      <span class="dian"></span>
+      <li><a href="@{wechat.front.account.MyRewardCtrl.showMyRatesPre()}">加息券<br>
+        <span>${RateSum?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</span><i>%</i></a></li>
+      <span class="dian"></span>
+      <li><a href="@{wechat.front.IntegralMallCtrl.showMallPre()}">虹银<br>
+        <span>${scoreBalance?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}</span><i></i></a></li>
+    </ul>
+  </div>
+  #{if exp}
+ <a href="#{if exp?.is_use==0}@{wechat.front.ActivityCtrl.expGoldPre()}#{/if}"> <p class="bbin">体验金&nbsp;&nbsp;&nbsp;${exp?.amount}元 <span>#{if exp?.is_use==0}未使用#{/if}#{else}已使用#{/else}</span><i class="bbin_right"></i> </p></a>
+  #{/if}
+  <div class="my_icon">
+    <ul>
+      <li><a href="@{wechat.front.account.MyReceiveBillCtrl.toReceiveBillPre}"><i class="m_btn m_btn1"></i>回款计划</a></li>
+      <li><a href="@{wechat.front.account.MyFundCtrl.accountManagePre()}"><i class="m_btn m_btn2"></i>资产管理</a></li>
+      <li style="border:none;"><a href="@{wechat.front.account.MyDealCtrl.toDealRecordsPre()}"><i class="m_btn m_btn3"></i>交易记录</a></li>
+    </ul>
+  </div>
+  <div class="my_about">
+   <a href="@{wechat.front.WechatHomeCtrl.contactusPre()}"> <p class="ab">关于虹金所<i class="my_about_right"></i></p></a>
+   <a href="@{wechat.front.WechatHomeCtrl.wechatSettingPre()}"> <p class="ab" style="border:none;">设置<!-- <span class="message_ico"></span> --><i class="my_about_right"></i></p></a>
+  </div>
+</div>
+<!--底部  st-->
+<div id="bottom">
+  <div class="order_list clearfix">
+    <ul>
+      <li><a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}"><span class="or or1"></span>
+        <p>虹金所</p>
+        </a></li>
+      <li><a href="@{wechat.front.InvestCtrl.toWechatInvestPre()}"><span class="or or2"></span>
+        <p>出借</p>
+        </a></li>
+      <li><a href="@{wechat.front.DiscoverCtrl.goDiscoverPre()}"><span class="or or3"></span>
+        <p>发现</p>
+        </a></li>
+      <li class="on"><a href="javascript:void(0)"><span class="or or4 or4_hover"></span>
+        <p>我的</p>
+        </a></li>
+    </ul>
+  </div>
+</div>
+<!--底部  ed--> 
+<script type="text/javascript">
+/**底部js**/
+$(function(){
+	$(".order_list a").click(function(){
+		$(this).css("color","#ff5256");
+		$(this).parent().siblings().find("a").css("color","#4c4c4c");
+		$(this).children(".or").css("background-position-y","-25px");
+		$(this).parent().siblings().find(".or").css("background-position-y","0")
+	});
+	
+});
+</script>
+</body>
+</html>

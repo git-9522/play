@@ -1,0 +1,322 @@
+#{extends 'common/back/riskMain.html' /}
+#{set title:'风控 | 合作机构' /}
+#{set smallclass:3 /}
+#{set crumbs:'风控> 合作机构'/}
+	
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">添加合作机构</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.risk.AgencyMngCtrl.showAgencyPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.risk.AgencyMngCtrl.addAgency()}" method="POST" id="formAddAgency">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">机构信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">机构名称：</span>
+					<div class="liright">
+						<input type="text" autofocus="autofocus" class="width01 iffocus" maxlength="10" placeholder="请输入机构名称" value="${flash?.name}" name="name"/>
+						<span class="back-text-limit">2~10个字符</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">营业执照：</span>
+					<div class="liright">
+						<span class="back-imgarea">
+							<!-- 没有上传图片 -->
+							#{if flash?.business_license_img == null || flash?.business_license_img == ""}
+								<span class="back-noimg" title="您还没有上传图片"></span>
+							#{/if}
+							#{else}
+								<!-- 上传图片后隐藏back-noimg显示img-->
+								<img src="${flash?.business_license_img}" onerror="this.src='/public/common/default.jpg'"  class="backupimg" height="100" width="200" id='image' name="image" alt="" title="" />
+							#{/else}
+						</span>
+						<input type="hidden" id="imgurl" name="business_license_img" value="${flash?.business_license_img}">
+						<span class="back-upimg">
+							<label class="back-upbtn">
+								<input type="file" class="upload_file" accept=".jpg,.jpeg,.png,.gif" value="" name="imgFile" id="imgFile" onchange="upload()"/>
+								<i class="iconfont">&#xe608;</i>本地上传
+							</label>
+							
+							<label class="back-lib-upbtn back-cropbtn" onclick="cropImg(1920,400,1);" id="cropImgLabel" style="display: none;">
+								<b class="iconfont">&#xe642;</b>裁剪
+							</label>
+								
+								
+							<label class="back-lib-upbtn">
+								<!-- <b class="iconfont">&#xe634;</b>从素材库中选择 -->
+							</label>
+							<p class="back-imginfor-note">1920*400&nbsp;jpg/png&nbsp;大小不超过2M</p>
+							<div class="back-upload-imginfor">
+								<span id="resolutionshow">&nbsp;</span><span id="formatshow">&nbsp;</span><span id="sizeshow">&nbsp;</span>
+							</div>
+							<!-- 图片参数，用于保存 -->
+						 	<input type="hidden" id="imageResolution" name="" value="${flash?.image_resolution}">
+							<input type="hidden" id="imageSize" name="" value="${flash?.image_size}">
+							<input type="hidden" id="imageFormat" name="" value="${flash?.image_format}"> 
+						</span>
+					</div>
+				</li>
+				<li  >
+					<span class="lileft">组织机构代码：</span>
+					<div class="liright">
+						<input type="text" class="width01 iffocus" id="organization_code" name="organization_code"   placeholder="请输入组织机构代码" value="${flash?.organization_code}" maxlength="9" />
+						<span class="back-text-limit"></span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">机构介绍：</span>
+					<div class="liright">
+							<textarea class="back-textarea back-borrowintro "  maxlength="500" name="introduction" id="introduction">${flash?.introduction}</textarea>
+						<span class="back-text-limit">
+							20~500个字符
+						</span>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+            <input type="hidden" id="service_fee_rule" name="service_fee_rule" value=""/>
+            <input type="hidden" id="audit_subjects" name="audit_subjects" value=""/>
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.mall.RewardsCtrl.showRewardsPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+
+<!-- 图片裁切弹窗 begin -->
+<div class="dialog crop-dialog">
+	<div class="dialog-bg"></div>
+	<div class="dialog-cont">
+		<div class="dialog-head">
+			<span class="left">图片裁剪</span>
+			<a href="javascript:void(0);" class="dialog-close hover-green" id="dialogClose">×</a>
+		</div>
+		<div class="crop-box">
+			<div class="clearfix">
+				<div class="crop-img">
+					<img src="" id="cropimg" />
+				</div>
+				<div class="crop-right">
+					<div class="crop-preview">
+						<div class="preview-container">
+							<img src="" />
+						</div>
+					</div>
+					<ul class="crop-handle">
+						<li><label class=""><input type="radio" id="maxSize" name="cropsize" />最大尺寸</label></li>
+						<li><label class=""><input type="radio" id="standardSize" name="cropsize" />标准尺寸</label></li>
+					</ul>
+				</div>
+			</div>
+			<p class="back-audit-btns">
+				<input type="button" value="保存" class="bgbtn" onclick="saveCropImg(cropImgSuccess)">
+				<input type="button" value="取消" class="bdbtn dialog-console">
+			</p>
+			<input type="hidden" id="x"/>
+			<input type="hidden" id="y"/>
+			<input type="hidden" id="w"/>
+			<input type="hidden" id="h"/>
+			<input type="hidden" id="imageType" /><!-- 图片格式 -->
+			<input type="hidden" id="cutType" /><!-- 图片类型 -->
+		</div>
+	</div>
+</div>
+<!-- 图片裁切弹窗 end -->
+
+
+<!-- 素材库弹窗 -->
+#{imgLib /}
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		//日期时间组件
+		require(["datatime"]);
+		
+		//效验组件
+		require(["validation/validateExt"]);
+		//上传组件
+		require(["ajaxfileupload"]);
+		
+		$("#formAddAgency").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				}else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"name": {
+					required: true,
+					rangelength: [2,10]
+				},
+				/* "organization_code":{
+					required: true,
+					maxlength: 9
+				},
+				"introduction":{
+					required:true,
+					rangelength:[20,500]
+				} */
+			},
+			messages: {
+				"name": {
+					required: "请输入机构名称",
+					rangelength: "机构名称长度在2~10之间"
+				},
+				/* "organization_code": {
+					required: "请输入组织机构代码"
+				}, */
+			},
+			submitHandler:function(form){
+				
+				/* if($("#imgurl").val()=='' || $("#imgurl").val()==undefined || $("#imgurl").val()==null){
+					alert("请上传营业执照图片!");
+					return false;
+				} */
+			
+	            form.submit();
+	        }
+		});
+		
+	});
+
+	
+	function upload(){
+		var fileId = "imgFile";
+		var file = $("#" + fileId).val();
+		var pos = file.lastIndexOf("\\");
+		var fileName = file.substring(pos + 1);
+		
+		$.ajaxFileUpload({
+			url : '@{back.risk.AgencyMngCtrl.uploadImage()}',
+			secureuri : false,
+			fileElementId : fileId,
+			data:{
+				"fileName":fileName
+			},
+			dataType : 'json',
+			success : function(result) {
+				if(result.code == 1){
+					var data = result.obj;
+					var html = "<img src='"+data.staticFileName+"' onclick='javascript:$(this).preview()'  onerror="+'"this.src='+"'/public/common/default.jpg'"+'"'+ " class='backupimg' height='100' width='200' id='image' name='image' alt='' title='' />";
+					$(".back-imgarea:first").html(html);
+					$("#image").attr("src", data.staticFileName);
+					$("#imageSize").val(data.size+"kb");
+					$("#imageFormat").val(data.fileSuffix);
+					$("#imageResolution").val(data.imageResolution);
+					$("#resolutionshow").html(data.imageResolution+"&nbsp;");
+					$("#formatshow").html(data.fileSuffix+"&nbsp;");
+					$("#sizeshow").html(data.size+"kb");
+					$("#imgurl").val(data.staticFileName);
+					$("#cropImgLabel").show();
+				} else {
+					alert(result.msg);
+				}
+			}
+		})
+	}
+	
+	//图片裁剪
+	function cropImg(width, height, cutType){
+		$("#cutType").val(cutType);
+		var size = new Array(width, height);
+		var src,imageType;
+		if(cutType == 1) {
+			src = $("#imgurl").val();
+			imageType = $("#imageFormat").val();//头像图片后缀
+		} else if(cutType == 2) {
+			src = $("#imgAppurl").val();
+			imageType = $("#imageAppFormat").val();//二维码图片后缀
+		}
+		var src = src +'?t=' + new  Date().getTime();
+		$('.crop-dialog').dialog();
+		var image = new Image();
+		image.src = src;
+		image.onload = function(){
+			require(["imgcrop"],function(crop){
+				$('.crop-img,.preview-container').find('img').attr('src',src);
+				$('#imageType').val(imageType);
+				$("input[name='cropsize']").val([]);
+				crop(size);
+			});
+		}
+	}
+
+
+	function saveCropImg(callback){
+		$.ajax({
+			url : '@{common.BackBaseController.imageCrop()}',
+			type: 'POST',
+			data : {
+				'imgSrc' : $("#cropimg").attr('src'),
+				'x' : $("#x").val(),
+				'y' : $("#y").val(),
+				'w' : $("#w").val(),
+				'h' : $("#h").val(),
+				'imageType' : $("#imageType").val(),
+				'createNewImg' : true
+			},
+			success : function(data){
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					alert(data.msg);
+					return;
+				}
+				
+				if (callback) {
+					callback(data.obj);
+				}
+				$("#dialogClose").trigger('click');
+				weakDialog('裁剪成功!');
+			}
+		});
+	}
+
+
+	//图片裁剪成功，回调函数 
+	var cropImgSuccess = function(data) {
+		var cutType = $("#cutType").val();
+		if(cutType == 1) {//头像裁剪
+			$("#image").attr("src", data.staticFileName);
+			$("#imgurl").val(data.staticFileName);
+			$("#imageSize").val(data.size+"kb");
+			$("#imageResolution").val(data.imageResolution);
+			$("#resolutionshow").html(data.imageResolution);
+			$("#sizeshow").html(data.size+"kb");
+		} else if(cutType == 2) {//二维码裁剪
+			$("#imageApp").attr("src", data.staticFileName);
+			$("#imgAppurl").val(data.staticFileName);
+			$("#imageAppSize").val(data.size+"kb");
+			$("#imageAppResolution").val(data.imageResolution);
+			$("#resolutionAppshow").html(data.imageResolution);
+			$("#sizeAppshow").html(data.size+"kb");
+		}
+	}
+    
+</script>

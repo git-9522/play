@@ -1,0 +1,34 @@
+#{if userLoanDetail}
+<li class="flex">
+  	<div>借款金额</div>
+   	<div class="flex-1 tr"> ${userLoanDetail?.amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+</li>
+<li class="flex">
+   	<div>年利率 </div>
+   	<div class="flex-1 assistant tr"> <span class="f18">${userLoanDetail?.apr}</span>%</div>
+</li>
+<li class="flex">
+   	<div>期限  </div>
+   	<div class="flex-1 tr"> ${userLoanDetail?.period}${userLoanDetail?.period_unit?.getShowValue()}</div>
+</li>
+<li class="flex">
+   	<div>还款方式  </div>
+   	<div class="flex-1 tr"> ${userLoanDetail?.repayment_type?.value}</div>
+</li>
+<li class="flex">
+   	<div>放款时间   </div>
+   	<div class="flex-1 tr">  ${userLoanDetail?.release_time?.format(common.constants.Constants.DATE_FORMATE)?:'----'}</div>
+</li>
+<li class="flex">
+   	<div>状态   </div>
+   	<div class="flex-1 tr">  ${userLoanDetail?.status?.value}</div>
+</li>
+<li class="tr">
+	#{if models.core.entity.t_bid.Status.REPAYING.equals(userLoanDetail?.status) || models.core.entity.t_bid.Status.REPAYED.equals(userLoanDetail?.status)}
+   		<a href="@{wechat.front.account.MyFundCtrl.showBidPactPre(userLoanDetail?.sign)}" class="contract2">合同</a>
+   	#{/if}
+   	#{else}
+   		<a class="contract2 gray">合同</a>
+   	#{/else}
+</li>
+#{/if}

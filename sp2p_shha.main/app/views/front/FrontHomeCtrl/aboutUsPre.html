@@ -1,0 +1,380 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: true/}
+#{set title: '虹金所公司简介地址电话_企业文化-关于我们-虹金所'/} 
+#{set keywords: '虹金所公司地址,虹金所企业文化,虹金所官方电话'/}
+#{set description: '虹金所是由上海虹奥金融信息服务有限公司(注册资金:10500万)运营的p2p网贷平台,总部位于上海松江,官方电话400-637-6969。'/}
+#{set smallclass:0 /}
+#{set AItem:4 /}
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/inAll.css">
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/aboutUs.css" />
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/financing.css" />
+ <style type="text/css">
+        body{
+          margin: 0;
+          padding: 0;
+          font-family: "Microsoft YaHei","微软雅黑";
+        }
+        .BMapLabel{
+          border: none !important;
+          background: #F77B0F !important;
+          padding: 5px !important;
+          color: #fff !important;
+          border-radius: 5px !important;
+          top: 0 !important;
+        }
+        .BMap_bubble_title{
+          color: #F77B0F !important;
+        }
+        .BMap_bubble_content{
+          font-size: 12px;
+          margin-top: 5px;
+        }
+    </style>
+<div class="section"  >
+<div class="ne_about_seat">您当前所在的位置：虹金所 > 关于我们</div>
+        <div class="ne_about_cen clearfix">
+            <dl class="ne_about_nav left bgf">
+                <dt>关于我们</dt>
+               	<dd class="ne_about_act">公司介绍</dd>
+                <dd data-key="showInfos">媒体报道</dd>
+                <dd data-key="showNotices">网站公告</dd>
+                <dd>荣誉证书</dd>
+                <dd>发展历程</dd>
+                <dd>合作伙伴</dd>
+                <dd>加入我们</dd>
+                <dd>联系我们</dd>
+            </dl>
+            <ul class="ne_about_main right bgf">
+                <li class="about_act">
+                                        <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">公司介绍</h3>
+                    </div>
+                    <div class="mt40" style="padding: 25px 33px 45px;border: 1px solid #e7e7e7;">
+                        <p class="fs14 c3 lh25" style="text-indent: 2em;">虹金所是由上海虹奥金融信息服务有限公司（注册地：上海自贸区，注册资金：一亿五百万）负责建设和运营的创新型在线金融信息<br />服务平台。依托多年线下财富运作和金融管理经验，平台聚集了丰富的优质资产项目和忠实客户群体，逐渐建立起一整套安全、规范的标<br />准化业务管理和风控体系，为其转型升级及强势崛起打下了坚实的基础。</p>
+                        <p class="fs14 c3 mt20 lh25" style="text-indent: 2em;">作为国内”互联网+”时代下专注于普惠金融领域的在线借贷撮合平台，虹金所主打车贷抵押业务，资产特点小额，分散，质押和直<br />营，将有融资需求的小微企业或个人与有富余理财资金的投资人进行在线信息配对，并结合线上线下内在资源优势，提供一系列与之相关<br />的配套服务。</p>
+                        <div class="master master1">
+                            <h3 class="ma_h1 c0">
+                                胡宏良<span>董事长</span>
+                            </h3>
+                            <div class="master_form1 master_form">
+                                <p>虹金所创始人，上海虹奥金融信息服务有限公司董事长。</p>
+                                <p>具备25年实业经营管理经验，6年以上金融投资从业经验。</p>
+                                <p>获北大总裁经济管理学院专修证书。其本人是一位理论与实践经验兼备的企业高级管理专家。</p>
+                                <p>准确把握和理解现下互联网金融发展趋势，调动各项产品服务资源，筹建独立财富管理团队。</p>
+                                <p>在从事实业和金融投资管理的工作实践中不断创造行业佳绩。</p>
+                            </div>
+                        </div>
+                        <div class="master master2">
+								<h3 class="ma_h2 c0">
+									<span>副总经理</span>李水林
+								</h3>
+								<div class="master_form2 master_form">
+									<p>拥有六年以上金融投资管理经验，尤其擅长线下财富门店的运营管理和品牌推广工作。</p>
+									<p>现任虹金所运营经理一职，主要负责计划、指导或协调公司所有运营活动。</p>
+									<p>还包括对物资和人力资源使用进行计划、审核财务报表、销售和业务报告。</p>
+									<p>除此以外，还负责制定并贯彻部门政策，宗旨，目标、流程及其他投资理财相关活动。</p>
+								</div>
+							</div>
+                        <div class="clearfix" style="margin-top: 30px;">
+                            <img style="display: block;width: 250px;height: 167px;" class="left" src="/public/front/images/about_new1.jpg" alt="">
+                            <img style="display: block;width: 250px;height: 167px;" class="left ml50" src="/public/front/images/about_new2.jpg" alt="">
+                            <img style="display: block;width: 250px;height: 167px;" class="right" src="/public/front/images/about_new3.jpg" alt="">
+                        </div>
+                    </div>
+                </li>
+                <li >
+                    <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">媒体报道</h3>
+                    </div>
+                    <div id="showInfos"></div>
+                </li>
+                 <li >
+                    <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">网站公告</h3>
+                    </div>
+                    <div id="showNotices"></div>
+                </li>
+                <li>
+                     <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">荣誉证书</h3>
+                    </div>
+                    <div class="clearfix mt30">
+                        <div class="left pb20" style="border: 1px solid #e7e7e7; border-bottom: 2px solid #ff5256;">
+                            <img src="/public/front/images/about_book1.png" alt="">
+                             <h3 class="fs16 c3 pt20 pl15" style="border-top: 1px solid #e7e7e7;">上海银行存管单位</h3>
+                                 <p class="pl15 pr15 c6 fs14 lh25 mt5" style="width: 410px; height: 110px;">截止2017年10月16日，平台上线上海银行存管后成交额已经突破一亿大关，目前平台总成交额为2亿672万元；虹金所平台负责人李水林女士表示“2017年是P2P关键的一年也是大浪淘沙的一年，虹金所将以积极的态度去接受各方面的挑战”。</p>
+                        </div>
+                        <div class="right pb20" style="border: 1px solid #e7e7e7; border-bottom: 2px solid #ff5256;">
+                            <img style="display: block;margin: 0 auto" src="/public/front/images/about_book2.png" alt="">
+                           <h3 class="fs16 c3 pt20 pl15" style="border-top: 1px solid #e7e7e7;">上海金融行业信息协会会员</h3>
+                            <p class="pl15 pr15 c6 fs14 lh25 mt5" style="width: 410px; height: 110px;">2017年10月，上海虹奥金融信息服务有限公司旗下网贷平台-虹金所，正式加入上海金融信息行业协会，成为协会会员单位。能够顺利加入上海金融信息行业协会这个大家庭，是虹金所不断努力与坚持的结果更是行业内对虹金所在网贷行业做出贡献的肯定。</p>
+                    </div>
+                    <div class="clearfix mt30">
+                        <div class="left pb20" style="border: 1px solid #e7e7e7; border-bottom: 2px solid #ff5256;">
+                            <img src="/public/front/images/about_book3.png" alt="">
+                             <h3 class="fs16 c3 pt20 pl15" style="border-top: 1px solid #e7e7e7;">上海信息化常务理事单位</h3>
+                            <p class="pl15 pr15 c6 fs14 lh25 mt5" style="width: 410px; height: 110px;">2017年2月，上海虹奥金融信息服务有限公司（简称：虹奥财富）正式加入《上海信息化》理事会，并荣幸的被聘任为该理事会的副理事长单位。</p>
+                        </div>
+                        <div class="right pb20" style="border: 1px solid #e7e7e7; border-bottom: 2px solid #ff5256;">
+                            <img style="display: block;margin: 0 auto" src="/public/front/images/about_book4.png" alt="">
+                     <h3 class="fs16 c3 pt20 pl15" style="border-top: 1px solid #e7e7e7;">中国互联网金融行业百强企业</h3>
+                            <p class="pl15 pr15 c6 fs14 lh25 mt5" style="width: 410px; height: 110px;">上海虹奥金融信息服务有限公司(以下简称:虹奥财富)荣获”中国互联网金融百强企业” ,为虹奥财富“融合天下财富,开创美好未来”的经营理念再添一笔精彩注脚。总经理胡宏良亲自出席并登台领奖,充分显示虹奥财富对此奖项的重视程度。</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">发展历程</h3>
+                    </div>
+                    <img class="ml25 mt35" src="/public/front/images/about_develop.png" alt="">
+                </li>
+                <li>
+                	 <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">合作伙伴</h3>
+                     </div>
+                     <div  id="showPartners"></div>
+                </li>
+                <li>
+                     <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">加入我们</h3>
+                    </div>
+                    <p class="c3 mt25 fs16">人才理念      培养核心人才，打造优势服务团队，共创美好未来！</p>
+                    <p class="c3 mt25 fs16">员工福利      五险一金，交通补贴，员工旅游还有高档办公写字楼！</p>
+                    <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">招聘岗位</h3>
+                    </div>
+                    <ul class="about_recruit">
+                        <li class="recruit_act">
+                            <p class="corange pt20 fs14">运营主管</p>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">职位描述：</p>
+                                <p class="left fs14 c3 lh25">重要的事情说三遍：只要你是优秀人才符合我司工作要求，丰厚的薪水等着你面议）<br />
+                                我们是一家金融公司注册资金为1.5亿网上均可查工商注册信息，主要是做P2P行业和涉及二手车交易、房产等行业，本职位为高级管理，<br />我司作息时间为做五休二，夏令时早上8.30上班-5.00下班员工基本不加班。<br />我司期望管理经验丰富，为人性格沉稳。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">岗位职责：</p>
+                                <p class="left fs14 c3 lh25">1、根据公司业务模式和产品特点，规划各产品线上线下市场推广计划和运营方案，并组织实施；<br />2、负责P2P平台整体运营工作，制定运营方案<br />3、在公司经营战略指导下，进行市场及合作方的调查和反馈，组织产品整体定位、业务方向的综合策划，确立产品定位与发展方向。<br />4. 制定完善，贯彻实施公司P2P平台运营管理及流程，综合实施及互联网相关知识，提供全面的解决方案。<br />5. 分析竞品信息动态及优势劣势，制定有效准确的营销方案，达到营销目的。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">任职要求：</p>
+                                <p class="left fs14 c3 lh25">1、本科以上学历，p2p平台运营经理/总监2年以上、金融行业5年以上工作经验者优先；<br />2、有做过平台运营和管理2年以上工作经验；<br />3、拥有丰富的市场资源，出色的谈判能力、较强的抗压能力和组织协调能力。<br />4、较强逻辑思维，具有思维弹性，动态把握市场运营、用户、技术、产品等变化和发展趋势（含对竞争对手的分析了解）。</p>
+                            </div>
+                            <p class="corange pt20 fs14">客服专员</p>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">岗位职责：</p>
+                                <p class="left fs14 c3 lh25">1、接受客户咨询，记录客户咨询、投诉内容，按照相应流程给予客户反馈；<br />2、发掘来电客户的需求及意见，并记录整理及汇报；<br />3、为客户提供解决方案及咨询信息，解决客户问题，提供高质量服务；<br />4、进行客户回访，并统计、分析回访信息，进行客情维护；<br />5、进行信息共享、知识积累，协助改善客服流程；<br />6、解决客户需求，提供全方位咨询解答和客户服务；<br />7、及时做好上级领导交待的其它各项事宜。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">任职要求：</p>
+                                <p class="left fs14 c3 lh25">1、专科及以上学历，金融、经济类专业优先；<br />2、1年以上客服相关工作经验，优秀毕业生也可考虑；<br />3、普通话流利、标准，懂得消费者心理，语言表达能力强，擅于沟通，有团队合作精神；<br />4、头脑清晰，思维敏捷，有良好的团队合作和服务意识，工作耐心细致；<br />5、熟悉办公软件和网络工具。</p>
+                            </div>
+                            <p class="corange pt20 fs14">风控经理：</p>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">职位描述：</p>
+                                <p class="left fs14 c3 lh25">1.负责对产品风险控制、管理、实时监控交易账户风险。<br />2根据上级交给的风险计划和指标进行控制和防范各种风险。<br />3.负责集团风控模型和工具的建立与完善，负责建立和完善风险评估分级体系，风险控制管理体系，客户信用评估体系等。<br />4.对部门对外报送各类文件、材料进入审核、跟踪法律法规以及政策变化，修改内部规章制度及流程，重大决策及其他事项审核。<br />5.参与定期起草风险管理报告，风险排查报告，进行风险研究和预警。</p>
+                            </div>
+                        </li>
+                        <li>
+                            <p class="corange pt20 fs14">P2P客服经理</p>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">职位描述：</p>
+                                <p class="left fs14 c3 lh25">我们是一家金融公司主要是做P2P行业和涉及二手车交易、房产等行业，本职位为高级管理，<br />我司常规作息时间做五休二，法定假日、夏令时早上8.30上班-5.00下班员工基本不加班。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">岗位职责：</p>
+                                <p class="left fs14 c3 lh25">1.部门组织结构的制定和优化，客服部门业务操作规范；<br />2.负责业务流程的制定、优化、以及监督和执行；<br />3.复制业绩考核、奖惩制定和落实公司考核指标；<br />4.负责或安排人员进行线上系统的功能可用性定期检测、汇报和上报；<br />5.负责客服部投诉和内部员工处罚的处理<br />6.落实部门协调和各项推广活动的配合<br />7.客服部人员日常行为规范管理，人员培训，配合人员招聘工作；<br />8.配合结算部门对差错订单进行退款和原因查找并做出解决方案；<br />9.客服流失率分析报告。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">任职要求：</p>
+                                <p class="left fs14 c3 lh25">1.大专以上学历，懂得社交礼仪、管理业务等知识；<br />2.沟通能力强，具有团队合作精神；<br />3.善于对业务流程进行优化，不断追求提高服务效率和服务质量；<br />4.至少2年以上客服部门工作经验，1年以上管理经验。</p>
+                            </div>
+                            <p class="corange pt20 fs14">文案策划</p>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">岗位职责：</p>
+                                <p class="left fs14 c3 lh25">1、 能独立进行公司及产品的品牌规划梳理，具备传播品牌和产品的创意、执行能力；<br />2、 负责整体品牌传播的渠道、执行方案、效果评估的管理；品牌网站、微博、微信等社交平台的内容规划和编辑；针对公司的网<br />络品牌现状网络投放效果及数据分析，提出合理的改进及优化执行建议；<br />3、 负责公司相关新闻报道的文字撰稿、报刊广告文字及相关的公司宣传性软文的撰稿、组稿、编辑工作；<br />4、 根据公司广告宣传工作的中心任务或重点项目，进行相关的文案策划。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">任职要求：</p>
+                                <p class="left fs14 c3 lh25">1、 专科及以上学历, 新闻、中文、传媒、广告等相关专业优先；<br />2、 热爱策划工作和文字工作，有丰富的想象力、创意能力和良好的执行力；<br />3、 熟练撰稿和文字编辑能力，能独立推广撰写项目相关文案，包括广告软文、企业宣传、品牌文案、公关稿件、活动方案、<br />策划文案、新闻稿件等；<br />4、 具备一定的文字功底和文字驾驭能力，具有较强的逻辑思维，能够根据产品风格的需求展开文字联想。</p>
+                            </div>
+                            <p class="corange pt20 fs14">催收专员</p>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">职位描述：</p>
+                                <p class="left fs14 c3 lh25">处理逾期贷款，通过电话提醒，外访等方式对客户沟通，教导客户正确还款；<br />至少具备一年相关工作经验；<br />能承受一定压力；</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">员工福利：</p>
+                                <p class="left fs14 c3 lh25">1、完善的社保，为你解决后顾之忧；<br />2、地铁站附近，出行便利，万达广场繁华地段下班了还可以随便逛个商场，工作娱乐两不误；<br />3、艺术气息的办公环境，人性化的八小时工作制；<br />4、员工旅游，工作旅游两不误。<br />5、年底双薪，每月奖金，固定涨薪，请假福利，员工旅游。</p>
+                            </div>
+                        </li>
+                        <li>
+                            <p class="corange pt20 fs14">APP推广专员</p>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">职位描述：</p>
+                                <p class="left fs14 c3 lh25">重要的事情说三遍：只要你是优秀人才符合我司工作要求，丰厚的薪水等着你面议）<br />
+                                我们是一家金融公司注册资金为1.5亿网上均可查工商注册信息，主要是做P2P行业和涉及二手车交易、房产等行业，<br />本职位为高级管理，<br />我司作息时间为做五休二，早上9：00上班-17：00下班员工基本不加班。<br />我司期望管理经验丰富，为人性格沉稳。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">岗位职责：</p>
+                                <p class="left fs14 c3 lh25">1.1年及以上移动互联网推广经验，熟悉各种推广渠道以及第三方推广手段；<br />2.热爱移动互联网，精通移动APP免费推广、付费推广，有成功营销案例者优先；<br />3.对数据分析、洞察能力较强，有较强的市场应变能力；<br />4.有良好的创业创新心态，责任心强，对工作充满热情，能承受工作压力，具备良好的学习能力、沟通能力和团队建设协调能力。</p>
+                            </div>
+                            <div class="clearfix mt10">
+                                <p class="left fs14 c3">任职要求：</p>
+                                <p class="left fs14 c3 lh25">1.通过线上线下等各种渠道进行APP推广，实现APP下载量、安装量、激活量、用户活跃度等指标，对各种推广渠道进行<br />数据监控和反馈跟踪；<br />2.负责与各大热门APP、广告平台和应用市场等进行资源合作，整合各类线上、线下渠道和资源进行APP推广，实现<br />下载量、注册量等目标；<br />3.能独立完成活动的统筹策划、工作部署、项目操作、执行落地；<br />4.主动对基础数据、用户行为数据等进行分析、挖掘，提出改进需求；<br />5.善于整合站内、外资源推动活动实施，保证活动实施。</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="recruit_list clearfix">
+                        <div class="recruit_jump right mr10">跳转</div>
+                        <input maxlength="2" class="recruit_num right mr10" type="text">
+                        <p class="recruit_right right mr10"></p>
+                        <span class="recruit_font right mr10">1/3</span>
+                        <p class="recruit_left right mr10"></p>
+                    </div>
+                </li>
+                <li>
+                     <div class="ne_about_title pt15">
+                        <h3 class="fs16 c3 lh45 center">联系我们</h3>
+                    </div>
+                    <p class="mt10 fs16 c3">热 线：400-637-6969</p>
+                    <p class="mt10 fs16 c3">传 真：021-67715230</p>
+                    <p class="mt10 fs16 c3">邮  箱：service@hjs360.cn</p>
+                    <p class="mt10 fs16 c3">客服群：264238865</p>
+                    <p class="mt10 fs16 c3">邮 编：201620</p>
+                    <p class="mt10 fs16 c3">地 址：上海市松江区大学城广富林路658号万达广场4号楼9F</p>
+                    <div class="mt50 fs20 c3 center lh70" style="border: 1px solid #e7e7e7;">上海虹奥金融信息服务有限公司</div>
+                    <div id="allmap" style="width:920px; height:450px;"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+<input type="hidden" id="keywords" name="keywords" value=""/>
+<input type="hidden" id="infosCurrpage" value="${page?.currPage}"/>
+<input type="hidden" id="infosPagesize" value="${page?.pageSize}"/>
+<input type="hidden" id="columnkey" name="columnkey" value="info_report" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WYGzy6szI3EVTHzZC1K0lWWx2caWuv8p"></script>
+<script type="text/javascript">
+var content="showInfos";
+var content2="showPartners";
+	require(['front'],function(front){
+		//判断是否是其他页面直接跳转
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}
+	var id = getQueryString("id");
+		$('.ne_about_nav>dd').click(function(){ $(this).addClass('ne_about_act').siblings().removeClass('ne_about_act');
+                $('.ne_about_main>li').eq($(this).index()-1).addClass('about_act').siblings().removeClass('about_act');
+                if($(this).index()==2||$(this).index()==3){
+                  content=$(this).attr("data-key");
+                  $("#columnkey").val($(this).index()==2?"info_report":"info_bulletin")
+               	 loadMoreInfos(1);
+                }else if($(this).index()==8){
+                 initMap();
+                }else if($(this).index()==6){
+                 loadMorePartners(1)
+                }
+        })
+        	if(id){
+				$('.ne_about_nav>dd').eq(parseInt(id)).click();
+			}
+            var reIndex = 0;
+            $('.recruit_num').keyup(function(){
+                this.value = this.value.replace(/[^\d]/g,'').replace(/(\d)(?=\d)/g, "$1");
+            });
+            $('.recruit_font').html('1/'+($('.about_recruit>li').length));
+            $('.recruit_right').click(function(){
+                reIndex++;
+                reMove();
+            });
+            $('.recruit_left').click(function(){
+                reIndex--;
+                reMove();
+            });
+            function reMove(){
+                if(reIndex>$('.about_recruit>li').length-1){
+                    reIndex = $('.about_recruit>li').length-1;
+                }else if(reIndex<0){
+                    reIndex = 0;
+                } $('.about_recruit>li').eq(reIndex).addClass('recruit_act').siblings().removeClass('recruit_act');
+                $('.recruit_font').html((reIndex+1)+'/'+$('.about_recruit>li').length);
+            }
+            $('.recruit_jump').click(function(){
+                if(parseInt($('.recruit_num').val())>$('.about_recruit>li').length){
+                    $('.recruit_num').val('');
+                }else if($('.recruit_num').val() ==''||$('.recruit_num').val() == 0){
+                    $('.recruit_num').val('');
+                }else{
+                    reIndex = parseInt($('.recruit_num').val()-1);
+                    reMove();
+                }
+            })
+            
+	
+	});
+	function loadMoreInfos(currPage){
+		//var nowSize = $("#infosPagesize").val();
+		//var nowPage = $("#infosCurrpage").val();
+		//var totalSize = ${page?.totalCount};
+		var keywords = $("#keywords").val();
+		
+		//$("#infosPagesize").val(parseInt(nowSize)+3);
+		//$("#infosCurrpage").val(parseInt(nowPage)+1);
+		//var pageSize = $("#infosPagesize").val();
+		//var currPage = $("#infosCurrpage").val();	
+		$.ajax({
+			url : "@{front.InformationCtrl.loadMoreInfosPre()}",
+			type : "GET",
+			data : {
+				"columnkey" : $("#columnkey").val(),
+				"currPage" : currPage,
+				"pageSize" : 5,
+				"keywords" : keywords
+			},
+			success : function(data) {
+				/* $(data).appendTo($("#news_list"));
+				if(parseInt(nowSize)+3 >= parseInt(totalSize)){
+					$(".loadmore").html("<span>没有更多了</span>");
+					return;
+				}  */
+				$("#"+content).html(data);
+			}
+		});
+	}
+	
+	 function loadMorePartners(currPage){
+		$.ajax({
+			url : "@{front.FrontHomeCtrl.showPartnersPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : 8,
+			},
+			success : function(data) {
+					$("#"+content2).html(data);
+			}
+		});
+	}
+	
+	    //创建和初始化地图函数：
+    function initMap(){
+       			var map = new BMap.Map("allmap");
+	    var point = new BMap.Point(121.251035,31.064395);
+		map.centerAndZoom(point, 19);
+		map.enableScrollWheelZoom(true);
+		// 创建地址解析器实例
+		var myGeo = new BMap.Geocoder();
+		var local = new BMap.LocalSearch(map, {
+			renderOptions : {
+				map : map,
+				panel : "r-result"
+			}
+		});
+		local.search("上海虹奥金融信息服务有限公司");
+    }
+
+
+     
+</script> 

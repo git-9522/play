@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<div style="margin: 0 auto;height:8rem;width: 8rem;position: relative;">
+    		<dl class="q-zzcdl">
+    			<dt>${userFundInfo?.total_assets?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</dt>
+    			<dd>总资产(元)</dd>
+    		</dl>
+    		<div id="main" style="height:100%;width: 100%;"></div>
+    	</div>
+    	<ul class="q-zzcul q-padding q-bgfff mt50">
+    		<li class="clearfix">
+    			<i></i>
+    			<dl>
+    				<dt>${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</dt>
+    				<dd>账户余额 (元)</dd>
+    			</dl>
+    		</li>
+    		<li class="clearfix">
+    			<i class="i02"></i>
+    			<dl>
+    				<dt>${userFundInfo?.no_receive?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</dt>
+    				<dd>待收本金 (元)</dd>
+    			</dl>
+    		</li>
+    		<li class="clearfix mt60">
+    			<i class="i03"></i>
+    			<dl>
+    				<dt>${userFundInfo?.reward?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</dt>
+    				<dd>红包 (元)</dd>
+    			</dl>
+    		</li>
+    		<li class="clearfix mt60">
+    			<i class="i04"></i>
+    			<dl>
+    				<dt>${userFundInfo?.freeze?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</dt>
+    				<dd>冻结资金 (元)</dd>
+    			</dl>
+    		</li>
+    	</ul>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+     <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: 'http://echarts.baidu.com/build/dist'
+        }
+    });
+     // 使用
+    require(
+        [
+            'echarts',
+            'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+        ],
+        function (ec) {
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = ec.init(document.getElementById('main'));
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+
+            series: [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius: ['70%', '90%'],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        },
+                        emphasis: {
+                            label: {
+                                show: false,
+                                position: "center",
+                            }
+                        }
+                    },
+                    data:[
+                        {value:${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}, name:'账户余额'},
+                        {value:${userFundInfo?.no_receive?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}, name:'待收本金'},
+                        {value:${userFundInfo?.reward?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}, name:'红包'},
+                        {value:${userFundInfo?.freeze?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}, name:'冻结资金'}
+                    ]
+                }
+            ],
+            color: ["#ff6633", "#0099ff", "#ff6666","#999999"]
+        };
+        // 为echarts对象加载数据 
+        myChart.setOption(option); 
+        }
+    );
+</script>
+
+</html>

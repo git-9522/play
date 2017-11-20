@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<div class="q-footerlinkbtm">
+			<ul class="flex q-lcul">
+				<li class="flex-1 q-on">
+					<a href="javascript:void(0);">项目详情</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.InvestCtrl.repaymentRecordPre(bid.id)}">回款计划</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.InvestCtrl.investRecordPre(bid.id)}">投资记录</a>
+				</li>
+			</ul>
+			<div class="q-xqdiv01 q-padding q-bgfff">
+				<div class="q-tltle flex">
+					<p class="flex-1">${bid.title}</p>
+					<a href="@{wechat.front.InvestCtrl.showBidPactPre()}" class="tr q-color f14">产品合同></a>
+				</div>
+				<p class="p01 mt40">${bid.period}${bid.getPeriod_unit().value}优惠收益</p>
+				<p class="p02 mt30">${bid.min_invest_amount}元起投(上限100,00)，享受30天，历史年华净收益率15%</p>
+				<p class="p01 mt40">新用户专享</p>
+				<p class="p02 mt30">新注册用户均有一次机会投资新手标</p>
+				<img class="q-tzimg" src="@{'/public/wechat/images/tzimg.png'}"/>
+			</div>
+			<div class="q-xqdiv01 q-padding q-bgfff">
+				<div class="q-tltle flex">
+					<p class="flex-1">每人购买限制</p>
+				</div>
+				<p class="p02 mt30">起购金额100元,单次投资不得超过可投标的金额,限投一次</p>
+			</div>
+			<div class="q-xqdiv01 q-padding q-bgfff">
+				<div class="q-tltle flex">
+					<p class="flex-1">何时到期</p>
+				</div>
+				<p class="p02 mt30">固定期限：计息首日后的第30天</p>
+			</div>
+			<div class="q-xqdiv01 q-padding q-bgfff">
+				<div class="q-tltle flex">
+					<p class="flex-1">保障方式</p>
+				</div>
+				<p class="p02 mt30">安全保障计划+第三方担保机构+${pro?.name}</p>
+			</div>
+			<div class="q-xqdiv01 q-padding q-bgfff">
+				<div class="q-tltle flex">
+					<p class="flex-1">风险告知</p>
+				</div>
+				<p class="p02 mt30">投资有风险，购买需谨慎。</p>
+			</div>
+			<!-- 	footer-->
+		       	<a href="@{wechat.front.InvestCtrl.investWechatPre(bid.id)}" class="q-link100 q-btmlink">我要出借</a>
+	       	</div>
+	    </div>
+        <!-- 	footer-->
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

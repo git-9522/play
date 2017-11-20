@@ -1,0 +1,119 @@
+<!-- 现金券 -->
+<span class="l-tltab clearfix tab-nav">
+	<a href="javascript:void(0);" class="cur" id="unusedCash">
+		未使用
+		<i class="l-lien"></i>
+	</a>
+	
+	<a href="javascript:void(0);" id="usedCash">
+		已使用
+		<i class="l-lien"></i>
+	</a>
+	
+	<a href="javascript:void(0);" id="expiredCash">已过期</a>
+</span>
+
+<div class="account-main pagebox" id="myUnusedCash">
+
+</div>
+
+<div class="account-main pagebox" id="myUsedCash">
+
+</div>
+
+<div class="account-main pagebox" id="myExpiredCash">
+
+</div>
+	
+<script type="text/javascript">
+require(['front'],function(front){
+	showUnusedCashPre(1);
+	
+	$("#unusedCash").click(function(){
+		showUnusedCashPre(1);
+	});
+	
+	$("#usedCash").click(function(){
+		showUsedCashPre(1);
+	});
+	
+	$("#expiredCash").click(function(){
+		showExpiredCashPre(1);
+	});
+	
+	var tabcard = function(menu,cont){
+		menu.eq(0).addClass('selected');
+		cont.hide().eq(0).show();
+		menu.click(function(){
+			var index = $(this).index();
+			$(this).addClass('selected').siblings().removeClass('selected');
+			cont.hide().eq(index).show();
+		});
+	}
+	
+	tabcard($('.tab-nav>a'),$('.pagebox'));
+});
+	
+function showUnusedCashPre(currPage){
+	$.ajax({
+		url : "@{front.account.MyCashCtrl.showUnusedCashPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myUnusedCash").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+	
+function showUsedCashPre(currPage){
+	$.ajax({
+		url : "@{front.account.MyCashCtrl.showUsedCashPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myUsedCash").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+	
+function showExpiredCashPre(currPage){
+	$.ajax({
+		url : "@{front.account.MyCashCtrl.showExpiredCashPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myExpiredCash").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+</script>

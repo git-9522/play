@@ -1,0 +1,328 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: true/}
+#{set title: 'p2p如何投资投标_互联网理财产品-我要出借-虹金所'/}
+#{set keywords: 'p2p投标, p2p如何投资,联网理财产品'/}
+#{set description:'虹金所为您提供优质车贷质押标、房贷抵押标、企业资金周转标,资产小额分散,为广大用户提供一个理财新渠道。'/}
+#{set AItem:1 /}
+<link rel="stylesheet" type="text/css"
+	href="/public/front/stylesheets/toinvest.css" />
+<link rel="stylesheet" type="text/css"
+	href="/public/front/stylesheets/jquery.easy-pie-chart.css"
+	media="screen">
+<div class="section">
+	<p class="ne_invest_title fs14 c9 lh40">您当前所在的位置：首页 > 我要出借 > 散标投资</p>
+			<form action="@{front.invest.InvestCtrl.showBidsPre()}" method="get"
+			id="showBids">
+	<div class="ne_invest_nav">
+		            <ul class="ne_invest_title">
+                <li class="ne_nav_act">散标投资</li>
+                <li><a href="@{front.invest.InvestCtrl.toDebtPre()}">债权转让</a></li>
+                <li class="ne_invest_new clearfix">
+                    <!--<span class="left ml20 cf mr10">公告</span>
+                    <a class="left">虹金所2017年8月12日预计发标公告</a>-->
+                </li>
+            </ul>
+            <ul class="ne_invest_list">
+                <li class="ne_in_list1">
+                    <dl class="clearfix">
+                        <dt class="fs14 c3 mr15">产品分类</dt>
+                        <dd onclick="chooseCondition('webType',99);">
+                           <span class="ne-radio1 #{if webType==99}ne-radio1#{/if}"></span>
+                            全部
+                        </dd>
+                        <dd onclick="chooseCondition('webType',1);">
+                            <span class=" #{if webType==1}ne-radio1#{/if}"></span>
+                            新虹投
+                        </dd>
+                        <dd onclick="chooseCondition('webType',2);">
+                           <span class=" #{if webType==2}ne-radio1#{/if}"></span>
+                            彩虹投
+                        </dd>
+                        <dd onclick="chooseCondition('webType',3);">
+                            <span class=" #{if webType==3}ne-radio1#{/if}"></span>
+                            预虹投
+                        </dd>
+                        <dd onclick="chooseCondition('webType',4);">
+                           <span class=" #{if webType==4}ne-radio1#{/if}"></span>
+                            智能收益
+                        </dd>
+                    </dl>
+                </li>
+                <li class="ne_in_list2">
+                    <dl class="clearfix">
+                        <dt class="fs14 c3 mr15">保障方式</dt>
+                        <dd onclick="chooseCondition('guaranteModeId',99);">
+                            <span class="ne-radio1 #{if guaranteModeId==99}ne-radio1#{/if}"></span>
+                            全部
+                        </dd>
+                        <dd onclick="chooseCondition('guaranteModeId',1);">
+                            <span class=" #{if guaranteModeId==1}ne-radio1#{/if}"></span>
+                            车贷
+                        </dd>
+                        <dd onclick="chooseCondition('guaranteModeId',2);">
+                             <span class=" #{if guaranteModeId==2}ne-radio1#{/if}"></span>
+                            房贷
+                        </dd>
+                        <dd onclick="chooseCondition('guaranteModeId',3);">
+                             <span class=" #{if guaranteModeId==3}ne-radio1#{/if}"></span>
+                            企业贷
+                        </dd>
+                    </dl>
+                </li>
+                <li class="ne_in_list3">
+                    <dl class="clearfix">
+                        <dt class="fs14 c3 mr15">招标状态</dt>
+                        <dd onclick="chooseCondition('status',99);">
+                            <span class="ne-radio1 #{if status==0}ne-radio1#{/if}"></span>
+                            全部
+                        </dd>
+                        <dd onclick="chooseCondition('status',1);">
+                            <span class="#{if status==1}ne-radio1#{/if}"></span>
+                            招标中
+                        </dd>
+                        <dd onclick="chooseCondition('status',4);">
+                            <span class="#{if status==4}ne-radio1#{/if}"></span>
+                            回款中
+                        </dd>
+                    </dl>
+                </li>
+                <li class="ne_invest_more clearfix">
+                    <div class="ne_more_til left">更多</div>
+                    <div class="ne_more_test clearfix left ml5 none">
+                        <span class="left fs12">会员等级：</span>
+                        <div class="ne_select ne_invest_vip left">
+                            <div class="ne_me" data-v="false">全部</div>
+                            <i class="ne_me_jian"></i>
+                            <ul class="ne_me_son">
+                                <li data-v="0">全部</li>
+                                <li data-v="1">v1<span>+</span>
+                                </li>
+                                <li data-v="2">v2<span>+</span>
+                                </li>
+                                <li data-v="3">v3<span>+</span>
+                                </li>
+                                <li data-v="4">v4<span>+</span>
+                                </li>
+                                <li data-v="5">v5<span>+</span>
+                                </li>
+                                <li data-v="6">v6<span>+</span>
+                                </li>
+                                <li data-v="7">v7<span>+</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ne_more_test clearfix left">
+                        <span class="left fs12">借款期限：</span>
+                        <div class="ne_select ne_invest_month left">
+                            <div class="ne_me" data-v="false">全部</div>
+                            <i class="ne_me_jian"></i>
+                            <ul class="ne_me_son">
+                                <li data-v="0">全部</li>
+                                <li data-v="1">1个月内</li>
+                                <li data-v="2">2~6个月</li>
+                                <li data-v="7">7~12个月</li>
+                                <li data-v="13">12个月以上</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ne_more_test clearfix left none">
+                        <span class="left fs12">发标时间：</span>
+                        <div class="ne_select ne_invest_day left">
+                            <div class="ne_me" data-v="false">全部</div>
+                            <i class="ne_me_jian"></i>
+                            <ul class="ne_me_son">
+                                <li data-v="0">全部</li>
+                                <li data-v="1">今天</li>
+                                <li data-v="2">2~6天</li>
+                                <li data-v="3">7~30天</li>
+                                <li data-v="4">一个月前</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+	</div>
+		<div class="f-sx2 clearfix f-1200 auto lh75">
+    <div class="pl40">
+        <span class="left c9">排序方式 :</span>
+        <a class="left clearfix f-on #{if orderType==0} f-on #{if orderValue==1}f-again#{/if} #{/if}" _value="0"><span class="left">默认方式</span></a>
+        <a class="left clearfix #{if orderType==1} f-on #{if orderValue==1}f-again#{/if} #{/if}" _value="1"><span class="left">年化利率</span><span class="f-sp3"></span></a>
+        <a class="left clearfix #{if orderType==2} f-on #{if orderValue==2}f-again#{/if} #{/if}" _value="2"><span class="left">投资期限</span><span class="f-sp3"></span></a>
+        <a class="left clearfix #{if orderType==3} f-on #{if orderValue==3}f-again#{/if} #{/if}" _value="3"><span class="left">发标时间</span><span class="f-sp3"></span></a>
+    </div>
+</div>
+		<input type="hidden" id="productId" name="productId" value="${productId}" /> 
+		<input type="hidden" id="status" name="status" value="${status}" />
+	    <input type="hidden" id="orderType" name="orderType" value="${orderType}" />
+	    <input type="hidden" id="orderValue" name="orderValue" value="${orderValue}" />
+		<input type="hidden" id="guaranteModeId" name="guaranteModeId" value="${guaranteModeId}" />
+		<input type="hidden" id="webType" name="webType" value="${webType}" />
+		<input type="hidden" id="period" name="period" value="${period}" />
+		<input type="hidden" id="time" name="time" value="${time}" />
+		<input type="hidden" id="vip" name="vip" value="${vip}" />
+		</form>	
+	<div class="ne_invest_main">
+		<ul class="ne_invest_en clearfix c6 fs14">
+			<li class="ne_en1">期待年回报率</li>
+			<li class="ne_en2">借款期限</li>
+			<li class="ne_en3">项目进度</li>
+			<li class="ne_en4">金额</li>
+			<li class="ne_en5">保障方式</li>
+		</ul>
+		<div id="financial_bid">
+		</div>
+	</div>
+</div>
+<script>
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}
+	
+	require([ 'front' ], function(front) {
+
+		require([ 'html5', 'excanvas', 'jquery.easy-pie-chart' ], function() {
+			$('.percentage-light').easyPieChart({
+				trackColor : '#f1f1f1',
+				scaleColor : false,
+				lineCap : 'butt',
+				lineWidth : 5,
+				animate : 1000
+			});
+
+		});
+		oClick($('.ne_in_list1>dl>dd'));
+        oClick($('.ne_in_list2>dl>dd'));
+        oClick($('.ne_in_list3>dl>dd'));
+        function oClick(om1){
+            om1.click(function(ev){
+                ev = ev || window.event;
+                om1.find('span').removeClass('ne-radio1');
+                $(this).find('span').addClass('ne-radio1');
+                ev.stopPropagation();
+            })
+        };
+        oSection($('.ne_invest_vip .ne_me'),"vip");
+        oSection($('.ne_invest_month .ne_me'),"period");
+        oSection($('.ne_invest_day .ne_me'),"time");
+        function oSection(os1 ,key){
+       
+            os1.click(function(ev){
+                ev = ev || window.event;
+                if($(this).attr('data-v') == 'false'){
+                    $('.ne_select .ne_me_son').hide();
+                    $(this).parent('.ne_select').find('.ne_me_son').show();
+                    $(this).attr('data-f','true');
+                }else{
+                    $('.ne_select .ne_me_son').hide();
+                    $(this).attr('data-f','false');
+                }
+                ev.stopPropagation();
+            });
+            os1.parent('.ne_select').find('.ne_me_son li').click(function(ev){
+                ev = ev || window.event;
+                os1.html($(this).html());
+                  chooseCondition(key,$(this).attr("data-v"));
+                $(this).parent('.ne_me_son').hide();
+                os1.attr('data-f','false');
+                ev.stopPropagation();
+            });
+            $(document).click(function(){
+                $('.ne_select .ne_me_son').hide();
+                os1.attr('data-f','false');
+            });
+        }
+	
+    $(function(){
+        //标2左边栏切换
+        $(".f-left2-ul li").click(function(){
+            $(".f-left2-ul li").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //导航切换
+        $(".f-wylc-nav1").click(function(){
+            $(".f-wylc-nav1").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //筛选1切换
+        $(".ne_in_list3 dd").click(function(){
+            $(".ne_in_list3 span").removeClass("ne-radio1");
+            $(this).find("span").addClass("ne-radio1");
+        })
+        //筛选2切换
+        $(".f-sx2 a").click(function(){
+            //判断点击的是否为选中的a
+            if($(this).hasClass("f-on")){
+            	$(this).toggleClass("f-again");//再次点击改变升降序
+            }
+            $(".f-sx2 a").removeClass("f-on");//移除选中的a
+            $(this).addClass("f-on");//为当前a添加选中
+            if($(this).hasClass("f-again")){
+            	$("#orderValue").val(1);
+            }else{
+            	$("#orderValue").val(0);
+            }
+            var _value = $(this).attr("_value");
+            chooseCondition("orderType",_value);
+        })
+        var webType = getQueryString("webType");
+        if(webType){
+        	chooseCondition('webType',webType);
+        	$('.ne_in_list1  dd  span').removeClass('ne-radio1');
+        	switch(webType){
+        	case "1":
+        		$('.ne_in_list1  dd  span').eq(1).addClass("ne-radio1");
+        		break;
+        	case "2":
+        		$('.ne_in_list1  dd  span').eq(2).addClass("ne-radio1");
+        	    break;
+        	case "3":
+        		$('.ne_in_list1  dd  span').eq(3).addClass("ne-radio1");
+        		break; 
+       		case "4":
+       			$('.ne_in_list1  dd  span').eq(4).addClass("ne-radio1");
+       			break;  
+        	default :
+        		$('.ne_in_list1  dd  span').eq(0).addClass("ne-radio1");
+        		break; 		
+        	}
+  
+        }else{
+        		showPage(1);
+        }
+        
+    })
+});
+
+function chooseCondition(key,value){
+	$("#"+key).val(value);
+	showPage(1);
+}
+
+function showPage(currPage) {
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.showBidsPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"productId" : $("#productId").val(),
+			"status" : $("#status").val(),
+			"orderType" : $("#orderType").val(),
+			"orderValue" : $("#orderValue").val(),
+			"guaranteModeId" : $("#guaranteModeId").val(),
+			"webType" : $("#webType").val(),
+			"period" : $("#period").val(),
+			"time" : $("#time").val(),
+			"vip" : $("#vip").val()
+		},
+		success : function(data){
+			$("#financial_bid").html(data);
+		}
+	});
+}
+
+</script>

@@ -1,0 +1,28 @@
+#{extends 'common/front/frontFootMain.html' /}
+#{set title:'加入我们' /}
+#{set smallclass:6 /}
+
+        <div class="w-side bgf border mt20">
+            <div class="w-title overflow">
+                <span class="left f24 c333">${columns?.get(common.constants.ColumnKey.HOME_JOINUS)?:'加入我们'}</span>
+                <p class="right">
+                    <span class="mr30"></span>
+                    <span class="mr30"></span>
+                    <span class="mr30"></span>
+                </p>
+            </div>
+            <div class="padding25-lr">
+                <div class="w-xq-detail">
+					#{verbatim}${joinus?.content}#{/verbatim}
+                </div>
+                <div class="w-xq-page">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--内容 end-->
+
+<script type="text/javascript">
+require(['front']);
+</script>

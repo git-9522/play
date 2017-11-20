@@ -1,0 +1,240 @@
+#{extends 'common/wechatMain.html' /}
+
+<style>
+
+	.parent-txt {
+	    border: 1px solid;
+   	    border-color: #ff5256;
+		background: #fff;
+		margin-top: 0.4rem;
+		border-radius: 0.133333rem;
+		-webkit-border-radius: 0.133333rem;
+		height: 1.066667rem;
+		line-height: 1.066667rem;
+		font-size: 14px;
+	}
+
+	.recharge-type {
+		border-radius: 0.133333rem;
+		-webkit-border-radius: 0.133333rem;
+		background-repeat: no-repeat;
+		background-position: right bottom;
+		flex : 1;
+	}
+	
+	.recharge-type span {
+		padding-left: 0.4rem;
+	}
+	
+	.recharge-qp {
+	    color:  #ff5256;
+text-align: center;
+	/* 	background-image : url('/public/front/images/recharge/bank-qp.png') */
+	}
+	
+	.recharge-b2c {
+	  color:  #ff5256;
+     text-align: center;
+	/* 	background-image : url('/public/front/images/recharge/bank-b2c.png') */
+	}
+	
+  	.recharge-type-on i {
+	/* 	width:20px;
+		height:20px;
+		float : left;
+		padding-left: 0.133333rem;
+		background-repeat: no-repeat;
+		background-position: left top; */
+	
+/* 		background-image : url('/public/front/images/recharge/bank-selected.png'); */
+	} 
+	
+	.recharge-type-on {
+	 background-color:#ff5256;
+	     color:  white;
+	 
+	 
+/* 		border: 2px solid #4a82be; */
+	}
+	
+	.inputText {
+		flex : 1;
+		border: none;
+		line-height: 1.066667rem;
+		font-size: 14px;
+		border-radius: 0.133333rem;
+		-webkit-border-radius: 0.133333rem;
+		line-height: 1.066667rem;
+		color : #000;
+	    padding: 0 0.266667rem;
+	}
+	
+	.inputBtn {
+		flex : 1;
+		line-height: 1.066667rem;
+		font-size: 14px;
+		color: #fff;
+		border-radius: 0.133333rem;
+		-webkit-border-radius: 0.133333rem;
+		line-height: 1.066667rem;
+		margin-left: 0.133333rem;
+	}
+	
+	.warn {
+		color: red;
+		font-size: 14px
+	}
+	
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    	color: #000; opacity:1; 
+	}
+
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	    color: #000;opacity:1;
+	}
+	
+	input:-ms-input-placeholder{
+	    color: #000;opacity:1;
+	}
+	
+	input::-webkit-input-placeholder{
+	    color: #000;opacity:1;
+	}
+	
+	.beShow {
+		display: block;
+	}
+	
+	.beHide {
+		display: none;
+	}
+.header { width: 100%; height: 1.2rem; line-height: 1.2rem; background: #fe4f51; text-align: center;   color: #fff; font-size: 0.48rem; position: fixed;  left: 0; top: 0;z-index: 10000;}
+.header .icon_goback { width: 0.586rem; height: 0.586rem; overflow: hidden;position: absolute;left: 0.16rem; top: 0.294rem; background: url(/public/wechat/newedition/images/icon/login-back.png) no-repeat;background-size: 100% auto;}
+.login_logo{ background:#fff; overflow:hidden;}
+.login_logo img{ display:block; width:3.65rem; height:2.93rem; margin:0.34rem auto;}
+</style> 
+ <div class="header" style="display:block; "><a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}"><span class="icon_goback"></span></a> <span class="title_name">充值</span></div>
+<div class="center recharge">
+<form action="@{wechat.front.account.MyAccountCtrl.recharge()}" method="post" id="rechargeform" >
+#{authenticityToken /}
+<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">
+<input id="tradeTypeInput" type="hidden" name="tradeType" value="0"/>
+<section class="parent-txt flex mb40" >
+	<div data="0" class="recharge-type recharge-b2c recharge-type-on"><i class=""></i><span>网银充值</span></div>	
+	<div data="2" class="recharge-type recharge-qp "><i class=""></i><span>快捷充值</span></div>
+</section>
+
+<section class="detail-txt flex mt40">
+    <span class="">充值</span>
+    <input type="text" id="rechargeAmt" name="rechargeAmt" oninput="$(this).ndigitInteger(8)" onkeyup="$(this).ndigitInteger(8)" class="detailtxt flex-1" />
+    <span class="">元</span>
+</section>
+
+<div class="beHide" id="qp-input">
+	<span class="warn" style="margin-bottom: 0.2rem;  display: block;">将发送短信验证码至您的#{asterisk str:bankUser?.mobile, start:3, end:4, count:4 /}手机</span>
+	<div class="flex mb40">
+	    <input type="text" class="inputText" id="smsCode" name="smsCode" oninput="$(this).ndigitInteger(6)" onkeyup="$(this).ndigitInteger(6)" placeholder="手机验证码" />
+		<input type="button" class="inputBtn getcode-btn btn" onclick="sendCode(1);" id="getsmscode" value="获取验证码" />
+	</div>
+</div>
+
+<div id="b2c-input" class="beShow">
+	<div class="detail-txt flex">
+    <span class="">充值银行</span>
+    <select class="selcet-ico flex-1" id="bankId" name="bankId">
+    	
+    	#{list items:common.enums.Bank.values(), as:'bank'}
+    		<option value="${bank.code}" >${bank.name}</option>
+    	#{/list}
+    </select>
+    </div>
+</div>
+
+<input type="submit" id="account_recharge" class="condition-btn btn"  value="充值">
+</form>
+</div>
+<script type="text/javascript">
+	require(['wechat'],function(){
+	
+		require(["validation/validateExt"]);
+		$("#rechargeform").validate({
+			errorPlacement: function(error, element) {
+				error.addClass('cored').addClass("wrong-txt").addClass("mb30").insertAfter(element.parent());
+				error.css("margin-top","-33px");
+			},
+			errorElement:"p",
+			rules:{
+				"rechargeAmt":{
+					required:true,
+					digits:true,
+					range:[${rechargeLowest},${rechargeHighest}]
+				}
+			},
+			messages:{
+				"rechargeAmt":{
+					required:"请输入充值金额",
+					digits:"充值金额为${rechargeLowest}~${rechargeHighest}",
+					range:"充值金额为${rechargeLowest}~${rechargeHighest}"
+				}
+			},
+			submitHandler:function(form){
+				var type = $('#tradeTypeInput').val();
+				if(type == 0) {
+					// 网银充值
+					if($('#bankId').val() == '') {
+						alert('请选择充值银行！');
+						return;
+					}
+				} else {
+					var smsCode = $('#smsCode').val().trim();
+					if(smsCode == '') {
+						alert('请输入验证码！');
+						return;
+					}
+					if(smsCode.length != 6) {
+						alert('请输入正确的6位验证码！');
+						return;
+					}
+				}
+				form.submit();
+			}
+		});
+	
+		$('.recharge-type').click(function() {
+			// 清除class
+			$(this).parent().children().removeClass('recharge-type-on');
+			// 添加class
+			$(this).addClass('recharge-type-on');
+			var type = $(this).attr('data');
+			$('#tradeTypeInput').val(type);
+			if(type == 0) {
+				$('#qp-input').hide();
+				$('#smsCode').val('');
+				$('#b2c-input').show();
+			} else {
+				$('#b2c-input').hide();
+				$('#bankId').val('');
+				$('#qp-input').show();
+			}
+		});
+		
+	});
+	
+	function sendCode(code) {
+		var mobile = '${bankUser.mobile}';
+		var cardId = '${bankUser.account}';
+		$.ajax({
+			url : "@{front.account.MySecurityCtrl.sendSmsCode}",
+			type : "POST",
+			data : {
+				"type" : code,
+				"mobile" : mobile,
+				"cardId" : cardId
+			},
+			dataType:"json",
+			success : function(data) {
+				window.alert(data.msg);
+			}
+		});
+	}
+</script>

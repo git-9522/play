@@ -1,0 +1,308 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'虹金所-投资赚翻天、翻牌有惊喜' /}
+#{set AItem:0 /}
+
+<link rel="stylesheet" href="@{'/public/front/stylesheets/draw_card.css'}">
+<link rel="stylesheet" href="@{'/public/front/stylesheets/jquery.mCustomScrollbar.css'}">
+    <div class="draw_card">
+        <div class="draw_card_bg1">
+            <p class="draw_card_bg1_con"></p>
+        </div>
+        <div class="draw_card_bg2">
+            <div class="draw_card_main">
+                <ul class="draw_main_box">
+                    <li class="draw_card1">
+                        <img class="dc_a" src="@{'public/front/images/draw_card_back1.png'}" alt="">
+                        <img class="dc_b" src="@{'public/front/images/draw_card1.png'}" alt="">
+                        <div class="dc_cow">
+                            <img src="@{'public/front/images/draw_back_icon.png'}" alt="">
+                            <p class="dc_zj"></p>
+                            <div class="draw_back_btn">确定</div>
+                        </div>
+                    </li>
+                    <li class="draw_card2">
+                        <img class="dc_a" src="@{'public/front/images/draw_card_back2.png'}" alt="">
+                        <img class="dc_b" src="@{'public/front/images/draw_card2.png'}" alt="">
+                        <div class="dc_cow">
+                            <img src="@{'public/front/images/draw_back_icon.png'}" alt="">
+                            <p class="dc_zj"></p>
+                            <div class="draw_back_btn">确定</div>
+                        </div>
+                    </li>
+                    <li class="draw_card3">
+                        <img class="dc_a" src="@{'public/front/images/draw_card_back3.png'}" alt="">
+                        <img class="dc_b" src="@{'public/front/images/draw_card3.png'}" alt="">
+                        <div class="dc_cow">
+                            <img src="@{'public/front/images/draw_back_icon.png'}" alt="">
+                            <p class="dc_zj"></p>
+                            <div class="draw_back_btn">确定</div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="draw_card_font">
+                    <div class="dc_list">
+                        <ul class="dc_title">
+                            <li>标的</li>
+                            <li>投资金额</li>
+                            <li>翻牌机会</li>
+                        </ul>
+                        <div class="content_2 content">
+                            <ul class="dc_mate">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="draw_card_bg3">
+            <img src="@{'public/front/images/draw_card_title1.png'}" alt="" class="draw3_img1">
+            <div class="draw3_font1 draw3_font">1）、活动期间单笔投资额≥100元即可参与翻牌活动；<br>2）、用户平台首笔投资金额不享受本活动；<br>3）、成功翻牌后，返现金额=单笔投资金额*翻牌利率，用户最高可获取6%的投资返现；<br>4）、返现＜5000元的用户，返现金额将于3个工作日内到可用余额中；返现≥5000元的用户，客服将在3个工作日<br>内电话联系，用户必须提供用户名,手机号,姓名,QQ号，确认后客服将即时处理(QQ,微信,支付宝转账)。</div>
+            <img src="@{'public/front/images/draw_card_title2.png'}" alt="" class="draw3_img2">
+            <div class="draw3_font2 draw3_font">1、用户单笔投资100元以上（包括100元）可获得一次翻牌机会；<br>2、用户根据投资标的期限，选择相应的翻牌区域进行翻牌；<br>3、若用户多次投资后进行翻牌，系统会根据用户投资时间判定翻牌顺序，用户也可在活动页面【历史投资记录】<br>中查看投资记录，并点击后方【翻牌】即可。</div>
+        </div>
+    </div>
+    <script>
+    	require(['front'],function(){
+           
+            
+            
+            /*添加旋转*/
+            /*滚动条*/
+            
+            /*滚动条*/
+            /*<img src="images/draw_back_icon.png" alt=""><p class="dc_zj">100元</p><div class="draw_back_btn">确定</div>*/
+         
+            /*data.obj[1].reversalStatus*/
+            /*window.location.host*/
+            oAjax();
+            
+            var dc_off = true,
+            dc_mate,
+            aMonth,aMoney,aFns,aNum,aName,aBtn,oNo;
+        	var oDia = '';
+       	 function dc_rotate(dc_index) {
+                $('.draw_main_box>li').eq(dc_index).addClass('dc_moment1');
+                $.ajax({
+                    url: "@{front.ActivityCtrl.doRerversalLottery}",
+                    type: 'post',
+                    data: {
+                        investId: oNo,
+                        type : 1
+                    },
+                    dataType: "json",
+                    success: function (data){
+                        if(data.code==1){
+                            setTimeout(function () { $('.draw_main_box>li').eq(dc_index).removeClass('dc_moment1');
+                            $('.draw_main_box>li').eq(dc_index).addClass('dc_moment2');
+                                    $('.dc_cow').eq(dc_index).show();
+                                    $('.dc_cow .dc_zj').eq(dc_index).html(data.obj+'元');
+                                    oAjax1();
+                            }, 1800);
+                            
+                            
+                        }else if(data.code == -100){
+                            window.alert(data.msg);
+                        }else{
+                            setTimeout(function (){ $('.draw_main_box>li').eq(dc_index).removeClass('dc_moment1');
+                            $('.draw_main_box>li').eq(dc_index).addClass('dc_moment2');
+                                    $('.dc_cow').eq(dc_index).show();
+                                    $('.dc_cow .dc_zj').eq(dc_index).html('抽奖失败');
+                            }, 1800);
+                            oAjax1();
+                        }
+                    },error: function () {
+                        window.alert('数据异常');
+                    }
+                })
+                
+                setTimeout(function () { $('.draw_main_box>li').eq(dc_index).removeClass('dc_moment1');
+                    $('.draw_main_box>li').eq(dc_index).addClass('dc_moment2');
+                }, 1800)
+            }
+       	
+       	function oAjax(){
+               $.ajax({
+                   url: "@{front.ActivityCtrl.getRerversalInfo}",
+                   type: 'post',
+                   dataType: "json",
+                   data : {type : 1},
+                   success: function (data){
+                       $('.draw_card_bg1_con').html(data.obj.reversal_start_time+'至'+data.obj.reversal_end_time);
+                       $('.draw3_font2').html(data.obj.reversal_rule);
+                       if(data.code==1){
+                           if(data.obj.reversal_is_use==1){
+                               oAjax1();
+                           }else{
+                               window.alert('活动未开启');
+                           }
+                       }else if(data.code == -100){
+                    	   window.location.href = "@{front.LoginAndRegisteCtrl.loginPre}";
+                       }else{
+                           window.alert(data.msg);
+                       }
+                   },error: function () {
+                       window.alert('数据异常');
+                   }
+
+               });
+           }
+           function oAjax1(){
+               $('.dc_mate').html('');
+               $.ajax({
+                   url:"@{front.ActivityCtrl.getRerversalInvest}",
+                   type:"post",
+                   dataType: "json",
+                   data : {type : 1},
+                   success: function (data){
+                       if(data.code==1){
+                    	   $(".content_2").html('<ul class="dc_mate"></ul>');
+                           for(var i=0;i<data.obj.length; i++){
+                               aMoney = data.obj[i].investAmount;
+                               /*aFns aNum*/
+                                oId = data.obj[i].investId;
+                               if(data.obj[i].period==1){
+                                   aNum = 1;
+                                   aMonth = '一';
+                               }else if(data.obj[i].period==3){
+                                   aNum = 3;
+                                   aMonth = '三';
+                               }else{
+                                   aNum = 6;
+                                   aMonth = '六';
+                               }
+                               if(data.obj[i].reversalStatus==1){
+                                   aFns = true;
+                                   aName = "点击翻牌";
+                                   aBtn = "draw_biao1";
+                               }else{
+                                   aFns = false;
+                                   aName = "已翻";
+                                   aBtn = "draw_btn2";
+                               }
+                               var oLi = $('<li><div class="dc_month">'+aMonth+'月标</div><div class="dc_money">'+aMoney+'</div><div class="dc_btn"><div class="'+aBtn+'" investId="'+oId+'" oFns="'+aFns+'" oNum="'+aNum+'">'+aName+'</div></div></li>');
+                               $('.dc_mate').append(oLi);
+                               /*console.log(data.obj[i].reversalStatus);*/  
+                           }
+                           $(".content_2").mCustomScrollbar({
+
+                               scrollInertia:150
+
+                           });
+                           oClick();
+                       }else if(data.code == -100){
+                           window.location.href = "@{front.LoginAndRegisteCtrl.loginPre}";
+                       }else{
+                           window.alert(data.msg);
+                       }
+                   },error: function () {
+                       window.alert('数据异常');
+                   }
+               });
+           }
+           function oClick(){
+               $(".dc_btn>div").click(function () {
+                   if($(this).attr('oFns')=='true'){
+                       if (dc_off) {
+                           dc_off = false;
+                           dc_clear();
+                           oNo = $(this).attr('investId');
+                           if ($(this).attr('oNum') == 1) {
+                               oChange($('.draw_card1'))
+                           } else if ($(this).attr('oNum') == 3) {
+                               oChange($('.draw_card2'))
+                           } else {
+                               oChange($('.draw_card3'))
+                           }
+                       }
+                   }
+               });
+               $('.draw_back_btn').click(function(){
+                   dc_clear();
+               })
+           }
+           function oChange(oAt) {
+               if (oAt.css('zIndex') == 3) {
+                   dc_mate = oAt.index();
+                   move(3);
+               } else if (oAt.css('zIndex') == 2) {
+                   move(1);
+                   dc_mate = oAt.index();
+               } else {
+                   move(2);
+                   dc_mate = oAt.index();
+               }
+               /*console.log(dc_mate)*/
+           }
+           function move(oNum) {
+               var arrW = [],
+                   arrH = [],
+                   arrT = [],
+                   arrZ = [],
+                   arrO = [],
+                   arrL = []
+
+               $(".draw_main_box>li").each(function (i) {
+                   arrW[i] = $(this).css('width');
+                   arrH[i] = $(this).css('height');
+                   arrT[i] = $(this).css('top');
+                   arrZ[i] = $(this).css('zIndex');
+                   arrO[i] = $(this).css('opacity');
+                   arrL[i] = $(this).css('left');
+               });
+               $(".draw_main_box>li").each(function (i) {
+                   var index;
+                   if (oNum == 1) {
+                       index = i - 1;
+                       if (index < 0) index = $(".draw_main_box>li").length - 1;
+                       if (i == 1) {
+                           setTimeout(function () {
+                               dc_rotate(dc_mate);
+                               setTimeout(function () {
+                                   dc_off = true;
+                               }, 3000)
+                           }, 500)
+                       }
+                   } else if (oNum == 2) {
+                       index = i + 1;
+                       if (index > $(".draw_main_box>li").length - 1) index = 0;
+                       if (i == 1) {
+                           setTimeout(function () {
+                               dc_rotate(dc_mate);
+                               setTimeout(function () {
+                                   dc_off = true;
+                               }, 3000)
+                           }, 500)
+                       }
+
+                   } else {
+                       if (i == 1) {
+                           dc_rotate(dc_mate);
+                           setTimeout(function () {
+                               dc_off = true;
+                           }, 2500)
+                       }
+                   }
+                   $(this).css('z-index', arrZ[index]);
+                   $(this).animate({
+                       width: arrW[index],
+                       height: arrH[index],
+                       top: arrT[index],
+                       opacity: arrO[index],
+                       left: arrL[index]
+                   }, 500);
+               });
+           }
+           /*清除旋转的class*/
+           function dc_clear() {
+               $('.dc_cow').hide();
+               $('.dc_cow .dc_zj').html('');
+               $('.draw_main_box>li').eq(dc_mate).removeClass('dc_moment2');
+           }
+        });
+    	
+    	
+    </script>
+</body>
+
+</html>

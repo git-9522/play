@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+		<p class="q-bztitle">资金安全<span>省心</span></p>
+		<div class="q-padding">
+			<div class="q-bzone">
+				<span class="q-jbspan">1</span>
+				<p class="q-title">  -平台资金第三方存管- </p>
+				<p class="q-cent">
+					虹金所选择与实力雄厚有品牌信誉保证的第三方支付机构“汇付天下”合作，投资资金全权存管，保证信息流与资金流的独立。
+				</p>
+			</div>
+			<!--<div class="q-bzone mt30">
+				<span class="q-jbspan">2</span>
+				<p class="q-title"> - 担保机构本金垫付 -</p>
+				<p class="q-cent">
+					当借款人出现逾期，第三方担保机构会根据合同阅读承担担保责任，为投资者提供本金垫付，针对超级会员，更提供本金垫付和利息垫付。
+达56,000,000.00元
+				</p>
+			</div>-->
+		</div>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

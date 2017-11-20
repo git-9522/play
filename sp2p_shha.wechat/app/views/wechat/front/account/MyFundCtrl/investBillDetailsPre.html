@@ -1,0 +1,54 @@
+#{extends 'common/wechatMain.html' /}
+<div class="center">
+<div class="bill" >
+    <ul class="bill-uls" style="display: block;">
+        <li class="flex">
+            <div>账单编号</div>
+            <div class="flex-1 tr"> ${investBillDetails.bill_invest_no}</div>
+        </li>
+        <li class="flex">
+            <div>期数 </div>
+            <div class="flex-1 tr"> ${investBillDetails.period}/${investBillDetails.totalPeriod}</div>
+        </li>
+        <li class="flex">
+            <div>应收本息  </div>
+            <div class="flex-1 tr assistant"> ${investBillDetails.corpus_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>本金  </div>
+            <div class="flex-1 tr assistant"> ${investBillDetails.receive_corpus?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>利息  </div>
+            <div class="flex-1 tr assistant"> ${investBillDetails.receive_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>服务费  </div>
+            <div class="flex-1 tr"> ${investBillDetails.loan_fee?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>预计到账   </div>
+            <div class="flex-1 tr"> ${investBillDetails.expected_arrival?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>到期时间   </div>
+            <div class="flex-1 tr">${investBillDetails.receive_time?.format(common.constants.Constants.DATE_FORMATE)}</div>
+        </li>
+        <li class="flex">
+            <div>还款时间   </div>
+            <div class="flex-1 tr">
+            	#{if investBillDetails.real_receive_time == null}
+					----
+				#{/if}
+				#{else}
+					${investBillDetails.real_receive_time?.format(common.constants.Constants.DATE_FORMATE)}
+				#{/else}
+            </div>
+        </li>
+        <li class="flex">
+            <div>状态   </div>
+            <div class="flex-1 tr"> ${investBillDetails.status?.value}</div>
+        </li>
+    </ul>
+</div>
+</div>

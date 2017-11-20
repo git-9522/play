@@ -1,0 +1,138 @@
+<!-- 加息券 -->
+<div class="tab-cont clearfix account-manange">
+<span class="l-tltab clearfix tab-nav02">
+	<a href="javascript:void(0);" class="cur" id="unusedRate">
+		未使用
+		<i class="l-lien"></i>
+	</a>
+	
+	<a href="javascript:void(0);" id="usedRate">
+		已使用
+		<i class="l-lien"></i>
+	</a>
+	
+	<a href="javascript:void(0);" id="expiredRate">已过期</a>
+</span>
+
+<div class="account-main q-jxul" id="myRate">
+
+#{if pageBean?.page}
+<ul class="l-paytab clearfix ">
+	#{list pageBean?.page}
+	<li>
+		<div class="l-paybox">
+			<p class="l-paytlt"><em>${_?.rate?.format(common.constants.Constants.NUMBER_FORMATE_NORMAL)}</em>%&nbsp;加息券</p>
+			<p class="l-paytime">
+				投资${_?.use_rule?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可使用
+				<br />
+					#{if _?.bid_period == 0}无限制#{/if}
+					#{else}标的限制${_?.bid_period}个月#{/else}
+				<br>
+				${_?.time?.format(common.constants.Constants.DATE_PLUGIN2)}~${_?.end_time?.format(common.constants.Constants.DATE_PLUGIN2)}
+			</p>
+			<a href="javascript:void(0);" class="paynone">未使用</a>
+		</div>
+	</li>
+	#{/list}
+</ul>
+#{/if}
+
+#{if pageBean?.page}
+<div class="page-wrap textcenter">
+	#{frontPageTag page:pageBean,showPage:'showUnusedRatePre' /}
+</div>
+#{/if}
+
+</div>
+</div>	
+<script type="text/javascript">
+require(['front'],function(front){
+	
+	$("#unusedRate").click(function(){
+		showUnusedRatePre(1);
+	});
+	
+	$("#usedRate").click(function(){
+		showUsedRatePre(1);
+	});
+	
+	$("#expiredRate").click(function(){
+		showExpiredRatePre(1);
+	});
+	
+	var tabcard = function(menu,cont){
+		menu.eq(0).addClass('selected');
+		cont.hide().eq(0).show();
+		menu.click(function(){
+			var index = $(this).index();
+			$(this).addClass('selected').siblings().removeClass('selected');
+			cont.hide().eq(index).show();
+		});
+	}
+	
+	tabcard($('.tab-nav02>a'),$('.pagebox'));
+});
+	
+function showUnusedRatePre(currPage){
+	$.ajax({
+		url : "@{front.account.MyRateCtrl.showUnusedRatePre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myRate").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+	
+function showUsedRatePre(currPage){
+	$.ajax({
+		url : "@{front.account.MyRateCtrl.showUsedRatePre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myRate").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+	
+function showExpiredRatePre(currPage){
+	$.ajax({
+		url : "@{front.account.MyRateCtrl.showExpiredRatePre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myRate").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+</script>

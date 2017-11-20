@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>虹金所</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link href="css/style.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+<!--push_banner-->
+<div class="push_banner"><a href="http://www.hjs360.cn/app/download"><img src="images/push-banner.jpg"></a> </div>
+
+<!--push_safe-->
+<div class="push_safe clearfix">
+  <ul>
+    <li><a href="http://www.hjs360.cn/app/download"><img src="images/push-icon1.jpg" class="menu_ico"></a></li>
+    <li><a href="http://www.hjs360.cn/app/download"><img src="images/push-icon2.jpg" class="menu_ico"></a></li>
+    <li><a href="http://www.hjs360.cn/app/download"><img src="images/push-icon3.jpg" class="menu_ico"></a></li>
+    <li><a href="http://www.hjs360.cn/app/download"><img src="images/push-icon4.jpg" class="menu_ico"></a></li>
+  </ul>
+</div>
+<!--push_new-->
+<div class="push_new">
+  <h2 class="title">新手专享</h2>
+  <ul class="cont clearfix">
+    <li class="new_one"><a href="http://www.hjs360.cn/app/download"><img src="images/push-ad1.jpg"></a></li>
+    <li class="new_two"><a href="http://www.hjs360.cn/app/download"><img src="images/push-ad2.jpg"></a></li>
+    <li class="new_three"><a href="http://www.hjs360.cn/app/download"><img src="images/push-ad3.jpg"></a></li>
+  </ul>
+</div>
+<!--push_lce-->
+<div class="push_lce">
+  <h2 class="title">权威认证机构</h2>
+  <ul>
+    <li ><img src="images/push-lce2.jpg"><span>中国互联网金融行业<br>
+      百强企业</span></li>
+      <li style="margin-right:0;"><img src="images/push-lce1.jpg"><span>上海信息化理事会<br>
+      常务理事单位</span></li>
+    <li><img src="images/push-lce3.jpg"><span>315消费者<br>
+      信得过品牌</span></li>
+    <li style="margin-right:0;"><img src="images/push-lce4.jpg"><span>2015年度企业<br>
+      战略联盟单位</span></li>
+  </ul>
+</div>
+</body>
+<script type="text/javascript" src="@{'/public/wechat/newedition/js/jquery-1.8.3.min.js'}"></script>
+<script type="text/javascript">
+var recommendCode=getQueryString("recommendCode");
+
+
+function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}
+</script>
+</html>

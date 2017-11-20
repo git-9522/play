@@ -1,0 +1,123 @@
+#{extends 'back/spread/ActivityCtrl/lotteryActivityMain.html' /}
+	#{set title:'推广 | 投资抽奖活动 | 抽奖奖品' /}
+	#{set smallclass:2 /}
+	#{set crumbs:'推广>投资抽奖规则>抽奖奖品'/}
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">编辑活动奖品</b>
+		<div class="right back-rightbtns">
+				<a href="javascript:backAndRefresh('@{back.spread.ActivityCtrl.showLotteryActivttyRewardPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.spread.ActivityCtrl.editLotteryActivttyReward}" method="POST" id="formAddRewards">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">奖品信息</span>
+			</h2>
+			<input type="hidden" name="rewards.id" value="${rewards.id}">
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">奖品名称</span>
+					<div class="liright">
+						<input type="text" autofocus="autofocus" class="width01 iffocus" maxlength="10" value="${rewards?.name}" name="rewards.name"/>
+						<span class="back-text-limit">2~10个字符</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">奖品价值</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" maxlength="7" value="${rewards?.value}" name="rewards.value" oninput="$(this).withdrawRange();" onkeyup="$(this).withdrawRange();"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">奖品的价值</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">抽中概率</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${rewards?.probability}" maxlength="9" name="rewards.probability"  oninput="$(this).proportionRange();" onkeyup="$(this).proportionRange();"/>
+							<i class="unit">%</i>
+						</label>
+						<span class="back-text-limit">通过概率控制稀有礼品的获得率</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+            <input type="hidden" id="service_fee_rule" name="service_fee_rule" value=""/>
+            <input type="hidden" id="audit_subjects" name="audit_subjects" value=""/>
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.spread.ActivityCtrl.showLotteryActivttyRewardPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		
+		//效验组件
+		require(["validation/validateExt"]);
+		
+		$("#formAddRewards").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				}else if(element.parent().parent().hasClass("back-unitinput")){
+					error.addClass('back-notice').insertAfter(element.parent().parent());
+				}else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"rewards.name": {
+					required: true,
+					rangelength: [2,10]
+				},
+				"rewards.value":{
+					required: true,
+					number: true,
+					min: 0.01,
+					max:1000
+				},
+				"rewards.probability":{
+					required: true,
+					isFloat:true,
+					range: [0.1, 100]
+				}
+			},
+			messages: {
+				"rewards.name": {
+					required: "请输入奖品名称",
+					rangelength: "奖品名称长度在2~10之间"
+				},
+				"rewards.value": {
+					required: "请输入积分模式参数",
+					number: "只能为正整数",
+					min: "不能小于0.01",
+					max: "不能大于1000"
+				},
+				"rewards.probability": {
+					required: "请输入中奖概率",
+					range: "范围0.1~100"
+				}
+			},
+			submitHandler:function(form){
+        form.submit();
+   		}
+		});
+		
+	});
+</script>

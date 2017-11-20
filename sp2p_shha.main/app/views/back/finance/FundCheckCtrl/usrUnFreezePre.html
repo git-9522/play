@@ -1,0 +1,104 @@
+#{extends 'common/back/financeMain.html' /}
+	#{set title:'财务 | 解冻资金' /}
+	#{set smallclass:13 /}
+	#{set crumbs:'财务>解冻资金'/}
+	
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">后台解冻资金</b>
+	</div>
+	<form action="@{back.finance.FundCheckCtrl.doUsrUnFreeze}" method="POST" id="formAutoTenderCancel">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">后台解冻资金</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">用户id：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" maxlength="9" name="userId"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+						</label>
+						<span class="back-text-limit">用户ID</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">第三方交易订单号：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" maxlength="20" name="freezeTrxId"/>
+						</label>
+						<span class="back-text-limit">金额</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">投资标的id：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" maxlength="9" name="investId"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+						</label>
+						<span class="back-text-limit">投资ID</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">投标订单号</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" maxlength="18" name="ordNo"/>
+						</label>
+						<span class="back-text-limit">投标订单号</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+			<input type="submit" id="pageSave" value="资金解冻" class="bgbtn">
+		</p>
+	</div>
+	</form>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		//效验组件
+		require(["validation/validateExt"]);
+		
+		$("#formAutoTenderCancel").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				} else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"userId": {
+					required: true,
+					integer: true
+				}
+			},
+			messages: {
+				"userId": {
+					required: "不能为空",
+					integer: "只能为正整数"
+				}
+			},
+			submitHandler:function(form){
+	            form.submit();
+	        }
+		});
+		
+	});
+	
+</script>

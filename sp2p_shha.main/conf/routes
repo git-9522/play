@@ -1,0 +1,305 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# 模块路由载入配置：
+# ~~~~
+#
+*    /                                              module:sp2p_shha.ext.cps
+*    /                                              module:sp2p_shha.ext.wealthcircle
+*    /                                              module:sp2p_shha.ext.experiencebid
+*    /                                              module:sp2p_shha.ext.redpacket
+*    /                                              module:sp2p_shha.common
+*    /                                              module:sp2p_shha.payment
+*    /                                              module:sp2p_shha.app
+*    /                                              module:sp2p_shha.wechat
+*    /                                              module:sp2p_shha.ext.cash
+*    /                                              module:sp2p_shha.ext.mall
+*    /                                              module:sp2p_shha.ext.rate
+*    /                                              module:sp2p_shha.activity
+# 主项目路由配置
+# ~~~~
+
+# Ignore favicon requests
+GET  /favicon.ico                                   404
+
+# 直接访问静态资源(图片)
+GET  /data/                                         staticDir:data
+
+GET  /public/                                       staticDir:public
+
+* /robots.txt										front.FrontHomeCtrl.robots
+# 前台路由配置begin
+# 规范：/[功能模块名]/controller名去掉修饰词(首字母小写)/{action}.html 注意对齐
+# ~~~~
+#
+# 前台-首页页面 
+GET  /                                               front.FrontHomeCtrl.frontHomePre
+#
+# 前台-首页-控制器 (controllers.front.FrontHomeCtrl)
+GET  /home/{action}.html                             front.FrontHomeCtrl.{action}Pre
+POST /home/{action}                                  front.FrontHomeCtrl.{action}
+#
+# ~~~~
+# 前台-理财-投资-控制器(controllers.front.invest.InvestCtrl)
+GET  /invest/{action}.html                           front.invest.InvestCtrl.{action}Pre
+POST /invest/{action}                                front.invest.InvestCtrl.{action}
+#
+# 前台-理财-债权转让-控制器(controllers.front.invest.DebtCtrl)
+GET  /debt/{action}.html                             front.invest.DebtCtrl.{action}Pre
+POST /debt/{action}                                  front.invest.DebtCtrl.{action}
+#
+# ~~~~
+# 前台-借款-控制器(controllers.front.LoanCtrl)
+GET  /loan/{action}.html                             front.LoanCtrl.{action}Pre
+POST /loan/{action}                                  front.LoanCtrl.{action}
+#
+# ~~~~
+# 前台-资讯-控制器(controllers.front.InformationCtrl)
+GET  /information/{action}.html                      front.InformationCtrl.{action}Pre
+POST /information/{action}                           front.InformationCtrl.{action}
+#
+# ~~~~
+# 前台-账户中心-账户首页-控制器(controllers.front.account.MyAccountCtrl)
+GET  /account/{action}.html                          front.account.MyAccountCtrl.{action}Pre
+POST /account/{action}                               front.account.MyAccountCtrl.{action}
+#
+# 前台-账户中心-资产管理-控制器(controllers.front.account.MyFundCtrl)
+GET  /account/fund/{action}.html                     front.account.MyFundCtrl.{action}Pre
+POST /account/fund/{action}                          front.account.MyFundCtrl.{action}
+#
+# 前台-账户中心-交易记录-控制器(controllers.front.account.MyDealCtrl)
+GET  /account/deal/{action}.html                     front.account.MyDealCtrl.{action}Pre
+POST /account/deal/{action}                          front.account.MyDealCtrl.{action}
+#
+# 前台-账户中心-会员信息-控制器(controllers.front.account.MyInfoCtrl)
+GET  /account/info/{action}.html                     front.account.MyInfoCtrl.{action}Pre
+POST /account/info/{action}                          front.account.MyInfoCtrl.{action}
+#
+# 前台-账户中心-安全中心-控制器(controllers.front.account.MySecurityCtrl)
+GET  /account/security/{action}.html                 front.account.MySecurityCtrl.{action}Pre
+POST /account/security/{action}                      front.account.MySecurityCtrl.{action}
+#
+# 前台-账户中心-我的奖励-控制器(controllers.front.account.MyRewardCtrl)
+GET  /account/reward/{action}.html                   front.account.MyRewardCtrl.{action}Pre
+POST /account/reward/{action}                        front.account.MyRewardCtrl.{action}
+#
+# ~~~~
+# 前台-登陆注册-控制器(controllers.front.LoginAndRegisteCtrl)
+GET  /loginAndRegiste/{action}.html                  front.LoginAndRegisteCtrl.{action}Pre
+POST /loginAndRegiste/{action}                       front.LoginAndRegisteCtrl.{action}
+#
+# 前台-我是新手-控制器(controllers.front.newbie.NewbieCtrl)
+GET  /newbie/{action}.html                           front.newbie.NewbieCtrl.{action}Pre
+POST /newbie/{action}                                front.newbie.NewbieCtrl.{action}
+#
+#微信授权回调
+* /MP_verify_bC3f2JnFLGs4t6SW.txt					 					front.FrontHomeCtrl.MP_verify_bC3f2JnFLGs4t6SW
+
+#问卷调查
+GET  /questionnaire/enterQuestionnaire.html					front.QuestionnaireCtrl.enterQuestionnairePre
+POST /questionnaire/commitQuestionnaire.html				front.QuestionnaireCtrl.commitQuestionnairePre
+
+#活动
+GET  /activity/{action}.html												front.ActivityCtrl.{action}Pre
+POST /activity/{action}.html												front.ActivityCtrl.{action}
+
+# 前台路由配置end			
+
+
+# 后台路由配置begin
+# 规范：/supervisor/[功能模块名]/controller名去掉修饰词(首字母小写)/{action}.html 注意对齐
+# ~~~~
+#
+# 后台-登陆-页面 
+GET  /supervisor/?                                       back.BackLoginCtrl.toBackLoginPre
+#
+#
+# 后台-统计
+GET  /supervisor/{action}.html                           back.BackStatisticsCtrl.{action}Pre
+POST /supervisor/{action} 
+#
+#
+#
+#
+# 后台-登录-控制器(controllers.back.BackLoginCtrl)
+GET  /supervisor/login/{action}.html                     back.BackLoginCtrl.{action}Pre
+POST /supervisor/login/{action}                          back.BackLoginCtrl.{action}
+# 后台-登陆-安全云盾-控制器
+GET	 /supervisor/ukeyCheck                               back.UKeyCtrl.ukeyCheck
+#
+# 后台-首页(controllers.back.BackHomeCtrl)
+GET  /supervisor/home/{action}.html                      back.BackHomeCtrl.{action}Pre
+POST /supervisor/home/{action}                           back.BackHomeCtrl.{action}
+#
+# 后台-运维
+# ~~~~
+# 后台-运维-栏目设置-控制器(controllers.back.webOperation.ColumnMngCtrl)
+GET  /supervisor/operation/column/{action}.html          back.webOperation.ColumnMngCtrl.{action}Pre
+POST /supervisor/operation/column/{action}               back.webOperation.ColumnMngCtrl.{action}
+#
+# 后台-运维-资讯管理-控制器(controllers.back.webOperation.InformationMngCtrl)
+GET  /supervisor/operation/information/{action}.html     back.webOperation.InformationMngCtrl.{action}Pre
+POST /supervisor/operation/information/{action}          back.webOperation.InformationMngCtrl.{action}
+#
+# 后台-运维-广告图片-控制器(controllers.back.webOperation.AdvertisementMngCtrl)
+GET  /supervisor/operation/ad/{action}.html              back.webOperation.AdvertisementMngCtrl.{action}Pre
+POST /supervisor/operation/ad/{action}                   back.webOperation.AdvertisementMngCtrl.{action}
+#
+# 后台-运维-理财顾问-控制器(controllers.back.webOperation.ConsultantMngCtrl)
+GET  /supervisor/operation/consultant/{action}.html      back.webOperation.ConsultantMngCtrl.{action}Pre
+POST /supervisor/operation/consultant/{action}           back.webOperation.ConsultantMngCtrl.{action}
+#
+# 后台-运维-合作伙伴-控制器(controllers.back.webOperation.PartnerMngCtrl)
+GET  /supervisor/operation/partner/{action}.html         back.webOperation.PartnerMngCtrl.{action}Pre
+POST /supervisor/operation/partner/{action}              back.webOperation.PartnerMngCtrl.{action}
+
+# 后台-运维-友情链接-控制器(controllers.back.webOperation.FriendShipLinkMngCtrl)
+GET  /supervisor/operation/friendshiplink/{action}.html         back.webOperation.FriendShipLinkMngCtrl.{action}Pre
+POST /supervisor/operation/friendshiplink/{action}              back.webOperation.FriendShipLinkMngCtrl.{action}
+#
+# 后台-运维-帮助中心-控制器(controllers.back.webOperation.HelpMngCtrl)
+GET  /supervisor/operation/help/{action}.html            back.webOperation.HelpMngCtrl.{action}Pre
+POST /supervisor/operation/help/{action}                 back.webOperation.HelpMngCtrl.{action}
+#
+# 后台-运维-通知模板-控制器(controllers.back.webOperation.NoticeMngCtrl)
+GET  /supervisor/operation/notice/{action}.html          back.webOperation.NoticeMngCtrl.{action}Pre
+POST /supervisor/operation/notice/{action}               back.webOperation.NoticeMngCtrl.{action}
+#
+# 后台-会员
+# ~~~~
+# 后台-会员管理-控制器(controllers.back.UserMngCtrl)
+GET  /supervisor/user/{action}.html                      back.UserMngCtrl.{action}Pre
+POST /supervisor/user/{action}                           back.UserMngCtrl.{action}
+#
+# 后台-风控
+# ~~~~
+# 后台-风控-理财项目管理-控制器(controllers.back.risk.LoanMngCtrl)
+GET  /supervisor/risk/loan/{action}.html                 back.risk.LoanMngCtrl.{action}Pre
+POST /supervisor/risk/loan/{action}                      back.risk.LoanMngCtrl.{action}
+#
+# 后台-风控-债权转让管理-控制器(controllers.back.risk.DebtMngCtrl)
+GET  /supervisor/risk/debt/{action}.html                 back.risk.DebtMngCtrl.{action}Pre
+POST /supervisor/risk/debt/{action}                      back.risk.DebtMngCtrl.{action}
+#
+# 后台-风控-借款产品管理-控制器(controllers.back.risk.ProductMngCtrl)
+GET  /supervisor/risk/product/{action}.html              back.risk.ProductMngCtrl.{action}Pre
+POST /supervisor/risk/product/{action}                   back.risk.ProductMngCtrl.{action}
+#
+# 后台-风控-合作机构管理-控制器(controllers.back.risk.AgencyMngCtrl)
+GET  /supervisor/risk/agency/{action}.html              back.risk.AgencyMngCtrl.{action}Pre
+POST /supervisor/risk/agency/{action}                   back.risk.AgencyMngCtrl.{action}
+#
+# 后台-风控-审核科目管理-控制器(controllers.back.risk.AuditSubjectMngCtrl)
+GET  /supervisor/risk/subject/{action}.html              back.risk.AuditSubjectMngCtrl.{action}Pre
+POST /supervisor/risk/subject/{action}                   back.risk.AuditSubjectMngCtrl.{action}
+#
+# 后台-风控-信用等级管理-控制器(controllers.back.risk.CreditLevelMngCtrl)
+GET  /supervisor/risk/creditLevel/{action}.html          back.risk.CreditLevelMngCtrl.{action}Pre
+POST /supervisor/risk/creditLevel/{action}               back.risk.CreditLevelMngCtrl.{action}
+#
+# 后台-风控-合同模板管理-控制器(controllers.back.risk.PactMngCtrl)
+GET  /supervisor/risk/pact/{action}.html                 back.risk.PactMngCtrl.{action}Pre
+POST /supervisor/risk/pact/{action}                      back.risk.PactMngCtrl.{action}
+#
+#
+# 后台-财务
+# ~~~~
+# 后台-财务-财务放款-控制器(controllers.back.finance.ReleaseMngCtrl)
+GET  /supervisor/finance/release/{action}.html           back.finance.ReleaseMngCtrl.{action}Pre
+POST /supervisor/finance/release/{action}                back.finance.ReleaseMngCtrl.{action}
+#
+# 后台-财务-借款账单-控制器(controllers.back.finance.BillMngCtrl)
+GET  /supervisor/finance/bill/{action}.html              back.finance.BillMngCtrl.{action}Pre
+POST /supervisor/finance/bill/{action}                   back.finance.BillMngCtrl.{action}
+#
+# 后台-财务-理财账单-控制器(controllers.back.finance.InvestBillMngCtrl)
+GET  /supervisor/finance/investBill/{action}.html        back.finance.InvestBillMngCtrl.{action}Pre
+POST /supervisor/finance/investBill/{action}             back.finance.InvestBillMngCtrl.{action}
+#
+# 后台-财务-会员提现-控制器(controllers.back.finance.UserWithdrawMngCtrl)
+GET  /supervisor/finance/withdraw/{action}.html          back.finance.UserWithdrawMngCtrl.{action}Pre
+POST /supervisor/finance/withdraw/{action}               back.finance.UserWithdrawMngCtrl.{action}
+#
+# 后台-财务-会员充值-控制器(controllers.back.finance.UserRechargeMngCtrl)
+GET  /supervisor/finance/recharge/{action}.html          back.finance.UserRechargeMngCtrl.{action}Pre
+POST /supervisor/finance/recharge/{action}               back.finance.UserRechargeMngCtrl.{action}
+#
+# 后台-财务-红包记录-控制器(controllers.back.finance.RedPacketRecordCtrl)
+GET  /supervisor/finance/redPacketRecord/{action}.html     back.finance.RedPacketRecordCtrl.{action}Pre
+
+#
+# 后台-财务-平台收支-控制器(controllers.back.finance.PlateformDealMngCtrl)
+GET  /supervisor/finance/platefromDeal/{action}.html     back.finance.PlateformDealMngCtrl.{action}Pre
+POST /supervisor/finance/platefromDeal/{action}          back.finance.PlateformDealMngCtrl.{action}
+#
+# 后台-财务-奖励兑换-控制器(controllers.back.finance.ConversionMngCtrl)
+GET  /supervisor/finance/conversion/{action}.html        back.finance.ConversionMngCtrl.{action}Pre
+POST /supervisor/finance/conversion/{action}             back.finance.ConversionMngCtrl.{action}
+#
+# 后台-财务-理财设置-控制器(controllers.back.finance.FinanceSettingCtrl)
+GET  /supervisor/finance/setting/{action}.html           back.finance.FinanceSettingCtrl.{action}Pre
+POST /supervisor/finance/setting/{action}                back.finance.FinanceSettingCtrl.{action}
+#
+# 后台-财务-商户号管理-控制器(controllers.back.finance.MerchantMngCtrl)
+GET  /supervisor/finance/financeSetting/{action}.html    back.finance.MerchantMngCtrl.{action}Pre
+POST /supervisor/finance/financeSetting/{action}         back.finance.MerchantMngCtrl.{action}
+#
+# 后台-财务-托管记录-控制器(controllers.back.finance.PaymentLogMngCtrl)
+GET  /supervisor/finance/paymentRecord/{action}.html     back.finance.PaymentLogMngCtrl.{action}Pre
+POST /supervisor/finance/paymentRecord/{action}          back.finance.PaymentLogMngCtrl.{action}
+#
+# 后台-财务-资金校对-控制器(controllers.back.finance.FundCheckCtrl)
+GET  /supervisor/finance/fundCheck/{action}.html         back.finance.FundCheckCtrl.{action}Pre
+POST /supervisor/finance/fundCheck/{action}              back.finance.FundCheckCtrl.{action}
+#
+#
+# 后台-设置
+# ~~~~
+# 后台-设置-平台设置-控制器(controllers.back.setting.PlateformSettingCtrl)
+GET  /supervisor/setting/plateform/{action}.html         back.setting.PlateformSettingCtrl.{action}Pre
+POST /supervisor/setting/plateform/{action}              back.setting.PlateformSettingCtrl.{action}
+#
+# 后台-设置-接口设置-控制器(controllers.back.setting.InterfaceSettingCtrl)
+GET  /supervisor/setting/interface/{action}.html         back.setting.InterfaceSettingCtrl.{action}Pre
+POST /supervisor/setting/interface/{action}              back.setting.InterfaceSettingCtrl.{action}
+#
+# 后台-设置-操作日志-控制器(controllers.back.setting.SupervisorEventMngCtrl)
+GET  /supervisor/setting/event/{action}.html             back.setting.SupervisorEventMngCtrl.{action}Pre
+POST /supervisor/setting/event/{action}                  back.setting.SupervisorEventMngCtrl.{action}
+#
+# 后台-设置-权限管理-控制器(controllers.back.setting.RightMngCtrl)
+GET  /supervisor/setting/right/{action}.html             back.setting.RightMngCtrl.{action}Pre
+POST /supervisor/setting/right/{action}                  back.setting.RightMngCtrl.{action}
+#
+# 后台-设置-风格设置-控制器(controllers.back.setting.StyleSettingCtrl)
+GET  /supervisor/setting/style/{action}.html             back.setting.StyleSettingCtrl.{action}Pre
+POST /supervisor/setting/style/{action}                  back.setting.StyleSettingCtrl.{action}
+
+# 后台-APP
+# ~~~~
+# 后台-APP-版本管理控制器(controllers.back.app.appversion.AppVersionCtrl)
+GET  /supervisor/appversion/{action}.html                back.appversion.AppVersionCtrl.{action}Pre
+POST /supervisor/appversion/{action}                     back.appversion.AppVersionCtrl.{action}
+
+
+#异步校验-后台
+POST	/supervisor/validation/{action}		      back.BackAjaxValideCtrl.{action}
+
+#异步校验-前台
+POST	/front/validation/{action}		      	  front.FrontAjaxValideCtrl.{action}
+
+#
+# 后台路由配置end
+
+#  体验金
+# 前台-体验金-控制器(controllers.front.expgold.ExperienceGoldCtrl)
+GET  /expgold/{action}.html                           front.spread.ExperienceGoldCtrl.{action}Pre
+POST /expgold/{action}                                front.spread.ExperienceGoldCtrl.{action}
+#
+
+# 后台-体验金-控制器(controllers.front.expgold.BackExperienceGoldCtrl)
+GET  /backExpgold/{action}.html                           back.expgold.BackExperienceGoldCtrl.{action}Pre
+POST /backExpgold/{action}                                back.expgold.BackExperienceGoldCtrl.{action}
+#
+ 

@@ -1,0 +1,92 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_bjmkw.wechat
+#
+# ~~~~
+
+GET  /public/                                       staticDir:public
+
+# 微信接入-消息处理控制器(controllers.wechat.wx.WxCtrl)
+# 微信处理
+*  /wx/access                                  wechat.wx.WxCtrl.checkSignature
+*  /wx/userOAuth							   wechat.wx.WxCtrl.userOAuth
+*  /wx/create								   wechat.wx.WxCtrl.createMenuPre
+
+# 微信公共消息处理
+GET  /wx/result                                  wechat.WechatBaseController.toResultPage
+
+# 微信-首页-控制器 (wechat.front.WechatHomeCtrl)
+GET  /wx/home/{action}.html                             wechat.front.WechatHomeCtrl.{action}Pre
+POST /wx/home/{action}                                  wechat.front.WechatHomeCtrl.{action}
+
+# ~~~~
+# 微信-债权-控制器(wechat.front.DebtCtrl)
+GET  /wx/debt/{action}.html                           wechat.front.DebtCtrl.{action}Pre
+POST /wx/debt/{action}                                wechat.front.DebtCtrl.{action}
+
+# ~~~~
+# 微信-理财-控制器(wechat.front.InvestCtrl)
+GET  /wx/invest/{action}.html                           wechat.front.InvestCtrl.{action}Pre
+POST /wx/invest/{action}                                wechat.front.InvestCtrl.{action}
+
+# ~~~~
+# 微信-积分商城-控制器(wechat.front.IntegralMallCtrl)
+GET  /wx/mall/{action}.html                           wechat.front.IntegralMallCtrl.{action}Pre
+POST /wx/mall/{action}                                wechat.front.IntegralMallCtrl.{action}
+
+# ~~~~
+# 微信-账户中心-账户首页-控制器(controllers.wechat.front.account.MyAccountCtrl)
+GET  /wx/account/{action}.html                          wechat.front.account.MyAccountCtrl.{action}Pre
+POST /wx/account/{action}                               wechat.front.account.MyAccountCtrl.{action}
+#
+# 微信-账户中心-资产管理-控制器(controllers.wechat.front.account.MyFundCtrl)
+GET  /wx/account/fund/{action}.html                     wechat.front.account.MyFundCtrl.{action}Pre
+POST /wx/account/fund/{action}                          wechat.front.account.MyFundCtrl.{action}
+#
+# 微信-账户中心-交易记录-控制器(controllers.wechat.front.account.MyDealCtrl)
+GET  /wx/account/deal/{action}.html                     wechat.front.account.MyDealCtrl.{action}Pre
+POST /wx/account/deal/{action}                          wechat.front.account.MyDealCtrl.{action}
+#
+# 微信-账户中心-会员信息-控制器(controllers.wechat.front.account.MyInfoCtrl)
+GET  /wx/account/info/{action}.html                     wechat.front.account.MyInfoCtrl.{action}Pre
+POST /wx/account/info/{action}                          wechat.front.account.MyInfoCtrl.{action}
+#
+# 微信-账户中心-安全中心-控制器(controllers.wechat.front.account.MySecurityCtrl)
+GET  /wx/account/security/{action}.html                 wechat.front.account.MySecurityCtrl.{action}Pre
+POST /wx/account/security/{action}                      wechat.front.account.MySecurityCtrl.{action}
+#
+# 微信-账户中心-回款计划-控制器(controllers.wechat.front.account.MyReceiveBillCtrl)
+GET  /wx/account/bill/{action}.html                 wechat.front.account.MyReceiveBillCtrl.{action}Pre
+POST /wx/account/bill/{action}                      wechat.front.account.MyReceiveBillCtrl.{action}
+#
+# 微信-账户中心-我的奖励-控制器(controllers.wechat.front.account.MyRewardCtrl)
+GET  /wx/account/reward/{action}.html                 wechat.front.account.MyRewardCtrl.{action}Pre
+POST /wx/account/reward/{action}                      wechat.front.account.MyRewardCtrl.{action}
+#
+# 微信-账户中心-我的奖励-体验标-控制器(controllers.wechat.front.account.MyExperiencebidCtrl)
+GET  /wx/account/reward/expbid/{action}.html          wechat.front.account.MyExperiencebidCtrl.{action}Pre
+POST /wx/account/reward/expbid/{action}               wechat.front.account.MyExperiencebidCtrl.{action}
+#
+# ~~~~
+# 微信-登录注册-控制器(controllers.wechat.front.LoginAndRegisteCtrl)
+GET  /wx/loginAndRegiste/{action}.html                  wechat.front.LoginAndRegisteCtrl.{action}Pre
+POST /wx/loginAndRegiste/{action}                       wechat.front.LoginAndRegisteCtrl.{action}
+#
+# ~~~~
+# 微信-体验标-控制器(controllers.wechat.front.ExperiencebidWechatCtrl)
+GET  /wx/ExperiencebidWechat/{action}.html				wechat.front.ExperiencebidWechatCtrl.{action}Pre
+POST /wx/ExperiencebidWechat/{action}					wechat.front.ExperiencebidWechatCtrl.{action}
+#
+# ~~~~
+# 后台-微信-微信控制器(controllers.wechat.back.WechatCtrl)
+GET  /supervisor/wechat/back/{action}.html                      wechat.back.WechatCtrl.{action}Pre
+POST /supervisor/wechat/back/{action}                           wechat.back.WechatCtrl.{action}
+
+
+#微信端异步校验-wap
+POST	/wx/validation/{action}		      	  			wechat.front.WechatAjaxValideCtrl.{action}
+
+#微信活动
+GET 	/wx/activity/{action}.html						wechat.front.ActivityCtrl.{action}Pre
+POST	/wx/activity/{action}							wechat.front.ActivityCtrl.{action}

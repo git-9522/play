@@ -1,0 +1,106 @@
+/*
+	主色调：#F77B0F
+	辅色调：#f44e43
+*/
+
+a:hover,
+.nav a:hover,
+.nav .selected,
+.index-daynew a:hover,
+.bdbtn,
+.getcode-btn,
+.findpassword-step .selected .step-name,
+.findpassword-step .done .step-name,
+.news-nav .selected,
+.detail-tabmenu .selected,
+.detail-tabmenu li:hover{
+	color: #ff5256;
+}
+.major {
+    color: #30a5e4;
+}
+.assistant{
+	color: #f44e43;
+}
+.btn,
+.box_skitter .info_slide .image_number.image_number_select,
+.box_skitter .info_slide .image_number.image_number_select:hover,
+.bdbtn:hover,
+.recticon,
+.getcode-btn:hover,
+.dialog-head,
+.findpassword-step .selected .step-circle,
+.findpassword-step .done .step-circle,
+.findpassword-step .done .step-split,
+.page-num:hover,
+.progress-bar,
+.detail-intitle i,
+.second-navbox,
+.help-rightbar-head i,
+.safe-check h3,
+.safe-protect h3,
+.joinus-tab th,
+.userapprove .approved,
+.safelevel-value,
+.userasset-table,
+.userasset-control:hover,
+.userasset-control.selected,
+.account-menu .selected,
+.account-autohandle .selected,
+.index-progressbar,
+.help-question .askicon,
+.fade-handle .selected{
+	background-color: #ff5256;
+}
+.page-num.selected {
+    background: #fd6c6e;
+}
+.rightbar li .icon {
+    background-color: #fd6c6e;
+}
+.btn:hover,
+.rightbar-word,
+.rightbar-kflist{
+	background-color: #fe7262;
+}
+.bdbtn,
+.getcode-btn,
+.financial-buylist,
+.news-top,
+.help-list .selected,
+.title-dialog,
+.account-autostatus,
+.account-autohandle,
+.account-infortitle .left,
+.bank-list li:hover,.bank-list .selected,
+.index-progress,
+.index-progressvalue,
+.progress{
+	/*   20170628改
+	border-color: #F77B0F;
+	*/
+	border-color: #ff5256;
+}
+.top a:hover,
+.mobile-app:hover{
+	/*color: #FBA053;*/
+	color: #fe7262;
+}
+.index-daynew{
+	/*background-color: #FBA053;*/
+	background-color: #ff5256;
+}
+.detail-tabmenu .selected,
+.index-progressvalue i:first-child{
+	/*border-top-color: #F77B0F;*/
+	border-top-color: #ff5256;
+}
+.help-nav .selected{
+	/*border-left-color: #F77B0F;*/
+	border-left-color: #ff5256;
+}
+.title-dialog i:first-child,
+.account-title{
+	/*border-bottom-color: #F77B0F;*/
+	border-bottom-color: #ff5256;
+}

@@ -1,0 +1,198 @@
+#{extends 'back/mall/ScoreCtrl/mailMain.html' /}
+	#{set title:'积分商城 | 抽奖规则' /}
+	#{set smallclass:3 /}
+	#{set crumbs:'积分商城>抽奖规则'/}
+	
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">编辑抽奖规则</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.mall.RewardsCtrl.showRewardsPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.mall.RewardsCtrl.editLotteryRule()}" method="POST" id="formAddGoods">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">抽奖规则</span>
+				<label class="right">
+					<span >是否开启积分商城</span>
+					<input id="pointMallShowInput" type="checkbox" #{if activity_is_use} checked="checked" #{/if} onclick="updateIsLotteryShow($(this))" />
+				</label>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">活动名称：</span>
+					<div class="liright">
+						<input type="text" autofocus="autofocus" class="width01 iffocus" maxlength="10" value="${activity_name}" name="activity_name"/>
+						<span class="back-text-limit">2~10个字符</span>
+					</div>
+				</li>
+				<li >
+					<span class="lileft">活动时间：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="easyui-datetimebox" value="${activity_start_time}" name="activity_start_time"/>
+						</label>
+						~
+						<label class="back-unitinput">
+							<input type="text" class="easyui-datetimebox" value="${activity_end_time}" name="activity_end_time"/>
+						</label>
+						<span class="back-text-limit">倘若不在活动期限内，给予用户提示</span>
+					</div>
+					
+				</li>
+				<li >
+					<span class="lileft">抽奖积分：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" value="${expend_score}" maxlength="9" name="expend_score"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+							<i class="unit">分</i>
+						</label>
+						<span class="back-text-limit">抽奖所要消耗的积分数</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">每日抽奖：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" value="${daily_lottery_number}" maxlength="9" name="daily_lottery_number"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+							<i class="unit">次</i>
+						</label>
+						<span class="back-text-limit">达到上限时无法继续进行抽奖</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">活动规则：</span>
+					<div class="liright">
+						<textarea id="inforTextarea" class="back-textarea" name="activity_rule" style="height:200px;" maxlength="500">${activity_rule}</textarea>
+						<span class="back-text-limit"></span>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.mall.RewardsCtrl.showRewardsPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		//日期时间组件
+		require(["datatime"]);
+		
+		/* require(["editor"],function(editor){
+			editor('#inforTextarea');
+		}); */
+		//效验组件
+		require(["validation/validateExt"]);
+		//上传组件
+		require(["ajaxfileupload"]);
+		
+		$("#formAddGoods").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				} else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"activity_name": {
+					required: true,
+					rangelength: [2,10]
+				},
+				"activity_start_time": {
+					required: true
+					
+				},
+				"activity_end_time": {
+					required: true
+					
+				},
+				"expend_score": {
+					required: true,
+					digits: true
+					
+				},
+				"daily_lottery_number":{
+					required: true,
+					digits: true
+				}
+			},
+			messages: {
+				"activity_name": {
+					required: "请输入活动名称",
+					rangelength: "活动名称长度在2~10之间"
+				},
+				"expend_score": {
+					required: "请输入抽奖积分",
+					digits: "只能为正整数"
+				},
+				"daily_lottery_number": {
+					required: "请输入每日抽奖次数",
+					digits: "只能为正整数"
+				}
+			},
+			submitHandler:function(form){
+				
+				if($("#inforTextarea").val()=='' || $("#inforTextarea").val()==undefined || $("#inforTextarea").val()==null){
+					alert("请输入活动规则");
+					return false;
+				}
+			
+	            form.submit();
+	        }
+		});
+		
+	});
+	
+	function updateIsLotteryShow(obj) {
+		var flag = false;
+		if(obj.is(':checked')){
+				 flag = true;
+		}
+		$.ajax({
+				url : "@{back.mall.RewardsCtrl.updateIsLotteryShow()}",
+				type : "POST",
+				data : {
+					"flag" : flag
+				},
+				dataType:"json",
+				success : function(result) {
+					var flag = interceptorCheck(result);
+					if(!flag){
+						return;
+					}
+					if(result.code < 1){
+						alert(result.msg);
+						if(obj.is(':checked')){
+							
+							obj.removeAttr("checked");
+						}
+					} else {
+						weakDialog(result.msg);
+					}
+				}
+		});
+	}
+	
+    
+</script>

@@ -1,0 +1,148 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: true/}
+#{set title: 'p2p如何投资投标_互联网理财产品-我要出借-虹金所'/} 
+#{set keywords: 'p2p投标, p2p如何投资, 互联网理财产品'/}
+#{set description: '虹金所为您提供优质车贷质押标、房贷抵押标、企业资金周转标,资产小额分散,为广大用户提供一个理财新渠道。'/}
+#{set AItem:1 /}
+
+<form action="@{front.invest.InvestCtrl.showBidsPre()}" method="get" id="showBids">
+<!--内容-->
+<div class="bgf mt20 bbs">
+    <div class="f-1200 auto pt25">
+        <div class="clearfix">
+            <div class="clearfix f-wylc-nav1 f-on #{if productId==0}f-on#{/if}">
+                <span class="left" onclick="chooseCondition('productId',0);">全部项目</span>
+                <span class="f-sp1">${frontBidsNum}</span>
+                <div class="f-div-on">&nbsp;</div>
+            </div>
+            #{list items:productList}
+            <div class="clearfix f-wylc-nav1">
+                <span class="left" onclick="chooseCondition('productId',${_?.id});">${_?.name}</span>
+                <span class="f-sp1">${_?.total_bid}</span>
+                <div class="f-div-on">&nbsp;</div>
+            </div>
+            #{/list}
+        </div>
+    </div>
+</div>
+
+<div class="bgf">
+    <div class="f-1200 auto pb25">
+        <div class="pt20 fs14 clearfix">
+            <div class="c9 f-100 left mt5">项目状态：</div>
+            <div class="left clearfix f-sx">
+                <a href="javascript:void(0);" class="left f-sp2 f-on #{if status==99}f-on#{/if}" onclick="chooseCondition('status',99);">全部</a>
+                <a href="javascript:void(0);" class="left f-sp2 #{if status==1}f-on#{/if}" onclick="chooseCondition('status',1);">正在募集</a>
+                <a href="javascript:void(0);" class="left f-sp2" onclick="chooseCondition('status',88);">即将开启</a>
+                <a href="javascript:void(0);" class="left f-sp2 #{if status==4}f-on#{/if}" onclick="chooseCondition('status',4);">正在回款</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="f-sx2 clearfix f-1200 auto lh75">
+    <div class="pl40">
+        <span class="left c9">排序方式 :</span>
+        <a class="left clearfix f-on #{if orderType==0} f-on #{if orderValue==1}f-again#{/if} #{/if}" _value="0"><span class="left">默认方式</span></a>
+        <a class="left clearfix #{if orderType==1} f-on #{if orderValue==1}f-again#{/if} #{/if}" _value="1"><span class="left">年化利率</span><span class="f-sp3"></span></a>
+        <a class="left clearfix #{if orderType==2} f-on #{if orderValue==2}f-again#{/if} #{/if}" _value="2"><span class="left">投资期限</span><span class="f-sp3"></span></a>
+        <a class="left clearfix #{if orderType==3} f-on #{if orderValue==3}f-again#{/if} #{/if}" _value="3"><span class="left">发标时间</span><span class="f-sp3"></span></a>
+    </div>
+</div>
+
+<input type="hidden" id="productId" name="productId" value="${productId}" />
+<input type="hidden" id="status" name="status" value="${status}" />
+<input type="hidden" id="orderType" name="orderType" value="${orderType}" />
+<input type="hidden" id="orderValue" name="orderValue" value="${orderValue}" />
+</form>
+
+<div class="f-wylc-box">
+    <div class="clearfix f-wylc-boxTitle">
+        <div class="left f-230">项目名称</div>
+        <div class="left f-200">期待年回报率</div>
+        <div class="left f-160">项目期限</div>
+        <div class="left f-160">借款金额</div>
+        <div class="left f-400">项目进度</div>
+    </div>
+    <ul id="financial_bid">
+    </ul>
+</div>
+<!--内容 end-->
+    
+<script type="text/javascript">
+require(['front'],function(front){
+	showPage(1);
+	#{if countDebtInAuction>0}
+		showTransfer(1);
+	#{/if}
+	
+    $(function(){
+        //标2左边栏切换
+        $(".f-left2-ul li").click(function(){
+            $(".f-left2-ul li").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //导航切换
+        $(".f-wylc-nav1").click(function(){
+            $(".f-wylc-nav1").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //筛选1切换
+        $(".f-sx .f-sp2").click(function(){
+            $(".f-sx .f-sp2").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //筛选2切换
+        $(".f-sx2 a").click(function(){
+            //判断点击的是否为选中的a
+            if($(this).hasClass("f-on")){
+            	$(this).toggleClass("f-again");//再次点击改变升降序
+            }
+            $(".f-sx2 a").removeClass("f-on");//移除选中的a
+            $(this).addClass("f-on");//为当前a添加选中
+            if($(this).hasClass("f-again")){
+            	$("#orderValue").val(1);
+            }else{
+            	$("#orderValue").val(0);
+            }
+            var _value = $(this).attr("_value");
+            chooseCondition("orderType",_value);
+        })
+    })
+});
+
+function chooseCondition(key,value){
+	$("#"+key).val(value);
+	showPage(1);
+}
+
+function showPage(currPage) {
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.showBidsPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"productId" : $("#productId").val(),
+			"status" : $("#status").val(),
+			"orderType" : $("#orderType").val(),
+			"orderValue" : $("#orderValue").val()
+		},
+		success : function(data){
+			$("#financial_bid").html(data);
+		}
+	});
+}
+
+function showTransfer(currPage){
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.showTransfersPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data){
+			$("#financial_transfer").html(data);
+		}
+	});
+}
+</script>

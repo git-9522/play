@@ -1,0 +1,209 @@
+
+<div class="account-main " id="cpsMain">
+	
+		<table class="account-table" width="100%">
+			<tr height="46">
+				<th>推广会员</th>
+				<th>累计返佣</th>
+				<th>可领佣金</th>
+				<th>推广时间</th>
+				<th>操作</th>
+			</tr>
+			#{if page?.page}
+			#{list items:page?.page,as:'cpsUser'}
+				<tr height="46">
+					<td>${cpsUser?.userName}</td>
+					<td>${cpsUser?.total_rebate?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}</td>
+					<td>${cpsUser?.recivable_rebate?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}</td>
+					<td>${cpsUser?.time?.format(common.constants.Constants.DATE_TIME_FORMATE)}</td>
+					<td>
+						#{if cpsUser?.recivable_rebate>0 }
+							<a href="javascript:void(0);" onclick="reciveCps('${cpsUser?.sign}')" class="major cursor">领取</a>
+						#{/if}
+						#{else}
+							<span class="c9">领取</span>
+						#{/else}
+						
+						#{if cpsUser?.investCount>0 }
+							<a href="javascript:void(0);"  onclick="showCpsInvest(1,'${cpsUser?.sign}')" class="major cursor">投资记录</a>
+						#{/if}
+						#{else}
+							<span class="c9">投资记录</span>
+						#{/else}
+						
+					</td>
+				</tr>
+			#{/list}
+			#{/if}
+		</table>
+		#{if page?.page}
+		<div class="left major account-rednote">
+			<span>可兑换返佣&nbsp;&nbsp;&nbsp;${cpsAccount?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元<a href="javascript:void(0);" #{if cpsAccount?.balance > 0}onclick="cpsExchange()"#{/if}  class="account-debtbtn">兑换&gt;</a></span>
+		</div>
+		#{frontPageTag page:page,showPage:'showMyCps' /}
+		#{/if}
+		#{else}
+			<div class="norecord-box c9">
+				暂无记录
+			</div>
+		#{/else}
+	
+	<div class="account-extension clearfix extension-rule">
+		<div class="left">
+			<h3 class="major">推广规则</h3>
+			<p>建立一个推广关系，一次性返佣&nbsp;<span class="major">#{formatIntMoney money:rebate_reg /}</span>&nbsp;元，持续返佣被推广人理财金额的千分之&nbsp;<span class="major">${Double.parseDouble(rebate_invest)?.format(common.constants.Constants.NUMBER_FORMATE_NORMAL)}</span>&nbsp;；被推广人理财服务费享有&nbsp;<span class="major">${Double.parseDouble(discount_invest)?.format(common.constants.Constants.NUMBER_FORMATE_NORMAL)}</span>&nbsp;折优惠。</p>
+			<span class="left extensionnum">我的推广码<b class="major">${mobile}</b></span>
+			<a id="copy_link_a" class="left major copylink"><i class="icon"></i>复制链接地址</a>
+			<input type="hidden" id="cps-wx" name="cps-wx" value="@@{front.LoginAndRegisteCtrl.registerPre}?recommendCode=${mobileSign}"/>
+		</div>
+		<div class="right">
+			<div class="cps—wx-share" title="分享到朋友圈">
+				<div class="code-area"></div>
+				<input type="hidden" class="code-url" value="@@{front.LoginAndRegisteCtrl.registerPre}?recommendCode=${mobileSign}">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="account-debt account-exchangeok clearfix none" id="cpsConvDia">
+	<p class="findepassword-success">
+		<span class="timeout-note major"><i class="icon success-icon"></i>兑换申请成功，平台正在处理！</span>
+	</p>
+	<p class="returnprev">
+		<a href="javascript:void(0);" onclick="showMyCps(1)" class="backpage"><i class="icon return-icon"></i>返回</a>
+	</p>
+</div>
+
+<!--投资记录弹窗-->
+<div id="cpsInvest">
+
+</div>
+
+<script>
+require(['front'],function(front){
+	require(['share','ZeroClipboard/ZeroClipboard'],function(){
+		cpsShare();
+			 ZeroClipboard.setMoviePath("@{'/public/front/javascripts/ZeroClipboard/ZeroClipboard.swf'}");
+			var clip = new ZeroClipboard.Client();
+			clip.setHandCursor(true);
+			clip.addEventListener("mouseUp", function(client) {
+				alert("复制链接成功！");
+			});
+			clip.setText($("#cps-wx").val());
+			clip.glue('copy_link_a'); 
+	});
+});
+
+function cpsShare() {
+	//cps微信推广 
+	$('.cps—wx-share').each(function(){
+		if('placeholder' in document.createElement('input')){
+			if($(this).find('canvas').length == 0){
+				$(this).find('.code-area').qrcode({
+					width:100,
+					height:100,
+					text: $(this).find('.code-url').val()
+				});
+			}
+		}else{
+			if($(this).find('table').length == 0){
+				$(this).find('.code-area').qrcode({
+					render:'table',
+					width:100,
+					height:100,
+					text: $(this).find('.code-url').val()
+				});
+			}
+		}
+	});
+}
+
+function reciveCps(sign){
+	#{if isSimulated}
+		alert("模拟登录不能执行该操作");
+		return false;
+	#{/if}
+	#{else}
+ 		$.ajax({
+			url : "@{front.account.MyCpsCtrl.reciveCps()}",
+			type : "POST",
+			data : {
+				"cpsSign":sign
+			},
+			success : function(result) {
+				var flag = interceptorCheck(result);
+				if(!flag){
+					return;
+				}
+				if (result.code < 1) {
+					alert(result.msg);
+				} else {
+					weakDialog(result.msg);
+					showMyCps(1);
+				}
+				
+			}
+		});
+	#{/else} 	
+}
+
+function cpsExchange(){
+	#{if isSimulated}
+	alert("模拟登录不能执行该操作");
+	return false;
+	#{/if}
+	#{else}
+	$.ajax({
+		url : "@{front.account.MyCpsCtrl.cpsExchange()}",
+		type : "POST",
+		success : function(result) {
+			var flag = interceptorCheck(result);
+			if(!flag){
+				return;
+			}
+			
+			if (result.code < 1) {
+				alert(result.msg);
+			} else {
+				var	debtForm = $('#cpsConvDia');
+				var	mainTable = $('#cpsMain');
+				mainTable.addClass('none');
+				debtForm.removeClass('none');
+			}
+			
+		}
+	});
+	#{/else} 
+}
+
+//投资记录
+	function showCpsInvest(currPage,cpsSign){
+	
+	   var sign = $("#cpsSign").val();
+	   
+	   if(cpsSign == "" || typeof cpsSign == "undefined"){
+		   cpsSign = sign;
+	   }
+	
+		$.ajax({
+			url : "@{front.account.MyCpsCtrl.showCpsInvestPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"cpsSign" : cpsSign
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#cpsInvest").html(data);
+				// 表格隔行换色
+				$('.q-dztab').each(function(){
+					$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+				});
+			}
+	    });
+	}
+
+	
+</script>

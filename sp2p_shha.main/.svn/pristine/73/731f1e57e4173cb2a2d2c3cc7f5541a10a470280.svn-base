@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>红包页面</title>
+    <link rel="stylesheet" href="@{'/public/front/stylesheets/activity-redpacket.css'}" type="text/css">
+    <script type="text/javascript" src="@{'public/front/javascripts/lib/jquery.js'}" ></script>
+    <style>
+        .hb {
+            width: 100%;
+            min-width: 1200px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .abs {
+            position: absolute;
+        }
+        .fff {
+            color: #fff;
+        }
+        .yellow {
+            color: #ffef1d;
+        }
+        .orange {
+            color: #e53434;
+        }
+        .hb1 {
+            height: 571px;
+            background-image: url(@{'/public/front/images/activity/red_bg1.jpg'});
+        }
+        .hb2 {
+            height: 803px;
+            background-image: url(@{'/public/front/images/activity/red_bg2.jpg'});
+        }
+        .hb3 {
+            height: 686px;
+            background-image: url(@{'/public/front/images/activity/red_bg3.jpg'});
+        }
+        .hb4 {
+            height: 728px;
+            background-image: url(@{'/public/front/images/activity/red_bg4.jpg'});
+        }
+        .hb5 {
+            height: 530px;
+            background-image: url(@{'/public/front/images/activity/red_bg5.jpg'});
+        }
+        .hb>ul {
+            width: 1080px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .hb2>ul {
+            padding-top: 260px;  
+        }
+        .hb3>ul {
+            padding-top: 148px; 
+        }
+        .hb4>ul {
+            padding-top: 148px; 
+        }
+        .hb>ul>li {
+            width: 33.33%;
+            height: 220px;
+            float: left;
+            margin-bottom: 30px;
+        }
+        .hb>ul>li .hb_box {
+            width: 339px;
+            height: 220px;
+            position: relative;
+        }
+        .hb2 .hb_box {
+            background: url(@{'/public/front/images/activity/red1.png'}) no-repeat center;
+        }
+        .hb3 .hb_box {
+            background: url(@{'/public/front/images/activity/red2.png'}) no-repeat center;
+        }
+        .hb4 .hb_box {
+            background: url(@{'/public/front/images/activity/red3.png'}) no-repeat center;
+        }
+        .hb_box .solo {
+            font-size: 40px;
+            line-height: 40px;
+            height: 40px;
+            left: 20px;
+            top: 40px;
+        }
+        .hb_box .solo_mon {
+            font-size: 24px;
+            line-height: 30px;
+            height: 30px;
+            left: 20px;
+            top: 80px;
+        }
+        .hb_box .now_mon {
+            font-size: 64px;
+            line-height: 64px;
+            height: 64px;
+            right: 20px;
+            top: 55px;
+        }
+        .hb_box .now_mon>span {
+            font-size: 24px;
+            line-height: 64px;
+        }
+        .hb_box .red_pag {
+            font-size: 24px;
+            right: 20px;
+            top: 120px;
+        }
+        .hb_box .red_btn {
+            width: 160px;
+            height: 35px;
+            text-align: center;
+            line-height: 35px;
+            left: 50%;
+            bottom: 20px;
+            margin-left: -80px;
+            background: #fff;
+            font-size: 24px;
+            border-radius: 3px;
+            -moz-border-radius: 3px; /* Firefox */
+            -webkit-border-radius: 3px; /* Safari 和 Chrome */
+            behavior: url(ie-css3.htc);
+            cursor: pointer;
+        }
+        .prompt_box {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 2000;
+            display: none;
+        }
+        .prompt {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            opacity: 0.2;
+            filter:alpha(opacity=20);
+            -moz-opacity:0.2;
+            -webket-opacity:0.2;
+            position: absolute;
+        }
+        .prompt_some {
+            width: 640px;
+            height: 280px;
+            position: relative;
+            left: 50%;
+            margin-left: -320px;
+            top: 30%;
+            background: #fff;
+            z-index: 2001;
+        }
+        .prompt_some .prompt_title {
+            font-size: 20px;
+            color: #fff;
+            height: 48px;
+            line-height: 48px;
+            padding-left: 20px;
+            background: #ff5338;
+        }
+        .prompt_some .prompt_mas {
+            font-size: 18px;
+            text-align: center;
+            height: 60px;
+            line-height: 60px;
+            margin-top: 15px;
+        }
+        .prompt_some .prompt_btn {
+            width: 160px;
+            height: 40px;
+            border: 1px solid #ff5338;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 40px;
+            margin: 10px auto 20px;
+            cursor: pointer;
+        }
+        /* .prompt_some .prompt_btn:hover {
+            background: #ff5338;
+            color: #fff;
+        } */
+        .prompt_some a {
+            display: block;
+            width: 160px;
+            margin: 0 auto;
+            text-align: center;
+            color: #000;
+        }
+        .prompt_some a:hover {
+            color: #ff5338;
+        }
+        .cm1_sign:hover .posa {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="hb1 hb"></div>
+    <div class="hb2 hb">
+        <ul>
+        		#{list items:map?.packets, as:'packet'}
+        		#{if packet.bid_period == 1}
+            <li>
+                <div class="hb_box">
+                    <span class="solo abs fff">单笔</span>
+                    <span class="solo_mon abs fff">满${packet.use_rule.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可用</span>
+                    <p class="now_mon abs yellow">${packet.amount.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}<span>元</span></p>
+                    <span class="red_pag abs yellow">现金红包</span>
+                    <div class="red_btn abs orange" value="${packet.id}">立即领取</div>
+                </div>
+            </li>
+            #{/if}
+            #{/list}
+    		</ul>
+    </div>
+    <div class="hb3 hb">
+        <ul>
+            #{list items:map?.packets, as:'packet'}
+        		#{if packet.bid_period == 3}
+            <li>
+                <div class="hb_box">
+                    <span class="solo abs fff">单笔</span>
+                    <span class="solo_mon abs fff">满${packet.use_rule.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可用</span>
+                    <p class="now_mon abs yellow">${packet.amount.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}<span>元</span></p>
+                    <span class="red_pag abs yellow">现金红包</span>
+                    <div class="red_btn abs orange" value="${packet.id}">立即领取</div>
+                </div>
+            </li>
+            #{/if}
+            #{/list}
+        </ul>
+    </div>
+    <div class="hb4 hb">
+        <ul>
+           #{list items:map?.packets, as:'packet'}
+        		#{if packet.bid_period == 6}
+            <li>
+                <div class="hb_box">
+                    <span class="solo abs fff">单笔</span>
+                    <span class="solo_mon abs fff">满${packet.use_rule.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可用</span>
+                    <p class="now_mon abs yellow">${packet.amount.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}<span>元</span></p>
+                    <span class="red_pag abs yellow">现金红包</span>
+                    <div class="red_btn abs orange" value="${packet.id}">立即领取</div>
+                </div>
+            </li>
+            #{/if}
+            #{/list} 
+        </ul>
+    </div>
+    <div class="hb5 hb"></div>
+    <div class="prompt_box">
+        <div class="prompt"></div>
+        <div class="prompt_some">
+            <p class="prompt_title">平台提示</p>
+            <p class="prompt_mas">请在新页面完成兑换</p>
+            <p class="prompt_btn">兑换成功</p>
+            <a href="@{front.account.MyRewardCtrl.awardPre}">去查看红包 >></a>
+        </div>
+    </div>
+    <script>
+        $(function(){
+        		if(!${map.flag}) {
+        			//活动未开始
+        			$(".prompt_mas").html('活动未开始');
+        			$(".prompt_btn").html('抱歉！');
+        			$(".prompt_btn").next().attr("href", "@{front.account.MyAccountCtrl.homePre}");
+        			$(".prompt_btn").next().html("点击进入账户主页");
+        			$(".prompt_box").show();
+        		}
+        	
+            $('.red_btn').click(function(){
+            		var id = $(this).attr('value');
+                $.ajax({
+                	type : "POST",
+                	url : "@{front.ActivityCtrl.saveRedPacket}",
+                	dataType : "json",
+                	data : {"id" : id},
+                	success : function(result) {
+                		if(result.code == 1) {
+                			$(".prompt_mas").html(result.msg);
+                			$(".prompt_btn").html('兑换成功');
+                			$(".prompt_box").show();
+                		} else {
+                			$(".prompt_mas").html(result.msg);
+                			$(".prompt_btn").html('兑换失败');
+                			$(".prompt_box").show();
+                		}
+                	},
+                	error : function() {
+                		$(".prompt_mas").html("超时了请稍后重试！");
+            				$(".prompt_box").show();
+                	}
+                });
+            });
+            
+            $("body").click(function(e) {
+               if($('.prompt_box').css('display') == 'block' && ${map.flag}) {
+            	   $('.prompt_box').hide();
+               }
+            });
+        })
+    </script>
+</body>
+</html>

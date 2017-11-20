@@ -1,0 +1,10 @@
+#{list pageBean?.page}
+    <li class="flex" onclick="window.location.href='@{wechat.front.account.MyReceiveBillCtrl.receiveBillDetailPre(_?.id)}'">
+        <div class="new-flex_one">${_?.billInvestNo}</div>
+        <div class="new-flex_two">${(_?.receiveCorpus+_?.receiveInterest)?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元 </div>
+        <div class="new-flex_three tr">${_?.receiveTime?.format(common.constants.Constants.DATE_FORMATE)}</div>
+    </li>
+#{/list}
+
+<input type="hidden" id="investCurrpage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="totalPageCount" value="${pageBean?.totalPageCount}"/>

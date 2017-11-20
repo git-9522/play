@@ -1,0 +1,141 @@
+#{extends 'back/spread/ActivityCtrl/reversalActivityMain.html' /}
+	#{set title:'推广 | 翻牌活动 | 翻牌奖励' /}
+	#{set smallclass:4 /}
+	#{set crumbs:'推广>翻牌活动>翻牌奖励'/}
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<div class="left back-usermenu">
+			<a href="@{back.spread.ActivityCtrl.showReversalRecordsPre(0)}" #{if showType == 0}class="selected"#{/if}>所有</a>
+			<a href="@{back.spread.ActivityCtrl.showReversalRecordsPre(1)}" #{if showType == 1}class="selected"#{/if}>未发放</a>
+			<a href="@{back.spread.ActivityCtrl.showReversalRecordsPre(2)}" #{if showType == 2}class="selected"#{/if}>已发放</a>
+		</div>
+		
+		<!-- 搜索按钮，控制搜索条件的显示隐藏 -->
+		<div class="back-search left #{if id || level || period}selected#{/if}">
+			<i class="iconfont searchicon">&#xe60a;</i>搜索<i class="iconfont arrowicon">&#xe603;</i>
+		</div>
+		
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			#{rightMng rightId:710002}
+			<a href="javascript:exportList(1)"><i class="iconfont">&#xe612;</i>导出</a>
+			#{/rightMng}
+		</div>
+	</div>
+	<!-- 搜索条件，默认隐藏 -->
+	<div class="back-search-option" #{if userName || awardMoney}style="display: block;"#{/if}>
+		<form action="@{back.spread.ActivityCtrl.showReversalRecordsPre}" method="GET" id="showReversalRecords">
+			<input type="hidden" id="showType" name="showType" value="${showType}"/>
+			<input type="hidden" id="currPage" name="currPage"/>
+	  		<input type="hidden" id="pageSize" name="pageSize" value="${pageBean?.pageSize}"/>
+	  		
+	  		<input type="text" class="iffocus" placeholder="用户名" name="userName" value="${userName}"/> 
+	  		<input type="text" class="iffocus" placeholder="奖励金额" name="awardMoney" value="${awardMoney}" maxlength="15"/>
+	  		<input type="submit" class="bgbtn" value="搜索" />
+		</form>
+	</div>
+	<div class="back-cont">
+		<div class="back-box">
+			<table width="100%" class="back-table table-fixed">
+				<tr height="40">
+					<th width="70" class="align-left">
+						<span class="back-order">
+							编号
+						</span>
+					</th>
+					<th>创建时间</th>
+					<th>用户编号</th>
+					<th>用户名</th>
+					<th>投资编号</th>
+					<th>投资金额</th>
+					<th>标的期数</th>
+					<th>奖励比例</th>
+					<th>奖励金额</th>
+					<th>状态</th>
+					<th>发放时间</th>
+				</tr>
+				#{if pageBean?.page}
+					#{list pageBean?.page}
+					<tr height="40">
+						<td class="align-left">
+							<label><input type="checkbox" class="back-tdcheck" />${_?.id}</label>
+						</td>
+						<td>
+							${_?.time.format(common.constants.Constants.DATE_PLUGIN)}
+						</td>
+						<td>
+							${_?.user_id}
+						</td>
+						<td>
+							${_?.user_name}
+						</td>
+						<td>
+							${_?.invest_id}
+						</td>
+						<td>
+							${_?.invest_money}
+						</td>
+						<td>
+							${_?.period}
+						</td>
+						<td>
+							${_?.scale}
+						</td>
+						<td>
+							${_?.award_money}
+						</td>
+						<td>
+							#{if status}
+								已发放
+							#{/if}
+							#{else}
+								未发放
+							#{/else} 
+						</td>
+						<td>
+							#{if _?.delivery_time != null}
+							${_?.delivery_time?.format(common.constants.Constants.DATE_PLUGIN)}
+							#{/if}
+						</td>
+					</tr>
+					#{/list}
+					<!-- 表格数据统计 -->
+					<tr height="40">
+						<td colspan="11" class="back-lasttd">
+							<span class="back-choose left">
+								<input type="button" id="chooseAll" value="全选" />
+								<input type="button" id="chooseReverse" value="反选" />
+							</span>
+							<p class="back-table-totle left">
+							</p>
+						<!-- 分页组件 -->
+						#{backPageTag page:pageBean,showPage:"showReversalRecords"/}
+						</td>
+					</tr>
+				#{/if}
+				#{else}
+					<tr height="58">
+						<td colspan="11" class="back-nodata"><i class="iconfont">&#xe613;</i>暂无记录</td>
+					</tr>
+				#{/else}
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		// 搜索 排序 选中
+		require(["search","linechecked"],function(){
+		});
+	});
+	function showReversalRewards(currPage, pageSize) {
+		$("#currPage").val(currPage);
+		$("#pageSize").val(pageSize);
+		$("#showReversalRewards").submit();
+	}
+</script>

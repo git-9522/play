@@ -1,0 +1,618 @@
+package controllers.wechat.front.account;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import models.common.bean.CurrUser;
+import models.common.bean.SignInUserRecord;
+import models.common.bean.UserFundInfo;
+import models.common.entity.t_bank_card_user;
+import models.common.entity.t_exp_gold_account_user;
+import models.common.entity.t_score_user;
+import models.common.entity.t_sign_in_record;
+import models.common.entity.t_sign_in_rule;
+import models.common.entity.t_user_fund;
+import models.core.entity.t_red_packet_user.RedpacketStatus;
+
+import org.apache.commons.lang.StringUtils;
+
+import payment.impl.PaymentProxy;
+import play.db.jpa.JPA;
+import play.db.jpa.JPAPlugin;
+import play.mvc.With;
+import services.common.BankCardUserService;
+import services.common.ExpGoldAccountUserService;
+import services.common.ScoreUserService;
+import services.common.SignInRecordService;
+import services.common.SignInRuleService;
+import services.common.UserFundService;
+import services.common.UserService;
+import services.core.CashUserService;
+import services.core.InvestService;
+import services.core.RateService;
+import services.core.RedpacketUserService;
+
+import com.shove.Convert;
+
+import common.FeeCalculateUtil;
+import common.annotation.PaymentAccountCheck;
+import common.annotation.RealNameCheck;
+import common.annotation.SubmitCheck;
+import common.annotation.SubmitOnly;
+import common.constants.ConfConst;
+import common.constants.Constants;
+import common.constants.SettingKey;
+import common.constants.WxPageType;
+import common.constants.ext.SignInKey;
+import common.enums.Bank;
+import common.enums.CashType;
+import common.enums.Client;
+import common.enums.ServiceType;
+import common.enums.TradeType;
+import common.utils.DateUtil;
+import common.utils.Factory;
+import common.utils.LoggerUtil;
+import common.utils.OrderNoUtil;
+import common.utils.ResultInfo;
+import controllers.common.SubmitRepeat;
+import controllers.wechat.WechatBaseController;
+import controllers.wechat.front.LoginAndRegisteCtrl;
+import controllers.wechat.interceptor.AccountWxInterceptor;
+
+/**
+ * 微信-账户中心-首页(充值、提现)
+ *
+ * @description 充值提现两个业务也转移到这里来了
+ *
+ * @author DaiZhengmiao
+ * @createDate 2016年5月4日
+ */
+@With({SubmitRepeat.class,AccountWxInterceptor.class})
+public class MyAccountCtrl extends WechatBaseController {
+	
+	protected static UserService userService = Factory.getService(UserService.class);
+
+	protected static UserFundService userFundService = Factory.getService(UserFundService.class);
+
+	protected static BankCardUserService bankCardUserService = Factory.getService(BankCardUserService.class);
+	
+	protected static SignInRecordService signInRecordService = Factory.getService(SignInRecordService.class);
+
+	protected static SignInRuleService signInRuleService = Factory.getService(SignInRuleService.class);
+
+	protected static ScoreUserService scoreUserService = Factory.getService(ScoreUserService.class);
+	
+	protected static InvestService investService = Factory.getService(InvestService.class);
+	/**加息*/
+    protected static RateService rateService = Factory.getService(RateService.class);
+    /**现金券*/
+    public static CashUserService cashUserService=Factory.getService(CashUserService.class);
+    
+    public static RedpacketUserService redpacketUserService=Factory.getService(RedpacketUserService.class);
+    /**体验金*/
+    public static ExpGoldAccountUserService expGoldAccountUserService=Factory.getService(ExpGoldAccountUserService.class);
+    
+    /**
+	 * 跳转我的账户首页
+	 *
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	public static void toAccountHomePre() {
+		long userId = getCurrUser().id;
+		UserFundInfo userFundInfo = userService.findUserFundInfo(userId);
+		
+		double totalInterest = investService.calculateTotalInterest(userId);
+		
+		/**可用加息卷总利率*/
+		double RateSum=rateService.userRateSum(userId);
+		
+		/**现金券总金额*/
+		double cashSum=cashUserService.UserCashSum(userId);
+		
+		/** 可用红包 */
+		double totalUserRedPacket = redpacketUserService.totalUserRedPacket(userId, RedpacketStatus.UNUSED.code);
+		
+		/**用户可用积分(虹银)*/
+		int scoreBalance = (int)userFundService.findUserScoreBalance(userId);
+		/**查询体验金*/
+		t_exp_gold_account_user exp = expGoldAccountUserService.queryAllExpGoldAccountUserByUserId(userId);
+		
+		userFundInfo.total_assets += totalInterest;
+		
+		render(userFundInfo,RateSum,cashSum,totalUserRedPacket,scoreBalance,exp);
+	}
+	
+	/**
+	 * 微信安全退出
+	 *
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月5日
+	 */
+	public static void loginOutPre() {
+		ResultInfo result = new ResultInfo();
+		result = userService.updateUserLoginOutInfo(getCurrUser().id, Client.WECHAT.code, getIp());
+		if (result.code < 0) {
+			flash.put("msg", "退出系统时出现异常");
+			
+			redirect("wechat.front.LoginAndRegisteCtrl.loginPre");
+			
+		}
+		flash.put("msg", "成功退出");
+		
+		LoginAndRegisteCtrl.loginPre();
+	}
+	
+    /****
+     * 
+     * 微信充值页面
+     * @description 
+     *
+     * @author luzhiwei
+     * @createDate 2016-5-6
+     */
+	@PaymentAccountCheck
+	@RealNameCheck
+	@SubmitCheck
+	public static void toRechargePre() {
+		CurrUser currUser = getCurrUser();
+		// 未绑卡
+		if (!currUser.is_bank_card) {
+			toResultPage(WxPageType.PAGE_FAIL_BINDCAED, "请先绑卡");
+		}
+		
+		// 未激活
+		if (!currUser.is_actived) {
+			toResultPage(WxPageType.PAGE_FAIL_ACTIVITED, "请先激活");
+		}
+		
+		/* 最高充值金额 */
+		int rechargeHighest = Convert.strToInt(settingService.findSettingValueByKey(SettingKey.RECHARGE_AMOUNT_MAX), 0);
+		
+		/* 最低充值金额 */
+		int rechargeLowest = Convert.strToInt(settingService.findSettingValueByKey(SettingKey.RECHARGE_AMOUNT_MIN), 0);
+		
+		t_bank_card_user bankUser = currUser.bankUser;
+		
+		render(rechargeHighest, rechargeLowest, bankUser);
+	}
+
+	/***
+	* 
+	* 微信用户充值
+	* @param rechargeAmt
+	* @description 
+	*
+	* @author luzhiwei
+	* @createDate 2016-5-6
+	*/	
+	@PaymentAccountCheck
+	@RealNameCheck
+	@SubmitOnly
+	public static void recharge(double rechargeAmt){
+		checkAuthenticity();
+		
+		CurrUser currUser = getCurrUser();
+		// 未绑卡
+		if (!currUser.is_bank_card) {
+			toResultPage(WxPageType.PAGE_FAIL_BINDCAED, "请先绑卡");	
+		}
+		
+		// 未激活
+		if (!currUser.is_actived) {
+			toResultPage(WxPageType.PAGE_FAIL_ACTIVITED, "请先激活");
+		}
+
+		/* 用户Id */
+		long userId = getCurrUser().id;
+
+		//业务订单号
+		String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.RECHARGE);
+		
+		ResultInfo result = userFundService.recharge(userId, serviceOrderNo, rechargeAmt, "账户直充", Client.WECHAT);
+		if (result.code < 1) {
+			LoggerUtil.info(true, result.msg);	
+	
+			flash.error(result.msg);
+			toRechargePre();
+		}
+		
+		if (ConfConst.IS_TRUST) {
+			int type = Integer.parseInt(params.get("tradeType"));
+			TradeType tradeType = TradeType.getTradeTypeByCode(type);
+			if(tradeType == null) {
+				flash.error("交易类型错误");
+				toRechargePre();
+			}
+			String smsCode = params.get("smsCode");
+			String smsSeq = "AAAAAAAA";
+			/*if(tradeType.code == TradeType.QP.code) {
+				String sessionId = Session.current().getId();
+				Map<String, Object> map = (Map<String, Object>) Cache.get(CacheKey.SMSCODE_ + sessionId);
+				BusiType busiType = (BusiType) map.get("busiType");
+				if(busiType.code != BusiType.CHARGE.code) {
+					flash.error("短信seq验证错误");
+					rechargePre();
+				}
+				smsSeq = map.get("smsSeq").toString();
+			}*/
+			String bankId = params.get("bankId");
+			if(tradeType.code == TradeType.B2C.code) {
+				Bank bank = Bank.getBank(bankId);
+				if(bank == null) {
+					flash.error("充值银行选择错误");
+					toRechargePre();
+				}
+			}
+			
+			result = PaymentProxy.getInstance().directRecharge(Client.WECHAT.code, serviceOrderNo, userId, tradeType, bankId, rechargeAmt, smsCode, smsSeq, null);
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+		
+				flash.error(result.msg);
+				toRechargePre();
+        	}
+			
+			return;
+			
+		}
+		
+		if (!ConfConst.IS_TRUST){
+			//普通网关模式
+			result = userFundService.doRecharge(userId, rechargeAmt, serviceOrderNo);
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+				
+				flash.error(result.msg);
+				toRechargePre();
+			}
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "充值成功");	
+	}
+		
+	/***
+	*  用户提现
+	* @param withdrawalAmt
+	* @param bankAccount
+	* @description 
+	*
+	* @author luzhiwei
+	* @createDate 2016-5-6
+	*/
+	@PaymentAccountCheck
+	@RealNameCheck
+	@SubmitCheck
+	public static void toWithdrawPre(){
+		CurrUser currUser = getCurrUser();
+		// 未绑卡
+		if (!currUser.is_bank_card) {
+			toResultPage(WxPageType.PAGE_FAIL_BINDCAED, "请先绑卡");	
+		}
+		
+		// 未激活
+		if (!currUser.is_actived) {
+			toResultPage(WxPageType.PAGE_FAIL_ACTIVITED, "请先激活");
+		}
+			
+		t_user_fund userFundInfo = userFundService.queryUserFundByUserId(currUser.id);
+		
+		/* 提现手续费起点 */
+		String withdrawFeePoint = settingService.findSettingValueByKey(SettingKey.WITHDRAW_FEE_POINT);
+
+		/* 提现手续费率 */
+		String withdrawFeeRate = settingService.findSettingValueByKey(SettingKey.WITHDRAW_FEE_RATE);
+		
+		/* 最低提现手续费 */
+		String withdrawFeeMin = settingService.findSettingValueByKey(SettingKey.WITHDRAW_FEE_MIN);
+		
+		/* 可用余额 */
+		double balance = userFundInfo.balance;
+		
+		double withdrawMaxRate = Constants.WITHDRAW_MAXRATE;
+		
+		render(balance ,withdrawMaxRate , withdrawFeePoint, withdrawFeeRate, withdrawFeeMin);
+	}
+	
+	/***
+	*  用户提现
+	* @param withdrawalAmt
+	* @description 
+	*
+	* @author luzhiwei
+	* @createDate 2016-5-6
+	*/
+	@PaymentAccountCheck
+	@RealNameCheck
+	@SubmitOnly
+	// TODO ADD CASHTYPE
+	public static void withdrawal(double withdrawalAmt, String cashType){
+		checkAuthenticity();
+		
+		CurrUser currUser = getCurrUser();
+		// 未绑卡
+		if (!currUser.is_bank_card) {
+			toResultPage(WxPageType.PAGE_FAIL_BINDCAED, "请先绑卡");	
+		}
+		
+		// 未激活
+		if (!currUser.is_actived) {
+			toResultPage(WxPageType.PAGE_FAIL_ACTIVITED, "请先激活");
+		}
+		
+		if(CashType.getCashTypeByCode(cashType) == null) {
+			flash.error("提现类型错误");
+			toWithdrawPre();
+		}
+		
+		//业务订单号
+		String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.WITHDRAW);
+		
+		t_bank_card_user bank = currUser.bankUser;
+		
+		if(bank == null) {
+			flash.error("查询银行卡出错");
+			toWithdrawPre();
+		}
+		
+		if(StringUtils.isBlank(bank.account)){
+			flash.error("查询银行卡出错");
+			toWithdrawPre();
+		}
+		
+		ResultInfo result = userFundService.withdrawal(currUser.id, serviceOrderNo, withdrawalAmt, bank.account, Client.WECHAT);
+		if (result.code < 1) {
+			LoggerUtil.info(true, result.msg);
+
+			flash.error(result.msg);
+			toWithdrawPre();
+		}
+		
+		if (ConfConst.IS_TRUST) {
+			result = PaymentProxy.getInstance().withdrawal(Client.WECHAT.code, serviceOrderNo, currUser.id, withdrawalAmt, bank.account, cashType);
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+
+				flash.error(result.msg);
+				toWithdrawPre();
+			}
+			
+			return;
+		}
+		
+		if (!ConfConst.IS_TRUST){
+			//提现手续费
+			double withdrawalFee = FeeCalculateUtil.getWithdrawalFee(withdrawalAmt);
+			
+			//普通网关模式
+			result = userFundService.doWithdrawal(currUser.id, withdrawalAmt, withdrawalFee, withdrawalFee, serviceOrderNo, false);
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+	
+				flash.error(result.msg);
+				toWithdrawPre();
+			}
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "提现成功");
+	}
+
+	
+	/**
+	 * 跳转我的总资产页面
+	 *
+	 *
+	 */
+	public static void totalAssetsPre() {
+		long userId = getCurrUser().id;
+		UserFundInfo userFundInfo = userService.findUserFundInfo(userId);
+		
+		render(userFundInfo);
+	}
+	
+	/**
+	 * 签到
+	 */
+	public static double signInPre() {
+		ResultInfo result = new ResultInfo();
+		long userId = getCurrUser().id;
+		String currentDate = DateUtil.dateToString(new Date(), Constants.DATE_PLUGIN6);
+		List<SignInUserRecord> signInUserRecord = signInRecordService.listOfSignInUserRecord(userId, currentDate);
+		
+		//先查询是否已有当天的签到记录，若已经签到则不能再进行签到
+		t_sign_in_record record = signInRecordService.querySignInToday(userId);
+		if (record != null) {
+			int number = record.number; //连续签到次数
+			double extraScore = record.extra_score; //额外加成积分
+			
+			/*render(signInUserRecord, number, extraScore);*/
+			return -1;
+		}
+		
+		Date signInDate = DateUtil.dateToDate(new Date(), Constants.DATE_PLUGIN5);
+		int number = 1;
+		String key = null;
+		t_sign_in_rule rule = null;
+		
+		//获取所有的签到规则
+		Map<String, t_sign_in_rule> rulesMap = signInRuleService.findAllRulesMap();
+		if (rulesMap == null || rulesMap.size() <= 0) {
+			JPA.setRollbackOnly();
+		/*	flash.error("签到失败，请刷新页面重新签到");*/
+/*			render(signInUserRecord);*/
+			return -1;
+		}
+		
+		//在没有当天签到记录的前提下，继续查询是否有昨天的签到记录
+		record = signInRecordService.querySignInYesterday(userId);
+		
+		//若没有昨天的签到记录，则本次签到为连续第1天签到，否则就是连续第number+1(number+1<=7)天签到
+		if (record == null) {
+			//根据签到次数匹配签到规则的key
+			key = matchSignInKey(number);
+			
+			if (rulesMap.containsKey(key)) {
+				rule = rulesMap.get(key);
+			} else {
+				JPA.setRollbackOnly();
+		/*		flash.error("签到失败，请刷新页面重新签到");*/
+				/*render(signInUserRecord);*/
+				return -1;
+			}
+			
+			if (rule == null) {
+				JPA.setRollbackOnly();
+			/*	flash.error("签到失败，请刷新页面重新签到");*/
+			/*	render(signInUserRecord);*/
+				return -1;
+			}
+			
+			//添加签到记录
+			result = signInRecordService.addSignInRecord(userId, signInDate, number, rule.score, rule.extra_score);
+			if (result.code < 1) {
+				JPA.setRollbackOnly();
+			/*	flash.error(result.msg);*/
+			/*	render(signInUserRecord);*/
+				return -1;
+			}
+		} else {
+			number = record.number;
+			if (number < 1) {
+			/*	flash.error("签到失败，请刷新页面重新签到");*/
+				/*render(signInUserRecord);*/
+				return -1;
+			}
+			
+			//在昨天连续签到的基础上+1
+			number += 1;
+			//若算上本次连续签到超过了7天，则重置为连续签到一天
+			if (number > 7) {
+				number = 1;
+			}
+			
+			//根据签到次数匹配签到规则的key
+			key = matchSignInKey(number);
+			
+			if (rulesMap.containsKey(key)) {
+				rule = rulesMap.get(key);
+			} else {
+				JPA.setRollbackOnly();
+		/*		flash.error("签到失败，请刷新页面重新签到");*/
+				/*render(signInUserRecord);*/
+					return -1;
+			}
+			
+			if (rule == null) {
+				JPA.setRollbackOnly();
+				/*flash.error("签到失败，请刷新页面重新签到");*/
+				/*render(signInUserRecord);*/
+				return -1;
+			}
+			
+			//添加签到记录
+			result = signInRecordService.addSignInRecord(userId, signInDate, number, rule.score, rule.extra_score);
+			if (result.code < 1) {
+				JPA.setRollbackOnly();
+			/*	flash.error(result.msg);*/
+			/*	render(signInUserRecord);*/
+				return -1;
+			}
+		}
+		
+		//签到赠送的积分为：正常赠送积分+额外加成积分
+		double score = rule.score + rule.extra_score;
+		
+		//添加签到记录成功后，进行积分的奖励
+		int rows = userFundService.updateUserScoreBalanceAdd(userId, score);
+		if (rows <= 0) {
+			JPA.setRollbackOnly();
+			/*flash.error("签到失败，请刷新页面重新签到");
+			render(signInUserRecord);*/
+			return -1;
+		}
+		
+		//及时查询用户的可用积分
+		double scoreBalance = userFundService.findUserScoreBalance(userId);
+		
+		/** 添加用户积分记录 */
+		Map<String, String> summaryPrams = new HashMap<String, String>();
+		summaryPrams.put("day", number + "");
+		summaryPrams.put("score", (int) rule.score + "");
+		summaryPrams.put("extra_score", (int) rule.extra_score + "");
+		boolean addDeal = scoreUserService.addScoreUserInfo(
+				userId, 
+				score, 
+				scoreBalance, 
+				t_score_user.OperationType.SIGNIN, 
+				summaryPrams);
+
+		if (!addDeal) {
+			JPA.setRollbackOnly();
+	/*		flash.error("添加积分记录失败");*/
+			/*render(signInUserRecord);*/
+			return -1;
+		}
+		
+		//将上述签到的操作提交
+		JPAPlugin.closeTx(false);
+		JPAPlugin.startTx(false);
+		
+		//查询最新的签到记录
+	/*	signInUserRecord = signInRecordService.listOfSignInUserRecord(userId, currentDate);*/
+		
+		/*renderArgs.put("number", number); //连续签到天数
+		renderArgs.put("extraScore", rule.extra_score); //额外加成积分
+*/		
+		userService.flushUserCache(userId);
+		return score;
+	/*	render(signInUserRecord);*/
+	}
+	
+	/**
+	 * 根据签到次数匹配签到规则的key
+	 * 
+	 * @param number
+	 * @return
+	 */
+	private static String matchSignInKey(int number) {
+		if (number < 1 || number > 7) {
+			
+			return null;
+		}
+		
+		String key = null;
+		
+		switch (number) {
+			case 1 :
+				key = SignInKey.ONE;
+				break;
+			case 2 :
+				key = SignInKey.TWO;
+				break;
+			case 3 :
+				key = SignInKey.THREE;
+				break;
+			case 4 :
+				key = SignInKey.FOUR;
+				break;
+			case 5 :
+				key = SignInKey.FIVE;
+				break;
+			case 6 :
+				key = SignInKey.SIX;
+				break;
+			case 7 :
+				key = SignInKey.SEVEN;
+				break;
+			default :
+				break;
+		}
+		
+		return key;
+	}
+	
+}

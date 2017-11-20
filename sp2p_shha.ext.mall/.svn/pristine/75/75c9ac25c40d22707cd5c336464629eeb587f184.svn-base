@@ -1,0 +1,187 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'兑换商城'/}
+#{set AItem:3 /}
+<link rel="stylesheet" href="/public/front/stylesheets/mallfront.css">
+<div class="section">
+        <div class="ne_mall_cen">
+            <div class="ne_mall_one clearfix">
+                <div class="ne_mall_banner left">
+                    <ul class="ne_mall_slide">
+                    	#{list items:bannerlist,as:'banner'} 
+	                    	#{if banner.url}
+							<li
+								#{if banner_index==1}class="ne_ms_act"#{/if}
+							>
+								<a href="${banner.url}" target="${banner.target?.value?:'_blank'}">
+								<img src="${banner.image_url}" onerror="this.src='/public/front/images/ne-mall-banner1.jpg'"  />
+								</a>
+							</li>
+							#{/if}
+							#{else}
+							<li
+							#{if banner_index==1}class="ne_ms_act"#{/if}
+							>
+								<a ><img src="${banner.image_url}" onerror="this.src='/public/front/images/ne-mall-banner1.jpg'"
+									class="${banner.getRandmonClass()}" /></a></li>
+							#{/else}
+						 #{/list}
+<!--                         <li class="ne_ms_act"><a href=""><img src="/public/front/images/ne-mall-banner1.jpg" alt=""></a></li> -->
+<!--                         <li><a href=""><img src="/public/front/images/1.jpg" alt=""></a></li> -->
+<!--                         <li><a href=""><img src="/public/front/images/2.jpg" alt=""></a></li> -->
+<!--                         <li><a href=""><img src="/public/front/images/3.jpg" alt=""></a></li> -->
+                    </ul>
+                    <div class="ne_mall_ne">
+                        <div class="ne_mall_dots">
+                            <ul class="ne_mall_list">
+<!--                                 <li class="on"></li> -->
+                                #{list items:bannerlist,as:'banner'} 
+                                <li 
+                                #{if banner_index==1} class="on"#{/if}		
+                                ></li>
+                             	#{/list}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="right mr10 ne_mall_fix">
+                	#{if currUser}
+                    <div class="ne_mall_master mt30 clearfix">
+                        <img src="/public/front/images/ne-mall-img.png" alt="" class="left">
+                        <div class="left ml15">
+                            <p class="c3 fs16 mt5 mt5">当前虹银：<span class="corange">${currUser?.score_balance?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}</span></p>
+<!--                             <a href="" class="c3 fs12">查看虹银规则>></a> -->
+                        </div>
+                    </div>
+                    #{/if}
+                    #{else}
+                 		    <div class="ne_mall_master mt30 clearfix">
+                     	  <img src="/public/front/images/ne-mall-img.png" alt="" class="left"/>
+                     	    <div class="left ml15">
+                            <p class="c3 fs16 mt5 mt5">未登录</p>
+                            <a href="@{front.LoginAndRegisteCtrl.loginPre()}" class="c3 fs12">去登录>></a>
+                            </div>
+                     </div>
+                    #{/else}
+                  		  #{if bannerlist2?.size()>=1}
+                  		   <a href="${bannerlist2?.get(0)?.url}" class="ne_mall_por" alt="${bannerlist2?.get(0).name}" target="${bannerlist2?.get(0).target?.value?:'_blank'}">
+                       			 <img src="${bannerlist2?.get(0).image_url}" onerror="this.src='/public/front/images/ne-mall-icon1.png'"  />
+                    	   </a>
+						  #{/if}
+						   #{if bannerlist2?.size()>=2}
+		                    <a href="${bannerlist2?.get(1).url}" class="ne_mall_por" alt="${bannerlist2?.get(1).name}" target="${bannerlist2?.get(1).target?.value?:'_blank'}">
+		                       			 <img src="${bannerlist2?.get(1).image_url}" onerror="this.src='/public/front/images/ne-mall-icon2.png'"  />
+		                    </a>
+		                   #{/if}
+		                   
+                </div>
+            </div>
+            <div class="ne_mall_two">
+                <h3 class="lh30 fs18 corange pl20">虚拟商品</h3>
+                <ul class="clearfix ne_mall_shop mt25" id="VirtualGoods">
+                    
+                </ul>
+                <h3 class="lh30 fs18 corange mt25 pl20">实物商品</h3>
+                <ul class="clearfix ne_mall_shop mt25" id="EntityGoods">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+  <script type="text/javascript">
+	require(['front'],function(front){
+		
+		require(['banner','slideleft']);
+		
+        //顶部二维码
+        $(".f-top-img3").hover(function(){
+            $(".f-top-ewm").show();
+        },function(){
+            $(".f-top-ewm").hide();
+        });
+        //底部客服邮箱
+        $(".f-foot-yx").hover(function(){
+            $(".f-foot-kfyx").show();
+        },function(){
+            $(".f-foot-kfyx").hide();
+        });
+        //标2左边栏切换
+        $(".f-left2-ul li").click(function(){
+            $(".f-left2-ul li").removeClass("f-on");
+            $(this).addClass("f-on");
+        });
+           
+        listOfEntityGoodsPre(1,20);
+        listOfVirtualGoodsPre(1,20);
+	});
+	
+	//实物商品
+	function listOfEntityGoodsPre(currPage, pageSize){
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.listOfEntityGoodsPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#EntityGoods").html(data);
+				// 表格隔行换色
+				$('.account-table').each(function(){
+					$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+				});
+			}
+		 });
+	}
+	
+	//虚拟商品
+	function listOfVirtualGoodsPre(currPage, pageSize){
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.listOfVirtualGoodsPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#VirtualGoods").html(data);
+				// 表格隔行换色
+				$('.account-table').each(function(){
+					$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+				});
+			}
+		 });
+	 neSlide($('.ne_mall_slide>li'),$('.ne_mall_dots>ul>li'),$('.ne_mall_banner'));
+        function neSlide(neS1,neS2,neS3){
+            var neIndex = 0;
+            var neTime;
+            neTimer();
+            function neTimer(){
+                clearInterval(neTime);
+                neTime = setInterval(function(){
+                    neIndex++;
+                    if(neIndex>neS1.length-1) neIndex =0; neS1.eq(neIndex).addClass('ne_ms_act').siblings().removeClass('ne_ms_act');
+                    neS2.eq(neIndex).addClass('on').siblings().removeClass('on');
+                },5000);
+            }
+            neS2.click(function(){
+                neIndex = $(this).index();
+                neS1.eq(neIndex).addClass('ne_ms_act').siblings().removeClass('ne_ms_act');
+                    neS2.eq(neIndex).addClass('on').siblings().removeClass('on');
+            })
+            neS3.mouseenter(function(){
+                clearInterval(neTime);
+            }).mouseleave(function(){
+                neTimer();
+            })
+        }	 
+	}
+</script>  

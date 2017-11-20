@@ -1,0 +1,15 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_shha.ext.cash
+#
+# ~~~~
+
+# 前台-账户中心-我的奖励-现金券控制器(controllers.front.account.MyCashCtrl)
+GET  /account/reward/cash/{action}.html                   front.account.MyCashCtrl.{action}Pre
+POST /account/reward/cash/{action}                        front.account.MyCashCtrl.{action}
+
+
+# 后台-推广-现金券控制器(controllers.back.spread.CashCtrl)
+GET  /supervisor/spread/cash/{action}.html                 back.spread.CashCtrl.{action}Pre
+POST /supervisor/spread/cash/{action}                      back.spread.CashCtrl.{action}

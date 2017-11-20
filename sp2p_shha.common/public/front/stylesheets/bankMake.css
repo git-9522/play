@@ -1,0 +1,108 @@
+.section {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 25px;
+}
+.bank_make {
+    width: 1200px;
+    min-height: 800px;
+    margin: 0 auto;
+}
+.bank_lab {
+    width: 600px;
+    margin-left: 300px;
+    padding-top: 50px;
+}
+.bank_lab li {
+    width: 600px;
+    height: 50px;
+    line-height: 50px;
+}
+.bank_lab li>p {
+    width: 180px;
+    text-align: right;
+    line-height: 50px;
+    float: left;
+}
+.bank_lab li>input {
+    float: left;
+    margin-left: 10px;
+    line-height: 48px;
+    width: 330px;
+    padding-left: 10px;
+    height: 48px;
+    border: 1px solid #999999;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+    
+}
+.en_bank {
+    right: -10px;
+    top: 0px;
+    line-height: 50px;
+    font-size: 14px;
+}
+.bank_lab li.en_font {
+    padding-left: 190px;
+    width: 315px;
+    height: 40px;
+    line-height: 40px;
+}
+.num_img {
+    width: 340px;
+    float: left;
+    margin-left: 10px;
+}
+.num_img>select {
+    width: 140px;
+    height: 48px;
+    padding-left: 10px;
+}
+.num_img>input {
+    float: left;
+    padding-left: 10px;
+    width: 200px;
+    height: 40px;
+    border: 1px solid #999999;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+    line-height: 40px;
+}
+.num_img .check_img {
+    background: #ff5256;
+    text-align: center;
+    width: 110px;
+    height: 40px;
+    display: block;
+    float: right;
+    color: #fff;
+    border: 1px solid #ff5256;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+    cursor: pointer;
+    line-height: 40px;
+}
+.num_img .cf {
+    border: 1px solid #ff5256;
+    background:#ff5256;
+    text-align: center;
+    line-height: 50px;
+}
+.en_go {
+    width: 340px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+    margin-left: 190px;
+    margin-top: 10px;
+    color: #fff;
+    cursor: pointer;
+    background: url(../images/click_btn_bg.png) no-repeat center;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+}

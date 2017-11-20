@@ -1,0 +1,98 @@
+#{extends 'front/mallFront/frontMallMain.html' /}
+#{set title:'积分抽奖'/}
+#{set AItem:1 /}
+<!--内容-->
+    <div class="q-cjbg">
+	    <div class="q-center02">
+	    	<div class="w-choujiangbox clearfix">
+				<div class="w-choujiang-dan left tc">
+					<p class="f24 bold mb25 c333">获奖名单</p>
+					<p class="w-choujiang-label">
+						<span class="w-choujiang-co1">中奖纪录</span>
+						<span class="w-choujiang-co2">中奖人</span>
+						<span class="w-choujiang-co3">中奖时间</span>
+					</p>
+					<ul class="w-choujiang-jl" id="lotterylist">
+					#{list items:lotterylist}
+						<li>
+							<span class="w-choujiang-co1">${_?.reward_name}</span>
+							<span class="w-choujiang-co2">#{asterisk str:"${_?.user_name}", start:2, end:2, count:2/}</span>
+							<span class="w-choujiang-co3">${_?.time?.format(common.constants.Constants.DATE_TIME_FORMATE)}</span>
+						</li>
+					#{/list}
+					</ul>
+					<a class="w-choujiang-bnt mt15">我有 <span class="f24 bold">${scoreBalance}</span> 积分</a>
+				</div>
+				#{if rewardList?.size() == 8}
+				<div class="w-choujiang left">
+					<div id="lottery">
+							 <ul>						
+							<li class="lottery-unit lottery-unit-0 active">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(0)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(0)?.name}</dd>
+				            	</dl>
+				            </li>
+				            <li class="lottery-unit lottery-unit-1">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(1)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(1)?.name}</dd>
+				            	</dl>
+				            </li>
+				            <li class="lottery-unit lottery-unit-2">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(2)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(2)?.name}</dd>
+				            	</dl>
+				            </li>
+				            <li class="lottery-unit lottery-unit-7">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(7)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(7)?.name}</dd>
+				            	</dl>
+				            </li>
+				            <li>
+				            	<a >
+				            		<span class="q-cjp01">剩余${dailyLotteryNumber}次抽奖机会</span>
+				           	 	</a>
+				            </li>
+				            <li class="lottery-unit lottery-unit-3">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(3)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(3)?.name}</dd>
+				            	</dl>
+				            </li>
+				            <li class="lottery-unit lottery-unit-6">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(6)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(6)?.name}</dd>
+				            	</dl>
+				            </li>
+				            <li class="lottery-unit lottery-unit-5">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(5)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(5)?.name}</dd>
+				            	</dl>
+				            </li>
+				            <li class="lottery-unit lottery-unit-4">
+				            	<dl class="q-cjdl">
+				            		<dt><img src="${rewardList?.get(4)?.image_url}" onerror="this.src='/public/common/default.jpg'" width="59" height="59""></dt>
+				            		<dd>${rewardList?.get(4)?.name}</dd>
+				            	</dl>
+				            </li>
+					    </ul>
+					</div>
+				</div> 
+				#{/if}
+			</div>
+			<div class="q-cjbtmdiv">
+				<p class="p01">活动说明</p>
+				<pre class="p02">${activity_rule}</pre>
+			</div>
+	    </div>
+	 </div>	
+	
+	<!--内容 end-->
+	<script type="text/javascript">
+	
+	</script>

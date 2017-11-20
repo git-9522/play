@@ -1,0 +1,59 @@
+
+		<div class="p01">
+			<p>选择收货地址</p>
+		</div>
+		#{if addressList != null}
+			#{list addressList}
+				<div class="q-dzxgdiv flex" style="text-align: left;" onclick="findAddress('${_?.sign}')">
+					<input type="hidden" class="choseAdd" value="${_?.sign}" />
+					<dl class="flex-1">
+						<dt>${_?.receiver}
+							#{if _?.status == 1}
+								<span>常用地址</span>
+							#{/if}		
+						</dt>
+						<dd class="dd01">${_?.tel}</dd>
+						<dd class="dd02">${_?.getDetailAddress()}</dd>
+					</dl>
+					<img src="@{'/public/wechat/images/xzimg.png'}" style="display:none"/>
+				</div>
+			#{/list}
+		#{/if}
+
+	
+<script type="text/javascript">
+	function findAddress(addressId){
+		$.ajax({
+			url : "@{wechat.front.IntegralMallCtrl.findAddress()}",
+			type : "POST",
+			dataType : 'json',
+			data : {
+				"sign" : addressId,
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					alertWin(data.msg);
+					return;
+				}
+				
+				$(".tc2").hide();
+				
+				$("#defaultAddress").html("<a href='javascript:void(0);' onclick='selAddress()' class='flex'>"+
+							"<dl class='flex-1'>"+
+								"<dt><span>"+data.newAddress.receiver+"</span>"+data.newAddress.tel+"</dt>"+
+								"<dd>"+data.detailAddress+"</dd>"+
+							"</dl>"+
+							"<img src='/public/wechat/images/goimg.png'/>"+
+						"</a>");
+				$("#addressId").val(addressId);
+				
+			}
+		 });
+	}
+    
+</script>

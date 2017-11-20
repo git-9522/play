@@ -1,0 +1,68 @@
+<ul id="financial_transfer" class="w-bd-list">
+#{list pageBean?.page,as:'debtTransfer'}
+<li class="ne-invest-new clearfix">
+    <div class="clearfix f-animate">
+        <a class="f16 left f-200 c3" href="@{front.invest.InvestCtrl.transferPre(debtTransfer?.id)}">${debtTransfer?.debt_transfer_no} ${debtTransfer?.title}</a>
+        <p class="left w-co1 corange f18 tc">#{formatIntMoney money:debtTransfer?.transfer_price /}元</p>
+        <p class="left f-160 f16 tc"><span class="f24">${debtTransfer?.period}</span> 期</p>
+        <p class="left w-co2 f18 tc">${debtTransfer?.debt_amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</p>
+        <p class="left w-co2 tc c3" id="count_down_time${debtTransfer?.id}">&nsbp;</p>
+        <p class="left ml20">
+            #{if models.core.entity.t_debt_transfer.Status.AUCTING.equals(debtTransfer?.status) && sysNowTime?.compareTo(debtTransfer?.end_time) == -1}
+				<a href="@{front.invest.InvestCtrl.transferPre(debtTransfer?.id)}" class="btn1 product-btn">立即购买</a>
+			#{/if}
+			#{else}
+				<a href="@{front.invest.InvestCtrl.transferPre(debtTransfer?.id)}" class=" btn2 product-btn">已结束</a>
+			#{/else}
+        </p>
+    </div>
+</li>
+#{/list}
+ <li class="page-wrap f-page " >
+#{if pageBean?.page}
+	#{frontPageTag page:pageBean,showPage:"showTransfer"/}
+#{/if}
+</li>
+<script type="text/javascript">
+ 
+
+require(['front'],function(front){
+	
+	#{list pageBean?.page,as:'debtTransfer'}
+	  getSurplusTime(${debtTransfer?.id},${debtTransfer?.getStatus().code},'${debtTransfer?.end_time?.format(common.constants.Constants.DATE_PLUGIN)}');
+	#{/list}
+})
+
+
+function getSurplusTime(tranId,status,endTime){
+	
+	var NowTime = new Date('${sysNowTime?.format(common.constants.Constants.DATE_PLUGIN)}').getTime();
+	if (${models.core.entity.t_debt_transfer.Status.AUCTING.code} == status) {//筹款中
+		var EndTime = new Date(endTime).getTime();
+		
+		GetRTime(EndTime, NowTime, "count_down_time"+tranId);
+	} else {
+		 $("#count_down_time"+tranId).html('0天0时0分0秒');
+	}
+}
+
+//倒计时
+function GetRTime(EndTime, NowTime, domId){
+	if (NowTime == 0) {
+		NowTime = new Date().getTime();
+	}
+	var t = EndTime - NowTime;
+	timeShow(t, domId);
+    setInterval(function() {
+    	t = t-1000;
+    	timeShow(t, domId);
+    },1000);
+}
+function timeShow(t, domId){
+    var d=Math.floor(t/1000/60/60/24);
+    var h=Math.floor(t/1000/60/60%24);
+    var m=Math.floor(t/1000/60%60);
+    var s=Math.floor(t/1000%60);
+    $("#"+domId).html((d<0?0:d)+'天'+(h<0?0:h)+'时'+(m<0?0:m)+'分'+(s<0?0:s)+'秒');
+}
+</script>

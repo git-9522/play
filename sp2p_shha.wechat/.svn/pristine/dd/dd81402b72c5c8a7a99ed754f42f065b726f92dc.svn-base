@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>运营报告</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css"
+	href="/public/wechat/newedition/css/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="/public/wechat/newedition/css/reset.css" />
+</head>
+
+<body>
+<div class="run_top"><img src="/public/wechat/newedition/images/run-img.jpg"></div>
+<div class="run_bottom">
+  <img src="/public/wechat/newedition/images/run-logo.png">
+  <ul class="run_ma">
+    <li><img src="/public/wechat/newedition/images/run-weixin-g.png"></li>
+    <li><img src="/public/wechat/newedition/images/run-weixin-d.png"></li>
+    <li><img src="/public/wechat/newedition/images/run-weibo.png"></li>
+  </ul>
+</div>
+</body>
+</html>

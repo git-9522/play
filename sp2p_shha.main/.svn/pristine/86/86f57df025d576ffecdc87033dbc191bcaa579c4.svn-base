@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>运营报告${' | '+settings?.get(common.constants.SettingKey.SEO_TITLE)+' | '+settings?.get(common.constants.SettingKey.PLATFORM_NAME)}</title>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=1200px">
+     <link rel="stylesheet" href="/public/front/stylesheets/resect.css"/>
+     <link rel="stylesheet" href="/public/front/stylesheets/operationReport6.css"/>
+    <script src="/public/front/javascripts/jquery-1.12.1.min.js"></script>
+</head>
+<body>
+<div class="operat_box">
+        <div class="operat_logo">
+            <img src="/public/front/images/operat_logo.png" alt="">
+        </div>
+        <div class="operat_one">
+            <img src="/public/front/images/operat_one1.png" alt="" class="ope_one1">
+            <img src="/public/front/images/operat_one2.png" alt="" class="ope_one2">
+            <img src="/public/front/images/operat_one3.png" alt="" class="ope_one3">
+            <img src="/public/front/images/operat_one4.png" alt="" class="ope_one4">
+            <img src="/public/front/images/operat_one5.png" alt="" class="ope_one5">
+            <img src="/public/front/images/operat_one6.png" alt="" class="ope_one6">
+            <p class="ope_one_font1">(月)运营报告</p>
+            <p class="ope_one_font2">累计成交额统计</p>
+            <p class="ope_one_font3">整体数据罗列</p>
+            <p class="ope_one_font4">用户性别、年龄占比</p>
+            <p class="ope_one_font5">排行前三名</p>
+            <p class="ope_one_font6">标的详情</p>
+            <div class="ope_one_btn">
+                <img src="/public/front/images/operat_one_btn1.png" alt="" class="ope_one_quan waveRaidus">
+            </div>
+        </div>
+        <div class="operat_container none">
+            <div class="operat_main">
+                <h3 class="operat_main_title">累计成交额统计</h3>
+                <ul class="operat_animate">
+                    <li class="ani1">
+                        <div class="ani_one1 ani_one">
+                            <div class="ani_one1-1"></div>
+                        </div>
+                        <div class="ani_one2 ani_one">
+                            <div class="ani_one1-2"></div>
+                        </div>
+                        <p>环比五月成交额增长率：7.35%</p>
+                        <span>（截至6月30日）</span>
+                    </li>
+                    <li class="ani2 none">
+                        <div class="ani_two">
+                            <ul class="ani_two_line">
+                                <li class="two_line1">
+                                    <p></p>
+                                </li>
+                                <li class="two_line2">
+                                    <p></p>
+                                </li>
+                                <li class="two_line3">
+                                    <p></p>
+                                </li>
+                                <li class="two_line4">
+                                    <p></p>
+                                </li>
+                                <li class="two_line5">
+                                    <p></p>
+                                </li>
+                                <li class="two_line6">
+                                    <p></p>
+                                </li>
+                                <li class="two_line7">
+                                    <p></p>
+                                </li>
+                                <li class="two_line8">
+                                    <p></p>
+                                </li>
+                                <li class="two_line9">
+                                    <p></p>
+                                </li>
+                                <li class="two_line10">
+                                    <p></p>
+                                </li>
+                                <li class="two_line11">
+                                    <p></p>
+                                </li>
+                                <li class="two_line12">
+                                    <p></p>
+                                </li>
+                                <li class="two_line13">
+                                    <p></p>
+                                </li>
+                                <li class="two_line14">
+                                    <p></p>
+                                </li>
+                            </ul>
+                            <img src="/public/front/images/ani_two1.png" alt="" class="two_img1">
+                            <img src="/public/front/images/ani_two2.png" alt="" class="two_img2">
+                            <img src="/public/front/images/ani_two3.png" alt="" class="two_img3">
+                            <img src="/public/front/images/ani_two4.png" alt="" class="two_img4">
+                            <img src="/public/front/images/ani_two5.png" alt="" class="two_img5">
+                        </div>
+                    </li>
+                    <li class="ani3 none">
+                        <img src="/public/front/images/ani_three.png" alt="" class="ani_three">
+                    </li>
+                    <li class="ani4 none">
+                        <img src="/public/front/images/ani_four1.png" alt="" class="ani_four1 ani_fourl1">
+                        <img src="/public/front/images/ani_four2.png" alt="" class="ani_four2 ani_fourl2">
+                    </li>
+                    <li class="ani5 none">
+                        <div class="ani_five">
+                            <img src="/public/front/images/ani_five2.png" alt="" class="ani_five1 ani1_fiv">
+                            <img src="/public/front/images/ani_five3.png" alt="" class="ani_five2 ani2_fiv">
+                            <img src="/public/front/images/ani_five4.png" alt="" class="ani_five3 ani3_fiv">
+                            <img src="/public/front/images/ani_five5.png" alt="" class="ani_five4 ani4_fiv">
+                            <img src="/public/front/images/ani_five6.png" alt="" class="ani_five5 ani5_fiv">
+                        </div>
+                    </li>
+                    <li class="ani6 none">
+                        <div class="ani_six">
+                            <img src="/public/front/images/ani_six2.png" alt="" class="ani_six1 ani1_six">
+                            <img src="/public/front/images/ani_six3.png" alt="" class="ani_six2 ani2_six">
+                            <img src="/public/front/images/ani_six4.png" alt="" class="ani_six3 ani3_six">
+                            <img src="/public/front/images/ani_six5.png" alt="" class="ani_six4 ani4_six">
+                            <img src="/public/front/images/ani_six6.png" alt="" class="ani_six5 ani5_six">
+                        </div>
+                    </li>
+                    <li class="ani7 none">
+                        <h3 class="ani_til"></h3>
+                        <img src="/public/front/images/ani_seven1.png" alt="" class="ani_seven1 ani1_seven">
+                        <img src="/public/front/images/ani_seven2.png" alt="" class="ani_seven2 ani2_seven">
+                        <img src="/public/front/images/ani_seven3.png" alt="" class="ani_seven3 ani3_seven">
+                        <p>总投资额排行</p>
+                    </li>
+                    <li class="ani8 none">
+                        <h3 class="ani_til"></h3>
+                        <img src="/public/front/images/ani_engit1.png" alt="" class="ani_engit1 ani1_engit">
+                        <img src="/public/front/images/ani_engit2.png" alt="" class="ani_engit2 ani2_engit">
+                        <img src="/public/front/images/ani_engit3.png" alt="" class="ani_engit3 ani3_engit">
+                        <p>单笔投资额排行</p>
+                    </li>
+                    <li class="ani9 none">
+                        <h3 class="ani_til"></h3>
+                        <img src="/public/front/images/ani_nine1.png" alt="" class="ani_nine1 ani1_nine">
+                        <img src="/public/front/images/ani_nine2.png" alt="" class="ani_nine2 ani2_nine">
+                        <img src="/public/front/images/ani_nine3.png" alt="" class="ani_nine3 ani3_nine">
+                        <p>投资次数排行</p>
+                    </li>
+                    <li class="ani10 none">
+                        <img src="/public/front/images/ani_ten1.png" alt="" class="ani_ten1 ani1_ten">
+                        <img src="/public/front/images/ani_ten2.png" alt="" class="ani_ten2 ani2_ten">
+                    </li>
+                    <li class="ani11 ani_11 none">
+                        <img src="/public/front/images/ani_ele1.png" alt="" class="ani_ele1 ani1_ele">
+                        <img src="/public/front/images/ani_ele2.png" alt="" class="ani_ele2 ani2_ele">
+                    </li>
+                    <li class="ani12 none">
+                        <img src="/public/front/images/ani_tle1.png" alt="" class="ani_tle1 ani1_tle">
+                        <img src="/public/front/images/ani_tle2.png" alt="" class="ani_tle2 ani2_tle">
+                    </li>
+                    <li class="ani13 none">
+                        <h3 class="ani_til"></h3>
+                        <img src="/public/front/images/ani_the1.png" alt="" class="ani_the1 ani1_the">
+                        <img src="/public/front/images/ani_the2.png" alt="" class="ani_the2 ani2_the">
+                    </li>
+                </ul>
+                <div class="operat_prev operat_same"></div>
+                <div class="operat_next operat_same"></div>
+                <ul class="operat_dots1 operat_dots none">
+                    <li class="dots_act"></li>
+                    <li></li>
+                </ul>
+                <ul class="operat_dots2 operat_dots none">
+                    <li class="dots_act"></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <ul class="operat_dots3 operat_dots none">
+                    <li class="dots_act"></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <ul class="operat_dots4 operat_dots none">
+                    <li class="dots_act"></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <ul class="operat_list">
+                <li class="operat_active">累计成交额统计</li>
+                <li>整体数据罗列</li>
+                <li>用户性别、年龄占比</li>
+                <li>投资前三名</li>
+                <li>标的详情</li>
+                <li>粉丝互动</li>
+            </ul>
+        </div>
+        <div class="operat_end none">
+            <img src="/public/front/images/operat_end.png" alt="">
+            <div class="operat_back">
+                <img src="/public/front/images/operat_back.png" alt="">
+                <p>返回</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            $(window).load(function(){
+            var oIndex = 0;
+            oNe();
+            function oNe(){
+                var i=1;
+                var j=1;
+                $('.operat_one>img').eq(0).addClass('bounceIn');
+                var oTimer = setInterval(function(){
+                    if(i>$('.operat_one>img').length-1){
+                        clearInterval(oTimer);
+                        
+                    }else{
+                       $('.operat_one>img').eq(i).addClass('bounceInUp');
+                    }
+                    i++;
+                },i*300)
+                var oAimer = setInterval(function(){
+                    if(j>$('.operat_one>p').length){
+                        clearInterval(oAimer);
+                        
+                    }else{
+                       $('.operat_one>p').eq(j-1).addClass('bounceIn');
+                    }
+                    j++;
+                },j*400)
+            }
+            $('.ope_one_quan').click(function(){
+                $('.operat_one').fadeOut(200);
+                $('.operat_logo').fadeOut(200);
+                $('.operat_container').fadeIn(500);
+                $('.ani1').fadeIn(500);
+                $('.operat_dots1').fadeIn(500);
+                $('.ani1 .ani_one1-1').addClass('waveRaidus1');
+                $('.ani1 .ani_one1-2').addClass('waveRaidus1');
+                $('.operat_list>li').eq(0).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.operat_main_title').html('累计成交额统计');
+                $('.operat_dots1>li').eq(0).addClass('dots_act').siblings().removeClass('dots_act');
+
+                
+            })
+            $('.operat_prev').click(function(){
+                oIndex--;
+                if(oIndex<1)oIndex=0;
+                oAni();
+            })
+             $('.operat_next').click(function(){
+                oIndex++;
+                if(oIndex>12){
+                    oIndex=0;
+                    $('.operat_container').fadeOut(200);
+                    $('.ani13').fadeOut(200);
+                    $('.operat_end').fadeIn(500);
+                    $('.operat_logo').fadeIn(500);
+                }else{
+                  oAni();  
+                }
+                
+            })
+            $('.operat_list>li').click(function(){
+                $(this).addClass('operat_active').siblings().removeClass('operat_active')
+                switch($(this).index()){
+                    case 0: oIndex=0;oAni();
+                    break;
+                    case 1: oIndex=2;oAni();
+                    break;
+                    case 2: oIndex=3;oAni();
+                    break;
+                    case 3: oIndex=6;oAni();
+                    break;
+                    case 4: oIndex=9;oAni();
+                    break;
+                    case 5: oIndex=12;oAni();
+                    break;
+                }
+            })
+            $('.operat_back>img').click(function(){
+                $('.operat_end').fadeOut(200);
+                $('.operat_one').fadeIn(500);
+            })
+            function oAni(){
+                switch(oIndex){
+                    case 0: oMi1();
+                    break;
+                    case 1: oMi2();
+                    break;
+                    case 2: oMi3();
+                    break;
+                    case 3: oMi4();
+                    break;
+                    case 4: oMi5();
+                    break;
+                    case 5: oMi6();
+                    break;
+                    case 6: oMi7();
+                    break;
+                    case 7: oMi8();
+                    break;
+                    case 8: oMi9();
+                    break;
+                    case 9: oMi10();
+                    break;
+                    case 10: oMi11();
+                    break;
+                    case 11: oMi12();
+                    break;
+                    case 12: oMi13();
+                    break;
+                }
+            }
+            function oMi1(){
+                $('.operat_main_title').html('累计成交额统计');
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani1').fadeIn(500);
+                $('.operat_dots1').fadeIn(500);
+                $('.operat_dots1>li').eq(0).addClass('dots_act').siblings().removeClass('dots_act');
+                $('.ani1 .ani_one1-1').addClass('waveRaidus1');
+                $('.ani1 .ani_one1-2').addClass('waveRaidus1');
+                $('.ani2 .ani_two_line>li>p').removeClass('waveRaidus2');
+                $('.ani2 .ani_two>img').removeClass('two_img_ani');
+                $('.ani_three').removeClass('ani_threel');
+                $('.operat_list>li').eq(0).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.operat_main_title').html($('.operat_list>li').eq(0).html());
+            }
+            function oMi2(){
+                $('.operat_main_title').html('累计成交额统计');
+                $('.operat_dots1').fadeIn(500);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani2').fadeIn(500);
+                $('.operat_dots1').fadeIn(500);
+                $('.operat_list>li').eq(0).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.operat_dots1>li').eq(1).addClass('dots_act').siblings().removeClass('dots_act');
+                $('.ani1 .ani_one1-1').removeClass('waveRaidus1');
+                $('.ani1 .ani_one1-2').removeClass('waveRaidus1');
+                $('.ani2 .ani_two_line>li>p').addClass('waveRaidus2');
+                $('.ani2 .ani_two>img').addClass('two_img_ani');
+                $('.ani_three').removeClass('ani_threel');
+            }
+            function oMi3(){
+                $('.operat_main_title').html('整体数据罗列');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani3').fadeIn(500);
+                $('.operat_list>li').eq(1).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.ani2 .ani_two_line>li>p').removeClass('waveRaidus2');
+                $('.ani2 .ani_two>img').removeClass('two_img_ani');
+                $('.ani_three').addClass('ani_threel');
+                $('.ani4').removeClass('ani_4');
+            }
+            function oMi4(){
+                $('.operat_main_title').html('用户性别、年龄占比');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeIn(500);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani4').fadeIn(500);
+               $('.operat_dots2>li').eq(0).addClass('dots_act').siblings().removeClass('dots_act'); $('.operat_list>li').eq(2).addClass('operat_active').siblings().removeClass('operat_active');
+                
+                $('.ani_three').removeClass('ani_threel');
+                $('.ani4').addClass('ani_4');
+                $('.ani5').removeClass('ani_5');
+            }
+            function oMi5(){
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeIn(500);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani5').fadeIn(500);
+                $('.ani4').removeClass('ani_4');
+                $('.ani5').addClass('ani_5');
+                $('.ani6').removeClass('ani_6');
+                $('.operat_dots2>li').eq(1).addClass('dots_act').siblings().removeClass('dots_act');
+            }
+            function oMi6(){
+                $('.operat_main_title').html('用户性别、年龄占比');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeIn(500);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani6').fadeIn(500);
+                $('.operat_list>li').eq(2).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.operat_dots2>li').eq(2).addClass('dots_act').siblings().removeClass('dots_act');
+                $('.ani5').removeClass('ani_5');
+                $('.ani6').addClass('ani_6');
+                $('.ani7').removeClass('ani_7');
+            }
+            function oMi7(){
+                
+                $('.operat_main_title').html('投资前三名');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeIn(500);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani7').fadeIn(500);
+       $('.operat_dots3>li').eq(0).addClass('dots_act').siblings().removeClass('dots_act');         $('.operat_list>li').eq(3).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.ani6').removeClass('ani_6');
+                $('.ani7').addClass('ani_7');
+                $('.ani8').removeClass('ani_8');
+            }
+            function oMi8(){
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeIn(500);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani8').fadeIn(500);
+               
+                $('.ani7').removeClass('ani_7');
+                $('.ani8').addClass('ani_8');
+                $('.ani9').removeClass('ani_9');
+                $('.operat_dots3>li').eq(1).addClass('dots_act').siblings().removeClass('dots_act');
+            }
+            function oMi9(){
+                $('.operat_main_title').html('投资前三名');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeIn(500);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani9').fadeIn(500);
+                $('.operat_list>li').eq(3).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.operat_dots3>li').eq(2).addClass('dots_act').siblings().removeClass('dots_act');
+                $('.ani8').removeClass('ani_8');
+                $('.ani9').addClass('ani_9');
+                $('.ani10').removeClass('ani_10');
+            }
+            function oMi10(){
+                $('.operat_main_title').html('标的详情');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeIn(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani10').fadeIn(500);
+               $('.operat_dots4>li').eq(0).addClass('dots_act').siblings().removeClass('dots_act'); $('.operat_list>li').eq(4).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.ani9').removeClass('ani_9');
+                $('.ani10').addClass('ani_10');
+                $('.ani11').removeClass('ani_11');
+            }
+            function oMi11(){
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeIn(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani11').fadeIn(500);
+              $('.operat_dots4>li').eq(1).addClass('dots_act').siblings().removeClass('dots_act');
+                $('.ani10').removeClass('ani_10');
+                $('.ani11').addClass('ani_11');
+                $('.ani12').removeClass('ani_12');
+            }
+            function oMi12(){
+                $('.operat_main_title').html('标的详情');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeIn(200);
+               $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani13').fadeOut(200);
+                $('.ani12').fadeIn(500);
+               $('.operat_dots4>li').eq(2).addClass('dots_act').siblings().removeClass('dots_act'); $('.operat_list>li').eq(4).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.ani11').removeClass('ani_11');
+                $('.ani12').addClass('ani_12');
+                $('.ani13').removeClass('ani_13');
+            }
+            function oMi13(){
+                $('.operat_main_title').html('粉丝互动');
+                $('.operat_dots1').fadeOut(200);
+                $('.operat_dots2').fadeOut(200);
+                $('.operat_dots3').fadeOut(200);
+                $('.operat_dots4').fadeOut(200);
+                $('.ani1').fadeOut(200);
+                $('.ani2').fadeOut(200);
+                $('.ani3').fadeOut(200);
+                $('.ani4').fadeOut(200);
+                $('.ani5').fadeOut(200);
+                $('.ani6').fadeOut(200);
+                $('.ani8').fadeOut(200);
+                $('.ani9').fadeOut(200);
+                $('.ani7').fadeOut(200);
+                $('.ani10').fadeOut(200);
+                $('.ani11').fadeOut(200);
+                $('.ani12').fadeOut(200);
+                $('.ani13').fadeIn(500);
+                $('.operat_list>li').eq(5).addClass('operat_active').siblings().removeClass('operat_active');
+                $('.ani12').removeClass('ani_12');
+                $('.ani13').addClass('ani_13');
+            }
+            $('.operat_dots1>li').click(function(){
+                switch($(this).index()){
+                    case 0: oIndex=0; oAni();
+                    break;
+                    case 1: oIndex=1; oAni();
+                    break;
+                }
+            })
+            $('.operat_dots2>li').click(function(){
+                switch($(this).index()){
+                    case 0: oIndex=3; oAni();
+                    break;
+                    case 1: oIndex=4; oAni();
+                    break;
+                    case 2: oIndex=5; oAni();
+                    break;
+                }
+            })
+            $('.operat_dots3>li').click(function(){
+                switch($(this).index()){
+                    case 0: oIndex=6; oAni();
+                    break;
+                    case 1: oIndex=7; oAni();
+                    break;
+                    case 2: oIndex=8; oAni();
+                    break;
+                }
+            })
+            $('.operat_dots4>li').click(function(){
+                switch($(this).index()){
+                    case 0: oIndex=9; oAni();
+                    break;
+                    case 1: oIndex=10; oAni();
+                    break;
+                    case 2: oIndex=11; oAni();
+                    break;
+                }
+            })
+            });
+        })
+    </script> 
+
+</body>
+</html>

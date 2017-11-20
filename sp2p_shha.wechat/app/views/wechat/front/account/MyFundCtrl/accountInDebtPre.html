@@ -1,0 +1,10 @@
+#{list pageBean?.page}
+<div class="bill">
+	<h3 class="bill-title" onclick="showAndHideInDebt($(this),${_?.id})">
+		${_?.debt_transfer_no}&nbsp;${_?.title} <img src="/public/wechat/images/billico.png" />
+	</h3>
+  	<ul class="bill-uls" style="display: none"></ul>
+</div>
+#{/list}
+<input type="hidden" id="inDebtCurrPage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="inDebtTotalPageCount" value="${pageBean?.totalPageCount}"/>

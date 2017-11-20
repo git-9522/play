@@ -1,0 +1,11 @@
+#{list pageBean.page}
+    <li class="flex">
+        <div class="width120">${_?.period}/${_?.totalPeriod}</div>
+        <div class="flex-1">${_?.principalInterest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元 </div>
+        <div class="flex-1 tc">${_?.repaymentTime?.format(common.constants.Constants.DATE_FORMATE)}</div>
+        <div class="flex-1 tr">${_?.status}</div>
+    </li>
+#{/list}
+
+<input type="hidden" id="repaymentCurrpage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="repaymentTotalPageCount" value="${pageBean?.totalPageCount}"/>

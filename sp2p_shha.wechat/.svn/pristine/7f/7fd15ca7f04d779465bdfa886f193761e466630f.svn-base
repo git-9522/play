@@ -1,0 +1,437 @@
+package controllers.wechat.front;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.shove.gateway.weixin.gongzhong.vo.weboauth.OauthAccessToken;
+import com.shove.security.Encrypt;
+
+import common.constants.ConfConst;
+import common.constants.WxPageType;
+import common.enums.InformationMenu;
+import common.utils.DateUtil;
+import common.utils.Factory;
+import common.utils.PageBean;
+import common.utils.ResultInfo;
+import controllers.wechat.WechatBaseController;
+import models.common.bean.CurrUser;
+import models.common.entity.t_advertisement;
+import models.common.entity.t_advertisement.Location;
+import models.common.entity.t_information;
+import models.common.entity.t_setting_platform;
+import models.common.entity.t_sign_in_record;
+import models.common.entity.t_user_info;
+import models.core.bean.DebtTransfer;
+import models.core.bean.FrontBid;
+import models.wechat.bean.InvestBidBean;
+import service.wechat.DebtWechatService;
+import service.wechat.InvestWechatService;
+import service.wechat.UserWechatService;
+import service.wechat.WeChatBindService;
+import service.wechat.WeChatWebOAuthManageService;
+import services.common.AdvertisementService;
+import services.common.InformationService;
+import services.common.SettingService;
+import services.common.SignInRecordService;
+import services.common.UserInfoService;
+import services.core.BidService;
+
+/**
+ * 微信首页控制器(公司简介、联系我们)
+ *
+ * @description 
+ *
+ * @author DaiZhengmiao
+ * @createDate 2016年5月4日
+ */
+public class WechatHomeCtrl  extends WechatBaseController {
+
+	/** 注入资讯管理services  */
+	protected static InformationService informationService = Factory.getService(InformationService.class);
+	
+	/** 微信用户service */
+	protected static UserWechatService userWechatService = Factory.getService(UserWechatService.class);
+	
+	/** 微信绑定service */
+	protected static WeChatBindService weChatBindService = Factory.getService(WeChatBindService.class);
+	
+	/** 广告图片service */
+	protected static AdvertisementService advertisementService = Factory.getService(AdvertisementService.class);
+	
+	protected static InvestWechatService investWechatService = Factory.getService(InvestWechatService.class);
+	
+	protected static DebtWechatService debtWechatService = Factory.getService(DebtWechatService.class);
+
+	protected static SettingService settingService = Factory.getService(SettingService.class);
+
+	protected static BidService bidService = Factory.getService(BidService.class);
+
+	protected static SignInRecordService signInRecordService = Factory.getService(SignInRecordService.class);
+
+	protected static UserInfoService userInfoService = Factory.getService(UserInfoService.class);
+
+	/**
+	 * 微信-主页
+	 *
+	 * @author liudong
+	 * @createDate 2016年6月12日
+	 */
+	public static void frontHomePre() {
+		//广告图片
+		List<t_advertisement> banners = advertisementService.queryAdvertisementFront(Location.WX_HOME_TURN_ADS, 8);
+		renderArgs.put("banners", banners);
+		
+		//统计资讯(官方公告，媒体报道，理财故事 )前1篇
+		List<t_information> infors = informationService.queryInformationsFront(InformationMenu.INFORMATION_FRONT, 1);
+		renderArgs.put("infors", infors);
+		
+		//推荐标-散标投资
+		PageBean<InvestBidBean> pageBean = investWechatService.pageOfInvestBids(1, 3);
+		if (pageBean.page != null) {
+			renderArgs.put("bids",pageBean.page);
+		}
+				
+		//新手投资最新的一条
+		PageBean<FrontBid> pageOfNewbieBis = bidService.pageOfNewbieBidInvest(1, 2);
+		if (pageOfNewbieBis.page != null) {
+			renderArgs.put("newbieBids", pageOfNewbieBis.page.get(0));
+		}
+		
+		//推荐标-债权
+		PageBean<DebtTransfer> pageDebt = debtWechatService.pageOfDebtTransfer(1, 1,99);
+		if (pageDebt != null && pageDebt.page != null) {
+			renderArgs.put("debts", pageDebt.page);
+		}
+		
+		Date sysNowTime = new Date();
+		
+		double totalAmount = bidService.queryTotalBorrowAmount();
+		renderArgs.put("totalAmount", totalAmount);
+		
+		
+		render(sysNowTime);
+	}
+	
+	
+	/**
+	 * 微信-公司介绍
+	 *
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年1月7日
+	 */
+	public static void aboutUsPre() {
+		
+		t_information profile = informationService.findLastProfile();
+		
+		if (profile == null) {
+
+			toResultPage(WxPageType.PAGE_COMMUNAL_FAIL, "页面未找到");
+		}
+		
+		render(profile);
+	}
+	
+	/**
+	 * 微信-主页消息公告
+	 *
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年1月7日
+	 */
+	public static void infoPre(long id) {
+		
+		t_information info = informationService.findByID(id);
+
+		if (info==null) {
+			
+			toResultPage(WxPageType.PAGE_COMMUNAL_FAIL, "页面未找到");
+		}
+		
+		render(info);
+	}
+	
+	/**
+	 * 微信-联系我们
+	 *
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年1月7日
+	 */
+	public static void contactusPre() {
+		render();
+	}
+	
+	public static void baidumapPre() {
+		render();
+	}
+	
+	/**
+	 * 进入绑定页面
+	 *
+	 * @param code
+	 * @return
+	 *
+	 * @author liudong
+	 * @createDate 2016年5月12日
+	 */
+	public static void toBindWxPre(String code) {
+		//校验code
+		OauthAccessToken oauthAccessToken = checkWxRefreshToken(code);
+		boolean flag = weChatBindService.queryWeChatBind(oauthAccessToken.getOpenid());
+		if(flag){
+			toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "您的微信号已经成功绑定过用户");
+		}
+		code = oauthAccessToken.getRefresh_token();
+		render(code);
+	}
+	
+	/**
+	 * 绑定操作
+	 *
+	 * @param code
+	 * @param mobile
+	 * @param password
+	 * @return
+	 *
+	 * @author liudong
+	 * @createDate 2016年5月12日
+	 */
+	public static void bindWx(String code,String mobile,String password) {
+		ResultInfo result = new ResultInfo();
+		
+		/* 验证信息 */
+		if (StringUtils.isBlank(mobile)) {
+			flash.error("手机号不能为空");
+			
+			toBindWxPre(code);
+		}
+		
+		if (StringUtils.isBlank(password)) {
+			flash.error("密码不能为空");
+			
+			toBindWxPre(code);
+		}
+		
+		//验证手机号和密码是否匹配
+		String pwdEncrypt = Encrypt.MD5(password + ConfConst.ENCRYPTION_KEY_MD5);
+		result = userWechatService.queryUserByMobileAndPwd(mobile, pwdEncrypt);
+		if(result.code < 1){
+			flash.error(result.msg);
+			
+			toBindWxPre(code);
+		}
+
+		//校验code
+		OauthAccessToken oauthAccessToken = checkWxRefreshToken(code);
+		
+		result = weChatBindService.weChatbind(oauthAccessToken.getOpenid(),mobile);
+		if(result.code < 1){
+			flash.error(result.msg);
+			
+			toBindWxPre(code);
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "绑定成功");
+	}
+	
+	/**
+	 * 微信绑定 REFRESH_TOKEN 
+	 *
+	 * @param refresh_token
+	 * @return
+	 *
+	 * @author liudong
+	 * @createDate 2016年5月18日
+	 */
+	private static OauthAccessToken checkWxRefreshToken(String refresh_token){
+		OauthAccessToken oauthAccessToken = null;
+	
+		/* 验证信息 */
+		if (StringUtils.isBlank(refresh_token)) {
+			toResultPage(WxPageType.PAGE_FAIL, "您的链接已失效，请重新点击获取");
+		}
+		
+		//获取用户授权信息
+		oauthAccessToken = WeChatWebOAuthManageService.refreshAccessToken(refresh_token);
+		if(oauthAccessToken == null){
+			toResultPage(WxPageType.PAGE_FAIL, "您的链接已失效，请重新点击获取");
+		}
+		
+		String openId = oauthAccessToken.getOpenid();
+		if(openId == null){
+			toResultPage(WxPageType.PAGE_FAIL, "您的链接已失效，请重新点击获取");
+		}
+		
+		return oauthAccessToken;
+	}
+	
+	
+	/**
+	 *  
+	 * 新手福利（页面app和微信）
+	 *
+	 */
+	public static void noviceGotoAppPre(){
+		//注册判断
+		CurrUser currUser = getCurrUser();
+		
+		if(currUser == null){
+			renderArgs.put("isRegister", false);
+			renderArgs.put("isSignIn", false);
+			renderArgs.put("isRnAuth", false);
+			render();
+		}
+		
+		renderArgs.put("isRegister", true);
+		
+		//判断当天是否签到
+		t_sign_in_record record = signInRecordService.querySignInToday(currUser.id);
+		if (record == null) {
+			renderArgs.put("isSignIn", false);
+		}else{
+			renderArgs.put("isSignIn", true);
+		}
+		
+		//判断是否实名认证
+		t_user_info userInfo = userInfoService.findUserInfoByUserId(currUser.id);
+		if (StringUtils.isBlank(userInfo.reality_name) || StringUtils.isBlank(userInfo.id_number)) {
+			renderArgs.put("isRnAuth", false);
+		}else{
+			renderArgs.put("isRnAuth", true);
+		}
+		
+		render();
+	}
+	
+	
+	public static void noviceGotoWechatPre(){
+		
+		//新手投资
+		PageBean<FrontBid> pageOfNewbieBis = bidService.pageOfNewbieBidInvest(1, 2);
+		renderArgs.put("newbieBids", pageOfNewbieBis.page);
+		Date sysNowTime = new Date();
+		render(sysNowTime);
+	}
+	
+	
+	/**
+	 *  
+	 * 更多保障
+	 *
+	 */
+	public static void mulSecurityPre(){
+		render();
+	}
+	
+	/**
+	 *  
+	 * 安心保障跳转
+	 *
+	 */
+	public static void securityPre(){
+		render();
+	}
+	
+	/**
+	 *  
+	 * 用心保障跳转
+	 *
+	 */
+	public static void carefulPre(){
+		render();
+	}
+	
+	/**
+	 *  
+	 * 省心保障跳转
+	 *
+	 */
+	public static void saveWorryPre(){
+		render();
+	}
+	
+	/**
+	 *  
+	 * 贴心保障跳转
+	 *
+	 */
+	public static void intimatePre(){
+		render();
+	}
+	
+	/**
+	 *  
+	 * 放心保障跳转
+	 *
+	 */
+	public static void safelyPre(){
+		render();
+	}
+
+	/**
+	 *  
+	 * 新手规则跳转
+	 *
+	 */
+	public static void noviceRulesPre(){
+		render();
+	}
+	
+	/***
+	*  平台数据
+	* @param 
+	* @description 
+	*
+	*/
+	public static void platformDataPre(){
+		t_setting_platform findSettingByKey = settingService.findSettingByKey("operation_time");
+		
+		String time = findSettingByKey._value;
+		
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+		
+        Date nowTime = new Date();
+        
+        Date opTime = null;
+		try {
+			opTime = format.parse(time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+		int year = 0;
+		int day1 = 0;
+		int day2 = 0;
+		int day3 = 0;
+		long hours = 0;
+		
+		if (opTime != null){
+			year = DateUtil.getYearsBetween(opTime, nowTime);
+			
+			int dayTemp = DateUtil.getDaysBetween(opTime, nowTime);
+			
+			day1 = dayTemp / 10 / 10;
+			day2 = dayTemp / 10 % 10;
+			day3 = dayTemp % 10;
+			
+			hours = DateUtil.getMinutesDiffFloor(opTime, nowTime) / 60 % 24;
+		}
+		
+		
+		//老数据
+		double investTotalOld = 35447540.00;
+		double allAmount = bidService.queryTotalBorrowAmount()+investTotalOld;
+		long wan = (long)allAmount/10000;
+		long yuan = (long)allAmount%10000;
+		
+		render(wan, yuan, year, day1, day2, day3, hours);
+	}
+	
+}
+
+

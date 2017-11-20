@@ -1,0 +1,45 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+	<!-- 债权转让列表 -->
+	<ul class="xf-disperse-list" id="financial_bid"></ul>
+	
+	<!-- 加载更多  -->
+	<p class="xf-load" id="loadmore"></p> 
+</div>
+
+<script type="text/javascript">
+require(["wechat"],function(wechat){
+	require(['domReady!'],function(doc){
+		showPage(1);
+	});
+	
+});
+function showPage (currPage) {
+	$.ajax({
+		url : "@{wechat.front.DebtCtrl.showWechatDebtsPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data){ 
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}			
+			$("#financial_bid").append(data);
+			
+			if(parseInt($("#investCurrpage").val()) >= parseInt($("#totalPageCount").val())){	
+					$("#loadmore").html("<a>没有更多了</a>");
+			} else{
+				var investCurrpage = parseInt($("#investCurrpage").val()) + 1 ;
+				$("#investCurrpage").remove();
+				$("#totalPageCount").remove();
+
+				$("#loadmore").html("<a  onclick='showPage ("+investCurrpage+")'>加载更多项目</a>");
+			}
+			
+		}
+	});
+}
+</script>

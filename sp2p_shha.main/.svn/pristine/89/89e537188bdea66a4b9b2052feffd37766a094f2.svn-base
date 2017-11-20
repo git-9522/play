@@ -1,0 +1,157 @@
+#{extends 'common/front/accountMain.html' /} #{set title:'我的财富 | 开户' /}
+#{set smallclass:4 /}
+
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/front/stylesheets/bankMake.css'}" />
+
+<div class="account-infor">
+	<div>
+		<a href="@{front.account.MySecurityCtrl.createAccountPre}">个人用户开户？</a>
+	</div>
+		<ul class="bank_lab">
+		<form id="theForm" action="@{front.account.MySecurityCtrl.doCreateCorpAccount}" method="post" >
+			<li class="en_lab relative">
+				<p>存管用户名：</p> <input id='usrIdInput' placeholder="请输入存管用户名" name="usrId" type="text" maxlength="20" onblur="checkHfName(this.value)">&nbsp;*
+			</li>
+			<li id="hfNameError" class="en_font corange">
+				<!-- 身份证错误 -->&nbsp;
+			</li>
+			<li class="en_lab relative">
+				<p>企业名称：</p> <input id='usrNameInput' placeholder="请输入企业名称" name="usrName" type="text" maxlength="50">&nbsp;*
+			</li>
+			<li class="en_font corange">
+				<!-- 身份证错误 -->&nbsp;
+			</li>
+			<li class="en_lab relative">
+				<p>组织机构代码：</p> <input id='instuCodeInput' placeholder="请输入组织机构代码" name="instuCode" type="text" maxlength="9">
+			</li>
+			<li class="en_font corange">
+				<!-- 组织机构代码 -->&nbsp;
+			</li>
+			<li class="en_lab relative">
+				<p>营业执照编号：</p> <input id='busiCodeInput' placeholder="请输入营业执照编号" name="busiCode" type="text" maxlength="30" >&nbsp;*
+			</li>
+			<li class="en_font corange">
+				<!-- 身份证错误 -->&nbsp;
+			</li>
+			<li class="en_lab">
+				<p>税务登记号：</p> <input id="taxCodeInput" placeholder="请输入税务登记号" type="text" name="taxCode" maxlength="30" >
+			</li>
+			<li class="en_font corange">
+				<!-- 手机号不正确 -->&nbsp;
+			</li>
+			<li class="en_lab">
+				<p>是否为担保企业：</p> 
+				<label style="margin-left: 50px"><input type="radio" name="guarType" value="Y" >是</label>
+				<label style="margin-left: 50px"><input type="radio" name="guarType" value="N" checked="checked">否</label>
+			</li>
+			<li class="en_font corange">
+				<!-- 手机号不正确 -->&nbsp;
+			</li>
+			<li id="guarCorpEarnestAmtLi" class="en_lab">
+				<p>注册资本金额：</p> 
+				<input id="guarCorpEarnestAmtInput" placeholder="请输入注册资本金额" type="text" name="guarCorpEarnestAmt" maxlength="30" >&nbsp;*
+			</li>
+			<li class="en_font corange">
+				<!-- 手机号不正确 -->&nbsp;
+			</li>
+			<div class="en_go" onclick="doCorpRegister()">下一步</div>
+		</form>
+		</ul>
+</div>
+
+<script type="text/javascript">
+	require(['front'],function(front){
+		$('input[name="guarType"]').change(function() {
+			var guarType = $('input[name="guarType"]:checked').val();
+			if(guarType == 'Y') {
+				$('#guarCorpEarnestAmtLi p').html('企业用户备案金：');
+				$('#guarCorpEarnestAmtInput').attr('placeholder', '请输入企业用户备案金');
+			} else {
+				$('#guarCorpEarnestAmtLi p').html('注册资本金额：');
+				$('#guarCorpEarnestAmtInput').attr('placeholder', '请输入注册资本金额');
+			}
+			$('#guarCorpEarnestAmtInput').val('');
+		});
+	
+		
+	});
+	
+	function checkHfName(value) {
+		if(value == null || value.length == 0) {
+			$('#hfNameError').html("存管用户名不能为空");
+			return;
+		}
+		$.ajax({
+			url : "@{front.account.MySecurityCtrl.checkHfName}",
+			data : {
+				"hfName" : value
+			},
+			dataType : "json",
+			type : "POST",
+			success : function(result) {
+				if(result.code == 1) {
+					$('#hfNameError').html("&nbsp;");
+				} else {
+					$('#hfNameError').html("存管用户名已被占用");
+				}
+			},
+			error : function() {
+				window.alert("超时了！！！");
+			}
+		});
+	}
+	
+	function doCorpRegister() {
+		var usrId = $('#usrIdInput').val();
+		var usrName = $('#usrNameInput').val();
+		var instuCode = $('#instuCodeInput').val();
+		var busiCode = $('#busiCodeInput').val();
+		var taxCode = $('#taxCodeInput').val();
+		var guarCorpEarnestAmt = $('#guarCorpEarnestAmtInput').val();
+		if(usrId == null || usrId.length < 11) {
+			window.alert("请输入存管用户名");
+			return;
+		}
+		if(usrName == null || usrName.length == 0 ) {
+			window.alert("请输入企业名称");
+			return;
+		}
+		if(instuCode == null || instuCode.length == 0 ) {
+			window.alert("请输入组织机构代码");
+			return;
+		}
+		if(busiCode == null || busiCode.length == 0 ) {
+			window.alert("请输入组织营业执照编号");
+			return;
+		}
+		if(taxCode == null || taxCode.length == 0 ) {
+			window.alert("请输入税务登记号");
+			return;
+		}
+		if(guarCorpEarnestAmt == null || guarCorpEarnestAmt.length == 0 ) {
+			window.alert("请输入企业用户备案金或注册资金");
+			return;
+		}
+		$("#theForm").submit();
+	}
+	
+	function coryRegisterQuery() {
+		$.ajax({
+			url : "@{front.account.MySecurityCtrl.corpRegisterQuery}",
+			dataType : "json",
+			type : "POST",
+			success : function(result) {
+				if(result.code == 1) {
+					window.alert("您的企业开户状态为 : " + result.obj);
+				} else {
+					window.alert(result.msg);
+				}
+			}, 
+			error : function() {
+				window.alert("超时了，请重试");
+			}
+			
+		});
+	}
+</script>

@@ -1,0 +1,14 @@
+#{if friendShipLinks?.size()!=0}
+
+#{list items:friendShipLinks,as:'link'}
+	#{if link.url}
+		<a  class="left c9 fs14" href="${link.url}" target="_blank">${link.name}</a>
+	#{/if}
+	#{else}
+		<a class="left c9 fs14" href="javascript:void(0)">${link.name}</a>
+	#{/else}
+#{/list}
+#{/if}
+#{else}
+&nbsp;
+#{/else}

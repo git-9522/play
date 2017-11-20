@@ -1,0 +1,120 @@
+.ne_about_title {
+    border-bottom: 1px solid #e7e7e7;
+}
+.ne_about_title>h3 {
+    width: 75px;
+    height: 45px;
+    background: url(../images/ne-rebot.png) no-repeat center bottom;
+}
+.about_recruit {
+    width: 100%;
+}
+.about_recruit>li {
+    width: 100%;
+    display: none;
+}
+.about_recruit>li.recruit_act {
+    display: block;
+}
+.recruit_list {
+    margin: 25px auto 0;
+}
+.recruit_jump {
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    padding: 0 20px;
+    border: 1px solid #e9e9ed;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.recruit_num {
+    width: 70px;
+    height: 30px;
+    height: 30px;
+    padding-left: 10px;
+    border: 1px solid #e9e9ed;
+    border-radius: 4px;
+    color: #333;
+}
+.recruit_list>p {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e9e9ed;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+.recruit_list>p.recruit_left {
+    background: url(../images/recruit_left.png) no-repeat center;
+}
+.recruit_list>p.recruit_right {
+    background: url(../images/recruit_right.png) no-repeat center;
+}
+.recruit_font {
+    line-height: 30px;
+    display: block
+}
+.master {
+    width: 857px;
+    height: 190px;
+}
+.master>h3 {
+    font-size: 18px;
+    padding-top: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 230px;
+}
+.master>h3.ma_h2 {
+    width: 400px;
+    line-height: 45px;
+    padding-top: 15px;
+    text-align: right;
+}
+.master>h3>span {
+    font-size: 14px;
+    padding:0 10px;
+}
+.master_form1 {
+     margin-top: 20px;
+     margin-left: 225px;
+}
+.master_form2 {
+     margin-left: 30px;
+     margin-top: 15px;  
+}
+.master_form>p {
+    font-size: 12px;
+    line-height: 22px;
+    padding-left: 20px;
+    background: url(../images/master_dots.png) no-repeat left 7px;
+}
+.master1 {
+    margin-top: 35px;
+    background: url(../images/ne-about-master1.png) no-repeat center top;
+}
+.master2 {
+    margin-top: 15px;
+    background: url(../images/ne-about-master2.png) no-repeat center bottom;
+}
+/*合作伙伴*/
+.ne_about_friend>li {
+    width: 230px;
+    float: left;
+    margin-bottom: 35px;
+}
+.ab_fr_k {
+    width: 152px;
+    height: 62px;
+    border: 1px solid #e4e6ec;
+    margin: 0 auto 20px;
+}
+.ab_fr_k>img {
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+}
+/*合作伙伴*/

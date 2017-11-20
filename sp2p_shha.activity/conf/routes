@@ -1,0 +1,17 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_shha.activity
+#
+# ~~~~
+
+# 活动服务接口
+*    /activity/services                     						        		    activity.ActivityController.index
+
+
+# 虹宝宝全国之旅
+GET  /hbbaroundactivity/{action}.html                  activity.HbbAroundActivityCtrl.{action}Pre
+POST /hbbaroundactivity/{action}.html  				   activity.HbbAroundActivityCtrl.{action}
+
+# iphoneX
+*    /activity/iphonex                     						        		    activity.ActivityController.awardNumberListPre

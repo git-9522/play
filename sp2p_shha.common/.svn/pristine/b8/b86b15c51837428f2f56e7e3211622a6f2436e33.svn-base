@@ -1,0 +1,263 @@
+.draw_page {
+    width: 100%;
+}
+.page1 {
+    width: 100%;
+    height: 742px;
+    background: url(../images/invest_lottery/choujiang_bg.jpg) no-repeat center;
+}
+.page2 {
+    width: 100%;
+    height: 920px;
+    background: #ffba16;
+}
+.page2 .page2_center {
+    width: 1200px;
+    height: 900px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+.page2_center .page2_title {
+    display: block;
+    margin: 0 auto;
+}
+.page2_center>h3 {
+    font-size: 24px;
+    text-align: center;
+    color: #4f0606;
+}
+/*转盘部分*/
+.dowebok { 
+    width: 584px;
+    height: 584px;
+    background: url(../images/invest_lottery/ly.png) center no-repeat;
+    left: 10px;
+    top: 180px;
+}
+.plate {
+    width: 463px;
+    height: 463px;
+    left: 61px;
+    top: 60px;
+}
+.plate_ban {
+    width: 463px;
+    height: 463px;
+    left: 0;
+    top: 0;
+}
+.plate_ban>li {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -87.5px;
+    width: 175px;
+    height: 231px;
+    /*transform: rotate(22.5deg);*/
+    transform-origin: bottom center;
+}
+.plate_ban>li.even {
+	background: url(../images/invest_lottery/ban1.png) no-repeat center;
+}
+.plate_ban>li.even {
+	background: url(../images/invest_lottery/ban2.png) no-repeat center;
+}
+.plate_ban>li>p {
+    width: 100%;
+    left: 0;
+    top: 33px;
+    color: #e30000;
+}
+.plate_ban>li>.plate_hb {
+    width: 85px;
+    height: 34px;
+    background: url(../images/invest_lottery/chajiang_hb.png) no-repeat center;
+    left: 50%;
+    margin-left: -42.5px;
+    top: 65px;
+}
+.plate_ban>li>.plate_hb>span {
+    left: 20px;
+    top: 9px;
+}
+.plate_img {
+    width: 630px;
+    height: 517px;
+    background: url(../images/invest_lottery/tiao_pcc.png) no-repeat center;
+    left: -30px;
+    top: 216px;
+}
+.plateBtn { 
+    left: 93px;
+    top: 93px;
+    width: 279px;
+    height: 279px;
+    background-image: url(../images/invest_lottery/rotate1.png);
+    text-indent: -9999px;
+    overflow: hidden;
+}
+.result {
+    display: none;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background: url(../images/invest_lottery/kuang_bg.png) repeat-y;
+    z-index: 1000;
+}
+.tankuang {
+    width: 599px;
+    height: 531px;
+    left: 50%;
+    margin-left: -249px;
+    top: 20%;
+    background: url(../images/invest_lottery/tankuang.png) no-repeat center;
+}
+.resultTxt {
+    width: 140px;
+    height: 70px;
+    line-height: 70px;
+    left: 228px;
+    top: 170px;
+    font-size: 70px;
+    text-shadow: #442204 1px 1px 0;
+    color: #eb0205;
+    text-align: center;
+}
+.result_link {
+    width: 260px;
+    height: 76px;
+    left: 177px;
+    bottom: 0px;
+}
+.resultBtn { 
+    right: 0px;
+    top: 0px;
+    width: 39px;
+    height: 39px;
+    text-indent: -100px;
+    background: url(../images/invest_lottery/close.png) no-repeat center;;
+    overflow: hidden;
+}
+.plate_tips {
+    width: 300px;
+    height: 102px;
+    background: url(../images/invest_lottery/ipt_btn.png) no-repeat center;
+    left: 120px;
+    top: 790px;
+}
+.plate_en {
+    left: 124px;
+    top: 43px;
+}
+.plate_num {
+    left: 121px;
+    top: 43px;
+}
+.plate_shu {
+    width: 40px;
+    height: 35px;
+    font-size: 25px;
+    line-height: 35px;
+    left: 174px;
+    top: 33px;
+    text-shadow: #442204 1px 1px 0;
+    text-align: center;
+    color: #e5004f;
+}
+/*转盘部分*/
+.plate_add {
+    width: 389px;
+    height: 391px;
+    background: url(../images/invest_lottery/zhongjiang.png) no-repeat center;
+    right: 107px;
+    top: 185px;
+}
+.plate_add_l {
+    width: 316px;
+    height: 255px;
+    left: 37px;
+    top: 103px;
+}
+#scrollDiv{ 
+    width:316px;
+    height:255px;
+    overflow:hidden;
+}/*这里的高度和超出隐藏是必须的*/
+#scrollDiv li{ 
+    height: 30px;
+    line-height: 30px;
+    width: 260px;
+    margin: 0 auto;
+    color: #4f0606;
+    border-bottom: 1px dashed #4f0606;
+    font-size: 14px;
+}
+#scrollDiv li span{ 
+    display: block;
+    float: left;
+    line-height: 30px;
+}
+.plate_name {
+    width: 80px;
+    padding-left: 20px;
+}
+.plate_size {
+    right: 64px;
+    top: 610px;
+}
+.page3 {
+    width: 100%;
+    min-height: 1500px;
+}
+.page3_bg {
+    width: 100%;
+    height: 1810px;
+    background: url(../images/invest_lottery/choujiang_bg1.png) no-repeat center;
+    top: -144px;
+    left: 0;
+}
+.page3_center {
+    width: 1200px;
+    height: 1270px;
+    margin: 0 auto;
+    padding-top: 188px;
+}
+.page3_center .page3_title {
+    display: block;
+    margin: 0 auto;
+}
+.page3_center>h3 {
+    font-size: 24px;
+    text-align: center;
+    color: #4f0606;
+    margin-top: 20px;
+}
+.page3_center .page3_img {
+    display: block;
+    margin: 30px auto 0;
+}
+.page3_center>.guize {
+    font-size: 36px;
+    color: #008bea;
+    margin-top: 0;
+}
+.page3_center>p {
+    width: 990px;
+    margin: 50px auto 0;
+    font-size: 24px;
+    line-height: 48px;
+    color: #008bea;
+}
+
+.page4 {
+    width: 100%;
+}
+.page4_bg {
+    width: 100%;
+    height: 1499px;
+    background: url(../images/invest_lottery/choujiang_new1.bg.jpg) no-repeat center;
+    top: -133px;
+    left: 0;
+}

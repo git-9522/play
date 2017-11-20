@@ -1,0 +1,16 @@
+<div class="ne_fina_font">
+#{list items:page?.page,as:"information"}
+                    <a class="clearfix" href="@{front.InformationCtrl.informationDetailPre(information?.id)}" target="_blank">
+                        <p class="c3 left">${information?.title}</p>
+                        <span class="c9 right">${information?.show_time?.format(common.constants.Constants.DATE_PLUGIN2)}</span>
+                    </a>
+ #{/list}                   
+                   
+</div>
+<div class="check_center">
+		<div class="page-wrap f-page" >
+		 		#{if page?.page}
+					#{frontPageTag page:page,showPage:"loadMoreInfos"/}
+				#{/if}
+		</div>
+</div>

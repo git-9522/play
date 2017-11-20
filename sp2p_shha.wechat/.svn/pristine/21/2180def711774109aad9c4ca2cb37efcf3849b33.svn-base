@@ -1,0 +1,9 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center register-ok">
+<img src="/public/wechat/images/wrong.png" class="regist-okico" />
+<p class="tc">
+	${par?.msg?:'操作失败'}<br/>
+	点击去<a href="@{wechat.front.account.MySecurityCtrl.updateUserBankCardPre()}" class="major">绑卡</a>
+</p>
+</div>

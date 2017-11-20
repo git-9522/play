@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>虹金所 | 高端金融理财平台 | 虹金所_引领投资、理财新方向!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="虹金所,虹奥财富,上海网络借贷,P2P网络借贷" />
+    <meta name="description" content="虹金所为上海虹奥财富旗下P2P网络借贷平台，为广大用户提供一个安全、诚信、低风险、回报稳定的理财新渠道。" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=1200px">
+    <link rel="shortcut icon" type="image/png" href="/data/attachments/64c09f1d-6e99-4347-96b0-46c778da714d" />
+    <link rel="stylesheet" href="../stylesheets/reset.css">
+    <link rel="stylesheet" href="../stylesheets/icard.css">
+    <link href="../stylesheets/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <script src="../javascripts/jquery-1.8.2.min.js"></script>
+    <script src="../javascripts/jquery.mCustomScrollbar.concat.min.js"></script>
+</head>
+<body>
+    <div class="icard1">
+        <p>活动时间：2017.11.01-2017.11.30</p>
+    </div>
+    <div class="icard2">
+        <div class="icard2_cen">
+            <p>活动内容：活动期间内，用户每笔投资均有一次翻牌机会<span>(平台首次投资不参与此活动)</span>，每次翻牌会获取相应的约会金。</p>
+            <div class="icard2_box">
+                <div class="icard_list">
+                   <div class="content_2 content">
+                        <ul class="icard_font">
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="icard_person icard_nv1"></div>
+                    <div class="icard_person icard_na1 icard_na2"></div>
+                </div>
+                <ul class="draw_main_box">
+                    <li class="draw_card1">
+                        <img class="dc_a" src="../images/icard1/icard1_woman.png" alt="">
+                        <img style="display: none;" class="dc_b" src="../images/icard1/icard1_man.png" alt="">
+                    </li>
+                    <li class="draw_card2">
+                        <img class="dc_a" src="../images/icard1/icard1_woman.png" alt="">
+                        <img style="display: none;" class="dc_b" src="../images/icard1/icard1_man.png" alt="">
+                    </li>
+                    <li class="draw_card3">
+                        <img class="dc_a" src="../images/icard1/icard1_woman.png" alt="">
+                        <img style="display: none;" class="dc_b" src="../images/icard1/icard1_man.png" alt="">
+                    </li>
+                    <li class="draw_card4">
+                        <img class="dc_a" src="../images/icard1/icard1_woman.png" alt="">
+                        <img style="display: none;" class="dc_b" src="../images/icard1/icard1_man.png" alt="">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="icard_dialog">
+        <div class="icard_cont">
+            <h2 class="icard_head"><span class="left">平台提示</span></h2>
+            <div class="icard_msg">&nbsp;</div>
+            <div class="card_btn">确定</div>
+        </div>
+    </div>
+    <div class="icard_log">
+        <div class="icard_icon">
+            <img src="../images/icard1/icard_nv1.png" alt="">
+            <img src="../images/icard1/icard_nv2.png" alt="">
+            <img src="../images/icard1/icard_nv3.png" alt="">
+            <img src="../images/icard1/icard_nv4.png" alt="">
+            <img src="../images/icard1/icard_nv5.png" alt="">
+            <img src="../images/icard1/icard_nv6.png" alt="">
+            <img src="../images/icard1/icard_nv7.png" alt="">
+            <img src="../images/icard1/icard_nv8.png" alt="">
+        </div>
+        <div class="icard_icon">
+            <img src="../images/icard1/icard_na1.png" alt="">
+            <img src="../images/icard1/icard_na2.png" alt="">
+            <img src="../images/icard1/icard_na3.png" alt="">
+            <img src="../images/icard1/icard_na4.png" alt="">
+            <img src="../images/icard1/icard_na5.png" alt="">
+            <img src="../images/icard1/icard_na6.png" alt="">
+            <img src="../images/icard1/icard_na7.png" alt="">
+            <img src="../images/icard1/icard_na8.png" alt="">
+        </div>
+        <p class="icard_ms">恭喜您获得约会金 <span>25.5</span> 元！</p>
+        <img src="../images/icard1/icard_off.png" alt="" class="icard_off">
+    </div>
+    <script>
+    var host = location.host;
+    var webroot="http://"+host;
+        $(function(){
+          var aMoney,aFns,aBtn,aNum,aCid,aDbs = 1,aTime,onOff = true,carIndex,carA,aCar=0;
+            $('.icard_person').click(function(){
+                if($(this).index()==0){
+                    $(this).removeClass('icard_nv2');
+                    $('.icard_na1').addClass('icard_na2');
+                    $('.icard2_box').removeClass('icard2_box1');
+                    $('.dc_a').show();
+                    $('.dc_b').hide();
+                    aDbs = 1
+                }else{
+                    $(this).removeClass('icard_na2');
+                    $('.icard_nv1').addClass('icard_nv2');
+                    $('.icard2_box').addClass('icard2_box1');
+                    $('.dc_b').show();
+                    $('.dc_a').hide();
+                    aDbs = 2
+                }
+                
+            })
+            var userId = getQueryVariable("userId");
+            var oType = getQueryVariable("type");
+                 if(oType){
+                    oType=oType;
+                 }else{
+                 oType=1;
+             }
+            function move() {
+                var arrW = [],
+                    arrH = [],
+                    arrT = [],
+                    arrZ = [],
+                    arrO = [],
+                    arrL = []
+
+                $(".draw_main_box>li").each(function (i) {
+                    arrW[i] = $(this).css('width');
+                    arrH[i] = $(this).css('height');
+                    arrT[i] = $(this).css('top');
+                    arrZ[i] = $(this).css('zIndex');
+                    arrO[i] = $(this).css('opacity');
+                    arrL[i] = $(this).css('left');
+                });
+                $(".draw_main_box>li").each(function (i) {
+                    var index;
+                    if(aDbs ==1){
+                        index = i - 1;
+                        if (index < 0) index = $(".draw_main_box>li").length - 1;
+                    }else{
+                        index = i + 1;
+                        if (index > $(".draw_main_box>li").length - 1) index = 0;
+                    }
+                    
+                    $(this).css('z-index', arrZ[index]);
+                    $(this).animate({
+                        width: arrW[index],
+                        height: arrH[index],
+                        top: arrT[index],
+                        opacity: arrO[index],
+                        left: arrL[index]
+                    }, 200);
+                });
+            }
+            oAjax1();
+            function oAjax1(){
+                $('.icard_font').html('');
+                
+                
+                $.getJSON(webroot+'/activity/services?type='+oType+'&opt=100&userId='+userId,function (data) {
+                    if(data.code==1){
+                        $(".content_2").html('<ul class="icard_font"></ul>');
+                        for(var i=0;i<data.obj.length; i++){
+                            aMoney = data.obj[i].amount;
+                            aNum = data.obj[i].id;
+                            if(data.obj[i].cid){
+                                aFns = false;
+                                aBtn = "icard_btn1";
+                                aCid = data.obj[i].cid
+                            }else{
+                                aFns = true;
+                                aBtn = "";
+                                aCid = "";
+                            }
+                            var oLi = $('<li> <span>'+aMoney+'</span><div class="icard_btn '+aBtn+'" aNum="'+aNum+'" aCid="'+aCid+'" aFns="'+aFns+'"></div></li>');
+                            $('.icard_font').append(oLi);  
+                        }
+                        $(".content_2").mCustomScrollbar({
+                            scrollInertia:150
+                        });
+                        oClick();
+                    }else if(data.code == -100){
+                        window.location.href = "/loginAndRegiste/login.html";
+                    }else{
+                       				  $('.icard_dialog').show();
+                                    $('.icard_msg').html(data.msg);
+                                    $('.icard_icon').eq(aDbs-1).find('img').eq(carIndex).show().siblings().hide();
+                                 
+                                 	console.info(onOff)
+                    }
+                }) 
+            };
+            function oClick(){
+                $('.icard_btn').click(function(){
+                    if(onOff == true){
+                        onOff = false;
+                           console.log(1)
+                        if($(this).attr('aFns')=='true'){
+                            oTime();
+                            cardNum();
+                            if(aDbs==1){
+                                $('.icard_icon').eq(0).show();
+                            }else if(aDbs==2){
+                                $('.icard_icon').eq(1).show();
+                            }
+                            var data = {inver_id:$(this).attr('aNum'), cid: carIndex+1, userId : userId,opt:112,type:oType};
+                            $.getJSON(webroot+'/activity/services',data,function (data) {
+                                if(data.code==1){
+                                     setTimeout(function(){
+                                        $('.draw_card1>img').animate({
+                                            width: 0
+                                        },300,function(){
+                                            $('.draw_card1>img').animate({
+                                                width: 240 + 'px'
+                                            },300,function(){
+                                                $('.icard_log').show(); $('.icard_icon').eq(aDbs-1).find('img').eq(carIndex).show().siblings().hide();
+                                                $('.icard_ms>span').html(data.obj);
+                                            })
+                                        });
+                                        oAjax1();
+                                    }, 750);
+                                }else if(data.code == -100){
+                                    window.location.href = "/loginAndRegiste/login.html";
+                                }else{
+                                    $('.icard_dialog').show();
+                                    $('.icard_msg').html(data.msg);
+                                    $('.icard_icon').eq(aDbs-1).find('img').eq(carIndex).show().siblings().hide();
+                                 	oAjax1();
+                                 	console.info(onOff)
+                                }
+                            });
+                        }else{
+                        	 onOff = true;
+                        }
+                    }
+                    
+                })
+            }
+           function oTime(){
+                aTime = setInterval(function(){
+                    aCar++;
+                    move();
+                    if(aCar==4){
+                        clearInterval(aTime);
+                    }
+                },250);
+            }
+            $('.icard_off').click(function(){
+                $('.icard_log').hide(); 
+                $('.icard_icon').hide();
+                 aCar = 0;
+                onOff = true;
+            })
+            $('.card_btn').click(function(){
+                $('.icard_dialog').hide(); 
+                 aCar = 0;
+                 onOff = true;
+            })
+            function cardNum(){
+                carIndex = Math.floor(Math.random()*8);
+               var  cid= $('.icard_font>li>.icard_btn').eq($('.icard_font>li').length-1).attr('aCid');
+               if(cid){
+               	carA = parseInt(cid)-1;
+               }
+                console.log(carA)
+                if(carIndex==carA){
+                    cardNum();
+                }else{
+                    return carIndex;
+                }
+            }
+            function getQueryVariable(variable)	{
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if(pair[0] == variable){
+                        return pair[1];
+                    }
+                }
+                return "";
+            }
+            
+        })
+    </script>
+</body>
+</html>

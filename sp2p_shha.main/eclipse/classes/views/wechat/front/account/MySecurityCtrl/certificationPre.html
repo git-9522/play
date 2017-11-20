@@ -1,0 +1,47 @@
+#{extends 'common/wechatMain.html' /}
+<div class="center recharge">
+	<form action="@{wechat.front.account.MySecurityCtrl.checkRealName()}" method="post" id="checkRealName">
+	    #{authenticityToken /}
+	    <section class="detail-txt flex">
+	        <span class="">真实姓名</span>
+	        <input type="text" id="realName" name="realName" value="${flash?.realName}" class="detailtxt c666 flex-1"  maxlength="10"/>
+	    </section>
+	    <section class="detail-txt flex">
+	        <span class="">身份证号</span>
+	        <input type="text" id="idNumber" name="idNumber" value="${flash?.idNumber}" class="detailtxt c666 flex-1"  maxlength="18"
+	        onKeyUp="value=value.replace(/[\W|^_]/g,'')"/>
+	    </section>
+	    <input type="button" id="checkRealName_submit" class="condition-btn btn" value="保存">
+	</form>
+</div>
+<script type="text/javascript">
+require(['wechat'],function(){
+	$("#checkRealName_submit").click(function(){
+		$("#checkRealName").submit();
+	});
+	$("#checkRealName").validate({
+		errorPlacement: function(error, element) {
+			error.addClass('cored').addClass("wrong-txt").addClass("mb30").insertAfter(element.parent());
+			error.css("margin-top","-33px");
+		},
+		errorElement:"p",
+		rules:{
+			"realName":{
+				required:true
+			},
+			"idNumber":{
+				required:true
+			}
+		},
+		messages:{
+			"realName":{
+				required:"真实姓名不能为空"
+			},
+			"idNumber":{
+				required:"身份证号不能为空"
+			}
+		}
+	})
+	
+})
+</script>

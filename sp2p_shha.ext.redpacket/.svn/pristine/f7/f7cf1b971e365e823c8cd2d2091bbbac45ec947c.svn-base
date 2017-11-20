@@ -1,0 +1,18 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_bjmkw.extend.redpacket
+#
+# ~~~~
+
+# 前台-账户中心-我的奖励-红包控制器(controllers.front.account.MyRedpacketCtrl)
+GET  /account/reward/redpacket/{action}.html                   front.account.MyRedpacketCtrl.{action}Pre
+POST /account/reward/redpacket/{action}                        front.account.MyRedpacketCtrl.{action}
+
+
+# 后台-推广-红包控制器(controllers.back.spread.RedpacketCtrl)
+GET  /supervisor/spread/redpacket/{action}.html                      back.spread.RedpacketCtrl.{action}Pre
+POST /supervisor/spread/redpacket/{action}                           back.spread.RedpacketCtrl.{action}
+
+GET  /supervisor/spread/activity/{action}.html											 back.spread.ActivityCtrl.{action}Pre
+POST /supervisor/spread/activity/{action}.html											 back.spread.ActivityCtrl.{action}

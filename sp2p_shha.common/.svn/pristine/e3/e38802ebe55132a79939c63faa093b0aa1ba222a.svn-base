@@ -1,0 +1,150 @@
+.earth_bg1 {
+    width: 100%;
+    height: 801px;
+    background: url(../images/earth-img/earth_bg1.jpg) no-repeat center;
+    position: relative;
+}
+.earth_box {
+    width: 600px;
+    height: 680px;
+    position: absolute;
+    left: 50%;
+    top: 110px;
+}
+.earth_box .ebox_font1 {
+    width: 550px;
+    font-size: 30px;
+    line-height: 50px;
+    color: #fff;
+    margin: 0 auto;
+}
+.ebox_font1>span {
+    color: #fa4b2e;
+}
+.earth_main {
+    width: 535px;
+    height: 505px;
+    margin: 20px auto 0;
+    background: rgba(0,0,0,0.5);
+    padding-left: 15px;
+    padding-top: 30px;
+    color: #fff;
+}
+.earth_main>h3 {
+    font-size: 30px;
+    line-height: 50px;
+}
+.earth_main .earth_time {
+    font-size: 20px;
+}
+#scrollDiv{ 
+    width:535px;
+    height: 400px;
+    overflow:hidden;
+}
+/*这里的高度和超出隐藏是必须的*/
+#scrollDiv li{ 
+    width: 535px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.earth_bg2 {
+    width: 100%;
+    height: 1690px;
+    background: url(../images/earth-img/earth_bg2.jpg) no-repeat center;
+}
+.eb2_box {
+    width: 1200px;
+    margin: 0 auto;
+    
+}
+.eb2_box>h2 {
+    font-size: 32px;
+    color: #c80000;
+    text-align: center;
+    width: 1055px;
+    margin: 0 auto;
+    padding-top: 60px;
+    line-height: 60px;
+}
+.eb2_box>h3 {
+    width: 650px;
+    height: 90px;
+    line-height: 80px;
+    font-size: 40px;
+    color: #fff;
+    background: url(../images/earth-img/earth_icon1.png) no-repeat center;
+    margin: 60px auto 0;
+    text-align: center;
+}
+.eb2_box>p {
+    font-size: 24px;
+    width: 1110px;
+    margin: 50px auto 0;
+    line-height: 40px;
+}
+.eb2_box .eb2_img {
+    width: 1110px;
+    margin: 50px auto 0;
+}
+.eb2_img>p {
+    float: left;
+    width: 550px;
+    font-size: 24px;
+    line-height: 40px;
+}
+.eb2_img>img {
+    float: right;
+    display: block;
+}
+.earth_dialog {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    left: 0;
+    top: 0;
+    display: none;
+}
+.earth_cont {
+    width: 532px;
+    background: url(../images/earth-img/alert_bg.png) no-repeat center;
+    height: 236px;
+    border-radius: 0;
+    position: absolute;
+    left: 50%;
+    margin-left: -266px;
+    top: 30%;
+}
+.earth_head {
+    height: 48px;
+    line-height: 48px;
+    padding-left: 20px;
+    border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    color: #333;
+}
+.earth_msg{
+    padding: 40px 30px 0px;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
+.earth_btn{
+    width: 107px;
+    height: 40px;
+    margin: 0 15px;
+    background: url(../images/earth-img/alert_btn1.png) no-repeat center;
+    box-shadow: 0 1px 5px #bde0fd;
+    margin: 40px auto 0;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}

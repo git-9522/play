@@ -1,0 +1,123 @@
+#{extends 'common/front/accountMain.html' /}
+#{set title:'我的财富 | 安全中心 | 绑定银行卡' /}
+#{set smallclass:4 /}
+
+<!-- 账户主要表格 -->
+<div class="account-infor">
+	<!-- 修改银行卡 -->
+	<div class="account-setbank">
+		<h2 class="account-title">
+			<span class="left bankcard-title c3"><i class="icon"></i>绑定银行卡</span>
+			#{if !isFYPayment}
+			<a href="@{front.account.MySecurityCtrl.flushBindCardPre()}" class="right major bankcard-sys bankcard-add" style="margin-left:30px"><i class="icon"></i>银行卡同步</a>
+			#{if isHaveCard}
+				<a id="bankcard_add" href="javascript:void(0)" class="right major bankcard-add " target="_blank"><i class="icon"></i>添加银行卡</a>
+			#{/if}
+			#{else}
+				<span class="right c9 bankcard-unadd">添加银行卡</span>
+			#{/else}
+			#{/if}
+		</h2>
+		<!-- 银行卡列表 -->
+		<div class="account-box" id="list_bankcard"></div>
+		#{if !isFYPayment}
+		<div class="bankcard-addnote">
+			<span class="borrow-notehead"><i class="icon note-icon"></i>温馨提示：</span><br/>
+			1. 请先将本人的银行卡与“汇付天下”托管账户进行绑定，否则无法提现；<br/>
+			2. 确保本人的银行卡开户人真实姓名与平台实名认证的真实姓名一致；<br/>
+			3. 若绑定银行卡过程中遇到任何问题，请及时联系客服。
+		</div>
+		#{/if}
+		<p class="returnprev">
+			<a href="@{front.account.MySecurityCtrl.securityPre()}" class="backpage"><i class="icon return-icon"></i>返回</a>
+		</p>
+	</div>
+</div>
+
+<!-- 绑卡弹窗 -->
+<div class="dialog" id="bandcard">
+	<div class="dialog-bg"></div>
+	<div class="dialog-cont trusteeship-dialog">
+		<h2 class="dialog-head">
+			<span class="left">平台提示</span>
+		</h2>
+		<div class="trusteeship-cont">
+			<div class="trusteeship-wrap">
+				<i class="trusteeship-icon"></i>
+				<p class="major">请在新页面完成绑卡操作。</p>
+				<a href="@{front.account.MySecurityCtrl.updateUserBankCardPre()}" class="bdbtn">绑卡成功</a>
+				<p class="trusteeship-help"><a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="c9">绑卡遇到问题></a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+require(['front'],function(front){
+	$("#bankcard_add").click(function(){
+		#{if isSimulated}
+			alert("模拟登录不能执行该操作");
+			return false;
+		#{/if}
+		#{else}
+			$('#bandcard').dialog();
+			window.open("@{front.account.MySecurityCtrl.bindCardPre()}"); 
+		#{/else}
+	});
+	
+	listOfUserBankCardPre(1,5);
+})
+
+//设置默认银行卡
+function setDefaultCard(id){
+	#{if isSimulated}
+			alert("模拟登录不能执行该操作");
+			return false;
+	#{/if}
+	#{else}
+	$.ajax({
+		url : "@{front.account.MySecurityCtrl.setDefaultBankCard()}",
+		type : "POST",
+		data : {
+			"id" : id
+		},
+		dataType:"json",
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			if(data.result < 1){
+				alert(data.msg);
+			} else {
+				location.reload();
+			}
+		}
+	});
+	#{/else}
+}
+
+//银行卡列表 
+function listOfUserBankCardPre(currPage, pageSize){
+	$.ajax({
+		url : "@{front.account.MySecurityCtrl.listOfUserBankCardPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#list_bankcard").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+	 });
+}
+
+</script>

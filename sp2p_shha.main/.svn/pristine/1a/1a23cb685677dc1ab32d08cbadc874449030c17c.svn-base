@@ -1,0 +1,59 @@
+ <ul class="ne_invest_biao">
+ #{list pageBean?.page}
+  #{if jobs.IndexStatisticsJob.webProdMap.get(_?.product_id+"")  =="新虹投"}
+  		 <li class="ne-invest-new clearfix">
+  #{/if}
+  #{else}
+  		<li class=" clearfix">
+  		
+  #{/else}
+  <div class="ne_in_animate clearfix">
+                    <div class="ne_in_biao1 left">
+                        <p class="fs14 c6 mt10">${_?.title}</p>
+                        <p class="fs16 c3 mt10">${jobs.IndexStatisticsJob.webProdMap.get(_?.product_id+"")}</p>
+                    </div>
+                    <div class="ne_in_biao2 left">${_?.apr}%#{if _?.is_invest_reward}<span
+					class="fs14">+${_?.reward_rate}%</span>#{/if}</div>
+                    <div class="ne_in_biao3 c6 left">${_?.period}<span class="fs16">${_?.period_unit?.getShowValue()}</span></div>
+                    <div class="ne_in_biao4 left">
+                        <div class="chart">
+                            <div class="percentage-light" data-percent="${_?.loan_schedule}"><span>${_?.loan_schedule}</span>%</div>
+                        </div>
+                    </div>
+                    <div class="ne_in_biao5 c6 fs16 left">#{formatIntMoney money:(_?.amount)}#{/formatIntMoney}<span class="fs14 c9">元</span></div>
+                    <div class="ne_in_biao6 c3 fs14 left">#{if _?.guarantee_mode_id=="1"}车贷#{/if}#{elseif  _?.guarantee_mode_id=="2"}房贷#{/elseif}#{elseif  _?.guarantee_mode_id=="3"}企业贷#{/elseif}#{else}默认#{/else}</div>
+                    <div class="ne_in_biao7 left">
+                        #{if models.core.entity.t_bid.Status.FUNDRAISING.equals(_?.status)}
+							#{if now.compareTo(_?.pre_release_time) == 1}
+							 <a href="@{front.invest.InvestCtrl.investPre(_?.id)}" class="mt20">我要出借</a>
+						    #{/if} 
+						    #{else}
+						     <a href="@{front.invest.InvestCtrl.investPre(_?.id)}" class="mt20">预发售</a>
+						    #{/else}
+					    #{/if}
+					    #{else} 
+					    	<a href="@{front.invest.InvestCtrl.investPre(_?.id)}" class="mt20 ne_in_none">已售完</a>
+					    #{/else}
+                        <p class="c9 fs12 mt5">剩余可投：${_?.amount-_?.has_invested_amount}元</p>
+                    </div>
+                     </div>
+ </li>
+#{/list}
+</ul>
+<div class="page-wrap f-page" style="padding-bottom:45px">#{if
+	pageBean?.page} #{frontPageTag page:pageBean,showPage:"showPage"/}
+#{/if}</div>
+<script type="text/javascript">
+	require([ 'front' ], function(front) {
+		require([ 'html5', 'excanvas', 'jquery.easy-pie-chart' ], function() {
+			$('.percentage-light').easyPieChart({
+				trackColor : '#f1f1f1',
+				scaleColor : false,
+				lineCap : 'butt',
+				lineWidth : 5,
+				animate : 1000
+			});
+
+		});
+		});
+</script>

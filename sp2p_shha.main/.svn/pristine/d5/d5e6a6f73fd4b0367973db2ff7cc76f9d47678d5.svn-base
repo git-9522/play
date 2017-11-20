@@ -1,0 +1,262 @@
+<!-- 可购买 -->
+<div class="right f-lcxq-right">
+	#{if models.core.entity.t_bid.Status.PREAUDITING.equals(bid?.status)}
+	<ul class="c3 detail-buylist">
+		<li class="detail-buyover">
+			<span>${bid?.status?.value}</span>
+		</li>
+	</ul>
+	#{/if}
+	#{elseif models.core.entity.t_bid.Status.AUDITING.equals(bid?.status)||models.core.entity.t_bid.Status.WAIT_RELEASING.equals(bid?.status)||models.core.entity.t_bid.Status.REPAYING.equals(bid?.status)}
+	<ul class="c3 detail-buylist">
+		<li class="detail-buyover">
+			<span>已售罄</span>
+		</li>
+	</ul>
+	#{/elseif}
+	#{elseif models.core.entity.t_bid.Status.FUNDRAISING.equals(bid?.status)}
+		<form action="@{front.invest.InvestCtrl.invest()}" method="POST" id="invest_bid" target='_blank'>
+			<input type="hidden" name="bidSign" value="${bid?.sign}" />
+			<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}" />
+			<input type="hidden" id="redPacketSign" name="redPacketSign" value="" />
+			<input type="hidden" id="cashSign" name="cashSign" value="" />
+			<input type="hidden" id="rateSign" name="rateSign" value="" />
+			<input type="hidden" id="investPassword" name="investPassword" value="" />
+		
+			#{if currUser}
+		    <a href="@{front.account.MyAccountCtrl.rechargePre()}" class="f-lcxq-qcz">去充值</a>
+		    <p class="mb15">可用金额： <span class="color1">#{formatIntMoney money:balance}#{/formatIntMoney}元</span></p>
+		    #{/if}
+		    
+		    <p class="mb15">可加入金额： <span class="color1">#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney} 元</span></p>
+		   
+		    
+		    <div class="clearfix f-lcxq-inp1">
+		        <input type="text" class="f-text" value="#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}" id="invest_amount" name='investAmt' autocomplete="off" oninput="$(this).ndigitInteger(6);calculateIncome()" onkeyup="$(this).ndigitInteger(6);calculateIncome(); #{if currUser} queryRewardRecord();queryRateRecord(); #{/if}" maxlength="6">元
+		        <div class="f-lcxq-btns">
+		            <div class="f-lcxq-add"></div>
+		            <div class="f-lcxq-sub"></div>
+		        </div>
+		    </div>
+		    
+		    <div class="clearfix lh40 mt10">
+		    	<span class="f-lc-yh" id="redPacketSpan" onclick="showRed(this)" _value="${rewardRedPacket}"></span><span class="left">使用红包</span>
+		        <span class="f-lc-yh ml20" id="cashSpan" onclick="showCash(this)" _value="${rewardCash}"></span><span class="left">使用现金券</span>
+		    </div>
+		    <!-- 红包/现金卷 -->
+		    <div id="rcr">
+		    <select class="f-select rcr mb20">
+		        <option>请选择</option>
+		    </select>
+		    </div>
+		    <div id="rcc" style="display:none">
+		    <select class="f-select rcc mb20">
+		        <option>请选择</option>
+		    </select>
+		    </div>
+		    <!-- 加息卷 -->
+		    <div class="clearfix ">
+			     <select class="f-select left addRate " style="width:190px" onchange="calculateIncome()">
+			        <option value="" ids="" addrule="0">请选择加息券</option>
+			    </select>
+			    <div class=" right" style="height:38px;">
+			    	 <p class="" style="vertical-align:middle;line-height:38px;">预期收益：<span class="color1" id="invest_expece_income">0.00元</span></p>
+			    </div >
+		    </div>
+		    #{if currUser}
+		    	<a href="javascript:void(0);" class="btn1 f-lcxq-qrjr">确认加入</a>
+		    #{/if}
+		    #{else}
+		    	<a onclick="javascript:window.location.href='@{front.LoginAndRegisteCtrl.loginPre()}'" class="btn1 f-lcxq-qrjr">确认加入</a>
+		    #{/else}
+		    <p class="mt15">您有#{if countRedPacket}${countRedPacket}#{/if}#{else}0#{/else}张返现券可用总计： <span class="color1">#{if totalRedPacket}${totalRedPacket?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}#{/if}#{else}0#{/else}</span> 元</p>
+		</form>
+	#{/elseif}
+</div>
+
+
+<script type="text/javascript">
+function queryRewardRecord() {
+	var bidPeriod = 0;
+	if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+		bidPeriod = ${bid?.period};
+	}
+	
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.rewardRecord()}",
+		type : "POST",
+		data : {
+			"investAmount" : $("#invest_amount").val(),
+			"bidPeriod" : bidPeriod
+		},
+		success : function(data) {
+			if(data.code < 1){
+				alert(data.msg);
+			}else{
+				$("#redPacketSpan").removeClass("f-on");
+				$("#cashSpan").removeClass("f-on");
+				var rewardMap = data.obj;
+				if(rewardMap.redPacketList == null || rewardMap.redPacketList.length <= 0){
+					$(".rcr").html("<option>请选择</option>");
+					$("#redPacketSpan").removeClass("f-on");
+					$("#rcr").hide();
+					$("#cashSpan").addClass("f-on");
+					$("#rcc").show();
+				}else{
+					$(".rcr").html("");
+					for(var i=0; i<rewardMap.redPacketList.length; i++){
+						$("#redPacketSpan").addClass("f-on");
+						var bidPeriod = rewardMap.redPacketList[i].bid_period;
+							
+						$(".rcr").append("<option data='" + rewardMap.redPacketList[i].amount + "' value='" + rewardMap.redPacketList[i].sign + "'>" + rewardMap.redPacketList[i].amount + "元（最低投资" + rewardMap.redPacketList[i].use_rule + "元）</option>");
+						
+					}
+				}
+				
+				
+				if(rewardMap.cashList == null || rewardMap.cashList <= 0){
+					$(".rcc").html("<option>请选择</option>");
+					$("#cashSpan").removeClass("f-on");
+					$("#rcc").hide();
+					$("#rcr").show();
+				}
+				
+				if(rewardMap.cashList != null && rewardMap.cashList.length > 0){
+					 
+					$(".rcc").html("");
+					
+					for(var i=0; i<rewardMap.cashList.length; i++){
+						
+						var bidPeriod = rewardMap.cashList[i].bid_period;
+							
+						$(".rcc").append("<option data='" + rewardMap.cashList[i].amount + "' value='" + rewardMap.cashList[i].sign + "'>" + rewardMap.cashList[i].amount + "元（最低投资" + rewardMap.cashList[i].use_rule + "元）</option>");
+						
+					}
+				}
+			}
+		}
+	});
+}
+
+function showRed(_this){
+	$("#cashSpan").removeClass("f-on");
+	if($('.rcr').find("option:selected").val() != '请选择') {
+		$("#redPacketSpan").addClass("f-on");
+	}
+	$("#rcr").show();
+	$("#rcc").hide();
+}
+
+function showCash(_this){
+	$("#redPacketSpan").removeClass("f-on");
+	if($('.rcc').find("option:selected").val() != '请选择') {
+		$("#cashSpan").addClass("f-on");
+	}
+	$("#rcc").show();
+	$("#rcr").hide();
+}
+
+//加息卷
+function queryRateRecord() {
+	
+	var bidPeriod = 0;
+	if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+		bidPeriod = ${bid?.period};
+	}
+	
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.rateRecord()}",
+		type : "POST",
+		data : {
+			"investAmount" : $("#invest_amount").val(),
+			"bidPeriod" : bidPeriod
+		},
+		success : function(data) {
+			if(data.code < 1){
+				alert(data.msg);
+			}else{
+				var rewardMap = data.obj;
+				if(rewardMap.rateList == null || rewardMap.rateList.length <= 0){
+					$(".addRate").html("<option value=\"\" ids=\"\" addrule=\"0\">请选择</option>");
+					return;
+				}
+				$(".addRate").html("");
+				for(var i=0; i<rewardMap.rateList.length; i++){
+					
+					var bidPeriod = rewardMap.rateList[i].bid_period;
+					
+					if(typeof bidPeriod != 'undefined' && parseInt(bidPeriod) > 0){
+						
+						$(".addRate").append("<option value='" + rewardMap.rateList[i].sign + "' ids='"+rewardMap.rateList[i].rate+"' addrule='"+rewardMap.rateList[i].use_rule+"'>+" + rewardMap.rateList[i].rate + "%（最低投资" + rewardMap.rateList[i].use_rule + "元，标的期限" + bidPeriod + "个月）</option>");
+					}else{
+						
+						$(".addRate").append("<option value='" + rewardMap.rateList[i].sign + "' ids='"+rewardMap.rateList[i].rate+"' addrule='"+rewardMap.rateList[i].use_rule+"'>+" + rewardMap.rateList[i].rate + "%（最低投资" + rewardMap.rateList[i].use_rule + "元）</option>");
+					}
+				}
+				$(".addRate").append("<option value=\"\" ids=\"\" addrule=\"0\">不使用</option>");
+			}
+		}
+	});
+}
+
+
+function calculateIncome(){
+	var invest = parseInt($("#invest_amount").val());
+	//按份数购买时，投资金额=每份金额*份数
+	#{if models.core.entity.t_product.BuyType.PURCHASE_BY_COPY.code==bid?.buy_type.code}
+	var investAmount = parseInt($("#invest_amount").val())*${bid?.min_invest_amount};
+	#{/if}
+	#{else}
+	var investAmount = parseInt($("#invest_amount").val());
+	#{/else}
+	if(investAmount==''){
+		$("#invest_expece_income").html("0.00 元");
+		return;
+	}
+	var apr = ${bid?.apr};
+	var period = ${bid?.period};
+	var income = '0.00';
+	
+	if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+		//月标，等额本息的计算
+		if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==${bid?.repayment_type?.code}){
+			var monthApr = apr/12/100;
+			var monthSum = investAmount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+			income = (monthSum * period - investAmount).toFixed(2);
+		}else{
+			income = ((investAmount*(apr/100)/12)*period).toFixed(2);
+		}
+	}else{
+		income = ((investAmount*(apr/100)/360)*period).toFixed(2);
+	}
+	//使用加息卷
+	var addIncome = '0.00';
+	var addRate = $(".addRate").find("option:selected").attr("ids");
+	var addrule = $(".addRate").find("option:selected").attr("addrule");
+	
+	if(typeof addRate != "undefined" && addRate != "" && parseInt(investAmount) >= parseInt(addrule)){
+		
+		if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+			//月标，等额本息的计算
+			if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==${bid?.repayment_type?.code}){
+				var monthApr = addRate/12/100;
+				var monthSum = investAmount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+				addIncome = (monthSum * period - investAmount).toFixed(2);
+			}else{
+				addIncome = ((investAmount*(addRate/100)/12)*period).toFixed(2);
+			}
+		}else{
+			addIncome = ((investAmount*(addRate/100)/360)*period).toFixed(2);
+		}
+	}
+	
+	if(isNaN(addIncome)){
+		addIncome = '0.00';
+	}
+	if(isNaN(income)){
+		income = '0.00';
+	}
+	income = parseFloat(income)+parseFloat(addIncome)
+	$("#invest_expece_income").html(income.toFixed(2)+"元");
+}
+</script>

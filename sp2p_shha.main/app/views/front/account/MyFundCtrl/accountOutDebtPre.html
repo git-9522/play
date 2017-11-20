@@ -1,0 +1,70 @@
+<table class="account-table" width="100%">
+	<tr height="46">
+		<th>编号</th>
+		<th>项目</th>
+		<th>转让期数</th>
+		<th>债权总额</th>
+		<th>转让价格</th>
+		<th>成交时间</th>
+		<th>状态</th>
+		<th width="180">操作</th>
+	</tr>
+	#{if page?.page}
+		#{list items:page?.page,as:'outDebt'}
+			<tr height="46">
+				<td>${outDebt?.debt_transfer_no}</td>
+				<td><a href="@{front.invest.InvestCtrl.transferPre(outDebt?.id)}" title="" target="">${outDebt?.title}</a></td>
+				<td>${outDebt?.transfer_period}</td>
+				<td>${outDebt?.debt_amount?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}</td>
+				<td>${outDebt?.transfer_price?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}</td>
+				<td>${outDebt?.transaction_time?.format(common.constants.Constants.DATE_TIME_FORMATE)?:'----'}</td>
+				<td>${outDebt?.status?.value}</td>
+				<td>
+					
+					#{if models.core.entity.t_debt_transfer.Status.SUCC.equals(outDebt?.status) }
+							<a href="@{front.account.MyFundCtrl.showDebtPactPre(outDebt?.sign)}"  class="major account-debtbtn" target="_blank">协议</a>
+					#{/if}
+					#{else}
+							<a href="javascript:void(0)"  class="c9">协议</a>
+					#{/else}
+				</td>
+			</tr>
+		#{/list}
+	#{/if}
+</table>
+
+<!-- 分页组件 -->
+#{if page?.page}
+	#{frontPageTag page:page,showPage:'accountOutDebtPre' /}
+#{/if}
+#{else}
+	<div class="norecord-box c9">
+		暂无记录
+	</div>
+#{/else}
+
+<script type="text/javascript">
+function investerConfirm(debtSign){
+	confirm("是否确认成交?",function(){
+		$.ajax({
+			url : "",
+			type : "POST",
+			data : {
+				"debtSign" : debtSign,
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				if(data.code<1){
+					alert(data.msg);
+				}else {
+					weakDialog(data.msg);
+					accountOutDebtPre(1,5);
+				}
+			}
+		});
+	})
+}
+</script>

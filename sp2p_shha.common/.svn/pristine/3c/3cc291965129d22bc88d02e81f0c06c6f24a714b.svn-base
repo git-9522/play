@@ -1,0 +1,140 @@
+/*安全保障*/
+.ne_about_main>li.ne_ic {
+    width: 957px;
+}
+.ne_ic>img {
+    display: block;
+    width: 955px;
+}
+.ne_ic1 {
+    position: relative;
+}
+.ne_ic1>img {
+    display: block;
+    width: 955px;
+}
+.ne_ic1>a {
+    position: absolute;
+    font-size: 16px;
+    color: #2f88da;
+    left: 365px;
+    top: 222px;
+}
+/*安全保障*/
+/*运营报告*/
+.info_report {
+    padding-top: 40px;
+}
+ .gai_about {
+    height: 80px;
+}
+.gai_about>p {
+    line-height: 44px;
+    height: 44px;
+    padding-top: 20px;
+    font-size: 16px;
+    vertical-align: middle;
+    margin: 0 10px;
+    float: left;
+}
+.gai_about>p>span {
+    display: inline-block;
+    font-weight: bold;
+    width: 30px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 30px;
+    vertical-align: middle;
+    background: url(../images/font_num.png) no-repeat center;
+    color: #f9655a;
+}
+.info_report>h3 {
+    padding: 0 25px;
+    border-bottom: 1px solid #e7e7e7;
+
+}
+.info_report>p {
+    padding: 0 25px;
+}
+.info_report_list {
+    width: 905px;
+    margin: 25px auto 0;
+    border-bottom: 1px solid #e7e7e7;
+}
+.info_report_list>li {
+    width: 80px;
+    height: 50px;
+    float: left;
+    position: relative;
+    margin-right: 30px;
+    cursor: pointer;
+}
+.info_report_list>li>p {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    color: #666;
+    border-radius: 40px;
+    border: 1px solid #e7e7e7;
+    text-align: center;
+}
+.info_report_list>li>span {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7;
+    background: #fff;
+    left: 50%;
+    margin-left: -5px;
+    bottom: -5px;
+}
+.info_report_list>li.report_list_act>p {
+    border: 1px solid #ff5256;
+    background: #ff5256;
+    color: #fff;
+}
+.info_report_list>li.report_list_act>span {
+    background: #ff5256;
+    border: 1px solid #ff5256;
+}
+.info_report_main {
+    width: 905px;
+    margin: 30px auto 0;
+}
+.info_report_main>li {
+    width: 412px;
+    height: 260px;
+    border: 1px solid #e7e7e7;
+    border-radius: 3px;
+    float: left;
+    margin: 0 15px 15px;
+}
+.info_report_main>li>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.info_report_main>li>a>img {
+    display: block;
+    width: 405px;
+    height: 204px;
+    margin: 3px auto 0;
+}
+/*运营报告*/
+/*银行存管*/
+.ne_yh {
+    padding-top: 50px;
+    width: 800px;
+    margin: 0 auto;
+}
+.ne_yh img {
+    display: block;
+    margin-right: 28px;
+    margin-bottom: 28px;
+    float: left;
+}
+/*银行存管*/
+
+

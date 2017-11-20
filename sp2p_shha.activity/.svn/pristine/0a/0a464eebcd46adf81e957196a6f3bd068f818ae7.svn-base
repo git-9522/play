@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>虹金所- | 高端金融理财平台 | 虹金所_引领投资、理财新方向!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="虹金所,虹奥财富,上海网络借贷,P2P网络借贷" />
+    <meta name="description" content="虹金所为上海虹奥财富旗下P2P网络借贷平台，为广大用户提供一个安全、诚信、低风险、回报稳定的理财新渠道。" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=1200px">
+    <link rel="shortcut icon" type="image/png" href="/data/attachments/64c09f1d-6e99-4347-96b0-46c778da714d" />
+    <link rel="stylesheet" href="../stylesheets/reset.css">
+    <link rel="stylesheet" href="../stylesheets/car1.css">
+    <script src="../javascripts/jquery-1.8.2.min.js"></script>
+</head>
+
+<body>
+    <div class="car_bg1">
+        <div class="car1_cen">
+            <div class="car1_font">
+                <p>活动期间内，虹宝宝将驾驶虹金所专属小汽车周游全国（单圈4.5万公里），用户年化<br/>投资金额每满100元可以给虹宝宝加上10公里的汽油同时虹宝宝将会给用户2元钱加油费，<br/>加油费直接返现至用户账户余额。</p>
+            </div>
+        </div>
+    </div>
+    <div class="car_bg2">
+        <div class="car2_cen">
+            <div class="car2_road">
+                <div class="car_first">
+                    <img src="../images/car1/car_pai.png" alt="">
+                    <p>上海站</p>
+                </div>
+                <div class="car_lie">
+                    <img src="../images/car1/car_pai.png" alt="">
+                    <p>上海站</p>
+                </div>
+                <div class="car_car">
+                    <img src="../images/car1/car_man2.png" alt="">
+                </div>
+                <div class="car_name">
+                    <img src="../images/car1/car_kuang1.png" alt="">
+                    <p>圈数：<span class="car_num"></span>
+                    </p>
+                    <p>当前位置：<span class="car_from"></span>
+                    </p>
+                    <p>下一站：<span class="car_next"></span>
+                    </p>
+                    <p>总行驶路程：<span class="car_ju"></span>
+                    </p>
+                    <p>本期路程：<span class="car_cha"></span>
+                    </p>
+                    <p>参与人数：<span class="car_person"></span>
+                    </p>
+                </div>
+                <div class="car_last">
+                    <img src="../images/car1/car_pai.png" alt="">
+                    <p>上海站</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="car_bg3">
+        <div class="car3_cen">
+            <div class="car3_font">
+                <p>1）、活动时间：2017.11.01-2017.11.30<br>
+2）、平台投资用户均可参加此活动；<br>3）、累计年化投资金额每满100元才会进行返现；<span>例：用户先投资了2160元一月标，则用户可用年化投资金额为180元，则用户将为虹宝宝加上10公里汽油同时获取2元加油费，<br>此时该用户可用年化投资金额将剩余80元；用户再次投资240元一月标后，用户可用年化投资金额为100元，则用户将为虹宝宝<br>加上10公里汽油同时获取2元加油费，此时该用户可用年化投资金额将剩余0元；</span>4）、活动期间内，若虹宝宝完成第一次周游全国后将会开启第二次全国之旅（以此类推）；活动结束后，虹宝宝将在<br>最后停留的城市觅知音，平台将会对该城市对应的省（直辖市、自治区）活动期间内投资过的用户（以投资用户身份证<br>信息为准），按照活动期间内累计年化投资金额的百分之一进行额外加返。</p>
+            </div>
+        </div>
+    </div>
+     <div class="car_bg4"></div>
+</body>
+<script>
+    var arr = {
+        'a31': {
+            'r1': {
+                x: '340',
+                y: '515'
+            },
+            'r2': {
+                x: '130',
+                y: '280'
+            },
+            'r3': {
+                x: '220',
+                y: '720'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang1'
+        },
+        'a32': {
+            'r1': {
+                x: '444',
+                y: '380'
+            },
+            'r2': {
+                x: '315',
+                y: '301'
+            },
+            'r3': {
+                x: '328',
+                y: '570'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang1'
+        },
+        'a34': {
+            'r1': {
+                x: '511',
+                y: '242'
+            },
+            'r2': {
+                x: '387',
+                y: '150'
+            },
+            'r3': {
+                x: '397',
+                y: '430'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang1'
+        },
+        'a41': {
+            'r1': {
+                x: '607',
+                y: '96'
+            },
+            'r2': {
+                x: '482',
+                y: '50'
+            },
+            'r3': {
+                x: '493',
+                y: '290'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang1'
+        },
+        'a37': {
+            'r1': {
+                x: '705',
+                y: '121'
+            },
+            'r2': {
+                x: '670',
+                y: '5'
+            },
+            'r3': {
+                x: '594',
+                y: '284'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a13': {
+            'r1': {
+                x: '810',
+                y: '192'
+            },
+            'r2': {
+                x: '788',
+                y: '70'
+            },
+            'r3': {
+                x: '702',
+                y: '378'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a12': {
+            'r1': {
+                x: '893',
+                y: '337'
+            },
+            'r2': {
+                x: '867',
+                y: '216'
+            },
+            'r3': {
+                x: '780',
+                y: '518'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a11': {
+            'r1': {
+                x: '952',
+                y: '522'
+            },
+            'r2': {
+                x: '929',
+                y: '403'
+            },
+            'r3': {
+                x: '840',
+                y: '705'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a21': {
+            'r1': {
+                x: '990',
+                y: '705'
+            },
+            'r2': {
+                x: '968',
+                y: '587'
+            },
+            'r3': {
+                x: '880',
+                y: '888'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a22': {
+            'r1': {
+                x: '1129',
+                y: '776'
+            },
+            'r2': {
+                x: '1073',
+                y: '965'
+            },
+            'r3': {
+                x: '1040',
+                y: '522'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a23': {
+            'r1': {
+                x: '1227',
+                y: '715'
+            },
+            'r2': {
+                x: '1187',
+                y: '900'
+            },
+            'r3': {
+                x: '1102',
+                y: '452'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a15': {
+            'r1': {
+                x: '1280',
+                y: '648'
+            },
+            'r2': {
+                x: '1220',
+                y: '860'
+            },
+            'r3': {
+                x: '1159',
+                y: '375'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a14': {
+            'r1': {
+                x: '1327',
+                y: '535'
+            },
+            'r2': {
+                x: '1256',
+                y: '755'
+            },
+            'r3': {
+                x: '1205',
+                y: '258'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a61': {
+            'r1': {
+                x: '1361',
+                y: '403'
+            },
+            'r2': {
+                x: '1320',
+                y: '608'
+            },
+            'r3': {
+                x: '1240',
+                y: '126'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a64': {
+            'r1': {
+                x: '1414',
+                y: '279'
+            },
+            'r2': {
+                x: '1350',
+                y: '490'
+            },
+            'r3': {
+                x: '1292',
+                y: '5'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a62': {
+            'r1': {
+                x: '1547',
+                y: '79'
+            },
+            'r2': {
+                x: '1534',
+                y: '0'
+            },
+            'r3': {
+                x: '1453',
+                y: '270'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang1'
+        },
+        'a63': {
+            'r1': {
+                x: '1747',
+                y: '104'
+            },
+            'r2': {
+                x: '1703',
+                y: '-10'
+            },
+            'r3': {
+                x: '1624',
+                y: '261'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a65': {
+            'r1': {
+                x: '1876',
+                y: '217'
+            },
+            'r2': {
+                x: '1851',
+                y: '91'
+            },
+            'r3': {
+                x: '1712',
+                y: '370'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a54': {
+            'r1': {
+                x: '1912',
+                y: '371'
+            },
+            'r2': {
+                x: '1902',
+                y: '251'
+            },
+            'r3': {
+                x: '1763',
+                y: '534'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a51': {
+            'r1': {
+                x: '1942',
+                y: '530'
+            },
+            'r2': {
+                x: '1916',
+                y: '403'
+            },
+            'r3': {
+                x: '1825',
+                y: '703'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a50': {
+            'r1': {
+                x: '2010',
+                y: '735'
+            },
+            'r2': {
+                x: '1976',
+                y: '555'
+            },
+            'r3': {
+                x: '1875',
+                y: '910'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang1'
+        },
+        'a42': {
+            'r1': {
+                x: '2145',
+                y: '767'
+            },
+            'r2': {
+                x: '2055',
+                y: '960'
+            },
+            'r3': {
+                x: '2040',
+                y: '505'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a43': {
+            'r1': {
+                x: '2202',
+                y: '735'
+            },
+            'r2': {
+                x: '2160',
+                y: '922'
+            },
+            'r3': {
+                x: '2087',
+                y: '470'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a52': {
+            'r1': {
+                x: '2268',
+                y: '652'
+            },
+            'r2': {
+                x: '2244',
+                y: '856'
+            },
+            'r3': {
+                x: '2151',
+                y: '372'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a53': {
+            'r1': {
+                x: '2301',
+                y: '507'
+            },
+            'r2': {
+                x: '2239',
+                y: '709'
+            },
+            'r3': {
+                x: '2186',
+                y: '225'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a45': {
+            'r1': {
+                x: '2351',
+                y: '352'
+            },
+            'r2': {
+                x: '2291',
+                y: '544'
+            },
+            'r3': {
+                x: '2234',
+                y: '72'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a46': {
+            'r1': {
+                x: '2493',
+                y: '324'
+            },
+            'r2': {
+                x: '2427',
+                y: '484'
+            },
+            'r3': {
+                x: '2346',
+                y: '59'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang2'
+        },
+        'a44': {
+            'r1': {
+                x: '2613',
+                y: '434'
+            },
+            'r2': {
+                x: '2526',
+                y: '611'
+            },
+            'r3': {
+                x: '2495',
+                y: '158'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang2'
+        },
+        'a35': {
+            'r1': {
+                x: '2711',
+                y: '521'
+            },
+            'r2': {
+                x: '2648',
+                y: '685'
+            },
+            'r3': {
+                x: '2608',
+                y: '249'
+            },
+            'car': 'car_man1',
+            'kuang': 'car_kuang2'
+        },
+        'a36': {
+            'r1': {
+                x: '2903',
+                y: '471'
+            },
+            'r2': {
+                x: '2832',
+                y: '670'
+            },
+            'r3': {
+                x: '2786',
+                y: '210'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang2'
+        },
+        'a33': {
+            'r1': {
+                x: '3021',
+                y: '355'
+            },
+            'r2': {
+                x: '2933',
+                y: '234'
+            },
+            'r3': {
+                x: '2915',
+                y: '546'
+            },
+            'car': 'car_man2',
+            'kuang': 'car_kuang1'
+        }
+    };
+    var  oType= getQueryVariable("type");
+         if(oType){
+            oType=oType;
+            if(oType=0)
+            $('.invert').hide();
+         }else{
+         oType=1;
+
+     }
+        var host = location.host;
+    var webroot="http://"+host;
+    $(function () {
+        $.getJSON(webroot+"/hbbaroundactivity/index.html?ts="+(new Date().getTime()),function (data) {
+                if (data.code == 0) {
+                    var oCar = 'a' + data.obj.code;
+                    $('.car_car').css({
+                        top: arr[oCar].r1.x + 'px',
+                        left: arr[oCar].r1.y + 'px'
+
+                    });
+                    $('.car_lie').css({
+                        top: arr[oCar].r2.x + 'px',
+                        left: arr[oCar].r2.y + 'px'
+
+                    });
+                    console.log(arr[oCar].kuang);
+                    $('.car_name').css({
+                        top: arr[oCar].r3.x + 'px',
+                        left: arr[oCar].r3.y + 'px'
+                    }); $('.car_car>img').attr('src','../images/car1/'+arr[oCar].car+'.png'); $('.car_name>img').attr('src','../images/car1/'+arr[oCar].kuang+'.png');
+                    $('.car_lie>p').html(data.obj.city+"站");
+                    $('.car_num').html(data.obj.pen);
+                    $('.car_from').html(data.obj.city);
+				    $('.car_next').html(data.obj.nextCity);
+                    $('.car_ju').html(data.obj.trips + '公里');
+                    $('.car_cha').html(data.obj.nextTrip + '公里');
+                    $('.car_person').html(data.obj.trips ==0?0:data.obj.userCount + '人');
+                } else {
+
+                }
+            });
+
+    });
+    function getQueryVariable(variable)	{
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){
+                return pair[1];
+            }
+        }
+        return "";
+    }
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?652a94abffc87db62109ab474047f10e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、出借新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、出借新方向！" />
+        <meta name="description" content="虹金所_引领投资、出借新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+        #{get 'moreStyles' /}
+		<!-- 页面js -->
+		<script type="text/javascript" data-main="/public/wechat/javascripts/wechat.js" src="@{'public/wechat/javascripts/require.js'}" ></script>
+		#{get 'moreScripts' /}
+    </head>
+    <body>
+    	<form action="@{wechat.front.IntegralMallCtrl.addAddress()}" method="POST" id="addAddress" >
+			<input type="hidden" name="goodsSign" value="${goodsSign}" />
+			<ul class="q-dzul">
+				<li class="flex mt10">
+					<p>收货人：      </p>
+					<input class="flex-1" type="text" name="receiver" id="receiver" value="" placeholder=" 请输入收货人姓名" />
+				</li>
+				<li class="flex mt10">
+					<p>手机号码：</p>
+					<input class="flex-1" type="text" maxlength="11" name="tel" id="tel" value="" placeholder=" 请输入11位手机号码" />
+				</li>
+				<li class="flex mt10">
+					<p>配送地址：</p>
+					<ul class="q-dzsecltul flex-1">
+						<li>
+							<select class="left" id="prov" name="province" onchange="findCity()">
+								<option value="0">请选择</option>
+					  			#{list list}
+									<option value = "${_?.prov_num}">${_?.prov_name}</option>
+								#{/list}
+							</select>
+						</li>
+						<li>
+							<select class="left" name="city" id="city">
+								<option value="0">请选择</option>
+							</select>
+						</li>
+						<li><input type="text" name="address" id="address" value="" placeholder="请输入详细地址"/></li>
+					</ul>
+				</li>
+			</ul>
+			<div class="q-cydiv flex mt10 q-padding">
+				<p class="flex-1">设为常用地址：</p>
+				<div class="q-cybtm">
+					<span></span>
+				</div>
+			</div>
+			
+			<div class="q-padding mt40">
+				<a href="javascript:void(0);" class="q-link100" id="save" >保存</a>
+			</div>
+			<input type="hidden" id="status" name="status" value=""/>
+		</form>
+		<!--警告弹窗-->
+		<div id="warm" style="display:none;">
+			<div class="q-tcbg" style="display: block;"></div>
+			<div class="q-tcdiv">
+				<p class="p01">警告</p>
+				<p class="msgTest p02"></p>
+				<a href="javascript:void(0)" class="close q-link100 mt30">确定</a>
+			</div>
+		</div>
+		<!--弹窗-->
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+     <script type="text/javascript">
+     	function alertWin(msg){
+			$('#warm').css("display","block");
+			$('.q-tcdiv .msgTest').text(msg);
+		}
+   		
+   		$('.close').click(function(){
+   			$('#warm').css("display","none");
+   		});
+   		
+   		$(function(){
+			#{if flash?.error}
+				alertWin("${flash?.error}");
+			#{/if}
+		});
+     	
+     	$(function(){
+     		$(".q-cybtm").click(function(){
+     			$(this).find("span").toggleClass("q-on");
+     			$(this).toggleClass("q-cybg");
+     		});
+     	});
+     	
+     	function findCity(){
+			var prov_num = $("#prov").val();
+			$.post("@{wechat.front.IntegralMallCtrl.findByCity()}", {'prov_num':prov_num}, function(data){
+				var option = '<option value = "0">请选择</option>';
+				for (var i =0; i < data.length; i++){
+					option = option + '<option value = "'+data[i].city_num+'">'+data[i].city_name+'</option>';
+				}
+				$("#city").html(option);
+			})
+		}
+		
+		//添加地址
+		$("#save").click(function(){
+			var receiver = $("#receiver").val();
+			var tel = $("#tel").val();
+			var province = $("#prov").find("option:selected").text();
+			var city = $("#city").find("option:selected").text();
+			var address = $("#address").val();
+			
+			if (!receiver.isNotBlank()){
+				alertWin("请填写收件人");
+				return;
+			}else{
+				alertWin("");
+			}
+			
+			if (!tel.isNotBlank()){
+				alertWin("请填写联系电话");
+				return;
+			}else{
+				alertWin("");
+			}
+			
+			if ($("#prov").val() == 0){
+				alertWin("请选择省市");
+				return;
+			}else{
+				alertWin("");
+			}
+			
+			if ($("#city").val() == 0){
+				alertWin("请选择省市");
+				return;
+			} else{
+				alertWin("");
+			}
+			
+			if (!address.isNotBlank()){
+				alertWin("请填写详细地址");
+				return;
+			}else{
+				alertWin("");
+			}
+			
+			if($(".q-padding span").hasClass("q-on")){
+				$("#status").val("0");
+			}else{
+				$("#status").val("1");
+			}
+			
+			$("#addAddress").submit();
+		});
+		
+     </script>
+</html>

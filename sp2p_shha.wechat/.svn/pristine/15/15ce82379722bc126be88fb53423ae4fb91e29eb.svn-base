@@ -1,0 +1,231 @@
+#{extends 'common/wechatMain.html' /}
+
+<style type="text/css">
+.header { width: 100%; height: 1.2rem; line-height: 1.2rem; background: #fe4f51; text-align: center;   color: #fff; font-size: 0.48rem; position: fixed;  left: 0; top: 0;z-index: 10000;}
+.header .icon_goback { width: 0.586rem; height: 0.586rem; overflow: hidden;position: absolute;left: 0.16rem; top: 0.294rem; background: url(/public/wechat/newedition/images/icon/login-back.png) no-repeat;background-size: 100% auto;}
+</style>
+<div class="header" style="display:block; "><a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}"><span class="icon_goback"></a></span> <span class="title_name">密码找回</span></div>
+
+<div class="center">
+<form action="@{wechat.front.LoginAndRegisteCtrl.forgetPwdFirst()}" method="POST" id="form_forgetPwd">
+	<ul class="register-list">
+		<li><input type="text" id="mobile" name="mobile" value="${flash?.mobile}" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" placeholder="手机号" /></li>
+		<li>
+			<div class="flex">
+				<input type="text" class="flex-1" id="code" name="code" placeholder="输入验证码" maxlength="2" />
+				<img src="@{common.CaptchaController.createCaptcha(randomId)}" id="captchaImage" class="getcode-btn" height="37" width="50%" alt="" title="换一张" onclick="refreshCaptcha(true);" />
+				<input id="randomId" name="randomId" value="${randomId}" type="hidden"/>
+			</div>
+		</li>
+		<li>
+			<div class="flex">
+				<input type="text" class="flex-1" id="smsCode" name="smsCode" oninput="$(this).ndigitInteger(6)" onkeyup="$(this).ndigitInteger(6)" placeholder="手机验证码" />
+				<input type="button" class="getcode-btn btn" onclick="sendCode();" id="getsmscode" value="获取验证码" />
+			</div>
+		</li>
+		<li>
+			<input type="button" id="form_forgetPwd_submit" class="condition-btn btn graybtn" value="下一步">
+		</li>
+	</ul>
+</form>
+</div>
+<script type="text/javascript">
+	require(['wechat'],function(){
+		require(["validation/validateExt"]);
+		
+		$("#form_forgetPwd_submit").click(function(){
+			$("#form_forgetPwd").submit();
+		});
+		
+		$("#form_forgetPwd").validate({
+			errorPlacement: function(error, element) {
+				if(element.is("#smsCode")){
+					error.addClass('cored').addClass("wrong-txt").insertAfter(element.parent());
+				} else if(element.is("#mobile")) {
+					if($("#mobile-error").length == 0){
+			    		error.addClass('cored').addClass("wrong-txt").insertAfter(element);
+	    			}
+				} else {
+					error.addClass('cored').addClass("wrong-txt").insertAfter(element);
+				}
+			},
+			errorElement:"p",
+			rules:{
+				"mobile":{
+					required:true,
+					number:true,
+					isMobile:true,
+					remote:{
+						 url: "@{wechat.front.WechatAjaxValideCtrl.userMobileExists()}",
+						 type: "post",
+						 dataType: "json",
+						 data: {
+							 mobile: function() {
+								return $("input[id='mobile']").val();
+							}
+						}
+					}
+				},
+				"code":{
+					required:true,
+					digits:true
+				},
+				"smsCode":{
+					required:true,
+					number:true,
+					minlength:6
+				}
+			},
+			messages:{
+				"mobile":{
+					required:"手机号不能为空",
+					isMobile:"手机号格式不正确",
+					remote:"手机号未注册"
+				},
+				"code":{
+					required:"验证码不能为空"
+				},
+				"smsCode":{
+					required:"短信验证码不能为空",
+					number:"短信验证码不正确",
+					minlength:"短信验证码不正确"
+				}
+			},
+			submitHandler:function(form){
+				form.submit();
+			}
+		})
+	});
+	
+	var flag = true;
+	
+	function sendCode(){
+		var mobile = $("#mobile").val().trim();
+		if(mobile == ''){
+	    	if($("#mobile-error").length == 0){
+	    		$("<p id='mobile-error' class='error cored wrong-txt'>请输入正确的手机号</p>").insertAfter($("#mobile"));
+	    	}
+			return;
+	    }else if (!mobile.isMobileNum()) {
+	    	if($("#mobile-error").length == 0){
+		    	$("<p id='mobile-error' class='error cored wrong-txt'>手机号格式不正确</p>").insertAfter($("#mobile"));
+	    	}
+	    	return;
+		}
+		
+		var code = 	$("#code").val().trim();
+		if (code == '') {
+			if ($("#code-error").length == 0) {
+				$("#code").parent().after("<p id='code-error' class='error cored wrong-txt'>验证码不能为空</p>");
+			}
+			
+			return;
+		}
+		var randomId = $("#randomId").val();
+		
+		$.ajax({
+			url : "@{wechat.front.WechatAjaxValideCtrl.userMobileExists()}",
+			type : "POST",
+			async : false,
+			data : {
+				'mobile' : mobile
+			},
+			success : function(data) {
+				if (!data) {
+					flag = true;
+				} else {
+					flag = false;
+				}
+			}
+		});
+		//根据手机号码和验证码判断是否应该发送短信验证码
+		if (flag) {
+			return;
+		}
+		
+		$.ajax({
+			url : "@{wechat.front.LoginAndRegisteCtrl.sendCodeOfForgetPWD()}",
+			type : "POST",
+			data : {
+				"mobile" : mobile,
+				"randomId" : randomId,
+				"code" : code
+			},
+			dataType:"json",
+			success : function(data) {
+				/* 判断短信验证码发送是否成功 */
+				
+				if(data.code < 1){
+					if(data.code == -2){
+						//手机号码错误提示
+						if ($("#mobile-error").length == 0) {
+							$("#mobile").after("<p id='mobile-error' class='error cored wrong-txt'>" + data.msg + "</p>");
+						} else {
+							$("#mobile-error").addClass("error cored wrong-txt").css("display","block");
+							$("#mobile-error").html(data.msg);
+						}
+						refreshCaptcha(false); //刷新验证码
+					} else if(data.code == -3) {
+						//验证码错误提示
+						if ($("#code-error").length == 0) {
+							$("#code").parent().after("<p id='code-error' class='error cored wrong-txt'>" + data.msg + "</p>");
+						} else {
+							$("#code-error").addClass("error cored wrong-txt").css("display","block");
+							$("#code-error").html(data.msg);
+						}
+						refreshCaptcha(false); //刷新验证码
+					} else if(data.code == -4) {
+						//短信提示
+						if ($("#smsCode-error").length == 0) {
+							$("#smsCode").parent().after("<p id='smsCode-error' class='error cored wrong-txt'>" + data.msg + "</p>");
+						} else {
+							$("#smsCode-error").addClass("error cored wrong-txt").css("display","block");
+							$("#smsCode-error").html(data.msg);
+						}
+					}
+				} else {
+					/* 短信发送成功，清除页面错误提示 */
+					$("#mobile-error").css("display","none");
+					$("#mobile-error").html('');
+					$("#smsCode-error").css("display","none");
+					$("#smsCode-error").html('');
+					
+					
+					if(!$("#getsmscode").prop("disabled")){
+						//btn graybtn
+						$("#getsmscode").prop("disabled", true);
+						$("#getsmscode").removeClass("btn");
+						$("#getsmscode").addClass("graybtn").show();
+						var getCode = $("#getsmscode"), timeid, i = 60;//再次获取验证码等待时间
+						getCode.val(i + 's');
+						timeid = setInterval(function() {
+							if (i > 1) {
+								i--;
+								getCode.val(i + 's');
+							} else {
+								getCode.removeAttr("disabled").removeClass("graybtn").addClass("btn");
+								getCode.val('再次获取');
+								clearInterval(timeid);
+							}
+						}, 1000);
+					}
+				}
+			}
+		});
+	}
+	
+	/* 验证码刷新 */
+	function refreshCaptcha(isRefresh){
+		$.post("@{common.CaptchaController.flushCaptcha()}",function(data){
+			var arr=eval(data);
+			var randomid = arr.randomID;
+			$("#captchaImage").attr("src","@{common.CaptchaController.createCaptcha()}?uuid="+randomid);	
+			$("#randomId").val(randomid);
+		});
+		if(isRefresh){
+			$("#code").parent().next("p").remove();
+		}
+		$("#code").removeClass("focus");
+		$("#code").val("");
+	}
+</script>

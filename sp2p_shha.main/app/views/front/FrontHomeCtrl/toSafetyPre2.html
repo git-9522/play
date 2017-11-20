@@ -1,0 +1,274 @@
+#{extends 'common/front/frontFootMain.html' /}
+#{set customize: true/}
+#{set title: 'p2p安全靠谱吗_p2p理财有风险吗-安全保障-虹金所'/} 
+#{set keywords: 'p2p安全吗,p2p靠谱吗,p2p风险,p2p有风险吗'/}
+#{set description: '虹金所采用小额分散式借贷,避免集中借贷风险,严选优质资产,严查慎贷,全程风控,贷前、贷中、贷后等多道流程层层把关,系统性保障项目质量。'/}
+#{set AItem:3 /}
+  <link rel="stylesheet" href="/public/front/stylesheets/rules.css">
+    <link rel="stylesheet" href="/public/front/stylesheets/front.css">
+    <link rel="stylesheet" href="/public/front/stylesheets/safe.css">
+<div class="safe_main">
+        <ul class="safe_wrapper">
+            <li class="swiper1">
+               <div id="large-header" class="large-header">
+					<canvas id="demo-canvas"></canvas>
+				</div>
+                <div class="swiper1_center relative cf">
+                    <h1>5重保障，全程为你保驾护航</h1>
+                    <div class="swiper1_left fs14 swiper1_font">
+                        <p><span>1</span>小额分散 优质资产</p>
+                        <p><span>2</span>严查慎贷 全程风控</p>
+                    </div>
+                    <div class="swiper1_right swiper1_font">
+                        <p><span>3</span>技术保障 信息安全</p>
+                        <p><span>4</span>信息透明 合规运营</p>
+                        <p><span>5</span>法律保障 规避风险</p>
+                    </div>
+                </div>
+                <img class="safe_sw1" src="/public/front/images/safe_sw1.png" alt="">
+            </li>
+            <li class="swiper2 bgf">
+                <div class="swiper2_title">
+                    <div class="sw2_title_cen relative">
+                        <img src="/public/front/images/swiper2_round.png" alt="" class="sw2_tips absolute">
+                    </div>
+                </div>
+                <div class="swiper2_box1">
+                    <div class="box1_cen relative box_cen">
+                        <img src="/public/front/images/safe_title_icon1.png" alt="" class="box_mac">
+                        <h3 class="c3">小额分散 优质资产</h3>
+                        <img src="/public/front/images/box1_icon1.png" alt="" class="box1_onc1 box1_onc">
+                        <img src="/public/front/images/box1_icon2.png" alt="" class="box1_onc2 box1_onc">
+                        <img src="/public/front/images/box1_icon3.png" alt="" class="box1_onc3 box1_onc">
+                    </div>
+                </div>
+                <div class="swiper2_box2">
+                    <div class="box2_cen relative box_cen">
+                        <img src="/public/front/images/safe_title_icon2.png" alt="" class="box_mac">
+                        <h3 class="c3">严查慎贷 全程风控</h3>
+                        <div class="box2_act box2_act1"></div>
+                        <img src="/public/front/images/box2_jiantou.png" alt="" class="box2_jt box2_jt1">
+                        <div class="box2_act box2_act2"></div>
+                        <img src="/public/front/images/box2_jiantou.png" alt="" class="box2_jt box2_jt2">
+                        <div class="box2_act box2_act3"></div>
+                        <img src="/public/front/images/box2_jiantou.png" alt="" class="box2_jt box2_jt3">
+                        <div class="box2_act box2_act4"></div>
+                    </div>
+                </div>
+                <div class="swiper2_box3">
+                    <div class="box3_cen relative box_cen">
+                        <img src="/public/front/images/safe_title_icon3.png" alt="" class="box_mac">
+                        <h3 class="c3">技术保障 信息安全</h3>
+                        <img src="/public/front/images/box3_line1.png" alt="" class="box3_line box3_line1">
+                        <img src="/public/front/images/box3_line2.png" alt="" class="box3_line box3_line2">
+                        <img src="/public/front/images/box3_line3.png" alt="" class="box3_line box3_line3">
+                        <img src="/public/front/images/box3_line4.png" alt="" class="box3_line box3_line4">
+                        <img src="/public/front/images/box3_line5.png" alt="" class="box3_line box3_line5">
+                        <img src="/public/front/images/box3_line6.png" alt="" class="box3_line box3_line6">
+                    </div>
+                </div>
+                <div class="swiper2_box4">
+                    <div class="box4_cen relative box_cen">
+                        <img src="/public/front/images/safe_title_icon4.png" alt="" class="box_mac">
+                        <h3 class="c3">信息透明 合规运营</h3>
+                    </div>
+                </div>
+                <div class="swiper2_box5">
+                    <div class="box5_cen relative box_cen">
+                        <img src="/public/front/images/safe_title_icon5.png" alt="" class="box_mac">
+                        <h3 class="c3">法律保障 规避风险</h3>
+                    </div>
+                </div>
+                 <div class="f-foot footer">
+       <!--底部上部-->
+        <div class="footer_top">
+            <div class="fid_link mome">
+                <h3>我的账户</h3>
+                <div class="link_h">
+                    <a href="@{front.account.MyAccountCtrl.homePre()}">账户中心</a>
+                    <a href="@{front.account.MyFundCtrl.accountManagePre()}" title="" target="">资产管理</a>
+                    <a href="@{front.account.MyInfoCtrl.toUserInfoPre()}" title="" target="">会员信息</a>
+                </div>
+                <div class="link_h">
+                    <a href="@{front.account.MySecurityCtrl.securityPre()}" title="" target="">安全中心</a>
+                    <a href="@{front.account.MyRewardCtrl.awardPre()}" title="" target="">我的奖励</a>
+                </div>
+            </div>
+            <div class="fid_link">
+                <h3>关于我们</h3>
+                <div class="link_h">
+                    <a href="@{front.FrontHomeCtrl.aboutUsPre()}?index=0">团队介绍</a>
+                    <a href="@{front.FrontHomeCtrl.aboutUsPre()}?index=5">联系我们</a>
+                    <a href="@{front.FrontHomeCtrl.aboutUsPre()}?index=4">加入我们</a>
+                </div>
+                <div class="link_h">
+                    <a href="@{front.FrontHomeCtrl.aboutUsPre()}?index=2">新闻中心</a>
+                    <a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}">帮助中心</a>
+                </div>
+            </div>
+            <div class="fid_link">
+                <h3>移动端</h3>
+                <div class="link_img">
+                    <div class="left">
+                        <img src="/public/front/images/fwh.jpg" alt="">
+                        <p>微信服务号</p>
+                    </div>
+                    <div class="right">
+                        <img src="/public/front/images/dyh.jpg" alt="">
+                        <p>手机app</p>
+                    </div>
+                </div>
+            </div>
+             <div class="fid_link">
+                <h3>联系我们</h3>
+                <p style="margin-top:33px;">全国服务热线：</p>
+                <p style="font-size:20px;">${settings?.get(common.constants.SettingKey.COMPANY_TEL)}</p>
+                <p>周一至周五  8:30-20:00</p>
+                <p>双休日及节假日  8:30-17:00</p>
+            </div>
+        </div>
+        <!--底部上部-->
+        <!--底部下部-->
+        <div class="footer_bot">
+            <div class="best_link">
+                &nbsp;
+            </div>
+            <p style="text-align:center;">2016 ${settings?.get(common.constants.SettingKey.PLATFORM_NAME)} ${settings?.get(common.constants.SettingKey.SITE_ICP_NUMBER)} ${settings?.get(common.constants.SettingKey.COMPANY_NAME)}
+            &nbsp;&nbsp;&nbsp;&nbsp;地址：${settings?.get(common.constants.SettingKey.COMPANY_ADDRESS)}</p>
+            <div class="w-footer-img none">
+                <!--互联网金融行业认证 -->
+                <a href="http://si.trustutn.org/info?sn=992160527000437391639" target="_blank">
+                    <img src="/public/front/images//f1.png" align="">
+                </a>
+                <!-- 可信网站： -->
+                <a href="https://ss.knet.cn/verifyseal.dll?sn=e1605303101176372757nn000000&amp;ct=df&amp;a=1&amp;pa=0.878792689880" target="_blank">
+                    <img src="/public/front/images/f2.png">
+                </a>
+                <!-- 安全联盟行业认证 -->
+                <a href="https://v.pinpaibao.com.cn/cert/site/?site=www.hjs360.cn&amp;at=business" target="_blank">
+                    <img src="/public/front/images/f3.png">
+                </a>
+                <!-- ICP备案 -->
+                <a href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action" target="_blank">
+                    <img src="/public/front/images/f4.png">
+                </a>
+            </div>
+            <p style="text-align:center;margin-top: 10px">投资有风险，理财需谨慎</p>
+        </div>
+        <!--底部下部-->
+    </div>
+            </li>
+        </ul>
+        
+    </div>
+    <script src="/public/front/javascripts/jquery.mousewheel.js"></script>
+    <script src="/public/front/javascripts/TweenLite.min.js"></script>
+    <script src="/public/front/javascripts/EasePack.min.js"></script>
+    <script src="/public/front/javascripts/rAF.js"></script>
+    <script src="/public/front/javascripts/xing.js"></script>
+    <script>
+        $(function(){
+            var oH = $(window).height();
+            var onOff = true;
+            window.onload = function(){
+                $('html,body').animate({
+                    scrollTop: 0
+                },100)
+            }; 
+            $(window).resize(function(){
+                var $windowH = $(window).height();
+                $(document).scrollTop($windowH);
+            })
+            /*上屏*/
+            $(document).mousewheel(function(){
+                var m = arguments[1];
+                if(onOff){
+                    if(m<0){
+                        onOff = false;
+                        $('html,body').stop(true).animate({
+                            scrollTop: oH
+                        },1000)
+                        $('.header').hide();
+                        $('.box1_onc').addClass('box1_act');
+                        setTimeout(function(){
+                            onOff=true;
+                            $('.swiper2').addClass('scrolly');
+                        },1000)
+                    }
+
+                }
+            })
+            /*上屏*/
+            /*底屏*/
+            $('.swiper2').scroll(function(){
+                if($(this).scrollTop()==0){
+                    $('.swiper2').removeClass('scrolly');
+                    $('.box1_onc').removeClass('box1_act');
+                    $('.box2_act1').removeClass('box1_amn1');
+                    $('.box2_jt1').removeClass('box1_amn2');
+                    $('.box2_act2').removeClass('box1_amn3');
+                    $('.box2_jt2').removeClass('box1_amn4');
+                    $('.box2_act3').removeClass('box1_amn5');
+                    $('.box2_jt3').removeClass('box1_amn6');
+                    $('.box2_act4').removeClass('box1_amn7');
+                    $('.box3_line1').removeClass('box3_amn1');
+                    $('.box3_line2').removeClass('box3_amn2');
+                    $('.box3_line3').removeClass('box3_amn3');
+                    $('.box3_line4').removeClass('box3_amn4');
+                    $('.box3_line5').removeClass('box3_amn5');
+                    $('.box3_line6').removeClass('box3_amn6');
+                    onOff = true;
+                    $('.header').show();
+                    if(onOff){
+                    onOff = false;
+                        setTimeout(function(){
+                            onOff=true;
+                        },1000)
+                        $('html,body').stop(true).animate({
+                            scrollTop: 0
+                        },500)
+                    }
+                }
+                if($(this).scrollTop()>245){
+                    $('.box2_act1').addClass('box1_amn1');
+                    $('.box2_jt1').addClass('box1_amn2');
+                    $('.box2_act2').addClass('box1_amn3');
+                    $('.box2_jt2').addClass('box1_amn4');
+                    $('.box2_act3').addClass('box1_amn5');
+                    $('.box2_jt3').addClass('box1_amn6');
+                    $('.box2_act4').addClass('box1_amn7');
+                }
+                if($(this).scrollTop()>770){
+                    $('.box3_line1').addClass('box3_amn1');
+                    $('.box3_line2').addClass('box3_amn2');
+                    $('.box3_line3').addClass('box3_amn3');
+                    $('.box3_line4').addClass('box3_amn4');
+                    $('.box3_line5').addClass('box3_amn5');
+                    $('.box3_line6').addClass('box3_amn6');
+                }
+                if($(this).scrollTop()>170){
+                    $('.swiper2_title').addClass('swiper2_title1');
+                }else{
+                    $('.swiper2_title').removeClass('swiper2_title1');
+                }
+                if($(this).scrollTop()<391){
+                    $('.sw2_tips').css('left','91px');
+                }
+                if($(this).scrollTop()>391&&$(this).scrollTop()<1109){
+                    $('.sw2_tips').css('left','328px');
+                }
+                if($(this).scrollTop()>1109&&$(this).scrollTop()<2039){
+                    $('.sw2_tips').css('left','570px');
+                }
+                if($(this).scrollTop()>2039&&$(this).scrollTop()<2818){
+                    $('.sw2_tips').css('left','810px');
+                }
+                if($(this).scrollTop()>2818){
+                    $('.sw2_tips').css('left','1050px');
+                }
+                
+            })
+            /*底屏*/
+            $(".best_link").load("@{front.FrontHomeCtrl.friendShipLinkPre()}"); 
+        })
+    </script>

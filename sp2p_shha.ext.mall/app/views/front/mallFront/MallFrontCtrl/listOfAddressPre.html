@@ -1,0 +1,76 @@
+<table class="q-dztab">
+			<tr>
+				<th width="48">选择</th>
+				<th width="80">收货人</th>
+				<th width="145">所在地区</th>
+				<th width="200">详细地址</th>
+				<th width="110">电话/手机</th>
+				<th width="85">操作</th>
+				<th width="75"></th>
+			</tr>
+			#{list items:addressList}
+			<tr>
+				<td id="${_?.sign}"  ads=""><input  #{if _?.status == 1}checked="checked" #{/if} class="q-radio" type="radio" name="addre" id="" value="" /></td>
+				<td>${_?.receiver}</td>
+				<td class="td03">${_?.area}</td>
+				<td class="td03">${_?.address}</td>
+				<td>${_?.tel}</td>
+				<td class="major" onclick="delAddress('${_?.sign}')">删除</td>
+				<td>
+				   #{if _?.status == 1}
+				   <a class="q-dzlink">默认地址</a>
+				   #{/if}
+				   #{else}
+				   <a class="q-dzlink q-dzlink02" onclick="setDefaultAddress('${_?.sign}')">设为默认</a>
+				   #{/else}
+				   
+				
+				</td>
+			</tr>
+			#{/list}
+		</table>
+		<input class="q-dzlinkbtm"  type="button" id="submitAddress" value="确认地址" />
+		
+<script type="text/javascript">
+	require(['front'],function(front){
+		
+		//确定选择地址
+		$("#submitAddress").click(function(){
+			
+			var addressId = $("input[name='addre']:checked").parent().attr("id");
+			
+			findAddress(addressId);
+		});
+		
+	});
+	
+	function findAddress(addressId){
+		
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.findAddress()}",
+			type : "POST",
+			dataType : 'json',
+			data : {
+				"sign" : addressId,
+			},
+			success : function(data) {
+				
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					$("#errorInfo").html(data.msg);
+					return;
+				}
+				
+				$(".tc1,.tc2").hide();
+				$("#errorInfo").val("");
+				
+				$("#defaultAddress").html(data.getAllAddress);
+				$("#addressId").val(data.addressId);
+			}
+		 });
+	}
+</script>

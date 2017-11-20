@@ -1,0 +1,95 @@
+#{extends 'back/mall/ScoreCtrl/mailMain.html' /}
+	#{set title:'积分商城 | 积分规则' /}
+	#{set smallclass:0 /}
+	#{set crumbs:'积分商城>积分规则'/}
+
+<div class="back-main">
+<div class="back-usertop">
+<div class="left back-usermenu">
+			<a href="@{back.mall.ScoreCtrl.showSignInRulesPre()}"  class="selected">签到规则</a>
+			<a href="@{back.mall.MallSettingCtrl.showGainScorePre()}" >获取积分</a>
+			<a href="@{back.mall.MallSettingCtrl.showInvestGainScorePre()}" >投资赚积分</a>
+		</div>
+</div>
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head"><span class="left">签到规则</span>
+			#{rightMng rightId:1101002}
+			<a href="javascript:void(0);" class="right iconfont finance-edit" data-title="编辑">&#xe602;</a>
+			#{/rightMng}
+			</h2>
+			<div class="back-infor-lcset back-infor-getset">
+				<form action="@{back.mall.ScoreCtrl.editSignInRules()}" method="POST" id="form_signin">
+					#{authenticityToken /}
+					#{list items:ruleList,as:'rule'}
+						<p class="back-experience-set">
+							<label>
+								<span class="lileft">${rule?.name}</span>
+								<label class="back-unitinput">
+									<input type="text" name="score_${rule?._key}" disabled="disabled" oninput="$(this).ndigitInteger(5)" onpropertychange="$(this).ndigitInteger(5)" value="#{formatIntMoney money:rule?.score?:0 /}" class="width01 iffocus"><i class="unit">分</i>
+								</label>
+								
+								<span class="">额外加成</span>
+								<label class="back-unitinput">
+									<input type="text" name="extra_score_${rule?._key}" disabled="disabled" oninput="$(this).ndigitInteger(5)" onpropertychange="$(this).ndigitInteger(5)" value="#{formatIntMoney money:rule?.extra_score?:0 /}" class="width01 iffocus"><i class="unit">分</i>
+								</label>
+							</label>
+						</p>
+					#{/list}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		// 搜索 排序 选中
+		require(["search","order","linechecked"]);
+		require(["validation/validateExt"]);
+
+		$(".back-infor").each( function() {
+			var that = this, 
+			editBtn = $(this).find( ".finance-edit"),
+			editText = $(this).find("input:not(.easyui-datetimebox)");
+			editText.prop("disabled", true);
+			editBtn.click(function() {
+				disable = editText.prop("disabled");
+				if (disable) {
+					editBtn.html("&#xe630;").data("title","保存");
+					
+					$(".titlebox").text( editBtn.data('title'));
+					editText.prop("disabled", !disable);
+					editText.eq(0).focus();
+				} else {
+					$("#form_signin").submit();
+				}
+			});
+		});
+		
+		$("#form_signin").validate({
+			errorPlacement: function(error, element) {
+				error.addClass('back-notice').insertAfter(element.parent());
+			},
+			rules:{
+				#{list items:ruleMap.keySet(),as:'rulekey'}
+				"${rulekey}":{
+					required:true,
+					digits:true,
+					range:[0,10000]
+				},
+				#{/list}
+			},
+			messages:{
+				#{list items:ruleMap.keySet(),as:'rulekey'}
+				"${rulekey}":{
+					required:'请输入积分',
+					digits:'0~10000的整数',
+					range:'0~10000的整数'
+				},
+				#{/list}
+			}
+		});
+	});
+</script>	

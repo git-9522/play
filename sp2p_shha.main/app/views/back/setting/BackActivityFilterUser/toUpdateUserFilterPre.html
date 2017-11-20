@@ -1,0 +1,50 @@
+#{extends 'common/back/settingMain.html' /}
+	#{set title:'设置 | 活动屏蔽 | 添加添加活动屏蔽条目 ' /}
+	#{set smallclass:3 /}
+	#{set crumbs:'设置>活动屏蔽>添加添加活动屏蔽条目' /}
+
+	
+<div class="back-main">
+	<span class="back-imginfor-note" style="display: none;"></span>
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">添加活动屏蔽条目</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="@{back.setting.BackActivityFilterUser.showUserFilterPre}"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<!-- 左侧菜单 -->
+	<form action="@{back.setting.BackActivityFilterUser.updateUserFilter(userFilter?.sign)}" method="POST" id="add_filter">
+		<div class="back-cont">
+			<div class="back-infor">
+				<h2 class="back-infor-head">推广人手机及投资期数</h2>
+				<ul class="back-infor-set">
+					<li>
+						<span class="lileft">推广人手机号</span>
+						<div class="liright">
+							<input type="text" class="width01 iffocus required" value="${userFilter?.spreader_mobile}" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" name="spreaderMobile"  />
+							<input type="hidden" name="hidemobile" value="${userFilter?.spreader_mobile}" />
+							<span class="back-text-limit"></span>
+						</div>
+					</li>
+					
+					<li style="text-indent:45px">
+					
+					<span >投资期数  </span><input style= "vertical-align: -2px;" type="checkbox" name="period1" #{if userFilter.period1==1} checked="checked" #{/if} value="1"> 一月标&nbsp;&nbsp;<input  #{if userFilter.period3==3} checked="checked" #{/if} name="period3" style= "vertical-align: -2px;" type="checkbox" value="3"> 三月标&nbsp;&nbsp;<input  #{if userFilter.period6==6} checked="checked" #{/if}  name="period6" style= "vertical-align: -2px;" type="checkbox" value="6">六月标
+					</li>
+				</ul>
+			</div>
+			<p class="back-audit-btns">
+				#{rightMng rightId:806003}
+					<input type="submit" id="pageSave" value="修改" class="bgbtn">
+				#{/rightMng}
+				<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.setting.BackActivityFilterUser.showUserFilterPre}');">
+			</p>
+		</div>
+	</form>
+</div>
+
+
+
+

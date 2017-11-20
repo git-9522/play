@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syncparticipants>
+<participant displayName="SVN (sp2p_shha.act...2p_shha.wechat)" id="org.eclipse.team.svn.ui.synchronize.update.SynchronizeModelParticipant" secondary_id="1510908687860">
+<data consultChangeSets="false" root="false">
+<org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS org.eclipse.team.ui.MODEL_PARTICIPANT_DESCRIPTION="sp2p_shha.act...2p_shha.wechat" startupAction="none">
+<org.eclipse.team.ui.MODEL_PARTICIPANT_REFRESH_SCHEDULE org.eclipse.team.ui.CTX_REFRESHSCHEDULE_ENABLED="false" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_INTERVAL="3600" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_RUNONCE="false"/>
+<org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS modelProviderId="org.eclipse.core.resources.modelProvider">
+<mappings>
+<resources resourcePath="/sp2p_shha.ext.fdd" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.ext.cps" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.ext.experiencebid" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.app" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.activity" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.ext.mall" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.common" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.ext.redpacket" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.core" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.ext.rate" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.ext.wealthcircle" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.basic" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.ext.cash" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.payment" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.wechat" resourceType="4"/>
+<resources resourcePath="/sp2p_shha.main" resourceType="4"/>
+</mappings>
+</org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS>
+</org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS>
+</data>
+</participant>
+</syncparticipants>

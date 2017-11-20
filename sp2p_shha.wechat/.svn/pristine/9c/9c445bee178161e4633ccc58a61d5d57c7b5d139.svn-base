@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>虹金所_引领投资、理财新方向！</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=yes" />
+    <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+    <meta name="description" content="虹金所_引领投资、理财新方向！" />
+    <meta content="telephone=no" name="format-detection">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/reset.css'}" />
+    <link rel="stylesheet" href="@{'/public/wechat/stylesheets/drawcard_app.css'}">
+    <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/activity.css'}" />
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/lib/jquery.js'}"></script>
+	<script type="text/javascript" src="@{'/public/wechat/javascripts/rem.js'}"></script>
+</head>
+
+<body>
+    <div class="drawcard_top">
+        <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_bg1.jpg'}" alt="">
+        <div class="drawcard_time">
+            <span class="time_code">2017-8-8至2.17-8-30</span>
+        </div>
+    </div>
+    <div class="drawcard_center">
+        <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_bg2.jpg'}" alt="">
+        <div class="draw_main">
+            <ul class="drawcard_title">
+                <li class="drawcard_title1">标的</li>
+                <li class="drawcard_title2">投资金额</li>
+                <li class="drawcard_title3">翻牌机会</li>
+            </ul>
+            <div class="drawcard_ncp">
+                <ul class="drawcard_mate">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="drawcard_box">
+        <div class="draw_card_main">
+            <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_guang.png'}" alt="">
+            <ul class="draw_main_box">
+                <li class="draw_card1">
+                    <img class="dc_a" src="@{'/public/wechat/images/draw_app_img/app_drawcard_back1.png'}" alt="">
+                    <img class="dc_b" src="@{'/public/wechat/images/draw_app_img/app_drawcard_card1.png'}" alt="">
+                    <div class="dc_cow">
+                        <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_icon2.png'}" alt="">
+                        <p class="dc_zj"></p>
+                        <div class="draw_back_btn"></div>
+                    </div>
+                </li>
+                <li class="draw_card2">
+                    <img class="dc_a" src="@{'/public/wechat/images/draw_app_img/app_drawcard_back2.png'}" alt="">
+                    <img class="dc_b" src="@{'/public/wechat/images/draw_app_img/app_drawcard_card2.png'}" alt="">
+                    <div class="dc_cow">
+                        <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_icon2.png'}" alt="">
+                        <p class="dc_zj"></p>
+                        <div class="draw_back_btn"></div>
+                    </div>
+                </li>
+                <li class="draw_card3">
+                    <img class="dc_a" src="@{'/public/wechat/images/draw_app_img/app_drawcard_back3.png'}" alt="">
+                    <img class="dc_b" src="@{'/public/wechat/images/draw_app_img/app_drawcard_card3.png'}" alt="">
+                    <div class="dc_cow">
+                        <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_icon2.png'}" alt="">
+                        <p class="dc_zj"></p>
+                        <div class="draw_back_btn"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="drawcard_font1">
+        <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_bg3.jpg'}" alt="">
+        <div class="drawcard_fontcon">
+            <p>1）、活动期间单笔投资额≥100元即可参与翻牌活动；<br>2）、用户平台首笔投资金额不享受本活动；<br>3）、成功翻牌后，返现金额=单笔投资金额*翻牌利率，用户最高可获取6%的投资返现；<br>4）、返现＜5000元的用户，返现金额将于3个工作日内到可
+用余额中；返现≥5000元的用户，客服将在3个工作日内电话联系，用户必须提供用户名,手机号,姓名,QQ号，确认后客服将即时处理(QQ,微信,支付宝转账)。</p>
+   </div>
+    </div>
+    <div class="draw_dialog">
+        <div class="draw_dialog_box">
+            <h3>平台提示</h3>
+            <p>&nbsp;</p>
+            <div class="draw_dialog_btn">确定</div>
+        </div>
+    </div>
+    <div class="drawcard_font2">
+        <img src="@{'/public/wechat/images/draw_app_img/app_drawcard_bg4.jpg'}" alt="">
+        <div class="drawcard_fontcon">
+            <p>1、用户单笔投资100元以上（包括100元）可获得一次翻牌机会；<br>2、用户根据投资标的期限，选择相应的翻牌区域进行翻牌；<br>3、若用户多次投资后进行翻牌，系统会根据用户投资时间判定翻牌顺序，用户也可在活动页面【历史投资记录】中查看投资记录，并点击后方【翻牌】即可。</p>
+   </div>
+    </div>
+    <div class="draw_dialog">
+        <div class="draw_dialog_box">
+            <h3>平台提示</h3>
+            <p>&nbsp;</p>
+            <div class="draw_dialog_btn">确定</div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var dc_off = true,
+                dc_mate, aMonth, aMoney, aFns, aNum, aName, aBtn, oId;
+            var oDia = '';
+            
+            var userId = getQueryVariable("userId");
+			var type = getQueryVariable("type");
+			
+			#{if flash?.error}
+				 $('.draw_dialog').show();
+	             $('.draw_dialog_box>p').html('${flash?.error}');
+			#{/if}
+			
+			var flag = ${flag};
+			
+            function oClick() {
+                
+                $(".dc_btn>div").click(function () {
+                    if ($(this).attr('oFns') == 'true') {
+                        if (dc_off) {
+                            dc_off = false;
+                            dc_clear();
+                            oId = $(this).attr('oId');
+                            if ($(this).attr('oNum') == 1) {
+                                dc_mate = 0;
+                                dc_rotate()
+                            } else if ($(this).attr('oNum') == 3) {
+                                dc_mate = 1;
+                                dc_rotate()
+                            } else {
+                                dc_mate = 2;
+                                dc_rotate()
+                            }
+                        }
+                    }
+                });
+                $('.draw_back_btn').click(function () {
+                    dc_clear();
+                })
+            }
+            /*清除旋转的class*/
+            function dc_clear() {
+                $('.dc_cow').hide();
+                $('.dc_cow .dc_zj').html('');
+                $('.draw_main_box>li').eq(dc_mate).removeClass('dc_moment2');
+                $('.draw_main_box>li').eq(dc_mate).hide();
+                $('.drawcard_box').hide();
+                dc_off = true;
+                
+            }
+            /*清除旋转的class*/
+            /*添加旋转*/
+            function dc_rotate() {
+                $('.drawcard_box').show(); $('.draw_main_box>li').eq(dc_mate).show().addClass('dc_moment1');
+                $.ajax({
+                    url: "@{wechat.front.ActivityCtrl.doRerversalLottery}",
+                    type: 'post',
+                    dataType: "json",
+                    data : {
+                    	"userId" : userId,
+                    	"type" : type,
+                    	"investId" : oId
+                    },
+                    success: function (data) {
+                        if (data.code == 1) {
+                            setTimeout(function () {
+                                $('.draw_main_box>li').eq(dc_mate).removeClass('dc_moment1');
+                                $('.draw_main_box>li').eq(dc_mate).addClass('dc_moment2');
+                                
+                                $('.dc_cow').eq(dc_mate).show();
+                                $('.dc_cow .dc_zj').eq(dc_mate).html(data.obj + '元');
+                                oAjax1();
+                            }, 1800);
+                        } else if (data.code == -100) {
+                        	if(type == 0) {
+                            	// app
+                            	$('.draw_dialog').show();
+               	             	$('.draw_dialog_box>p').html(data.msg);
+                            } else {
+                            	window.location.href = "@{wechat.front.LoginAndRegisteCtrl.loginPre}";
+                            }
+                        } else {
+                            setTimeout(function () {
+                                $('.draw_main_box>li').eq(dc_mate).removeClass('dc_moment1');
+                                $('.draw_main_box>li').eq(dc_mate).addClass('dc_moment2');
+                                $('.dc_cow').eq(dc_mate).show();
+                                $('.dc_cow .dc_zj').eq(dc_mate).html('抽奖失败');
+                            }, 1800);
+                            oAjax1();
+                        }
+                    },
+                    error: function () {
+                        $('.draw_dialog').show();
+                        $('.draw_dialog_box>p').html('系统错误');
+                    }
+                })
+
+                setTimeout(function () {
+                    $('.draw_main_box>li').eq(dc_mate).removeClass('dc_moment1');
+                    $('.draw_main_box>li').eq(dc_mate).addClass('dc_moment2');
+                }, 1800)
+            }
+            /*添加旋转*/
+
+            /*<img src="images/draw_back_icon.png" alt=""><p class="dc_zj">100元</p><div class="draw_back_btn">确定</div>*/
+
+            /*data.obj[1].reversalStatus*/
+            /*window.location.host*/
+            if(flag) {
+                oAjax();
+            }
+
+            function oAjax() {
+                $.ajax({
+                    url: "@{wechat.front.ActivityCtrl.getRerversalInfo}",
+                    type: 'post',
+                    dataType: "json",
+                    data : {
+                    	"userId" : userId,
+                    	"type" : type
+                    },
+                    success: function (data) {
+                        if (data.code == 1) {
+                            if (data.obj.reversal_is_use == 1) {
+                            	$('.time_code').html(data.obj.reversal_start_time + '至' + data.obj.reversal_end_time);
+                                $('.drawcard_font2 .drawcard_fontcon>p').html(data.obj.reversal_rule);
+                                oAjax1();
+                            } else {
+                                $('.draw_dialog').show();
+                                $('.draw_dialog_box>p').html('活动未开启');
+                            }
+                        } else if (data.code == -100) {
+                            if(type == 0) {
+                            	// app
+                            	$('.draw_dialog').show();
+               	             	$('.draw_dialog_box>p').html(data.msg);
+                            } else {
+                            	window.location.href = "@{wechat.front.LoginAndRegisteCtrl.loginPre}";
+                            }
+                        } else {
+                            
+                            $('.draw_dialog').show();
+                            $('.draw_dialog_box>p').html(data.msg);
+                        }
+                    },
+                    error: function () {
+                        $('.draw_dialog').show();
+                        $('.draw_dialog>p').html('数据异常');
+                    }
+
+                });
+            }
+
+            function oAjax1() {
+                $('.drawcard_mate').html('');
+                $.ajax({
+                    url: "@{wechat.front.ActivityCtrl.getRerversalInvest}",
+                    type: "post",
+                    dataType: "json",
+                    data : {
+                    	"userId" : userId,
+                    	"type" : type
+                    },
+                    success: function (data) {
+                        if (data.code == 1) {
+                            for (var i = 0; i < data.obj.length; i++) {
+                                aMoney = data.obj[i].investAmount;
+                               //oId = data.obj[i].investId;
+                                /*aFns aNum*/
+                                if (data.obj[i].period == 1) {
+                                    aNum = 1;
+                                    aMonth = '一';
+                                } else if (data.obj[i].period == 3) {
+                                    aNum = 3;
+                                    aMonth = '三';
+                                } else {
+                                    aNum = 6;
+                                    aMonth = '六';
+                                }
+                                if (data.obj[i].reversalStatus == 1) {
+                                    aFns = true;
+                                    aName = "点击翻牌";
+                                    aBtn = "draw_biao1";
+                                } else {
+                                    aFns = false;
+                                    aName = "已翻";
+                                    aBtn = "draw_btn2";
+                                }
+                                var oLi = $('<li><div class="dc_month">' + aMonth + '月标</div><div class="dc_money">' + aMoney + '</div><div class="dc_btn"><div class=' + aBtn + ' oFns=' + aFns + ' oNum=' + aNum + ' oId=' + data.obj[i].investId + '>' + aName + '</div></div></li>');
+                                $('.drawcard_mate').append(oLi);
+                                /*console.log(data.obj[i].reversalStatus);*/
+                            }
+                            oClick();
+                        } else if (data.code == -100) {
+                        	if(type == 0) {
+                            	// app
+                            	$('.draw_dialog').show();
+               	             	$('.draw_dialog_box>p').html(data.msg);
+                            } else {
+                            	window.location.href = "@{wechat.front.LoginAndRegisteCtrl.loginPre}";
+                            }
+                        } else {
+                            $('.draw_dialog').show();
+                            $('.draw_dialog_box>p').html(data.msg);
+                        }
+                    },
+                    error: function () {
+                        $('.draw_dialog').show();
+                        $('.draw_dialog_box>p').html('系统错误');
+                    }
+                })
+            }
+            $('.draw_dialog_btn').click(function(){
+                $('.draw_dialog').hide();
+            })
+        });
+        
+        function getQueryVariable(variable)	{
+	    	var query = window.location.search.substring(1);
+	       	var vars = query.split("&");
+	       	for (var i = 0; i < vars.length; i++) {
+            	var pair = vars[i].split("=");
+               	if(pair[0] == variable){
+               		return pair[1];
+               	}
+	       	}
+	       	return "";
+		}
+    </script>
+</body>
+
+</html>

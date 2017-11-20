@@ -1,0 +1,106 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+<section class="detail-menu flex">
+     <a class="flex-1 click">项目详情</a>
+     <a class="flex-1">回款计划</a>
+</section> 
+
+<!-- 项目详情 -->
+<div class="detail" id="detail">
+		<h3 class="xf-disperse-titile bor-bot pt20">${detail?.debt_transfer_no}&nbsp;${detail?.title}</h3>
+		<div class="detail-list flex">
+			<span class="assistant flex-1"><em class="f18">${detail?.debt_amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</em>元</span> <span
+				class="flex-1 tc"><em class="c333">${detail?.period}</em>期</span> <span
+				class="flex-1 tr"><em class="c333">#{formatIntMoney money:detail?.transfer_price /}</em>元</span>
+		</div>
+		<div class="detail-list2  flex">
+			<span class="flex-1">债权总额</span> <span class="flex-1 tc">转让期数</span>
+			<span class="flex-1 tr">转让价格</span>
+		</div>
+		<div class="detail-list flex">
+			<span class="flex-1">竞拍方式 一口价</span> <a href="@{wechat.front.InvestCtrl.investWechatPre(detail?.bid_id)}" class="block tr major">查看原借款标</a>
+		</div>
+		<!-- 转让中，且未过期的可以购买 -->
+		#{if models.core.entity.t_debt_transfer.Status.AUCTING.equals(detail?.status) && sysNowTime?.compareTo(detail?.end_time) == -1}
+			<form action="@{wechat.front.DebtCtrl.buyDebt()}" method="POST" id="form_auction" target="_blank">
+				#{authenticityToken /}
+				<input type="hidden" value="${detail?.sign}" name="debtSign" />
+				<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">
+				<input type="submit" class="mt60 condition-btn btn"  value="立即购买">
+			</form>
+		#{/if}
+		#{else}
+			<input type="button" class="mt60 graybtn condition-btn" value="已结束">
+		#{/else}
+</div>
+
+<!-- 回款计划 -->
+<div  class="detail" style="display: none"> 
+      #{if currUser}
+     <div class="detail-tab flex">
+        <span class="pl20 width140">期数</span>
+        <span class="flex-1">应还本息</span>
+        <span class="flex-1 tc">到期时间</span>
+        <span class="flex-1 tr pr20">状态</span>
+    </div>
+      <div class="detail-main" >
+        <ul class="detail-history" id="repayment_plan">
+        </ul>
+		<p class="xf-load" id="repayment_load"></p>
+   	 </div>
+      #{/if}
+      #{else}
+	      <p class="detail-p1">请<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+  	  #{/else}
+</div>
+</div>
+
+<script type="text/javascript">
+var repayment = 0; //未加载过回款计划
+
+require(['wechat'],function(wechat){	
+	$(".detail-menu>a").click(function(){
+		$(".detail-menu>a").removeClass("click");
+        $(this).addClass("click");
+        var index = $(this).index();
+        if(index == 1 && repayment == 0){
+        	repaymentRecord (1);//回款计划
+        }
+       
+		$(".detail").not(index).hide();
+		$(".detail").eq(index).show();		
+	});
+});
+
+
+//回款计划
+function repaymentRecord (currPage) {
+	$.ajax({
+		url : "@{wechat.front.DebtCtrl.repaymentDebtRecordPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"investId": '${detail?.invest_id}'
+		},
+		success : function(data){ 
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#repayment_plan").append(data);
+			repayment = 1;
+			var nextPage = parseInt($("#repaymentCurrpage").val()) + 1;
+			if( nextPage <= parseInt($("#repaymentTotalPageCount").val())){
+				$("#repayment_load").html("<a onclick='repaymentRecord("+nextPage+")' >加载更多</a>");
+				$("#repaymentCurrpage").remove();
+				$("#repaymentTotalPageCount").remove();
+			}
+			else{
+				$("#repayment_load").html("<a  >没有更多了</a>");
+			}
+		}
+	});
+}
+
+</script>

@@ -1,0 +1,137 @@
+.main {
+    position: relative;
+    background: #eef2f5;
+    min-height: 860px;
+    padding-bottom: 70px;
+}
+.enroll_cen {
+    width: 1198px;
+    height: 600px;
+    margin: 30px auto 0;
+    border: 1px solid #ededed;
+    background: #fff url(../images/enroll_bg.png) no-repeat 600px center;
+    padding-top: 40px;
+}
+.enroll_lab {
+    width: 505px;
+}
+.enroll_lab li {
+    width: 505px;
+    height: 40px;
+    line-height: 40px;
+}
+.enroll_lab li>p {
+    width: 180px;
+    text-align: right;
+    line-height: 40px;
+    float: left;
+}
+.enroll_lab li>input {
+    float: left;
+    margin-left: 10px;
+    line-height: 38px;
+    width: 290px;
+    padding-left: 10px;
+    height: 38px;
+    border: 1px solid #d7d7d7;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+    
+}
+.enroll_lab li.en_font {
+    padding-left: 190px;
+    width: 315px;
+}
+.enroll_lab li.en_font>img {
+    margin-top: 13px;
+    margin-right: 5px;
+}
+.num_img {
+    width: 300px;
+    float: left;
+    margin-left: 10px;
+}
+.num_img>input {
+    float: left;
+    padding-left: 10px;
+    width: 165px;
+    height: 38px;
+    border: 1px solid #d7d7d7;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+    
+    line-height: 38px;
+}
+.num_img .check_img {
+    width: 110px;
+    height: 38px;
+    display: block;
+    float: right;
+    color: #42cfff;
+    text-align: center;
+    border: 1px solid #42cfff;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+    cursor: pointer;
+    
+}
+.num_img .cf {
+    border: 1px solid #d7d7d7;
+    background:#25a4e7;
+    text-align: center;
+    line-height: 40px;
+}
+.en_lop {
+    position: relative;
+    padding-left: 190px; 
+    overflow: hidden;
+}
+.check_radio {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #fff url(../images/check_radio.png) no-repeat center;
+    top: 3px;
+    cursor: pointer;
+}
+.check_radio1 {
+    background: #fff url(../images/check_radio1.png) no-repeat center;
+}
+.en_lop input {
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-top: 3px;
+    margin-right: 2px;
+    line-height: 38px;
+    /*opacity: 0;*/
+}
+.en_lop>p {
+    float: left;
+}
+.en_go {
+    width: 319px;
+    height: 58px;
+    text-align: center;
+    line-height: 50px;
+    margin-left: 175px;
+    margin-top: 10px;
+    cursor: pointer;
+    background: url(../images/login_btn.png) no-repeat center;
+    border-radius: 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari 和 Chrome */
+}
+.enroll_bot {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background: #f2f2f2;
+}

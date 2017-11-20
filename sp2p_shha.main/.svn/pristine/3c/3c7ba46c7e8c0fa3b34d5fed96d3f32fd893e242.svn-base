@@ -1,0 +1,241 @@
+#{extends 'common/front/accountMain.html' /}
+#{set title:'我的财富 | 企业信息' /}
+#{set smallclass:3 /}
+
+<!-- 会员信息 -->
+<div class="account-infor">
+	<div class="account-inforbox info-div" id="basicDiv">
+		<h3 class="account-infortitle">
+			<span class="left c3">企业信息</span>
+		</h3>
+		<div class="account-error" id="basic-error"></div>
+		<table width="100%">
+			<tr height="67">
+				<td align="right" width="88">企业名称</td>
+				<td width="290" style="font-weight: bolder;">
+					${userInfo?.reality_name}
+				</td>
+				<td align="right" width="44"></td>
+				<td width="145"></td>
+			</tr>
+			<tr height="67">
+				<td align="right" width="88">组织机构代码</td>
+				<td width="290" style="font-weight: bolder;">
+					${corpInfo?.instu_code}
+				</td>
+				<td align="right" width="44"></td>
+				<td width="145"></td>
+			</tr>
+			<tr height="67">
+				<td align="right" width="88">营业执照编号</td>
+				<td width="290" style="font-weight: bolder;">
+					${corpInfo?.busi_code}
+				</td>
+				<td align="right" width="44"></td>
+				<td width="145"></td>
+			</tr>
+			<tr height="67">
+				<td align="right" width="88">税务登记号</td>
+				<td width="290" style="font-weight: bolder;">
+					${corpInfo?.tax_code}
+				</td>
+				<td align="right" width="44"></td>
+				<td width="145"></td>
+			</tr>
+			<tr height="67">
+				<td align="right" width="88">是否担保企业</td>
+				<td width="290" style="font-weight: bolder;">
+					#{if corpInfo?.guar_type}
+						是
+					#{/if}
+					#{else}
+						否
+					#{/else}
+				</td>
+				<td align="right" width="44"></td>
+				<td width="145"></td>
+			</tr>
+			<tr height="67">
+				<td align="right" width="88">
+					#{if corpInfo?.guar_type}
+						企业用户备案金
+					#{/if}
+					#{else}
+						企业注册资金
+					#{/else}
+				</td>
+				<td width="290" style="font-weight: bolder;">
+					${corpInfo?.guar_corp_earnest_amt?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元
+				</td>
+				<td align="right" width="44"></td>
+				<td width="145"></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- main end-->
+
+<script type="text/javascript">
+	require(['front'],function(front){
+		
+		//编辑用户信息
+		$("#saveOrUpdateInformation").click(function(){
+			var input = $(".info-div").find('input,select');
+			var disabled = input.prop('disabled');
+			if(disabled) {
+				$(this).attr("value","保  存");
+				input.prop('disabled',false);
+			} else {
+				#{if isSimulated}
+					alert("模拟登录不能执行该操作");
+					return false;
+				#{/if}
+				#{else}
+				//基本信息
+				var education = $("#education").val();//学历
+				if(education == 0){
+					$("#basic-error").css("display","block");
+					$("#basic-error").html("请选择学历状况");
+					
+					return;
+				} else {
+					$("#basic-error").hide();
+				}
+				
+				var marital = $("#marital").val();//婚姻
+				if(marital == 0){
+					$("#basic-error").css("display","block");
+					$("#basic-error").html("请选择婚姻状况");
+					
+					return;
+				} else {
+					$("#basic-error").hide();
+				}
+				//资产信息
+				var workExperience = $("#workExperience").val();//工作年限
+				if(workExperience == 0){
+					$("#assets-error").css("display","block");
+					$("#assets-error").html("请选择工作年限");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				var annualIncome = $("#annualIncome").val();//年收入
+				if(annualIncome == 0){
+					$("#assets-error").css("display","block");
+					$("#assets-error").html("请选择年收入状况");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				var netAsset = $("#netAsset").val();//资产估值
+				if(netAsset==0){
+					$("#assets-error").css("display","block");
+					$("#assets-error").html("请选择资产估值状况");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				var car = $("#car").val();//车产
+				if(car == 0){
+					$("#assets-error").css("display","block");
+					$("#assets-error").html("请选择车产状况");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				var house = $("#house").val();//房产
+				if(house == 0){
+					$("#assets-error").css("display","block");
+					$("#assets-error").html("请选择房产状况");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				
+				//紧急联系人
+				var emergencyContactType = $("#emergencyContactType").val();//关系
+				if(emergencyContactType < 0){
+					$("#emergencyContact-error").css("display","block");
+					$("#emergencyContact-error").html("请选择紧急联系人关系");
+					
+					return;
+				} else {
+					$("#emergencyContact-error").hide();
+				}
+				
+				var emergencyContactName = $("#emergencyContactName").val();//姓名
+				if(!emergencyContactName.isNotBlank()){
+					$("#emergencyContact-error").css("display","block");
+					$("#emergencyContact-error").html("请填写紧急联系人姓名");
+					
+					return;
+				} else {
+					$("#emergencyContact-error").hide();
+				}
+				
+				
+				var emergencyContactMobile = $("#emergencyContactMobile").val();//手机号
+				if(!emergencyContactMobile.isNotBlank()){
+					$("#emergencyContact-error").css("display","block");
+					$("#emergencyContact-error").html("请填写紧急联系人手机");
+					
+					return;
+				} else if(!emergencyContactMobile.isMobileNum()){
+					$("#emergencyContact-error").css("display","block");
+					$("#emergencyContact-error").html("紧急联系人手机号码格式错误");
+					
+					return;
+				} else {
+					$("#emergencyContact-error").hide();
+				}
+				
+				$.ajax({
+					url : "@{front.account.MyInfoCtrl.editUserInfomation()}",
+					type : "POST",
+					data : {
+						"education" : education,
+						"marital" : marital,
+						"workExperience" : workExperience,
+						"annualIncome" : annualIncome,
+						"netAsset" : netAsset,
+						"car" : car,
+						"house" : house,
+						"emergencyContactType" : emergencyContactType,
+						"emergencyContactName" : emergencyContactName,
+						"emergencyContactMobile" : emergencyContactMobile
+					},
+					dataType:"json",
+					success : function(data) {
+						var flag = interceptorCheck(data);
+						if(!flag){
+							return;
+						}
+						if(data.code < 1){
+							
+						}else {
+							input.prop('disabled',!disabled);
+							$("#saveOrUpdateInformation").attr("value","编  辑");
+							$("#emergencyContact-error,#assets-error,#basic-error").hide();
+							weakDialog(data.msg);
+						}
+					}
+				});
+				#{/else}
+			}
+		});
+		
+		
+		
+		$(function(){
+			$("#saveOrUpdateInformation").attr("value","编  辑");
+			$(".info-div").find('input,select').prop('disabled',true);
+		});
+	});
+	
+</script>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<div class="q-footerpbtm">
+			<ul class="flex q-lcul">
+				<li class="flex-1 q-on">
+					<a href="javascript:void(0)" onclick="location.reload()">智能理财</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.DebtCtrl.toWechatDebtPre()}">债权转让</a>
+				</li>
+			</ul>
+			<ul class="q-lclist">
+				#{list pageBean?.page}	
+					<li class="q-padding">
+						<p class="q-p01">${_?.title}
+							#{if models.core.entity.t_product.ProductType.NEWBIE.code == _?.type.code}
+								<span>新手专享</span>
+							#{/if}
+						</p>
+						<div class="q-lcbtm flex">
+							<dl class="flex-1 dl01">
+								<dt class="q-color">${_?.apr}%</dt>
+								<dd>期待年回报率</dd>
+							</dl>
+							<dl class="flex-1 tc dl02">
+								<dt>${_?.period}${_?.periodUnit}</dt>
+								<dd>期限</dd>
+							</dl>
+							<dl class="flex-1 tr dl03">
+								<dt>#{formatIntMoney money:(_?.amount-_?.hasInvestedAmount)}#{/formatIntMoney}元</dt>
+								<dd>可投</dd>
+							</dl>
+						</div>
+						<div class="q-lcperdiv flex">
+							<div class="q-perdiv flex-1">
+								<div class="q-perin" style="width: ${_?.loanSchedule}%;">	
+								</div>
+							</div>
+							<span>${_?.loanSchedule}%</span>
+							
+							#{if models.core.entity.t_bid.Status.FUNDRAISING.equals(_?.status)}
+								
+								#{if now.compareTo(_?.preRelease) == 1}
+									<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="btn product-btn">抢购</a>
+								#{/if}
+								#{else}
+									<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn">预发售</a>
+								#{/else}
+									
+							#{/if}
+							#{else}
+								<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn bd-bnt2">已售罄</a>
+							#{/else}
+							
+						</div>
+						<p class="q-aqp"><img src="@{'/public/wechat/images/aqimg.png'}"/>安全保障计划</p>
+					</li>
+				#{/list}
+			</ul>
+			<!-- 	footer-->
+		       	<ul class="q-footerul flex">
+		       		<li class="flex-1">
+		       			<a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}">
+			       			<dl class="dl01">
+			       				<dt></dt>
+			       				<dd>首页</dd>
+			       			</dl>
+		       			</a>
+		       		</li>
+		       		<li class="flex-1  q-on">
+		       			<a href="javascript:void(0)" onclick="location.reload()">
+			       			<dl class="dl02">
+			       				<dt></dt>
+			       				<dd>理财</dd>
+			       			</dl>
+		       			</a>
+		       		</li>
+		       		<li class="flex-1">
+		       			<a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}">
+			       			<dl class="dl03">
+			       				<dt></dt>
+			       				<dd>我的财富</dd>
+			       			</dl>
+		       			</a>
+		       		</li>
+		       	</ul>
+	       	</div>
+	    </div>
+        <!-- 	footer-->
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

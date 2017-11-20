@@ -1,0 +1,1033 @@
+package controllers.front.account;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
+import models.common.bean.CurrUser;
+import models.common.entity.t_fdd_contract;
+import models.common.entity.t_pact;
+import models.core.bean.BidItemOfUserSubject;
+import models.core.bean.DebtInvest;
+import models.core.bean.FrontMyLoanBid;
+import models.core.bean.InvestReceive;
+import models.core.bean.MyPrerogativeRecord;
+import models.core.bean.UserDebt;
+import models.core.bean.UserInvestRecord;
+import models.core.entity.t_audit_item_library;
+import models.core.entity.t_auto_invest_setting;
+import models.core.entity.t_bid;
+import models.core.entity.t_bill;
+import models.core.entity.t_invest;
+import models.ext.mall.bean.UserExchanges;
+import models.ext.mall.entiey.t_mall_exchange;
+
+import org.apache.commons.lang.StringUtils;
+
+import payment.impl.PaymentProxy;
+import play.mvc.With;
+import service.ext.mall.ExchangeService;
+import services.common.GroupMenbersService;
+import services.common.PactService;
+import services.core.AuditSubjectBidService;
+import services.core.BidItemUserService;
+import services.core.BidService;
+import services.core.BillInvestService;
+import services.core.BillService;
+import services.core.DebtService;
+import services.core.InvestService;
+import services.fddcontract.FddContractService;
+
+import com.shove.Convert;
+
+import common.annotation.LoginCheck;
+import common.annotation.SimulatedCheck;
+import common.annotation.SubmitCheck;
+import common.annotation.SubmitOnly;
+import common.constants.ConfConst;
+import common.constants.Constants;
+import common.constants.SettingKey;
+import common.enums.Client;
+import common.enums.ServiceType;
+import common.utils.Factory;
+import common.utils.LoggerUtil;
+import common.utils.OrderNoUtil;
+import common.utils.PageBean;
+import common.utils.ResultInfo;
+import common.utils.Security;
+import common.utils.file.FileUtil;
+import common.utils.number.Arith;
+import controllers.common.FrontBaseController;
+import controllers.common.SubmitRepeat;
+import controllers.common.interceptor.AccountInterceptor;
+import controllers.common.interceptor.SimulatedInterceptor;
+
+/**
+ * 前台-账户中心-资产管理
+ *
+ * @description 
+ *
+ * @author huangyunsong
+ * @createDate 2015年12月17日
+ */
+@With({AccountInterceptor.class, SubmitRepeat.class,SimulatedInterceptor.class})
+public class MyFundCtrl extends FrontBaseController {
+	
+	protected static BillService billService = Factory.getService(BillService.class);
+	
+	protected static BidService bidService = Factory.getService(BidService.class);
+	
+	protected static InvestService investService = Factory.getService(InvestService.class);
+	
+	protected static AuditSubjectBidService auditsubjectbidservice = Factory.getService(AuditSubjectBidService.class); 
+	
+	protected static BidItemUserService bidItemUserService = Factory.getSimpleService(BidItemUserService.class);
+	
+	protected static PactService pactService = Factory.getService(PactService.class);
+	
+	protected static BillInvestService billInvestService = Factory.getService(BillInvestService.class);
+	
+	protected static DebtService debtService = Factory.getService(DebtService.class);
+
+	protected static ExchangeService exchangeService = Factory.getService(ExchangeService.class);
+	
+	protected static GroupMenbersService groupMenbersService = Factory.getService(GroupMenbersService.class);
+	
+/*	protected static FddContractService fddContractService = Factory.getSimpleService(FddContractService.class);*/
+	
+	/**
+	 * 我的财富-资产管理
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月12日
+	 */
+	public static void accountManagePre( int index){
+		
+		/**前台是否显示自动投标*/
+		int isAutoInvestShow = Convert.strToInt(settingService.findSettingValueByKey(SettingKey.IS_AUTO_INVEST_SHOW), 0);
+		renderArgs.put("isAutoInvestShow", isAutoInvestShow);
+		
+		render(index);
+	}
+	
+	/**
+	 * 我的财富-资产管理-我的特权
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月12日
+	 */
+	public static void accountMyPrerogativePre(int currPage, int pageSize){
+		if (currPage < 1) {
+			currPage = 1;
+		}
+
+		if (pageSize < 1) {
+			pageSize = 5;
+		}
+		
+		PageBean<MyPrerogativeRecord> pageBean = bidService.pageOfUserPrerogativeRecord(currPage, pageSize, getCurrUser().id);
+		
+		render(pageBean);
+	}
+	
+	/**
+	 * 我的财富-资产管理-我的理财
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月12日
+	 */
+/*	public static void accountInvestPre(int currPage, int pageSize){
+		if (currPage < 1) {
+			currPage = 1;
+		}
+
+		if (pageSize < 1) {
+			pageSize = 5;
+		}
+		
+		PageBean<UserInvestRecord> pageBean = investService.pageOfUserInvestRecord(currPage, pageSize, getCurrUser().id);
+		if(pageBean.page != null){
+			for(UserInvestRecord uir : pageBean.page){
+				t_fdd_contract tfc = new t_fdd_contract();
+				tfc = fddContractService.getFddContract(getCurrUser().id,uir.bid_id);
+				if(tfc != null){
+					uir.pactDownloadUrl = tfc.getDownload_url();
+					uir.pactViewUrl = tfc.getViewpdf_url();
+				}
+			}
+		}
+		render(pageBean);
+	}*/
+
+	/**
+	 * 我的财富-资产管理-我的理财-异步查询某个投资是否能转让
+	 * 
+	 * @description 进入accountInvestPre.html后，会调用这个方法再次发起请求查询该笔投资是否能转让
+	 *
+	 * @param investId
+	 * @return
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年3月30日
+	 */
+	public static boolean isInvestCanbeTransfered(long investId){
+		ResultInfo result = debtService.isInvestCanbeTransfered(investId);
+		if (result.code == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * 我的财富-资产管理-我的理财-进入债权申请页面
+	 *
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年3月25日
+	 */
+	@SubmitCheck
+	public static void applyDebtPre(String sign){
+		ResultInfo result = Security.decodeSign(sign, Constants.INVEST_ID_SIGN, Constants.VALID_TIME, ConfConst.ENCRYPTION_KEY_DES);
+		if (result.code < 1) {
+			LoggerUtil.info(false, "签名校验失败");
+			
+			renderJSON(result);
+		}
+		
+		long investId = Long.parseLong((String)result.obj);
+		result = debtService.isInvestCanbeTransfered(investId);
+		if (result.code < 1) {
+			
+			renderJSON(result);
+		}
+		
+		DebtInvest debtInvest = debtService.findDebtByInvestid(investId);
+		if(debtInvest == null){
+			result.code = -1;
+			result.msg = "没有查到投资的相关信息";
+			
+			renderJSON(result);
+		}
+		double half_principal = Arith.div(debtInvest.debt_principal*8, 10, 0);//本金的80%~100%
+		
+		render(debtInvest,half_principal);
+	}
+	
+	/**
+	 * 我的财富-资产管理-我的理财-债权申请
+	 *
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年3月25日
+	 */
+	@SubmitOnly
+	@SimulatedCheck
+	public static void applyDebtTransfer(String sign,String title,int period,int transfer_price) {
+		checkAuthenticity();
+		ResultInfo result = Security.decodeSign(sign, Constants.INVEST_ID_SIGN, Constants.VALID_TIME, ConfConst.ENCRYPTION_KEY_DES);
+		if (result.code < 1) {
+
+			flash.error(result.msg);
+			accountManagePre(0);
+		}
+		long investId = Long.parseLong((String)result.obj);
+		if (StringUtils.isBlank(title) || title.length() > 20) {
+
+			flash.error("转让标题长度有误");
+			accountManagePre(0);
+		}
+		if (period <= 0 || period > 7) {
+			flash.error("转让期限输入有误");
+			accountManagePre(0);
+		}
+		if (transfer_price <= 0) {
+
+			flash.error("转让底价输入有误");
+			accountManagePre(0);
+		}
+		
+		result = debtService.applyDebtTransfer(investId, title, period, transfer_price);
+		if (result.code < 1) {
+			LoggerUtil.error(true, "债权转让申请失败:【%s】", result.msg);
+
+			flash.error(result.msg);
+			accountManagePre(0);
+		}
+		
+		flash.success("债权转让申请成功");
+		accountManagePre(3);
+	}
+	
+	/**
+	 * 我的财富-资产管理-我的借款
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月13日
+	 */
+	public static void accountLoanPre(int currPage, int pageSize){
+		if(currPage < 1){
+			currPage = 1;
+		}
+		
+		if(pageSize < 1){
+			pageSize = 5;
+		}
+		
+		PageBean<FrontMyLoanBid> pageBean = bidService.pageOfBidFront(currPage, pageSize, getCurrUser().id);
+		
+		render(pageBean);
+	}
+	
+	/**
+	 * 我的财富-资产管理-受让债权(用户参与竞拍的债权)
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月13日
+	 */
+	public static void accountInDebtPre(int currPage,int pageSize){
+
+		if (currPage < 1) {
+			currPage = 1;
+		}
+
+		if (pageSize < 1 || pageSize > 5) {
+			pageSize = 5;
+		}
+		
+		CurrUser currUser = getCurrUser();
+		PageBean<UserDebt> pageBean = debtService.pageOfDebtByUser(currPage, pageSize, null,currUser.id);
+		
+		render(pageBean);
+	}
+	
+	/**
+	 * 我的财富-资产管理-转让债权(用户转让出去的债权)
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月13日
+	 */
+	public static void accountOutDebtPre(int currPage,int pageSize){
+		if (currPage < 1) {
+			currPage = 1;
+		}
+
+		if (pageSize < 1 || pageSize > 5) {
+			pageSize = 5;
+		}
+		
+		CurrUser currUser = getCurrUser();
+		PageBean<UserDebt> page = debtService.pageOfDebtByUser(currPage, pageSize, currUser.id,null);
+		
+		render(page);
+	}
+	
+	/**
+	 * 我的财富-资产管理-实物领取(积分商城实物兑换)
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月13日
+	 */
+	public static void accountExchangePre(int currPage,int pageSize){
+		if (currPage < 1) {
+			currPage = 1;
+		}
+
+		if (pageSize < 1 || pageSize > 5) {
+			pageSize = 5;
+		}
+		
+		CurrUser currUser = getCurrUser();
+		PageBean<UserExchanges> page = exchangeService.pageOfExchangesByUser(currPage, pageSize, currUser.id);
+		
+		render(page);
+	}
+	
+	/**
+	 * 我的财富-资产管理-实物领取(积分商城实物兑换-查看收货地址)
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月13日
+	 */
+	public static void deliveryAddress(String sign){
+		
+		ResultInfo result = Security.decodeSign(sign, Constants.MALL_ID_SIGN, Constants.VALID_TIME, ConfConst.ENCRYPTION_KEY_DES);
+		if (result.code < 1) {
+			LoggerUtil.info(false, "签名校验失败");
+			
+			error404();
+		}
+
+		long excId = Long.parseLong(result.obj.toString());
+		
+		CurrUser currUser = getCurrUser();
+		
+		t_mall_exchange exchange = exchangeService.findUserExchangeByid(currUser.id, excId);
+		renderJSON(exchange);
+	}
+	
+	/**
+	 * 我的财富-资产管理-自动投标
+	 *
+	 * @author yaoyi,ZhouYuanZeng
+	 * @createDate 2016年1月13日
+	 */
+	public static void accountAutoInvestPre(){
+		long userId = getCurrUser().id;
+		t_auto_invest_setting autoInvestOption = investService.findAutoInvestByUserId(userId);
+		
+		render(autoInvestOption);
+	}
+	
+	/**
+	 * 还款
+	 *
+	 * @param billSign
+	 *
+	 * @author huangyunsong
+	 * @createDate 2015年12月28日
+	 */
+	@SimulatedCheck
+	public static void repayment(String billSign) {
+		ResultInfo result = Security.decodeSign(billSign, Constants.BILL_ID_SIGN, Constants.VALID_TIME, ConfConst.ENCRYPTION_KEY_DES);
+		if (result.code < 1) {
+			LoggerUtil.info(false, "签名校验失败");
+			
+			error404();
+		}
+
+		long billId = Long.parseLong(result.obj.toString());
+		
+		t_bill bill = billService.findByID(billId);
+		if (bill == null) {
+
+			error404();
+		}
+
+		long userId = getCurrUser().id;
+		
+		/** 正常还款 */
+		// 添加部分还款状态
+		if (t_bill.Status.NORMAL_NO_REPAYMENT.equals(bill.getStatus()) || t_bill.Status.PARTIAL_NORMAL_REPAYMENT.equals(bill.getStatus())) {
+			result = billService.normalRepayment(userId, bill);
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+				flash.error(result.msg);
+				
+				accountManagePre(1);
+			}
+			
+			List<Map<String, Double>> billInvestFeeList = (List<Map<String, Double>>) result.obj;
+			
+			// 不需要ordId
+			// String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.REPAYMENT);
+			if (ConfConst.IS_TRUST) {
+				result = PaymentProxy.getInstance().repayment(Client.PC.code, null, bill, billInvestFeeList);
+				if (result.code < 1 && result.code != ResultInfo.ALREADY_RUN) {
+					LoggerUtil.info(true, result.msg);
+					flash.error(result.msg);
+				} else {
+					if(result.code != 1) {
+						flash.error(result.msg);
+					} else {
+						flash.success(result.msg);
+					}
+				}
+				
+				accountManagePre(1);
+			}
+			
+			if (!ConfConst.IS_TRUST){
+
+				String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.REPAYMENT);
+				result = billService.doRepayment(billId, billInvestFeeList, serviceOrderNo);
+				if (result.code < 1) {
+					LoggerUtil.info(true, result.msg);
+					
+					flash.error(result.msg);
+					accountManagePre(1);
+				}
+			}
+			
+			flash.success("还款成功,请核对账单");
+			accountManagePre(1);
+			
+		}
+		
+		/** 本息垫付后还款 */
+		if (t_bill.Status.ADVANCE_PRINCIIPAL_NO_REPAYMENT.equals(bill.getStatus())){
+			
+			result = billService.advanceRepayment(userId, bill);
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+				
+				flash.error(result.msg);
+				accountManagePre( 1);
+			}
+			
+			String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.REPAYMENT_AFER_ADVANCE);
+			if (ConfConst.IS_TRUST) {
+				result = PaymentProxy.getInstance().advanceRepayment(Client.PC.code, serviceOrderNo, bill);
+				if (result.code < 1 && result.code != ResultInfo.ALREADY_RUN) {
+					LoggerUtil.info(true, result.msg);
+					flash.error(result.msg);
+				} else {
+					flash.success("还款成功,请核对账单");
+				}
+				
+				accountManagePre(1);
+			}
+			
+			if (!ConfConst.IS_TRUST){
+				
+				result = billService.doAdvanceRepayment(serviceOrderNo, billId, bill.overdue_fine);
+				if (result.code < 1) {
+					LoggerUtil.info(true, result.msg);
+					
+					flash.error(result.msg);
+					accountManagePre( 1);
+				}
+			}
+			
+			flash.success("账单%s还款成功", bill.bill_no);
+			accountManagePre(1);
+			
+		}
+		
+		flash.error("账单状态非法");
+		accountManagePre(1);
+	}
+	
+	/**
+	 * 审核资料下拉
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月16日
+	 */
+	public static void pullDownAuditSubjectPre(long bidId){
+		
+		if(bidId < 1){
+			error404();
+		}
+		
+		t_bid tb = bidService.findByID(bidId);
+		if(tb == null){
+			
+			error404();
+		}
+		List<BidItemOfUserSubject> userLoop = auditsubjectbidservice.queryBidRefSubjectFront(bidId);
+		
+		render(tb, userLoop);
+	}
+	
+	/**
+	 * 用户借款账单下拉
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月16日
+	 */
+	public static void pullDownMyBillPre(long bidId){
+		
+		if(bidId < 1){
+			
+			error404();
+		}
+		
+		t_bid tb = bidService.findByID(bidId);
+		if(tb == null){
+			
+			error404();
+		}
+		
+		List<t_bill> billList = billService.findBillByBidId(bidId);
+		int totalPeriod = billService.findBidTotalBillCount(bidId);
+		
+		render(billList, totalPeriod);
+	}
+	
+	/**
+	 * 用户投资账单下拉
+	 *
+	 * @author liudong
+	 * @createDate 2016年1月20日
+	 */
+	public static void pullDownMyBillInvestPre(long investId){
+		
+		List<InvestReceive> billInvestList = billInvestService.queryMyBillInvestFront(investId);
+		
+		render(billInvestList);
+	}
+	
+	/**
+	 * 用户上传审核资料，及时保存入库
+	 *
+	 * @param imgFile
+	 * @param bidId
+	 * @param bidAuditSubjectId
+	 * @param fileName
+	 * @param subjectId
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月18日
+	 */
+	@SimulatedCheck
+	public static void imagesUpload(File imgFile, long bidId, long bidAuditSubjectId, String fileName, long subjectId){
+		response.contentType="text/html";
+		ResultInfo result = new ResultInfo();
+		if (imgFile == null) {
+			result.code = -1;
+			result.msg = "请选择要上传的图片";
+			
+			renderJSON(result);
+		}
+		if(StringUtils.isBlank(fileName) || fileName.length() > 32){
+			result.code = -1;
+			result.msg = "图片名称长度应该位于1~32位之间";
+			
+			renderJSON(result);
+		}
+		
+		result = FileUtil.uploadImgags(imgFile);
+		if (result.code < 0) {
+
+			renderJSON(result);
+		}
+		
+		Map<String, Object> fileInfo = (Map<String, Object>) result.obj;
+		fileInfo.put("imgName", fileName);
+		
+		boolean saveflag = bidItemUserService.saveBidItemUser(getCurrUser().id, 
+				bidId, bidAuditSubjectId, fileName, (String)fileInfo.get("staticFileName"), subjectId);
+		if (!saveflag) {
+			result.code = -1;
+			result.msg = "图片保存失败";
+
+			renderJSON(result);
+		}
+		
+		renderJSON(result);
+	}
+	
+	/**
+	 * 用户提交审核资料（上传之后，在提交）
+	 *
+	 * @param bidItemUserId
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月18日
+	 */
+	@SimulatedCheck
+	public static void submitBidItemUser(long bidItemUserId){
+		ResultInfo res = new ResultInfo();
+		
+		int sub = bidItemUserService.submitBidItemUser(bidItemUserId);
+		if(sub < 1){
+			res.code = -1;
+			res.msg = "保存失败";
+			LoggerUtil.error(true, "用户提交上传的审核科目资料失败，失败id[%s]", bidItemUserId);
+			
+			renderJSON(res);
+		}
+		
+		/** 提交后将资料保存如科目库**/
+		boolean flag = bidItemUserService.saveUserItemLibrary(bidItemUserId);
+		if (!flag) {
+			res.code = -1;
+			res.msg = "审核资料存入科目库失败!";
+			LoggerUtil.error(true, "审核资料存入科目库失败，失败id[%s]", bidItemUserId);
+			
+			renderJSON(res);
+		}
+		
+		res.code = 1;
+		res.msg = "";
+		renderJSON(res);
+	}
+	
+	
+	/**
+	 * 显示用户科目库
+	 *
+	 * @param currPage
+	 * @param pageSize
+	 * @param bidAuditSubjectId
+	 * @author Songjia
+	 * @createDate 2016年4月5日
+	 */
+	public static void showUserLibrary(int currPage, int pageSize, long bidAuditSubjectId) {
+		if (currPage < 1) {
+			currPage = 1;
+		}
+
+		if (pageSize < 1) {
+			pageSize = 6;
+		}
+		
+		long userId = getCurrUser().id;
+		PageBean<t_audit_item_library> pageBean = auditsubjectbidservice.queryUserLibraryList(currPage, pageSize, userId);
+		render(pageBean, bidAuditSubjectId);
+		
+	}
+	
+	/**
+	 * 从科目库选择素材上传审核资料
+	 *
+	 * @param subjectIds
+	 * @param bidId
+	 * @param bidAuditSubjectId
+	 *
+	 * @author Songjia
+	 * @createDate 2016年4月5日
+	 */
+	@SimulatedCheck
+	public static void uploadLibrarySubjet(List<Long> subjectIds, long bidId, long bidAuditSubjectId) {
+		ResultInfo result = new ResultInfo();
+		if(subjectIds == null || subjectIds.size() < 1) {
+			result.code = -1;
+			result.msg = "请选择要上传的素材";
+			
+			renderJSON(result);
+		}
+		
+		result = bidItemUserService.saveBidLibraryItemUser(getCurrUser().id, subjectIds, bidId, bidAuditSubjectId);
+		
+		if (result.code < 1) {
+			LoggerUtil.error(true, "资料库素材上传失败:【%s】");
+
+			renderJSON(result);
+		}
+		
+		renderJSON(result);
+	}
+	
+	
+	/**
+	 * 查看借款标的合同
+	 *
+	 * @param bidSign
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年1月19日
+	 */
+	public static void showBidPactPre(String bidSign){
+		ResultInfo result = Security.decodeSign(bidSign, Constants.BID_ID_SIGN, Constants.VALID_TIME,ConfConst.ENCRYPTION_KEY_DES);
+		if (result.code < 1) {
+			
+			error404();
+		}
+		long bidId = Long.parseLong((String)result.obj);
+	
+		t_pact pact = pactService.findByBidid(bidId);
+		if (pact == null) {
+
+			error500();
+		}
+		exportPactPre(pact.getSign());
+//		render(pact);
+		
+	}
+	
+	
+	/**
+	 * 查看借款标的合同
+	 *
+	 * @param bidSign
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年1月19日
+	 */
+	public static void showBidPactModelPre(){
+	//TODO
+		String pact = pactService.showBidPactModelPre();
+		//exportPactPre(pact.getSign());
+		render(pact);
+		
+	}
+	
+	/**
+	 * 查看债权的合同
+	 *
+	 * @param debtSign
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年1月19日
+	 */
+	public static void showDebtPactPre(String debtSign){
+		ResultInfo result = Security.decodeSign(debtSign, Constants.DEBT_TRANSFER_ID_SIGN, Constants.VALID_TIME,ConfConst.ENCRYPTION_KEY_DES);
+		if (result.code < 1) {
+			
+			error404();
+		}
+		long debtId = Long.parseLong((String)result.obj);
+	
+		t_pact pact = pactService.findByDebtId(debtId);
+		if (pact == null) {
+
+			error500();
+		}
+		render(pact);
+	}
+	
+	/**
+	 * 导出借款标的合同
+	 *
+	 * @param bidSign
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年1月19日
+	 */
+	public static void exportPactPre(String pactSign){
+		ResultInfo result = Security.decodeSign(pactSign, Constants.MSG_PACT_SIGN, Constants.VALID_TIME,ConfConst.ENCRYPTION_KEY_DES);
+		if (result.code < 1) {
+			
+			error404();
+		}
+		
+		long pactId = Long.parseLong((String)result.obj);
+		result = pactService.exportPact(pactId,true);
+
+		if (result.code < 1) {
+			error404();
+		}
+		
+		renderBinary((File)result.obj);
+	}
+	
+	/**
+	 * 用户删除审核资料
+	 *
+	 * @param bidItemUserId
+	 *
+	 * @author yaoyi
+	 * @createDate 2016年1月18日
+	 */
+	@SimulatedCheck
+	public static void deleteBidItemUser(long bidItemUserId){
+		ResultInfo res = new ResultInfo();
+		
+		boolean flag = bidItemUserService.deleteBidItemUser(bidItemUserId);
+		if (!flag) {
+			res.code = -1;
+			res.msg = "删除失败!";
+			LoggerUtil.error(true, "用户删除上传的审核科目资料失败，失败id[%s]", bidItemUserId);
+			
+			renderJSON(res);
+		}
+		
+		res.code = 1;
+		res.msg = "";
+		
+		renderJSON(res);
+	}
+	
+	/**
+	 * 开启自动投标设置
+	 *
+	 * @param min_apr 最低年利率
+	 * @param max_period 最大投资期限
+	 * @param invest_amt 每笔次投资金额
+	 *
+	 * @author ZhouYuanZeng
+	 * @createDate 2016年03月24日
+	 */
+	@LoginCheck
+	@SimulatedCheck
+	public static void openAutoInvest(double min_apr, int max_period, double invest_amt){
+		checkAuthenticity();
+		
+		ResultInfo result = new ResultInfo();
+		/* 用于显示自动投标页面 */
+		flash.put("isAutoInvest", true);
+		
+		/* 校验提交参数 */
+		result = checkOpenAutoInvestParams(min_apr, max_period, invest_amt);
+		if (result.code < 1) {
+			flash.error(result.msg);
+			
+			accountManagePre(4);
+		}
+		
+		long userId = getCurrUser().id;
+		
+		/* 保存自动投标设置信息 */
+		result = investService.saveAutoInvest(userId, min_apr, max_period, invest_amt);
+		if (result.code < 1) {
+			flash.error(result.msg);
+			
+			accountManagePre(4);
+		}
+		
+		String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.AUTO_INVEST_SIGN);//业务流水号
+		
+		if (ConfConst.IS_TRUST) {
+			result = PaymentProxy.getInstance().autoInvestSignature(Client.PC.code, serviceOrderNo, userId);
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+				flash.error(result.msg);
+				
+				accountManagePre(4);
+			}
+		}
+		
+		flash.success(result.msg);
+		
+		accountManagePre(4);
+	}
+	
+	/**
+	 * 校验开启自动投标提交参数
+	 *
+	 * @param minApr 最低年利率
+	 * @param maxPeriod 最大投资期限
+	 * @param investAmt 每笔次投资金额
+	 *
+	 * @author ZhouYuanZeng
+	 * @createDate 2016年03月24日
+	 */
+	private static ResultInfo checkOpenAutoInvestParams(double minApr, int maxPeriod, double investAmt) {
+		ResultInfo result = new ResultInfo();
+		
+		if (investAmt % 1 != 0) {
+			result.code = -1;
+			result.msg = "投资每笔次请输入正整数";
+		}
+		
+		if (investAmt < 1) {
+			result.code = -1;
+			result.msg = "投资每笔次不能小于1元";
+
+			return result;
+		}
+		
+		if (investAmt > 200000) {
+			result.code = -1;
+			result.msg = "投资每笔次不能大于200000元";
+
+			return result;
+		}
+		
+		if (maxPeriod < 1) {
+			result.code = -1;
+			result.msg = "投资期限不能小于1个月";
+
+			return result;
+		}
+		
+		if (maxPeriod > 36) {
+			result.code = -1;
+			result.msg = "投资期限不能大于36个月";
+
+			return result;
+		}
+
+		result.code = 1;
+		result.msg = "";
+		return result;
+	}
+	
+	/**
+	 * 关闭自动投标设置
+	 *
+	 * @author ZhouYuanZeng
+	 * @createDate 2016年03月24日
+	 */
+	@LoginCheck
+	@SimulatedCheck
+	public static void closeAutoInvest() {
+		ResultInfo result = new ResultInfo();
+		
+		long userId = getCurrUser().id;
+		
+		result = investService.closeAutoInvest(userId);
+		
+		renderJSON(result);
+	}
+	
+	/**
+	 * 投标撤销
+	 * 
+	 * @param investSign
+	 */
+	@SimulatedCheck
+	public static void tenderCancle(String investSign) {
+		ResultInfo result = Security.decodeSign(investSign, Constants.INVEST_ID_SIGN, Constants.VALID_TIME, ConfConst.ENCRYPTION_KEY_DES);
+		
+		if (result.code < 1) {
+			LoggerUtil.info(false, "签名校验失败");
+			error404();
+		}
+		
+		long investId = Long.parseLong(result.obj.toString());
+		t_invest tInvest = investService.findByID(investId);
+		
+		if (tInvest == null) {
+			error404();
+		}
+		
+		String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.TENDER_CANCLE);
+		result = PaymentProxy.getInstance().tenderCancle(Client.PC.code, serviceOrderNo, tInvest);
+		
+		return ;
+	}
+	
+	/**
+	 * 单笔还款
+	 *
+	 * @param singleBillSign
+	 */
+	@SimulatedCheck
+	public static void singleRepayment(String singleBillSign) {
+		ResultInfo result = Security.decodeSign(singleBillSign, Constants.BILL_ID_SIGN, Constants.VALID_TIME, ConfConst.ENCRYPTION_KEY_DES);
+		
+		if (result.code < 1) {
+			LoggerUtil.info(false, "签名校验失败");
+			error404();
+		}
+
+		long billId = Long.parseLong(result.obj.toString());
+		
+		t_bill bill = billService.findByID(billId);
+		
+		if (bill == null) {
+			error404();
+		}
+
+		long userId = getCurrUser().id;
+		
+		/** 正常还款 */
+		if (t_bill.Status.NORMAL_NO_REPAYMENT.equals(bill.getStatus())) {
+			result = billService.normalRepayment(userId, bill);
+			
+			if (result.code < 1) {
+				LoggerUtil.info(true, result.msg);
+				flash.error(result.msg);
+				accountManagePre(1);
+			}
+			
+			List<Map<String, Double>> billInvestFeeList = (List<Map<String, Double>>) result.obj;
+			String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.REPAYMENT);
+			
+			if (ConfConst.IS_TRUST) {
+				result = PaymentProxy.getInstance().singleRepayment(Client.PC.code, serviceOrderNo, bill, billInvestFeeList);
+				
+				if (result.code < 1 && result.code != ResultInfo.ALREADY_RUN) {
+					LoggerUtil.info(true, result.msg);
+					flash.error(result.msg);
+				} else {
+					flash.success("还款成功,请核对账单");
+				}
+				
+				accountManagePre(1);
+			}
+			
+			flash.success("还款成功,请核对账单");
+			accountManagePre(1);
+			
+			return ;
+		}
+	
+		flash.error("账单状态非法");
+		accountManagePre(1);
+	}
+	
+}

@@ -1,0 +1,52 @@
+#{extends 'common/back/financeMain.html' /}
+	#{set title:'财务 | 商户号管理' /}
+	#{set smallclass:9 /}
+	#{set crumbs:'财务>商户号管理'/}
+	
+	
+<div class="back-main">
+	<!-- 左侧菜单 -->
+	<div class="back-cont">
+		<div class="back-infor">
+		    #{if showContent.equals("")}
+		    #{list items:merDetails, as:'merDetail'}
+			<h2 class="back-infor-head">
+				<span class="left">担保账户-${merDetail?.SubAcctId}</span>
+				<span class="right back-money-transfer">
+					#{rightMng rightId:509002}
+						<a href="@{back.finance.MerchantMngCtrl.toMerchantRechargePre(merDetail?.SubAcctId)}" class="iconfont" data-title="充值" >&#xe635;</a>
+					#{/rightMng}
+				</span>
+			</h2>
+			<div class="back-infor-lcset">
+				<span class="lileft">可用余额</span>
+				<div class="liright">
+					${merDetail?.AvlBal}元
+				</div>
+				<span class="lileft">账户余额</span>
+				<div class="liright">
+					${merDetail?.AcctBal}元
+				</div>
+				<span class="lileft">冻结余额</span>
+				<div class="liright">
+					${merDetail?.FrzBal}元
+				</div>
+			</div>
+		    #{/list}
+			#{/if}
+			#{else}
+			<div class="back-infor-lcset">${showContent}</div>
+			#{/else}
+		</div>
+	</div>
+</div>
+
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		
+	});
+</script>	
+	

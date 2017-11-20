@@ -1,0 +1,452 @@
+#{extends 'common/back/riskMain.html' /}
+	#{set title:'风控 | 理财项目 | 发布理财项目' /}
+	#{set smallclass:0 /}
+	#{set crumbs:'风控>理财项目>发布理财项目'/}
+	
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">发布项目</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.risk.LoanMngCtrl.showBidPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<!-- 左侧菜单 -->
+	<div class="back-cont">
+		<form action="@{back.risk.LoanMngCtrl.createBid()}" method="POST" id="formBid">
+		#{authenticityToken /}
+		<div class="back-infor">
+			<h2 class="back-infor-head">项目</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">合作机构</span>
+					<div class="liright">
+						<select class="width01 back-financel-menu"  name="agencyId">
+							<option  value='0' >无</option>
+							#{list agList}
+							<option  value='${_?.id}' #{if flash?.agencyId==_?.id}selected="selected"#{/if}>${_?.name}</option>
+							#{/list}
+						</select>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">产品</span>
+					<div class="liright">
+						<select style='width:100px' class="width01 back-financel-menu" id="productName" name="productId">
+							#{list tpList}
+							<option id='product_${_index}' value='${_?.id}' #{if productId==_?.id}selected="selected"#{/if}>${_?.name}</option>
+							#{/list}
+						</select>
+						  	&emsp;&emsp; <span class="">保障方式</span>&emsp;
+							<select style='width:100px'  class="width01 back-financel-menu" id="guaranteeMode" name="guaranteeModeId">
+							#{list gmList}
+							<option id='product_${_index}' value='${_?.id}' #{if guaranteeModeId==_?.id}selected="selected"#{/if}>${_?.name}</option>
+							#{/list}
+						</select>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">关联借款人</span>
+					<div class="liright">
+						<input type="hidden" value="${bid?.user_id}" name="userId" id="user_id"/>
+						<input type="text" autofocus="autofocus" class="width01 iffocus" value="${flash?.userName}" name="user_name" id="user_name" readonly/>
+						<a href="javascript:void(0);" onclick="showPage(1,5)" data-title="选择" class="iconfont back-chooseone" >&#xe609;</a>
+					</div>
+				</li>
+				<li>
+					<span class="lileft"><i class="mustpoint">*</i>金额</span>
+					<div class="liright">
+						<label class="back-unitinput back-unitinput02">
+							<input type="text" class="width03 iffocus required" id="borrowmoney" value="#{formatIntMoney money:bid?.amount/}" name="amount" oninput="$(this).ndigitInteger(9);calculateLoanSumInterest();calculateLoanServiceFee()" onkeyup="$(this).ndigitInteger(9);calculateLoanSumInterest();calculateLoanServiceFee()"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit" id="bid_amount_limit"></span>
+						<input type="hidden" id="minAmount" value=""/>
+						<input type="hidden" id="maxAmount" value=""/>
+					</div>
+				</li>
+				<li>
+					<span class="lileft"><i class="mustpoint">*</i>年利率</span>
+					<div class="liright">
+						<label class="back-unitinput back-unitinput02">
+							<input type="text" class="width03 iffocus" id="borrowmoneyapr" value="${bid?.apr}" name="apr" oninput="$(this).proportionRange();calculateLoanSumInterest();calculateLoanServiceFee()" onkeyup="$(this).proportionRange();calculateLoanSumInterest();calculateLoanServiceFee()"/>
+							<i class="unit">%</i>
+						</label>
+						<span class="back-text-limit" id="bid_apr_limit"></span>
+						<input type="hidden" id="minApr" value=""/>
+						<input type="hidden" id="maxApr" value=""/>
+					</div>
+				</li>
+				<li>
+					<span class="lileft"><i class="mustpoint">*</i>期限</span>
+					<div class="liright">
+						<select class="width01" name='period' id="bid_period_select" onchange="calculateLoanSumInterest();calculateLoanServiceFee()" onkeyup="calculateLoanSumInterest();calculateLoanServiceFee()">
+							<option id='0' value='0'>请选择</option>
+						</select>
+						<span class="back-text-limit" id="bid_period_unit"></span>
+						<input type="hidden" id="bid_period_unit_code" value=''/>
+						<input type="hidden" id="service_fee_rule" value=''/>
+					</div>
+				</li>
+				<li>
+					<span class="lileft"><i class="mustpoint">*</i>还款方式</span>
+					<div class="liright">
+						<select class="width01" name='repayment_type' id="bid_repayment_type_select" onchange="calculateLoanSumInterest()" onkeyup="calculateLoanSumInterest()">
+							<option id='0' value='0'>请选择</option>
+						</select>
+						<p class="back-counter back-counter01">
+							<span class="left"><strong id="calculateLoanSumInterest">本息合计0.00元</strong></span>
+							<span class="left"><strong id="calculateLoanServiceFee">服务费0.00元</strong></span>
+						</p>
+					</div>
+				</li>
+				<li>
+					<span class="lileft"><i class="mustpoint">*</i>筹款时间</span>
+					<div class="liright">
+						<select class="width01" name="invest_period" id="bid_invest_period">
+							<option id='0'>请选择</option>
+							#{list items:1..10, as:'i'}
+							<option id='invest_period_${i}' value='${i}' #{if bid?.invest_period==i}selected="selected"#{/if}>${i}</option>
+							#{/list}
+						</select>
+						<span class="back-text-limit">天</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft"><i class="mustpoint">*</i>项目</span>
+					<div class="liright">
+						<input type="text" class="width01 iffocus required" maxlength="15" value="${bid?.title}" name="name"/>
+						<span class="back-text-limit">3~15个字符，例如 车辆质押标、房产抵押标、企业资金周转标 ，注意：保障方式：为标题的首字符、房贷、车贷、企业贷</span>
+					</div>
+				</li>
+					<li>
+					<span class="lileft">担保措施</span>
+					<div class="liright">
+						<textarea style="resize:none; width:90%;height:200px"  maxlength="200" name="guaranteeMeasures" id="guaranteeMeasures"></textarea>
+					<span class="back-text-limit">
+							200字符以内
+						</span>
+					</div>
+				</li>
+					<li>
+					<span class="lileft">还款来源</span>
+					<div class="liright">
+						<textarea style="resize:none; width:90%;height:200px"  maxlength="500" name="repaymentSource" id="repaymentSource"></textarea>
+						<span class="back-text-limit">
+							500字符以内
+						</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft"><i class="mustpoint">*</i>借款说明</span>
+					<div class="liright">
+						<textarea class="back-textarea back-borrowintro required"  maxlength="500" name="description" id="description"></textarea>
+						<span class="back-text-limit">
+							20~500个字符，例如：公司职员，现居吉林省吉林市，从事批发和零售业行业，工作收入稳定，贷款用于资金周转
+						</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+			<input type="submit" id="pageSave" value="发布" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.risk.LoanMngCtrl.showBidPre}');">
+		</p>
+		</form>
+	</div>
+	<!-- 选择关联借款人弹窗 -->
+	<div class="chooseone-dialog dialog lib-dialog">
+	</div>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		require(['validation/validateExt']);
+		
+		var $productSelect = $("#productName");
+		var productSelected = $productSelect.children("option[selected='selected']");
+		
+		queryProductInfo();
+		$productSelect.change(function(){
+			queryProductInfo();
+			var id = $productSelect.val();
+			$productSelect.children().each(function(){
+				if($(this).val()==id){
+					$(this).attr("selected", "selected");
+				}else{
+					$(this).removeAttr("selected");
+				}
+			});
+		});
+		
+		
+		//validate校验
+		$("#formBid").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				} else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"user_name":{
+					required:true
+				},
+				"amount": {
+					required: true,
+					isThousandMultiple: true,
+					isBigger: "#minAmount",
+					isSmall: "#maxAmount"
+				},
+				"apr": {
+					required: true,
+					isFloat:true,
+					isBigger: "#minApr",
+					isSmall: "#maxApr"
+				},
+				"period":{
+					min:1
+				},
+				"repayment_type":{
+					min:1
+				},
+				"invest_period":{
+					min:1
+				},
+				"name":{
+					required:true,
+					rangelength:[3,15]
+				},
+				"description":{
+					required:true,
+					rangelength:[20,500]
+				}
+			},
+			messages: {
+				"user_name":{
+					required:"请选择关联的用户"
+				},
+				"amount": {
+					required: "请输入借款金额",
+					isThousandMultiple: "只能是1000的正整数倍",
+					isBigger: "必须大于最小借款金额",
+					isSmall: "必须小于最大借款金额"
+				},
+				"apr": {
+					required: "请输入年利率",
+					isBigger: "必须大于或等于最小年利率",
+					isSmall: "必须小于或等于最大年利率"
+				},
+				"period":{
+					min:"请选择期限"
+				},
+				"repayment_type":{
+					min:"请选择还款方式"
+				},
+				"invest_period":{
+					min:"请选择筹款时间"
+				},
+				"name":{
+					required:"请输入项目名称"
+				}
+			},
+			submitHandler:function(form){
+				waitingDialog();
+				form.submit();
+			}
+		});
+		
+	});
+	
+	function queryProductInfo(){
+		var id = $("#productName").val();
+		var period = ${bid?.period?:'0'};
+		var repay = ${bid?.getRepayment_type()?.code?:'0'};
+		var description = "${bid?.description?:''}";
+		$("#description").val(description);
+		$.ajax({
+			url : "@{back.risk.LoanMngCtrl.getBidInfo()}",
+			type : "POST",
+			data : {
+				"productId" : id
+			},
+			success : function(data){
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					removeBidInfo();
+					alert(data.msg);
+				}else{
+					var tpMap = data.obj;
+					$("#bid_amount_limit").html(tpMap.min_amount+'元~'+tpMap.max_amount+'元，1000的正整数倍');
+					$("#minAmount").val(tpMap.min_amount);
+					$("#maxAmount").val(tpMap.max_amount);
+					$("#bid_apr_limit").html(tpMap.min_apr+'%~'+tpMap.max_apr+'%');
+					$("#minApr").val(tpMap.min_apr);
+					$("#maxApr").val(tpMap.max_apr);
+					$("#bid_period_unit_code").val(tpMap.period_unit_code);
+					$("#service_fee_rule").val(tpMap.service_fee_rule);
+					$("#bid_period_unit").html(tpMap.period_unit);
+					$("#bid_period_select").children("option[id!='0']").remove();
+					for(var i=0; i<tpMap.period.length; i++){
+						$("#bid_period_select").append("<option id='perid_"+(i+1)+"' value='"+tpMap.period[i]+"'>"+tpMap.period[i]+"</option>");
+					};
+					$("#bid_period_select").children("option[id!='0']").each(function(){
+						if($(this).val()==period){
+							$(this).attr("selected", "selected");
+						}
+					});
+					$("#bid_repayment_type_select").children("option[id!='0']").remove();
+					for(var j=0; j<tpMap.repayment_type_code.length; j++){
+						$("#bid_repayment_type_select").append("<option id='repay_"+(j+1)+"' value='"+tpMap.repayment_type_code[j]+"'>"+tpMap.repayment_type_value[j]+"</option>");
+					};
+					$("#bid_repayment_type_select").children("option[id!='0']").each(function(){
+						if($(this).val()==repay){
+							$(this).attr("selected", "selected");
+						}
+					});
+					calculateLoanSumInterest();//触发一次实时计算
+					calculateLoanServiceFee();//触发一次实时计算
+				}
+			},
+			error : function(){
+				removeBidInfo();
+				alert("糟糕，系统出现错误!");
+			}
+		});
+	}
+	
+	function removeBidInfo(){
+		$("#bid_amount_limit").html('');
+		$("#minAmount").val('');
+		$("#maxAmount").val('');
+		$("#bid_apr_limit").html('');
+		$("#minApr").val('');
+		$("#maxApr").val('');
+		$("#bid_period_unit").html('');
+		$("#bid_period_select").children("option[id!='0']").remove();
+		$("#bid_repayment_type_select").children("option[id!='0']").remove();
+	}
+	
+	//借款人弹窗，以及分页方法
+	function showPage(currPage,pageSize,key){
+		$.ajax({
+			url : "@{back.risk.LoanMngCtrl.queryRefUser()}",
+			type : "POST",
+			data : {
+				"currPage": currPage,
+				"pageSize": pageSize,
+				"key": key
+			},
+			success : function(data){
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				$(".chooseone-dialog").html(data);
+				$(".chooseone-dialog").dialog();
+			},
+			error : function(){
+				$("#user_id").val('');
+				$("#user_name").val('');
+				alert("糟糕，系统出现错误!");
+			}
+		});
+		
+	}	
+	
+	function showBidRefUser(){
+		var $che = $(".back-tdcheck:checked");
+		$("#user_id").val($che.val());
+		$("#user_name").val($che.parent().parent().next().html());
+		$("#user_name").focus();
+		$('#check_ref_user').siblings('.dialog-console').trigger('click');
+	}
+	
+	function calculateLoanSumInterest(){
+		var amount = $("#borrowmoney").val();//借款金额
+		var apr = $("#borrowmoneyapr").val();//年利率
+		var period = $("#bid_period_select").val();//期限
+		var period_unid = $("#bid_period_unit_code").val();//期限单位
+		var repayment_type = $("#bid_repayment_type_select").val();//还款方式
+		if(amount=='' || amount==null || amount==undefined){
+			$("#calculateLoanSumInterest").text('本息合计0.00元');
+			return;
+		}
+		if(period=='0' || repayment_type=='0'){
+			if(amount=='' || amount==null || amount==undefined){
+				$("#calculateLoanSumInterest").text('本息合计0.00元');
+			}else{
+				$("#calculateLoanSumInterest").text('本息合计'+(parseFloat(amount)).toFixed(2)+'元');
+			}
+			return;
+		}
+		var interest = 0;
+		if(${models.core.entity.t_product.PeriodUnit.MONTH.code}==period_unid) {//月标
+			//月标，等额本息的计算
+			if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==repayment_type){
+				var monthApr = apr/12/100;
+				var monthSum = amount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+				interest = (monthSum * period - amount);
+			}else{
+				interest = (amount*(apr/100)/12*period);
+			}
+		}else if(${models.core.entity.t_product.PeriodUnit.DAY.code}==period_unid) {//天标
+			interest = (amount*(apr/100)/360*period);
+		}
+		if(isNaN(interest)){
+			interest = 0;
+		}
+		var sumInterest = parseFloat(amount)+parseFloat(interest);
+		$("#calculateLoanSumInterest").text('本息合计'+sumInterest.toFixed(2)+'元');
+	}
+	function calculateLoanServiceFee(){
+		var amount = $("#borrowmoney").val();//借款金额
+		var period = $("#bid_period_select").val();//期限
+		var period_unid = $("#bid_period_unit_code").val();//期限单位
+		
+		var service_fee_rule = $("#service_fee_rule").val();
+		var replacequot = service_fee_rule.replace(/(&quot;)/g, '');//去掉双引号
+		var ruleJson = eval("("+replacequot+")");
+		var loan_amount_rate = ruleJson.loan_amount_rate,
+		sub_period = ruleJson.sub_period,
+		sub_loan_amount_rate = ruleJson.sub_loan_amount_rate;
+		
+		if(amount=='' || amount==null || amount==undefined){
+			$("#calculateLoanServiceFee").text('服务费0.00元');
+			return;
+		}
+		if(period=='0'){
+			$("#calculateLoanServiceFee").text('服务费0.00元');
+			return;
+		}
+		var serviceFee = 0;
+		if(${models.core.entity.t_product.PeriodUnit.MONTH.code}==period_unid) {//月标
+			if(parseInt(period)>parseInt(sub_period)){
+				serviceFee = amount*(loan_amount_rate/100)+amount*(period-sub_period)*(sub_loan_amount_rate/100);// 公式：按借款本金 * ? % + 本金*（期数 - ?个月）* ? %
+			}else{
+				serviceFee = amount*(loan_amount_rate/100)
+			}
+			if(serviceFee>(amount*0.5)){// 不超过借款金额50% 
+				serviceFee = amount*0.5;
+			}
+		}else if(${models.core.entity.t_product.PeriodUnit.DAY.code}==period_unid) {//天标
+			serviceFee = amount*(loan_amount_rate/100)/360*period// 公式：按借款本金 * ?% /360 * 借款天数 
+			if(serviceFee>(amount*0.5)){// 不超过借款金额50% 
+				serviceFee = amount*0.5;
+			}
+		}
+		if(isNaN(serviceFee)){
+			serviceFee = 0;
+		}
+		$("#calculateLoanServiceFee").text('服务费'+serviceFee.toFixed(2)+'元');
+	}
+</script>

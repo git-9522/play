@@ -1,0 +1,93 @@
+.hb-btn {
+    display: block;
+    width: 300px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: #ffffff;
+    background: url(../images/active_button.png) no-repeat center;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    font-size: 18px;
+   
+}
+.hb-btn:hover{
+	color: #ffffff;
+}
+.active-banner{
+    width:100%;
+    height: 500px;
+    background: url("../images/ac-banner.jpg") no-repeat center;
+}
+.mainBox{
+    width: 1200px;
+    margin:0 auto;
+    font-family: "Microsoft YaHei";
+    background: #eeeeee;
+}
+h3{
+    font-size: 30px;
+    margin-top:50px;
+    margin-bottom:20px;
+    text-align: center;
+    color: #eee;
+}
+.new-meb{
+    height: 1020px;
+    width: 1200px;
+    border-radius: 20px;
+    background: url("../images/bg.png") no-repeat center;
+}
+.new-meb-tit{
+    width:1200px ;
+    height:98px;
+}
+.new-meb-tit p{
+    width: 900px;
+    line-height: 30px;
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+    color: #666;
+    padding-top: 20px;
+}
+.new-meb-tit p i{
+    font-style: normal;
+    color: #ff625f;
+}
+.new-meb-wrap{
+    margin:0 94px;
+    margin-left:48px;
+}
+.new-meb-wrap ul{
+    overflow: hidden;
+}
+.new-meb-wrap ul li{
+    float: left;
+    width: 300px;
+    height: 200px;
+    margin-left:52px;
+    margin-top:20px
+}
+.dtbtn{
+    display: block;
+    width: 300px;
+    height: 200px;
+    margin: 0 auto;
+    margin-top: 110px;
+}
+.active-detail{
+    width: 1200px;
+    height: 606px;
+    background: url("../images/ac-bg2.png") no-repeat center;
+}
+.active-detail p{
+    font-size: 24px;
+    color: #333;
+    line-height: 50px;
+}
+.ac-detail-wrap{
+    padding-top: 70px;
+    padding-left: 125px;
+}

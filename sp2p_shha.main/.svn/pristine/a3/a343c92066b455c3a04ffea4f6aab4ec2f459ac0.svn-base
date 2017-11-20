@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>${settings?.get(common.constants.SettingKey.PLATFORM_NAME)}</title>
+		<meta name="keywords" content="${settings?.get(common.constants.SettingKey.PLATFORM_NAME)}" />
+		<meta name="description" content="${settings?.get(common.constants.SettingKey.PLATFORM_NAME)}" />
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<link rel="shortcut icon" type="image/png" href="${settings?.get(common.constants.SettingKey.PLATFORM_ICON_FILENAME)}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/back/stylesheets/iconfont.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/back/stylesheets/back.css'}" />
+	</head>
+	<body>
+		<div class="back-loginbg">
+			<div class="back-loginbox">
+				<h1><img src="${settings?.get(common.constants.SettingKey.PLATFORM_LOGO_FILENAME)}" onerror="this.src='/public/common/default.jpg'" height="77"  /></h1>
+				<div class="back-loginboxbg">
+					<form id="loginForm" name="loginForm" method="POST" action="@{back.BackLoginCtrl.login()}">
+						<input type="hidden"  name="supervisorSign" id="supervisorSign"/>
+						<ul class="back-login">
+							<li>
+								<!-- 错误提示 -->
+								<p class="back-login-note"><i class="iconfont">&#xe62c;</i><span class="note-text"><label id="notice_error" class="back-error" for="userPassword"></label></span></p>
+								
+							</li>
+							<li class="clearfix">
+								<label class="lileft"><i class="mustpoint">*</i>管理员</label>
+								<div class="liright">
+									<input type="text" id="userName" maxlength=10 name="supervisor_name" class="logintext iffocus" value="${flash?.supervisor_name}" />
+								</div>
+							</li>
+							<li class="clearfix">
+								<label class="lileft"><i class="mustpoint">*</i>密码</label>
+								<div class="liright">
+									<input type="password" id="userPassword" maxlength=15 name="password"  class="logintext iffocus" onpaste="return false" autocomplete="off" />
+								</div>
+							</li>
+							<li class="clearfix">
+								<label class="lileft"><i class="mustpoint">*</i>验证码</label>
+								<div class="liright">
+									<input type="text" id="imgCode" name="captcha" maxlength=2 class="logintext iffocus codetext" />
+									<input id="randomID" name="randomID" value="${randomID}" type="hidden"/>
+									<img src="@{common.CaptchaController.createCaptcha(randomID)}"  id="captchaImage" name="codeImg" height="35" width="147" class="codeimg"  onclick="refreshCaptcha();" />
+								</div>
+							</li>
+							
+							<li class="clearfix">
+								<label class="lileft">&nbsp;</label>
+								<div class="liright">
+									<input type="submit" id="loginBtn" name="loginBtn" value="登  录" class="back-loginbtn bgbtn"  />
+								</div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+		<object
+		  	id="eims"
+		  	classid="clsid:2D37D5F7-B18B-4E8E-8B3C-F26171922C16"
+		  	codebase="/public/ActiveLoginProj1.ocx#version=1,0,0,0"
+		  	width=0
+		 	 height=0
+		  	align=center
+		 	 hspace=0
+		  	vspace=0 >
+		</object>
+		
+		<!-- js -->
+	<script type="text/javascript" data-main="/public/back/javascripts/back.js" src="@{'/public/back/javascripts/require.js'}"></script>
+	<script type="text/javascript">
+	var	doc = document,
+	flag_username = false,
+	flag_userpass = false,
+	flag_code = false;	
+	require(['back'],function(){
+		    if('true' == '${common.constants.ConfConst.IS_CHECK_UKEY}' && document.all.eims.object == null){
+		    	$("#notice_error").html("请下载安装安全云盾控件<a href='/public/Setup.exe'> [下载控件]</a>");
+		    	$(".back-login-note").show();
+		    	$("#loginBtn").attr("disabled", true);  
+		    }else{ 
+		    	$("#userName").focus();
+		    	
+				#{if flash.error}
+			   		$("#notice_error").html("${flash?.error}");
+					$(".back-login-note").show();
+					refreshCaptcha();
+				#{/if}
+				$("#userName").on('input keyup',function(){
+					$(this).integerAndLetters();
+					checkUserName();
+				}).on('blur',function(){
+					checkUserName();
+				});
+				$("#userPassword").on('input keyup',function(){
+					$(this).integerAndLetters();
+						checkPassword();
+				}).on('blur',function(){
+					checkPassword();
+				});
+				$("#imgCode").on('input keyup',function(){
+						checkCode();
+				}).on('blur',function(){
+					checkCode();
+				});
+				
+				$("#loginForm").submit(function(){
+					if ('true' == '${common.constants.ConfConst.IS_CHECK_UKEY}') {
+						return ukeyInit();
+					}
+
+					if(!flag_username){
+						checkUserName();
+						return false;
+					}
+					if(!flag_userpass){
+						checkPassword();
+						return false;
+					}
+				});
+		    }  
+		})
+		
+		// 云盾签名初始化 
+		function ukeyInit() {
+			var name = $("#userName").val();
+			var password = $("#userPassword").val();
+			var protocol = window.location.protocol;// 获取 协议部分
+			var host = window.location.host;//获取域名
+			var url = protocol + "//" + host;
+			
+			var supervisorSign =  document.getElementById("eims").into(name,password,url);
+		    if(supervisorSign == ""){
+		     	return false;
+			}
+		    
+		    $("#supervisorSign").val(supervisorSign);
+		    
+		    return true;
+		}
+
+		//刷新验证码
+		function refreshCaptcha(){
+			$.ajax({
+				url : " @{common.CaptchaController.flushCaptcha()}",
+				type : "POST",
+				dataType:"json",
+				success : function(data) {
+					var arr=eval(data);
+					var randomid = arr.randomID;
+					$("#captchaImage").attr("src","@{common.CaptchaController.createCaptcha()}?uuid="+randomid+"&ran="+Math.random());	
+					$("#randomID").val(randomid);
+				}
+			});
+		}
+	
+
+	function checkUserName(){
+		var username = $("#userName");
+		if(!username.val().isBetween(3,15)){
+			flag_username = false;
+			username.addClass("back-error");
+		} else {
+			$("#notice_error").html("");
+			$(".back-login-note").hide();
+			flag_username = true;
+			username.removeClass("back-error");
+		}
+	}
+	function checkPassword(){
+		var userPassword = $("#userPassword");
+		if(!userPassword.val().isBetween(6,15)){
+			flag_userpass = false;
+			userPassword.addClass("back-error");
+		} else {
+			$("#notice_error").html("");
+			$(".back-login-note").hide();
+			flag_userpass = true;
+			userPassword.removeClass("back-error");
+		}
+	}
+	function checkCode(){
+		var randomID2 = $("#imgCode");
+		if(!randomID2.val().isBetween(1,2)){
+			flag_code = false;
+			randomID2.addClass("back-error");
+		} else {
+			if(!randomID2.val().isNumBetween(0,18)){
+				flag_code = false;
+				randomID2.addClass("back-error");
+			} else {
+				$.ajax({
+					url : "/common/captcha/checkcaptcha2.html",
+					type : "POST",
+					dataType:"json",
+					async:false,
+					data:{
+						"code":$("form input[name='captcha']").val(),
+						"randomID":$("form input[name='randomID']").val()
+					},
+					success : function(result) {
+						var arr=eval(result);
+						if(arr){
+							flag_code = true;
+							randomID2.removeClass("back-error");
+						}else{
+							flag_code = false;
+							randomID2.addClass("back-error");
+						}
+					},
+					error : function() {
+						alert("对不起，系统出现错误!");
+					}
+				});
+			}
+		}
+	}
+	</script>
+</body>
+</html>

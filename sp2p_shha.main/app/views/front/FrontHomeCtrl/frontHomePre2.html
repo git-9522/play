@@ -1,0 +1,441 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: true/}
+#{set title: '【上海银行存管】p2p网络借贷投资理财平台-虹金所'/} 
+#{set keywords: '虹金所,上海p2p平台,网络借贷,互联网理财'/}
+#{set description: '虹金所为上海虹奥财富旗下平台,注册资本10500万,已正式上线上海银行存管系统，资金更安全。虹金所主打车贷抵押业务,资产小额分散,为广大用户提供一个理财新渠道。'/}
+#{set AItem:0 /}
+   <div class="section">
+<!-- 轮播图 -->
+ <div class="main_slide">
+     <div id="content">
+         <div class="sec_slide absolute">
+             <div class="biao_show absolute cf">
+                 <h3>${newbieBids?.get(0)?.title}</h3>
+                 <p class="biao_li">${newbieBids?.get(0)?.apr}%#{if newbieBids?.get(0)?.is_invest_reward} <span class="corange">+${newbieBids?.get(0)?.reward_rate}%</span>#{/if}</p>
+                 <p class="biao_shou">期待年回报率</p>
+                 <div class="gai_biao_l gai_biao_m absolute">
+                     <p>理财周期</p>
+                     <span>${newbieBids?.get(0)?.period}${newbieBids?.get(0)?.period_unit?.getShowValue()}</span>
+                 </div>
+                 <div class="gai_biao_r gai_biao_m absolute">
+                     <p>起购金额</p>
+                     <span>100元</span>
+                 </div>
+                 <a href="@{front.invest.InvestCtrl.investPre(newbieBids?.get(0)?.id)}" class="gai_biao_btn cf">立即赚钱</a>
+             </div>
+         </div>
+		<div class="border_box">
+			<div class="box_skitter box_skitter_large">
+				<ul>
+					#{list items:banners,as:'banner'}
+						#{if banner.url}
+							<li><a href="${banner.url}" target="${banner.target?.value?:'_blank'}"><img src="${banner.image_url}" onerror="this.src='/public/front/images/banner1.jpg'" class="${banner.getRandmonClass()}"  /></a></li>
+						#{/if}
+						#{else}
+							<li><a href="javascript:void(0);" ><img src="${banner.image_url}" onerror="this.src='/public/front/images/banner1.jpg'" class="${banner.getRandmonClass()}"  /></a></li>
+						#{/else}
+					#{/list}
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 轮播图 -->
+<!--最新公告-->
+<div class="gai_sec_data">
+	<div class="gai_data_left left">
+		<p class="c9">
+			最新公告：<a class="c6" href="@{front.InformationCtrl.informationDetailPre(informations?.get(0)?.id)}" target="_blank" >${informations?.get(0)?.title}</a>
+		</p>
+	</div>
+	<a class="gai_data_right right">${project_releases_trailer}</a>
+</div>
+<!-- 信息显示 -->
+<div class="gai_information relative bgf">
+	<img src="@{'/public/front/images/information_tle.png'}"
+		alt="">
+	<div class="gai_infont bbs">
+		<p>
+			累计注册
+			#{list items:jobs.IndexStatisticsJob.userCount+"",as:'tm'}
+				<span>${tm}</span>
+			#{/list}
+			人
+		</p>
+		<p>
+			累计成交额  
+			#{formatHTMLShortMoney money:jobs.IndexStatisticsJob.totalBorrowAmount /}元
+		</p>
+		<p>
+			为理财人赚取收益#{formatHTMLShortMoney money:jobs.IndexStatisticsJob.income /}元
+		</p>
+	</div>
+	<ul class="gai_incon c0">
+		<li class="incon1">
+			<p>上海企业家</p> <span>联合会员</span>
+		</li>
+		<li class="incon2">
+			<p>资金安全</p> <span>上海银行存管</span>
+		</li>
+		<li class="incon3">
+			<p>上海市场监督管</p> <span>理委员会会员</span>
+		</li>
+		<li class="incon4">
+			<p>互联网金融行业</p> <span>百强企业</span>
+		</li>
+	</ul>
+</div>
+<!-- 信息显示 -->
+<!-- 新手专享 -->
+        <div class="gai_new bgf">
+            <div class="gai_newl left gai_title cf">
+                <h5>限于首次投资的用户</h5>
+                <h3>新手专享</h3>
+                <p>新手专享&nbsp;新手红包</p>
+                <p>期限灵活&nbsp;畅销福利</p>
+            </div>
+            <div class="gai_newr left">
+                <ul class="gai_nb left">
+                	#{if newbieBids}
+                	#{list items:newbieBids,as:'bid'}
+               		  #{if bid_index ==1}
+                	    <li  class="bbs">
+                	  #{/if} 
+                	  #{else}
+                	  	<li  >
+                	  #{/else} 
+                        <div class="gn_tltle cblue"><p>${bid?.title}</p><span class="c6">限未投资成功过的用户</span></div>
+                        <div class="gn_act clearfix">
+                            <p class="c3 left">期待年回报率<span class="corange">${bid?.apr}</span>%#{if bid?.is_invest_reward} <span class="corange">+${bid?.reward_rate}%</span>#{/if}</p>
+                            <p class="c3 right">投资期限<span>${bid?.period}</span>${bid?.period_unit?.getShowValue()}</p>
+                        </div>
+                        <div class="clearfix">
+                           <div class="clearfix mt30 left mr10">
+                              <p class="mb10">可投金额${bid?.amount-bid?.has_invested_amount}元</p>
+                               <div class="f-jdt f-190 left mr10">
+                                    <div class="f-jd" style="width:${bid?.loan_schedule}%;"></div>
+                                </div>
+                           </div>
+                            
+                            <span class="left fs12 c9 mt50">${bid?.loan_schedule}%</span>
+                            #{if bid?.loan_schedule<100}
+                           	 <a href="@{front.invest.InvestCtrl.investPre(bid?.id)}" class="btn1 f-100 right mt40">我要出借</a>
+                            #{/if}
+                             #{else}
+                              <a href="@{front.invest.InvestCtrl.investPre(bid?.id)}" class="btn1 f-100 right mt40" style="background-color: #abb1b3 !important;
+                              border:#abb1b3 1px solid !important;">已售罄</a>
+                             #{/else}
+                        </div>
+                    </li>
+                 #{/list}
+                  #{/if}   
+                </ul>
+                <ul class="gai_nx left bls">
+                #{if ads != null && ads.size > 0 }
+               		  #{list items:ads, as:'ad'}
+               		  #{if ad_index ==1}
+                	    <li  class="bbs">
+                	  #{/if} 
+                	  #{else}
+                	  	<li  >
+                	  #{/else} 
+                    	#{if ad.url?.length() > 0}
+	                        <a href="${ad.url}" target="${ad.target?.value?:'_blank'}"><img src="${ad.image_url}" onerror="this.src='/public/front/images/ceshi1.png'"></a>
+	                    #{/if} 	
+                        #{else}
+                       	 <img src="${ad.image_url}" onerror="this.src='/public/front/images/ceshi1.png'">
+                        #{/else}
+                   	  </li>
+                    #{/list}
+                #{/if}
+                #{else}
+                	<li class="bbs"><img src="/public/front/images/ceshi1.png"/></li>
+                	<li><img src="/public/front/images/ceshi2.png"/></li>
+                #{/else} 
+                </ul>
+            </div>
+        </div>
+<!-- 新手专享 -->
+<!-- 标的信息 -->
+<div class="gai_biao bgf">
+	<div class="gai_biaol left gai_title cf relative">
+		<h5>无限制任你自由选择</h5>
+		<h3>理财专区</h3>
+		<p>银行级别安全风控</p>
+		<p>优质资产抵押项目</p>
+		<p>五重安全保障体系</p>
+		<ul class="gai_biao_title absolute">
+			<li class="at" onclick="chooseCondition(0,$(this))"><span class="left corange1">所有可投</span> <span
+				class="left lib">${frontBidsNum}</span></li>
+		   		#{list items:productList}
+                   <li  onclick="chooseCondition(${_?.id},$(this))">
+                       <span class="left ">${_?.name}</span>
+                       <span class="right mr10 lib">${_?.total_bid}</span>
+                   </li>
+               #{/list}	
+		</ul>
+	</div>
+	<div class="gai_biaor left">
+	</div>
+</div>
+<!-- 标的信息 -->
+<!-- 底下的 -->
+<div class="gai_bot bgf">
+	<!-- 新闻中心 -->
+	<div class="gai_xinwen">
+		<div class="xinwen_banner relative left">
+			<ul class="xinwen_img">
+				 #{if ads != null && ads.size > 0 }
+				   <li>
+                  	 <img src="${ads?.get(1).image_url}" onerror="this.src='/public/front/images/new_images/slider_banner1.jpg'"/>
+              	 </li> 
+                #{list items:ads, as:'ad'}
+                <li>
+                	#{if ad.url?.length() > 0}
+		                <a href="${ad.url}" target="${ad.target?.value?:'_blank'}">
+		                		<img src="${ad.image_url}" onerror="this.src='/public/front/images/new_images/slider_banner1.jpg'"/>
+		               	</a>
+						#{/if}
+                        #{else}
+                        <img src="${ad.image_url}" />
+                        #{/else}		
+			     </li>
+                #{/list}
+                	 <li>
+                  	 	<img src="${ads?.get(0).image_url}" onerror="this.src='/public/front/images/new_images/slider_banner1.jpg'"/>
+              		 </li> 
+                #{/if}
+                #{else}
+                <li>
+                   <img src="@{'/public/front/images/new_images/slider_banner3.png'}" />
+               </li>    
+               <li>           		
+                  <img src="@{'/public/front/images/new_images/slider_banner1.jpg'}" />
+                </li>
+                #{/else} 
+			</ul>
+			<span class="xinwen_our cf absolute"></span>
+			<ul class="xinwen_dots">
+				 #{list items:ads, as:'ad'}
+                 <li ></li>
+                #{/list}
+			</ul>
+			<div class="xinwen_btn cf">
+				<div class="leftbtn xinwen_b"></div>
+				<div class="rightbtn xinwen_b"></div>
+			</div>
+		</div>
+		<div class="xinwen_new left">
+			<div class="clearfix tl1">
+				<h3 class="left">媒体报道</h3>
+				<a href="@{front.FrontHomeCtrl.aboutUsPre()}?columnkey=info_report" class="right">更多</a>
+			</div>
+			     #{if inforeports}
+                    #{list items:inforeports,as:"inforeport"}
+                      <div class="clearfix xinwen_font">
+                        <span class="f-yd left">&nbsp;</span>
+                        <a href="@{front.InformationCtrl.informationDetailPre(inforeport?.id)}" class="left" target="_blank">${inforeport?.title}</a>
+                        <span class="right c9">${inforeport?.show_time?.format(common.constants.Constants.DATE_PLUGIN2)}</span>
+                    </div>
+                    #{/list}
+                    #{/if}
+		</div>
+		<div class="f-zx-right right">
+			<h1 class="clearfix c3 fs16">
+				<span class="left f-130 center lh35">投资排行</span>
+				<div class="right clearfix f-zx-nav">
+					<a href="javascript:void(0);">周排行</a> <a href="javascript:void(0);">月排行</a>
+					<a href="javascript:void(0);" class="f-on">总排行</a>
+				</div>
+			</h1>
+                <ul class="c6 ul-cont none">
+                    <li class="clearfix fs14 mt20 pb5">
+                        <div class="f-130 center left">排名</div>
+                        <div class="f-130 center left">用户名</div>
+                        <div class="f-130 center left">投资金额</div>
+                    </li>
+                    #{list items:weekInvest,as:'weekInvest'}
+                    <li class="clearfix fs14 mt10">
+                        <div class="f-130 center left">
+                            <div class="f-zx-num f-bg1">${weekInvest_index}</div>
+                        </div>
+                        <div class="f-130 center left c3">#{asterisk str:weekInvest?.name, start:2, end:2, count:4/}</div>
+                        <div class="f-130 center left color1">￥#{formatShortMoney money:weekInvest?.amount /}</div>
+                    </li>
+                    #{/list}
+                </ul>
+                <ul class="c6 ul-cont none">
+                	<li class="clearfix fs14 mt20 pb5">
+                        <div class="f-130 center left">排名</div>
+                        <div class="f-130 center left">用户名</div>
+                        <div class="f-130 center left">投资金额</div>
+                    </li>
+                    #{list items:monthInvest,as:'monthInvest'}
+                    <li class="clearfix fs14 mt10">
+                        <div class="f-130 center left">
+                            <div class="f-zx-num f-bg1">${monthInvest_index}</div>
+                        </div>
+                        <div class="f-130 center left c3">#{asterisk str:monthInvest?.name, start:2, end:2, count:4/}</div>
+                        <div class="f-130 center left color1">￥#{formatShortMoney money:monthInvest?.amount /}</div>
+                    </li>
+                    #{/list}
+                </ul>
+                <ul class="c6 ul-cont none">
+                	<li class="clearfix fs14 mt20 pb5">
+                        <div class="f-130 center left">排名</div>
+                        <div class="f-130 center left">用户名</div>
+                        <div class="f-130 center left">投资金额</div>
+                    </li>
+                    #{list items:totalInvest,as:'totalInvest'}
+                    <li class="clearfix fs14 mt10">
+                        <div class="f-130 center left">
+                            <div class="f-zx-num f-bg1">${totalInvest_index}</div>
+                        </div>
+                        <div class="f-130 center left c3">#{asterisk str:totalInvest?.name, start:2, end:2, count:4/}</div>
+                        <div class="f-130 center left color1">￥#{formatShortMoney money:totalInvest?.amount /}</div>
+                    </li>
+                    #{/list}
+                </ul>
+		</div>
+	</div>
+	<!-- 新闻中心 -->
+	<!-- 合作伙伴 -->
+	<p class="cblue hezuo">合作伙伴</p>
+	<div class="gai_friend">
+		<div class="container q-allhb">
+			<div class="w-link-box">
+				 <ul class="index-friends">
+		        	#{if partners}
+		        	#{list items:partners,as:'partner'}
+		            <li>
+		            	
+		                <a href="javascript:void(0)" title="${partner?.name}" >&nbsp;<img src="${partner?.image_url}" alt="${partner?.name}" onerror="this.src='/public/front/images/new_images/ceshi_hz.png'"/>&nbsp;<span>${partner?.name}</span></a>
+		            </li>
+		            #{/list}
+		            #{list items:partners,as:'partner'}
+		            <li>
+		                <a href="javascript:void(0)" title="${partner?.name}" >&nbsp;<img src="${partner?.image_url}" alt="${partner?.name}" onerror="this.src='/public/front/images/new_images/ceshi_hz.png'"/>&nbsp;<span>${partner?.name}</span></a>
+		            </li>
+		            #{/list}
+		            #{/if}
+		        </ul>
+			</div>
+		</div>
+	</div>
+	<!-- 合作伙伴 -->
+</div>
+<!-- 底下的 -->
+</div>
+
+<script type="text/javascript">
+	var  arr=[];
+	require([ 'front' ], function(front) {
+		showPage(0);
+		require([ 'slideleft', 'banner', 'share' ]);
+		var ul = $(".index-friends"),
+			li = $(".index-friends li"),
+			wth = $(".index-friends li").outerWidth(true),
+			len = $(".index-friends li").length;
+		ul.css("width", wth * len + "px");
+		var num = 1;
+		var time;
+	    if(len>5){
+	        $(".q-allhb").hover(function(){
+	            clearInterval(time);
+	        },function(){
+	            time = setInterval(function(){
+	                ul.animate({marginLeft:-wth+"px"},700,function(){
+	                    ul.css("margin-left","0").find("li:first").appendTo(ul);
+	                });
+	            },2000);
+	        }).trigger("mouseleave");
+	    };
+		var onOff = true;
+		 #{list items:banners,as:'banner'}
+			arr.push("${banner.name}");
+         #{/list}
+          var arr1 = [];
+          arr1.push("${ads[1]?.name}");
+         #{list items:ads, as:'ad'}
+			arr1.push("${ad.name}");
+         #{/list}
+         arr1.push("${ads[0]?.name}");
+         var arr2=new Array(arr1.length);
+         for(var i=arr1.length-1;i>=0;i--){
+         	arr2.push(arr1[i]);
+         }
+         arr1=arr2;
+         otime();
+		$('.xinwen_b').click(function() {
+			if (onOff == true) {
+				onOff = false;
+				if ($(this).index() == 0) {
+					num--;
+					move();
+				} else {
+					num++;
+					move();
+				}
+			}
+		})
+		$('.xinwen_banner').mouseenter(function() {
+			clearInterval(time);
+		}).mouseleave(function() {
+			otime();
+		})
+		$('.xinwen_dots li').click(function() {
+			num = $(this).index() + 1;
+			move();
+		})
+
+		function otime() {
+			clearInterval(time);
+			time = setInterval(function() {
+				num++;
+				move();
+			}, 1000)
+		}
+		function move() {
+			 $('.xinwen_our').html(arr1[num-2]);
+                    $('.xinwen_img').animate({
+                        marginLeft:-num*$('.xinwen_img li').width() + 'px'
+                    },500,function(){
+                        if(num>=($('.xinwen_img li').length-1)){
+                            num=1;
+                            $('.xinwen_img').css('marginLeft',-$('.xinwen_img li').width()+'px');
+                        }else if(num<1){
+                            num=$('.xinwen_img li').length-2;
+                            $('.xinwen_img').css('marginLeft',-num*$('.xinwen_img li').width()+'px')
+                        }
+                        $('.xinwen_dots li').eq(num-1).addClass('btn').siblings().removeClass('btn');
+                        setTimeout(function(){
+                            onOff=true;
+                        },100)
+                    })
+             $('.xinwen_dots li').eq(num-1).addClass('btn').siblings().removeClass('btn');
+		}
+	});
+	
+	function showPage(productId) {
+		$.ajax({
+			url : "@{front.FrontHomeCtrl.showBidsPre()}",
+			type : "GET",
+			data : {
+				"productId" : productId
+			},
+			success : function(data) {
+				$(".gai_biaor").html(data);
+			}
+		});
+	}
+	
+	
+	function chooseCondition(productId,obj){
+		$(".gai_biao_title li").removeClass("at");
+		$(".gai_biao_title li span").removeClass("corange1");
+		obj.addClass("at");
+		obj.find("span:first").addClass("corange1");
+		showPage(productId);
+	}
+</script>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}"/>
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/swiper-3.4.2.min.css'}"/>
+    </head>
+    <body    style="padding-top: 1.6rem;">
+    <style>
+.header { width: 100%; height: 1.2rem; line-height: 1.2rem; background: #fe4f51; text-align: center;   color: #fff; font-size: 0.48rem; position: fixed;  left: 0; top: 0;z-index: 10000;}
+.header .icon_goback { width: 0.586rem; height: 0.586rem; overflow: hidden;position: absolute;left: 0.16rem; top: 0.294rem; background: url(/public/wechat/newedition/images/icon/login-back.png) no-repeat;background-size: 100% auto;}
+.login_logo{ background:#fff; overflow:hidden;}
+.login_logo img{ display:block; width:3.65rem; height:2.93rem; margin:0.34rem auto;}
+</style>
+ <div class="header" style="display:block; "><a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}"><span class="icon_goback"></span></a> <span class="title_name">红包</span></div>
+    	<ul class="q-hbulnew flex" >
+    		<li class="flex-1 q-on"><a href="javascript:void(0);">未使用</a></li>
+    		<li class="flex-1"><a href="javascript:void(0);">已使用</a></li>
+    		<li class="flex-1"><a href="javascript:void(0);">已过期</a></li>
+    	</ul>
+    	
+    	<!-- 未使用  -->
+    	<div class="detail" style="display: block">
+    	#{if !unused.page}
+    	  	<p style="margin: 2rem 0;text-align: center;">暂无信息</p>
+    	#{/if}
+    	
+	    	<ul class="q-hblist q-padding">
+	    		#{list unused.page}
+	    		<li class="clearfix">
+	    			<img class="q-tipsimg" src="@{'/public/wechat/images/wsyimg.png'}"/>
+	    			<div class="q-hbleft left tc">
+	    				<dl>
+	    					<dt><span>${_?.amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</span>元</dt>
+	    					<dd>${_?.name}</dd>
+	    				</dl>
+	    			</div>
+	    			<div class="q-hbright left">
+	    				<p>有效期至：${_?.end_time?.format(common.constants.Constants.DATE_PLUGIN2)}</p>
+	    				#{if _?.bid_period == 0}
+	    					<p>使用项目：无限制</p>
+	    				#{/if}
+	    				#{else}
+	    					<p>使用项目：${_?.bid_period}个月</p>
+	    				#{/else}
+	    				<p>使用要求：单笔满${_?.use_rule?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可用</p>
+	    				<p>来源：${_?.getRedType()}</p>
+	    			</div>
+	    		</li>
+	    		#{/list}
+	    	</ul>
+    	</div>
+    	
+    	<!-- 已使用  -->
+    	<div class="detail" style="display: none"> 
+	    	<ul class="q-hblist q-padding">
+	    		#{list used.page}
+	    		<li class="clearfix">
+	    			<img class="q-tipsimg" src="@{'/public/wechat/images/ysyimg.png'}"/>
+	    			<div class="q-hbleft left tc">
+	    				<dl>
+	    					<dt><span>${_?.amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</span>元</dt>
+	    					<dd>${_?.name}</dd>
+	    				</dl>
+	    			</div>
+	    			<div class="q-hbright left">
+	    				<p>有效期至：${_?.end_time?.format(common.constants.Constants.DATE_PLUGIN2)}</p>
+	    				#{if _?.bid_period == 0}
+	    					<p>使用项目：无限制</p>
+	    				#{/if}
+	    				#{else}
+	    					<p>使用项目：${_?.bid_period}个月</p>
+	    				#{/else}
+	    				<p>使用要求：单笔满${_?.use_rule?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可用</p>
+	    				<p>来源：${_?.getRedType()}</p>
+	    			</div>
+	    		</li>
+	    		#{/list}
+	    	</ul>
+    	</div>
+    	
+    	<!-- 已过期  -->
+    	<div class="detail" style="display: none">
+	    	<ul class="q-hblist q-padding">
+	    		#{list expired.page}
+	    		<li class="clearfix">
+	    			<img class="q-tipsimg" src="@{'/public/wechat/images/ygqimg.png'}"/>
+	    			<div class="q-hbleft left tc">
+	    				<dl>
+	    					<dt><span>${_?.amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</span>元</dt>
+	    					<dd>${_?.name}</dd>
+	    				</dl>
+	    			</div>
+	    			<div class="q-hbright left">
+	    				<p>有效期至：${_?.end_time?.format(common.constants.Constants.DATE_PLUGIN2)}</p>
+	    				#{if _?.bid_period == 0}
+	    					<p>使用项目：无限制</p>
+	    				#{/if}
+	    				#{else}
+	    					<p>使用项目：${_?.bid_period}个月</p>
+	    				#{/else}
+	    				<p>使用要求：单笔满${_?.use_rule?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可用</p>
+	    				<p>来源：${_?.getRedType()}</p>
+	    			</div>
+	    		</li>
+	    		#{/list}
+	    	</ul>
+    	</div>
+    	
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$(".q-hbulnew li").click(function(){
+				$(".q-hbulnew li").removeClass("q-on");
+		        $(this).addClass("q-on");
+		        var index = $(this).index();
+				$(".detail").not(index).hide();
+				$(".detail").eq(index).show();		
+			});
+    	});
+    </script>
+</html>

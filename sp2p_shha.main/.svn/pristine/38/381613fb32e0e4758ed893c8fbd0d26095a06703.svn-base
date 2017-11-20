@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${questionnaire.name}</title>
+    <link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/survey.css'}" />
+    <script type="text/javascript" src="@{'public/front/javascripts/lib/jquery.js'}" ></script>
+    <script type="text/javascript" src="@{'public/front/javascripts/survey.js'}"></script>
+</head>
+<body>
+    <div class="survey">
+        <div class="survey_bg"></div>
+        <div class="survey_main">
+        <form action="@{front.QuestionnaireCtrl.commitQuestionnairePre()}" method="POST" id="form_signin">
+        		<input name="id" value="${questionnaire.id}" type="hidden" />
+        		#{list items:questionnaire.details, as:'detail'}
+            <div class="issue">
+                <div class="cnt" sine="false">
+                    <h3>${detail_index + '、' + detail.content}</h3>
+                    <ul>
+                    		#{list items:detail.options, as:'option'}
+                        <li #{addMyClass option:option, records:detail.records, className:'sel' /}>
+                            <span class="rad">&nbsp;</span>
+                            <label value='{"questionnaire_id":"${questionnaire.id}","questionnaire_detail_id":"${detail.id}","questionnaire_option_id":"${option.id}"}'>#{index index:option_index /}、${option.content}</label>
+                            #{if flag}
+                            <div class="line_tip">
+                                <div class="line_box">
+                                    <div class="line" style="width:${option.scale}%;"></div>
+                                </div>
+                                <span class="line_num">${option.scale}%</span>
+                            </div>
+                            #{/if}
+                        </li>
+                        #{/list}
+                        <!-- <li>
+                            <span class="rad">&nbsp;</span>
+                            <label><input type="radio"/>B、 女</label>
+                            <div class="line_tip">
+                                <div class="line_box">
+                                    <div class="line"></div>
+                                </div>
+                                <span class="line_num">50%</span>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+            #{/list}
+            <input type="hidden" name="params" id="form_params" />
+            </form>
+            <p class="pass">&nbsp;</p>
+            #{ifnot flag}<div class="check_btn">提交</div>#{/ifnot}
+            <p class="tishi">
+            		#{if flag}
+            		<span>*</span>
+            		您已经参与本次问卷调查，请期待下一次问卷调查。
+            		#{/if}
+            </p>
+            <!--提交完成提示：感谢您的参与，以上是本次调查的统计结果。-->
+            <!--已参加过的提示：您已经参与本次问卷调查，请期待下一次问卷调查。-->
+        </div>
+    </div>
+    <script type="text/javascript">
+    	$(function() {
+    		if(${flag}) {
+            $('.cnt li').unbind("click");
+            $('.survey_bg').css('background', 'url(../public/front/images/questionnaire-survey_complete.jpg) no-repeat center');
+    		}
+    	}); 
+    </script>
+</body>
+</html>

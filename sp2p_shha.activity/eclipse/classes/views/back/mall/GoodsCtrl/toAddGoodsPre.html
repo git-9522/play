@@ -1,0 +1,613 @@
+#{extends 'back/mall/ScoreCtrl/mailMain.html' /}
+	#{set title:'积分商城 | 积分商品' /}
+	#{set smallclass:1 /}
+	#{set crumbs:'积分商城>积分商品'/}
+	
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">添加积分商品</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.mall.GoodsCtrl.showGoodsPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.mall.GoodsCtrl.addGoods()}" method="POST" id="formAddGoods">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">商品信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">类型</span>
+					<div class="liright">
+						<select class="width01" name="goods.type" id="goodsType" onchange="goodsTypechange(this)">
+							<option value='0' #{if flash?.type == '0'} selected #{/if}>实物</option>
+							<option value='1' #{if flash?.type == '1'} selected #{/if}>虚拟</option>
+							<option value='2' #{if flash?.type == '2'} selected #{/if}>抽奖</option>
+						</select>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">商品名称</span>
+					<div class="liright">
+						<input type="text" autofocus="autofocus" class="width01 iffocus" maxlength="10" value="${flash?.name}" name="goods.name"/>
+						<span class="back-text-limit">2~10个字符</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">商品图片</span>
+					<div class="liright">
+						<span class="back-imgarea">
+							<!-- 没有上传图片 -->
+							#{if flash?.image_url == null || flash?.image_url == ""}
+								<span class="back-noimg" title="您还没有上传图片"></span>
+							#{/if}
+							#{else}
+								<!-- 上传图片后隐藏back-noimg显示img-->
+								<img src="${flash?.image_url}" onerror="this.src='/public/common/default.jpg'"  class="backupimg" height="100" width="200" id='image' name="image" alt="" title="" />
+							#{/else}
+						</span>
+						<input type="hidden" id="imgurl" name="goods.image_url" value="${flash?.image_url}">
+						<span class="back-upimg">
+							<label class="back-upbtn">
+								<input type="file" class="upload_file" accept=".jpg,.jpeg,.png,.gif" value="" name="imgFile" id="imgFile" onchange="upload()"/>
+								<i class="iconfont">&#xe608;</i>本地上传
+							</label>
+							
+							<label class="back-lib-upbtn back-cropbtn" onclick="cropImg(1920,400,1);" id="cropImgLabel" style="display: none;">
+								<b class="iconfont">&#xe642;</b>裁剪
+							</label>
+								
+								
+							<label class="back-lib-upbtn">
+								<!-- <b class="iconfont">&#xe634;</b>从素材库中选择 -->
+							</label>
+							<p class="back-imginfor-note">1920*400&nbsp;jpg/png&nbsp;大小不超过2M</p>
+							<div class="back-upload-imginfor">
+								<span id="resolutionshow">&nbsp;</span><span id="formatshow">&nbsp;</span><span id="sizeshow">&nbsp;</span>
+							</div>
+							<!-- 图片参数，用于保存 -->
+						<input type="hidden" id="imageResolution" name="" value="${flash?.image_resolution}">
+							<input type="hidden" id="imageSize" name="" value="${flash?.image_size}">
+							<input type="hidden" id="imageFormat" name="" value="${flash?.image_format}">
+						</span>
+					</div>
+				</li>
+				<li id="virtual7">
+					<span class="lileft">投资限制</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" value="${flash?.min_invest_count}" maxlength="2" name="goods.min_invest_count"  oninput="$(this).ndigitInteger(2)" onkeyup="$(this).ndigitInteger(2)"/>
+							<i class="unit">次</i>
+						</label>
+						<span class="back-text-limit">投资次数小于该值时无法兑换</span>
+					</div>
+				</li>
+				<li id="virtual4">
+					<span class="lileft">商品库存</span>
+					<div class="liright" id="inventory_set">
+					    <input type="hidden" id="is_unlimited_inven" name="goods.is_unlimited_inven" value="#{if !flash?.is_unlimited_inven}0#{/if}#{else}${flash?.is_unlimited_inven}#{/else}">
+						<label class="back-deallooker">
+							<input type="radio" name="unlimited_inven"  value="1" #{if flash?.is_unlimited_inven}checked#{/if} onclick="checkInventory(this.value)"/>无数量限制
+						</label>
+						<label class="back-deallooker">
+							<input type="radio" name="unlimited_inven" value="0" #{if !flash?.is_unlimited_inven}checked#{/if} onclick="checkInventory(this.value)"/>设置数量上限
+						</label>
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" placeholder="请输入库存数量" id="inventory" value="${flash?.inventory}" maxlength="9" name="goods.inventory"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+							<i class="unit">个</i>
+						</label>
+						<span class="back-text-limit">超过库存无法兑换该项商品</span>
+					</div>
+				</li>
+				<li id="virtual5">
+					<span class="lileft">兑换上限</span>
+					<div class="liright" id="maximum_set">
+						 <input type="hidden" id="is_unlimited_exc_max" name="goods.is_unlimited_exc_max" value="#{if !flash?.is_unlimited_exc_max}0#{/if}#{else}${flash?.is_unlimited_exc_max}#{/else}">
+						<label class="back-deallooker">
+							<input type="radio" name="maximum" value="1"  #{if flash?.is_unlimited_exc_max}checked#{/if}  onclick="checkMaximum(this.value)"/>无数量限制
+						</label>
+						<label class="back-deallooker">
+							<input type="radio" name="maximum" value="0" #{if !flash?.is_unlimited_exc_max}checked#{/if}  onclick="checkMaximum(this.value)"/>设置数量上限
+						</label>
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" placeholder="请输入兑换上限" id="exchange_maximum"  value="${flash?.exchange_maximum}" maxlength="9" name="goods.exchange_maximum" oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+							<i class="unit">个</i>
+						</label>
+						<span class="back-text-limit">达到上限后无法兑换该项商品</span>
+					</div>
+				</li>
+				<li id="virtual1" class="virtual_hidden">
+					<span class="lileft">商品属性</span>
+					<div class="liright">
+						<select class="width04" name="goods.attribute" id="attribute" onchange="attributeChange(this)">
+							<option value='1'  #{if flash?.attribute=='1'}selected='selected'#{/if}>红包</option>
+							<option value='2'  #{if flash?.attribute=='2'}selected='selected'#{/if}>现金卷</option>
+							<option value='3'  #{if flash?.attribute=='3'}selected='selected'#{/if}>加息卷</option>
+						</select>
+						&nbsp;&nbsp;
+						<label class="back-unitinput">
+						    <input type="hidden" id="attributeValue" name="goods.attribute_value" value="${flash?.attribute_value}">
+						    <div id="attribute_value1" >
+								<input type="text" class="width06 iffocus" id="attributeValue1" placeholder="请输入金额" value="#{formatIntMoney money:flash?.attribute_value/}" maxlength="9" name="attributeValue1"  oninput="$(this).ndigitInteger(9);attributeValueChange(this.value)" onkeyup="$(this).ndigitInteger(9);attributeValueChange(this.value)"/>
+						    </div>
+						     <div id="attribute_value2" style="display:none">
+								<input type="text" class="width06 iffocus" id="attributeValue2" placeholder="请输入利率" value="${flash?.attribute_value}" maxlength="9" name="attributeValue2"  oninput="$(this).proportionRange();attributeValueChange(this.value)" onkeyup="$(this).proportionRange();attributeValueChange(this.value)"/>
+						    </div>
+							 <i class="unit" id="attribute_unit">元</i>
+						</label>
+						<span class="back-text-limit">兑换该项商品会消耗用户积分</span>
+					</div>
+					
+				</li>
+				<li id="virtual2" class="virtual_hidden">
+					<span class="lileft">最低投资</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" value="#{formatIntMoney money:flash?.min_invest_amount/}" maxlength="9" name="goods.min_invest_amount"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">虚拟物品的最低投资限制</span>
+					</div>
+					
+				</li>
+				<li id="virtual3" class="virtual_hidden">
+					<span class="lileft">有效期限</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" value="${flash?.limit_day}" maxlength="9" name="goods.limit_day"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+							<i class="unit">天</i>
+						</label>
+						<span class="back-text-limit">必须在有效期限内使用，到期会过期</span>
+					</div>
+					
+				</li>
+				<li id="virtual6">
+					<span class="lileft">虹银价格</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" value="${flash?.spend_scroe}" maxlength="9" name="goods.spend_scroe"  oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)"/>
+							<i class="unit">分</i>
+						</label>
+						<span class="back-text-limit">兑换该项商品会消耗用户积分</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">商品介绍</span>
+					<div class="liright">
+						<textarea id="inforTextarea" class="back-textarea" name="goods.description">${flash?.description}</textarea>
+						<span class="back-text-limit"></span>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+            <input type="hidden" id="service_fee_rule" name="service_fee_rule" value=""/>
+            <input type="hidden" id="audit_subjects" name="audit_subjects" value=""/>
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.mall.GoodsCtrl.showGoodsPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+
+<!-- 图片裁切弹窗 begin -->
+<div class="dialog crop-dialog">
+	<div class="dialog-bg"></div>
+	<div class="dialog-cont">
+		<div class="dialog-head">
+			<span class="left">图片裁剪</span>
+			<a href="javascript:void(0);" class="dialog-close hover-green" id="dialogClose">×</a>
+		</div>
+		<div class="crop-box">
+			<div class="clearfix">
+				<div class="crop-img">
+					<img src="" id="cropimg" />
+				</div>
+				<div class="crop-right">
+					<div class="crop-preview">
+						<div class="preview-container">
+							<img src="" />
+						</div>
+					</div>
+					<ul class="crop-handle">
+						<li><label class=""><input type="radio" id="maxSize" name="cropsize" />最大尺寸</label></li>
+						<li><label class=""><input type="radio" id="standardSize" name="cropsize" />标准尺寸</label></li>
+					</ul>
+				</div>
+			</div>
+			<p class="back-audit-btns">
+				<input type="button" value="保存" class="bgbtn" onclick="saveCropImg(cropImgSuccess)">
+				<input type="button" value="取消" class="bdbtn dialog-console">
+			</p>
+			<input type="hidden" id="x"/>
+			<input type="hidden" id="y"/>
+			<input type="hidden" id="w"/>
+			<input type="hidden" id="h"/>
+			<input type="hidden" id="imageType" /><!-- 图片格式 -->
+			<input type="hidden" id="cutType" /><!-- 图片类型 -->
+		</div>
+	</div>
+</div>
+<!-- 图片裁切弹窗 end -->
+
+
+<!-- 素材库弹窗 -->
+#{imgLib /}
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		//日期时间组件
+		require(["datatime"]);
+		
+		require(["editor"],function(editor){
+			editor('#inforTextarea');
+		});
+		//效验组件
+		require(["validation/validateExt"]);
+		//上传组件
+		require(["ajaxfileupload"]);
+		
+		//商品类型
+		#{if flash?.type == '1'}
+			$(".virtual_hidden").removeClass("virtual_hidden").addClass("virtual_show");
+		#{/if}
+		#{elseif flash?.type == '2'}
+			$("#virtual1").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual2").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual3").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual4").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual5").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual6").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual7").removeClass("virtual_show").addClass("virtual_hidden");
+		#{/elseif}
+		#{else}
+			$("#virtual1").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual2").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual3").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual4").removeClass("virtual_hidden").addClass("virtual_show");
+			$("#virtual5").removeClass("virtual_hidden").addClass("virtual_show");
+			$("#virtual6").removeClass("virtual_hidden").addClass("virtual_show");
+			$("#virtual7").removeClass("virtual_hidden").addClass("virtual_show");
+		#{/else}
+		
+		//商品属性
+		#{if flash?.attribute=='3'}
+		
+			$("#attribute_unit").html("%");
+			$("#attribute_value1").hide();
+			$("#attribute_value2").show();
+		#{/if}
+		#{else}
+			$("#attribute_unit").html("元");
+			$("#attribute_value1").show();
+			$("#attribute_value2").hide();
+		#{/else}
+		
+		
+		$("#formAddGoods").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				}else if(element.parent().parent().hasClass("back-unitinput")){
+					error.addClass('back-notice').insertAfter(element.parent().parent());
+				} else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"goods.type": {
+					required: true
+				},
+				"goods.name": {
+					required: true,
+					rangelength: [2,10]
+				},
+				"goods.inventory":{
+					required: true,
+					digits: true
+				},
+				"goods.exchange_maximum":{
+					required: true,
+					digits: true
+				},
+				"goods.spend_scroe":{
+					required: true,
+					digits: true
+				},
+				"goods.attribute_value":{
+					required: true,
+				},
+				"goods.min_invest_amount":{
+					required: true,
+					digits: true
+				},
+				"goods.limit_day":{
+					required: true,
+					digits: true
+				},
+				"goods.min_invest_count":{
+					required: true,
+					digits: true
+				}
+			},
+			messages: {
+				"goods.type": {
+					required: "请选择商品类型"
+				},
+				"goods.name": {
+					required: "请输入商品名称",
+					rangelength: "商品名称长度在2~10之间"
+				},
+				"goods.inventory": {
+					required: "请输入库存数量",
+					digits: "只能为正整数"
+				},
+				"goods.exchange_maximum": {
+					required: "请输入最小额度",
+					digits: "只能为正整数"
+				},
+				"goods.spend_scroe" : {
+					required: "请输入最小额度",
+					digits: "只能为正整数"
+				},
+				"goods.attribute_value" : {
+					required: "请输入商品属性参数"
+				},
+				"goods.min_invest_amount" : {
+					required: "请输入最低投资",
+					digits: "只能为正整数"
+				},
+				"goods.limit_day" : {
+					required: "请输入有效期限",
+					digits: "只能为正整数"
+				},
+				"goods.min_invest_count" : {
+					required: "请输入正确数字",
+					digits: "只能为正整数"
+				}
+			},
+			submitHandler:function(form){
+				
+				if($("#imgurl").val()=='' || $("#imgurl").val()==undefined || $("#imgurl").val()==null){
+					alert("请上传产品图片!");
+					return false;
+				}
+				
+				var is_unlimited_inven = $("#is_unlimited_inven").val();
+				if(is_unlimited_inven=='' || is_unlimited_inven==undefined || is_unlimited_inven==null){
+					alert("请选择库存限制!");
+					return false;
+				}
+				
+				var is_unlimited_exc_max = $("#is_unlimited_exc_max").val();
+				if(is_unlimited_exc_max=='' || is_unlimited_exc_max==undefined || is_unlimited_exc_max==null){
+					alert("请选择兑换限制!");
+					return false;
+				}
+			
+	            form.submit();
+	        }
+		});
+		
+	});
+
+	
+	function upload(){
+		var fileId = "imgFile";
+		var file = $("#" + fileId).val();
+		var pos = file.lastIndexOf("\\");
+		var fileName = file.substring(pos + 1);
+		
+		$.ajaxFileUpload({
+			url : '@{back.mall.GoodsCtrl.uploadGoodsImage()}',
+			secureuri : false,
+			fileElementId : fileId,
+			data:{
+				"fileName":fileName
+			},
+			dataType : 'json',
+			success : function(result) {
+				if(result.code == 1){
+					var data = result.obj;
+					var html = "<img src='"+data.staticFileName+"' onclick='javascript:$(this).preview()'  onerror="+'"this.src='+"'/public/common/default.jpg'"+'"'+ " class='backupimg' height='100' width='200' id='image' name='image' alt='' title='' />";
+					$(".back-imgarea:first").html(html);
+					$("#image").attr("src", data.staticFileName);
+					$("#imageSize").val(data.size+"kb");
+					$("#imageFormat").val(data.fileSuffix);
+					$("#imageResolution").val(data.imageResolution);
+					$("#resolutionshow").html(data.imageResolution+"&nbsp;");
+					$("#formatshow").html(data.fileSuffix+"&nbsp;");
+					$("#sizeshow").html(data.size+"kb");
+					$("#imgurl").val(data.staticFileName);
+					$("#cropImgLabel").show();
+				} else {
+					alert(result.msg);
+				}
+			}
+		})
+	}
+	
+	//图片裁剪
+	function cropImg(width, height, cutType){
+		$("#cutType").val(cutType);
+		var size = new Array(width, height);
+		var src,imageType;
+		if(cutType == 1) {
+			src = $("#imgurl").val();
+			imageType = $("#imageFormat").val();//头像图片后缀
+		} else if(cutType == 2) {
+			src = $("#imgAppurl").val();
+			imageType = $("#imageAppFormat").val();//二维码图片后缀
+		}
+		var src = src +'?t=' + new  Date().getTime();
+		$('.crop-dialog').dialog();
+		var image = new Image();
+		image.src = src;
+		image.onload = function(){
+			require(["imgcrop"],function(crop){
+				$('.crop-img,.preview-container').find('img').attr('src',src);
+				$('#imageType').val(imageType);
+				$("input[name='cropsize']").val([]);
+				crop(size);
+			});
+		}
+	}
+
+
+	function saveCropImg(callback){
+		$.ajax({
+			url : '@{common.BackBaseController.imageCrop()}',
+			type: 'POST',
+			data : {
+				'imgSrc' : $("#cropimg").attr('src'),
+				'x' : $("#x").val(),
+				'y' : $("#y").val(),
+				'w' : $("#w").val(),
+				'h' : $("#h").val(),
+				'imageType' : $("#imageType").val(),
+				'createNewImg' : true
+			},
+			success : function(data){
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					alert(data.msg);
+					return;
+				}
+				
+				if (callback) {
+					callback(data.obj);
+				}
+				$("#dialogClose").trigger('click');
+				weakDialog('裁剪成功!');
+			}
+		});
+	}
+
+
+	//图片裁剪成功，回调函数 
+	var cropImgSuccess = function(data) {
+		var cutType = $("#cutType").val();
+		if(cutType == 1) {//头像裁剪
+			$("#image").attr("src", data.staticFileName);
+			$("#imgurl").val(data.staticFileName);
+			$("#imageSize").val(data.size+"kb");
+			$("#imageResolution").val(data.imageResolution);
+			$("#resolutionshow").html(data.imageResolution);
+			$("#sizeshow").html(data.size+"kb");
+		} else if(cutType == 2) {//二维码裁剪
+			$("#imageApp").attr("src", data.staticFileName);
+			$("#imgAppurl").val(data.staticFileName);
+			$("#imageAppSize").val(data.size+"kb");
+			$("#imageAppResolution").val(data.imageResolution);
+			$("#resolutionAppshow").html(data.imageResolution);
+			$("#sizeAppshow").html(data.size+"kb");
+		}
+	}
+	
+	
+	function goodsTypechange(dom){
+		var type = $(dom).val();
+		if(type == 1){
+			$(".virtual_hidden").removeClass("virtual_hidden").addClass("virtual_show");
+		} else if(type == 2) {
+			$("#virtual1").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual2").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual3").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual4").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual5").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual6").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual7").removeClass("virtual_show").addClass("virtual_hidden");
+		}
+		else{
+			$("#virtual1").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual2").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual3").removeClass("virtual_show").addClass("virtual_hidden");
+			$("#virtual4").removeClass("virtual_hidden").addClass("virtual_show");
+			$("#virtual5").removeClass("virtual_hidden").addClass("virtual_show");
+			$("#virtual6").removeClass("virtual_hidden").addClass("virtual_show");
+			$("#virtual7").removeClass("virtual_hidden").addClass("virtual_show");
+		}
+		
+	}
+	
+	//库存限制类型
+	function checkInventory(num){
+		
+        $("#inventory_set").find("input[name='unlimited_inven']").each(function(){
+        	
+            if($(this).val() == num){
+            	
+                if(this.checked){
+                	var inventory = num == 1?0:1 
+                    $("#is_unlimited_inven").val(num)
+                    $("#inventory").val(inventory);
+                }else{
+                    $("#is_unlimited_inven").val("")
+                    $("#inventory").val("");
+                }
+            }else{
+                 this.checked = false; 
+            }
+        });
+    };
+    //兑换限制类型
+	function checkMaximum(num){
+		
+        $("#maximum_set").find("input[name='maximum']").each(function(){
+        	
+            if($(this).val() == num){
+                if(this.checked){
+            	var exchange_maximum = num == 1?0:1 
+                    $("#is_unlimited_exc_max").val(num)
+                    $("#exchange_maximum").val(exchange_maximum);
+                }else{
+                    $("#is_unlimited_exc_max").val("")
+                    $("#exchange_maximum").val("");
+                }
+            }else{
+                 this.checked = false; 
+            }
+        });
+    };
+    
+    //商品属性
+    function attributeChange(dom){
+    	
+    	if($(dom).val() == 3){
+    		$("#attribute_unit").html("%");
+    		$("#attribute_value1").hide();
+    		$("#attribute_value2").show();
+    	}else{
+    		$("#attribute_unit").html("元");
+    		$("#attribute_value1").show();
+    		$("#attribute_value2").hide();
+    	}
+    	
+    }
+    
+    //商品属性
+    function attributeValueChange(value){
+    	
+  		 $("#attributeValue").val(value);
+    }
+    
+    
+</script>

@@ -1,0 +1,262 @@
+.ipX_bg1 {
+    width: 100%;
+    height: 610px;
+    background: url(../images/ipX/ipX_bg1.jpg) no-repeat center;
+    position: relative;
+}
+.ipX_time {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    text-align: center;
+    font-size: 30px;
+    color: #fbf897;
+}
+.ipX_bg2 {
+    width: 100%;
+    height: 680px;
+    background: url(../images/ipX/ipX_bg2.jpg) no-repeat center;
+}
+.ip2_cen {
+    position: relative;
+    width: 1200px;
+    height: 680px;
+    margin: 0 auto;
+}
+.ip2_list {
+    position: absolute;
+    width: 544px;
+    height: 648px;
+    top: 10px;
+    right: 35px;
+    background: url(../images/ipX/ipX_tips1.png) no-repeat center;
+}
+.ip2_til {
+    position: absolute;
+    width: 420px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 20px;
+    color: #220301;
+    border-bottom: 2px solid #750506;
+    left: 60px;
+    top: 180px;
+}
+.one {
+    width: 420px;
+    height: 353px;
+    position: absolute;
+    left: 60px;
+    top: 226px;
+}
+.content2 {
+    width: 440px;
+    height: 353px;
+    overflow: auto;
+}
+.ipt2_lie1 {
+    width: 420px;
+}
+.ipt2_lie1 tr td {
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px dashed #750506;
+    font-size: 16px;
+    color: #220301;
+    
+}
+.til1-1 {
+   width: 75px; 
+}
+.til1-2 {
+   width: 90px; 
+}
+.til1-3 {
+   width: 90px; 
+}
+.til1-4 {
+   width: 80px; 
+}
+.til1-5 {
+   width: 80px; 
+}
+.ip2_til>li {
+    float: left;
+    text-align: center;
+}
+.ip2_til>li.til1 {
+    width: 75px;
+}
+.ip2_til>li.til2 {
+    width: 90px;
+}
+.ip2_til>li.til3 {
+    width: 90px;
+}
+.ip2_til>li.til4 {
+    width: 80px;
+}
+.ip2_til>li.til5 {
+    width: 80px;
+}
+.ipX_bg3 {
+    width: 100%;
+    height: 2225px;
+    background: url(../images/ipX/ipX_bg3.jpg) no-repeat center;
+}
+.ip3_cen {
+    width: 1200px;
+    height: 2226px;
+    margin: 0 auto;
+    position: relative;
+}
+.ip3_cen .ip3_til1 {
+    text-align: center;
+    color: #5018a4;
+    font-size: 36px;
+    font-weight: normal;
+    padding-top: 15px;
+}
+.ip3_cen .ip3_font1 {
+    width: 1080px;
+    border-radius: 5px;
+    margin: 20px auto 0;
+    font-size: 20px;
+    text-indent: 2em;
+    color: #5018a4;
+    line-height: 40px;
+    background: url(../images/ipX/ipX_px1.png) repeat center;
+    padding: 25px 40px;
+}
+.ip3_cen .ip3_font1>span {
+    color: #db2121;
+}
+.ip3_main {
+    width: 1130px;
+    height: 847px;
+    margin: 180px auto 0;
+    position: relative;
+    background: url(../images/ipX/ipX_tips2.png) no-repeat center;
+}
+.ip3_main .ip3_list {
+    width: 900px;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 2px solid #750506;;
+    position: absolute;
+    text-align: center;
+    left: 100px;
+    top: 120px;
+}
+.ip3_list>li {
+    float: left;
+    font-size: 20px;
+    color: #220301;
+}
+.ip3_list1 {
+    width: 100px;
+}
+.ip3_list2 {
+    width: 120px;
+    margin-left: 100px;
+}
+.ip3_list3 {
+    width: 80px;
+    margin-left: 100px;
+}
+.ip3_list4 {
+    width: 240px;
+    margin-left: 110px;
+}
+.two {
+    width: 900px;
+    position: absolute;
+    left: 100px;
+    top: 172px;
+    height: 487px;
+}
+.content1 {
+    width: 920px;
+    height: 487px;
+    overflow: auto;
+}
+.ipt2_lie2>li {
+    width: 900px;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px dashed #750506;
+    font-size: 16px;
+    height: 50px;
+    color: #220301;
+}
+.ipt2_lie2>li>div {
+    float: left;
+    line-height: 50px;
+}
+.til2-1 {
+    width: 100px;
+}
+.til2-2 {
+    width: 120px;
+    padding-left: 100px;
+}
+.til2-3 {
+    width: 80px;
+    padding-left: 100px;
+}
+.til2-4 {
+    width: 240px;
+    padding-left: 110px;
+}
+.ipX_huodong {
+    position: absolute;
+    width: 1160px;
+    left: 50%;
+    margin-left: -580px;
+    top: 1334px;
+}
+.ipX_huodong>h3 {
+    font-size: 30px;
+    color: #5018a4;
+    font-weight: normal;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.ipX_huodong>p {
+    font-size: 18px;
+    color: #5018a4;
+    line-height: 40px;
+    padding: 35px;
+    background: url(../images/ipX/ipX_px1.png) repeat center;
+    border-radius: 20px;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

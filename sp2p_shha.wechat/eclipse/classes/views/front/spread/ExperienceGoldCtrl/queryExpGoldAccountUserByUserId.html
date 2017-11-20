@@ -1,0 +1,34 @@
+
+<div class="account-main " id="exprienceGold">
+	
+		<table class="account-table" width="100%">
+			<tr height="46">
+				<th>状态</th>
+				<th>编号</th>
+				<th>投资金额</th>
+				<th>7日年化</th>
+				<th>期限</th>
+				<th>收益</th>
+				<th>更新时间</th>
+			</tr>
+			    #{if exp}
+				<tr height="46" class="account-billbtn">
+					<td>${exp?.is_use?'已使用':'未使用'}</td>
+					<td>${exp?.id}</td>
+					<td>${exp?.invest_amount}元</td>
+					<td>${exp?.seven_day_rate*100}%</td>
+					<td>15天</td>
+					<td>${exp?.amount}元</td>
+					<td>${exp?.create_time?.format(common.constants.Constants.DATE_TIME_FORMATE)}</td>
+				</tr>
+				#{/if}
+		</table>
+		#{else}
+			<div class="norecord-box c9">
+				暂无记录
+			</div>
+		#{/else}	
+</div>
+
+<script type="text/javascript">
+</script>

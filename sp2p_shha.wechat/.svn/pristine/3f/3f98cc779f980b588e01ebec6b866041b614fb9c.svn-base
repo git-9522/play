@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、出借新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、出借新方向！" />
+        <meta name="description" content="虹金所_引领投资、出借新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body class="q-bgfff">
+    	<div class="q-footerpbtm">
+	    	<div class="q-wdlcdiv01">
+	    		<div class="q-div01 q-padding flex">
+	    			<dl class="clearfix flex-1 dl01">
+	    				<dt class="left"><img src="${currUser?.photo}" onerror="this.src='/public/wechat/images/tximg.png'"/></dt>
+	    				<dd>${currUser?.getTelName()}</dd>
+	    				<dd class="mt15"><span>v1</span>一级会员</dd>
+	    			</dl>
+	    		</div>
+	    		<div class="q-div02 flex q-padding">
+	    			<div class="flex-1">
+	    				<dl>
+	    					<dt id="shouyi">----元</dt>
+	    					<dd>累计收益</dd>
+	    				</dl>
+	    			</div>
+	    			<div class="flex-1 clearfix">
+	    				<dl class="left">
+	    					<dt id="zichan">----元</dt>
+	    					<dd>总资产<a href="@{wechat.front.account.MyAccountCtrl.totalAssetsPre()}"><img src="@{'/public/wechat/images/wdimg.png'}"/></a></dd>
+	    				</dl>
+	    				<img id="isShow" class="right q-byjimg" src="@{'/public/wechat/images/byjimg.png'}"/>
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="q-wdlcdiv03 q-padding flex q-bgfff">
+				<dl class="flex-1">
+					<dt>${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</dt>
+					<dd>账户余额</dd>
+				</dl>
+				<div class="q-diva">
+					<a href="@{wechat.front.account.MyAccountCtrl.toWithdrawPre()}">提现</a>
+					<a href="@{wechat.front.account.MyAccountCtrl.toRechargePre()}">充值</a>
+				</div>
+			</div>
+			<ul class="flex q-wdlcul">
+				<li class="flex-1">
+					<a href="@{wechat.front.account.MyReceiveBillCtrl.toReceiveBillPre}">
+						<img src="@{'/public/wechat/images/lcimg01.png'}"/>
+						<p>回款计划</p>
+					</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.account.MyFundCtrl.accountManagePre()}">
+						<img src="@{'/public/wechat/images/lcimg02.png'}"/>
+						<p>资产管理</p>
+					</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.account.MyDealCtrl.toDealRecordsPre()}">
+						<img src="@{'/public/wechat/images/lcimg03.png'}"/>
+						<p>交易记录</p>
+					</a>
+				</li>
+			</ul>
+			<ul class="flex q-wdlcul">
+				<li class="flex-1">
+					<a href="@{wechat.front.account.MyInfoCtrl.toUserInfoPre()}">
+						<img src="@{'/public/wechat/images/lcimg04.png'}"/>
+						<p>会员信息</p>
+					</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.account.MySecurityCtrl.securityPre()}">
+						<img src="@{'/public/wechat/images/lcimg05.png'}"/>
+						<p>安全中心</p>
+					</a>
+				</li>
+				<li class="flex-1">
+					<a href="@{wechat.front.account.MyRewardCtrl.awardPre()}">
+						<img src="@{'/public/wechat/images/lcimg06.png'}"/>
+						<p>我的奖励</p>
+					</a>
+				</li>
+			</ul>
+			<ul class="flex q-wdlcul q-wdlcul02">
+				<li class="flex-1">
+					<a href="@{wechat.front.WechatHomeCtrl.platformDataPre()}">
+						<img src="@{'/public/wechat/images/lcimg07.png'}"/>
+						<p>平台数据</p>
+					</a>
+				</li>
+				<li class="flex-1">
+					<a href="javascript:void(0)" onclick="location.href='@{wechat.front.LoginAndRegisteCtrl.loginOutPre()}'">
+						<img src="@{'/public/wechat/images/lcimg08.png'}"/>
+						<p>退出本次</p>
+					</a>
+				</li>
+				<li class="flex-1">
+				</li>
+			</ul>
+			<!-- 	footer-->
+	       	<ul class="q-footerul flex">
+	       		<li class="flex-1">
+	       			<a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}">
+		       			<dl class="dl01">
+		       				<dt></dt>
+		       				<dd>首页</dd>
+		       			</dl>
+	       			</a>
+	       		</li>
+	       		<li class="flex-1">
+	       			<a href="@{wechat.front.InvestCtrl.toWechatInvestPre()}">
+		       			<dl class="dl02">
+		       				<dt></dt>
+		       				<dd>出借</dd>
+		       			</dl>
+	       			</a>
+	       		</li>
+	       		<li class="flex-1 q-on">
+	       			<a href="javascript:void(0)" onclick="location.reload()">
+		       			<dl class="dl03">
+		       				<dt></dt>
+		       				<dd>我的财富</dd>
+		       			</dl>
+	       			</a>
+	       		</li>
+	       	</ul>
+		</div>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+    <script type="text/javascript">
+    	$('#isShow').click(function(){
+			if($(this).hasClass('q-yjimg')){
+				$(this).removeClass('q-yjimg');
+				$(this).addClass('q-byjimg');
+				$(this).attr('src','/public/wechat/images/byjimg.png');
+				$('#shouyi').html("----元");
+				$('#zichan').html("----元");
+			}else{
+				$(this).removeClass('q-byjimg');
+				$(this).addClass('q-yjimg');
+				$(this).attr('src','/public/wechat/images/yjimg.png');
+				$('#shouyi').html(${userFundInfo?.total_income?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}.toFixed(2)+"元");
+				$('#zichan').html(${userFundInfo?.total_assets?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}.toFixed(2)+"元");
+			}
+		});
+    </script>
+</html>

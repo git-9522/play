@@ -1,0 +1,288 @@
+/* header start */
+
+.header {
+    width: 100%;
+    position: relative;
+    z-index: 20000;
+}
+.top {
+    background: #ffffff;
+    color: #dff0fe;
+    position: relative;
+    z-index: 3;
+    font-size: 14px;
+    border-bottom: 1px solid #e7e7e7;
+}
+.top .container {
+    height: 48px;
+    line-height: 48px;  
+}
+.top .cbu {
+    color: #666;
+}
+.top .ne_phone {
+    padding: 15px 54px;
+    background: url(../images/ne-phone.png) no-repeat center;
+}
+.top .ne_vip {
+    padding-right: 30px;
+    background-image: url(../images/ne-main-icon.png);
+    background-repeat: no-repeat;
+}
+.top .ne_vip1 {
+    background-position: right 18px;
+}
+.top .ne_vip2 {
+    background-position: right -24px;
+}
+.top .ne_vip3 {
+    background-position: right -66px;
+}
+.top .ne_vip4 {
+    background-position: right -113px;
+}
+.top .ne_vip5 {
+    background-position: right -153px;
+}
+.top .ne_vip6 {
+    background-position: right -197px;
+}
+.top .ne_vip7 {
+    background-position: right -234px;
+}
+.top .ne_vip8 {
+    background-position: right -275px;
+}
+.ne_index_top a:hover {
+    color: #ff5256!important;
+}
+.top .c3 {
+    color: #333;
+}
+.top .cblue {
+    color: #01b4ed;
+}
+.split-line {
+    height: 10px;
+	margin: 20px 13px 0;
+    border-right: 1px solid #e3e3e3;
+}
+.f-top-img1 {
+    position: relative;
+    top: 15px;
+    margin-right: 10px;
+}
+.f-top-sjapp {
+    padding: 2px 13px;
+    border: 1px solid #ff6600;
+    color: #ff6600;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 7px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.f-top-img3 {
+    position: relative;
+    top: 9px;
+    cursor: pointer;
+}
+.f-top-img4 {
+    position: relative;
+    top: 9px;
+    cursor: pointer;
+}
+.logo img {
+    margin-top: 20px;
+}
+.logo {
+    position: relative;
+}
+.logo .logo_link1 {
+    position: absolute;
+    height: 56px;
+    width: 185px;
+    left: 0;
+    top: 20px;
+}
+.logo .logo_link2 {
+    position: absolute;
+    height: 56px;
+    width: 185px;
+    right: 0;
+    top: 20px;
+}
+.logo .f-logo2 {
+    margin-top: 15px;
+    padding-top: 2px;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px dashed #314254;
+}
+.logo .f-logo2 img {
+    margin-top: 0px;
+}
+.f-top-ewm {
+    display: none;
+    z-index: 98;
+    position: absolute;
+    top: 35px;
+    left: -105px;
+    width: 309px;
+    height: 207px;
+    background: #fff url(../images/ewm-bg.png) no-repeat center;
+    text-align: center;
+}
+.f-top-ewm img {
+    width: 130px;
+    height: 130px;
+    margin: 0 5px;
+    margin-top: 30px;
+}
+.f-ewm-text {
+    text-align: center;
+}
+.f-ewm-text span {
+    float: left;
+    width: 145px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+/* header end */
+.gai_innerbox .go_shouye {
+    display: block;
+    width: 110px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #42cfff;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+.navbox{
+    position: absolute;
+    width: 100%;
+	background: url(../images/ne-index-opc1.png) repeat center;
+}
+.gai_innerbox .go_shouye {
+    display: block;
+    width: 110px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #42cfff;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+/*my_gai_nav*/
+.gai_nav>li{
+    height: 90px;
+    line-height: 90px;
+    font-size: 16px;
+    width: 104px;
+    float: left;
+    position: relative;
+    text-align: center;
+}
+.gai_nav>li>a {
+    display: block;
+}
+.gai_nav>li>img {
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    display: none;
+}
+.gai_nav>li:hover {
+    background: url(../images/ne-index-opc1.png) repeat center;
+}
+/*.gai_nav>li:hover>img {
+    display: block;
+}*/
+.gai_nav>li>img.ne_nav_l {
+    left: -7px;
+}
+.gai_nav>li>img.ne_nav_r {
+    right: -7px;
+}
+.gai_nav>li a {
+    color: #fff;
+}
+.gai_nav>li.ord>a {
+    color: #ff5256;
+}
+/*.gai_nav>li.ne_nav_act>img{
+    display: block;
+}*/
+.gai_nav>li.gai_nav_act:hover .gai_dropdown {
+    display: block;
+}
+.gai_nav>li.gai_nav_act i {
+    padding: 3.5px 8px;
+    background: url(../images/ne-index-fd.png) no-repeat right;
+}
+.gai_nav>li.gai_nav_act:hover i {
+    background: url(../images/ne-index-fu.png) no-repeat right;
+}
+.gai_dropdown {
+    left: 0;
+    top: 90px;
+    width: 104px;
+    text-align: center;
+    display: none;
+    z-index: 19998;
+}
+.gai_dropdown>ul>li {
+    line-height: 35px;
+}
+.gai_dropdown>ul>li>a {
+    background: url(../images/ne-index-opc1.png) repeat center;
+    display: block;
+    color: #fff;
+}
+.gai_nav>li.gai_nav_act .gai_dropdown>ul>li>a:hover{
+    background: #ff644a url(../images/ne-index-fdots.png) no-repeat 10px center;
+    color: #fff;
+}
+/*my_gai_nav*/
+.ceshi {
+    background: url(../images/rs_phone.jpg) no-repeat center;
+    width: 100%;
+}
+/*控制css*/
+.ne_navbox {
+    background: #fff;
+}
+.ne_navbox .gai_nav>li:hover>img {
+    display: block;
+}
+.ne_navbox .gai_nav>li a {
+    background: #fff;
+    color: #ff5256;
+}
+.ne_navbox .gai_nav>li:hover {
+    background: none;
+}
+.ne_navbox .gai_nav>li a {
+    color: #404040;
+}
+.ne_navbox .gai_nav>li.gai_nav_act i {
+    padding: 3.5px 8px;
+    background: url(../images/ne-index-down.png) no-repeat right;
+}
+.ne_navbox .gai_nav>li.gai_nav_act:hover i {
+    background: url(../images/ne-index-up.png) no-repeat right;
+}
+.ne_navbox .gai_nav>li.gai_nav_act:hover ul {
+    box-shadow: 0px 2px 5px 0px #b7b7b7;
+}
+.ne_navbox .gai_dropdown>ul>li>a {
+    display: block;
+    background: #fff;
+    color: #404040;
+}
+.ne_logo1 {
+    display: none;
+}
+/*控制css*/

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+		<p class="q-bztitle">严格风控流程<span>用心</span></p>
+		<div class="q-padding q-footerpbtm">
+			<div class="q-bzone">
+				<span class="q-jbspan">1</span>
+				<p class="q-title">-超强风控阵容，用专业造就信赖-</p>
+				<p class="q-cent">
+					虹金所建立了超强的专业风控团队，团队成员均来自国内各大银行等金融机构，从风控体系建立到执行，从贷前审查到贷后管理等专业领域都有着非常丰富的经验。
+				</p>
+			</div>
+			<div class="q-bzone mt30">
+				<span class="q-jbspan">2</span>
+				<p class="q-title"> -报告约定式发布，公开透明-</p>
+				<p class="q-cent">
+					在借款人提交申请之后，风控团队将对借款人进行严格、谨慎的当面审核，对借款项目进行全面、专业的实地尽职调查。
+				</p>
+				<p class="q-cent">
+					收集资料>信息核实>现场勘察>小组初议>落实执行>提上审议会>小组再议
+				</p>
+			</div>
+			<div class="q-bzone mt30">
+				<span class="q-jbspan">3</span>
+				<p class="q-title"> -足额抵押担保物，还款有保障-</p>
+				<p class="q-cent">
+					虹金所的项目借款除由担保机构提供保障外，更有借款人提供的足额抵押物进行担保，抵押额度一般为其评估价值的70%，以降低抵押物价值波动的风险。
+				</p>
+			</div>
+		</div>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

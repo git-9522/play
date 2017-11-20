@@ -1,0 +1,300 @@
+.draw_card {
+    width: 100%;
+}
+.draw_card_bg1 {
+    width: 100%;
+    height: 630px;
+    background: url(../images/draw_card_bg1.jpg) no-repeat center;
+    position: relative;
+}
+.draw_card_bg1_con {
+    position: absolute;
+    left: 50%;
+    top: 570px;
+    width: 390px;
+    color: #000;
+    font-size: 28px;
+    margin-left: -95px;
+}
+/*主要部分*/
+
+.draw_card_bg2 {
+    width: 100%;
+    height: 1000px;
+    background: url(../images/draw_card_bg2.jpg) no-repeat center;
+}
+.draw_card_main {
+    position: relative;
+    width: 1188px;
+    height: 938px;
+    background: url(../images/draw_card_box.png) no-repeat center;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+.draw_main_box {
+    position: absolute;
+    right: 35px;
+    top: 165px;
+    width: 770px;
+    height: 325px;
+}
+.draw_main_box>li {
+    position: absolute;
+    left: 50%;
+}
+.draw_main_box>li img.dc_a {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.draw_main_box>li.dc_moment1 img.dc_a {
+    -webkit-animation: flip_a .3s 6;
+    animation: flip_a .3s 6;
+    z-index: 2;
+}
+.draw_main_box>li.dc_moment2 img.dc_a {
+    -webkit-animation: flip_a .3s 1;
+    /*infinite linear*/
+    animation: flip_a .3s 1;
+    /*infinite linear*/
+    z-index: 2;
+}
+@keyframes flip_a {
+    0% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 0deg);
+    }
+    50% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 180deg);
+        z-index: 2;
+    }
+    100% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 360deg);
+    }
+}
+.draw_main_box>li img.dc_b {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+.draw_main_box>li.dc_moment1 img.dc_b {
+    -webkit-animation: flip_b .3s 6;
+    animation: flip_a .3s 6;
+    z-index: 1
+}
+.draw_main_box>li.dc_moment2 img.dc_b {
+    -webkit-animation: flip_b .3s 1;
+    animation: flip_a .3s 1;
+    z-index: 1
+}
+@keyframes flip_b {
+    0% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
+    }
+    50% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -180deg);
+        z-index: 1
+    }
+    100% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 0deg);
+    }
+}
+.dc_cow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: none;
+}
+.dc_cow>img {
+    display: block;
+    margin: 20px auto 0;
+}
+.dc_cow .dc_zj {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    top: 140px;
+    line-height: 30px;
+    font-size: 30px;
+    color: #ff0000;
+}
+.dc_cow .draw_back_btn {
+    position: absolute;
+    width: 91px;
+    height: 33px;
+    text-align: center;
+    line-height: 33px;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -45px;
+    background: url(../images/draw_card_btn1.png) no-repeat center;
+    color: #fff;
+    cursor: pointer;
+}
+.draw_main_box>li.draw_card1 {
+    width: 178px;
+    height: 243px;
+    top: 0;
+    left: 296px;
+    z-index: 3;
+}
+.draw_main_box>li.draw_card1>img {
+    box-shadow: 0 -1px 40px -1px #903d00;
+}
+.draw_main_box>li.draw_card2 {
+    width: 149px;
+    height: 203px;
+    top: 35px;
+    left: 530px;
+    z-index: 2;
+}
+.draw_main_box>li.draw_card2>img {
+    box-shadow: 0 -1px 40px -1px #128fbb;
+}
+.draw_main_box>li.draw_card3 {
+    width: 149px;
+    height: 203px;
+    top: 35px;
+    left: 90px;
+    z-index: 1;
+}
+.draw_main_box>li.draw_card3>img {
+    box-shadow: 0 -1px 40px -1px #368516;
+}
+.draw_card_font {
+    width: 344px;
+    height: 433px;
+    position: absolute;
+    left: 29px;
+    top: 193px;
+}
+.dc_list {
+    width: 300px;
+    margin: 0 auto;
+}
+.dc_list .dc_title {
+    height: 60px;
+    line-height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+    color: #000;
+    border-bottom: 1px solid #e08b32;
+}
+.dc_title>li {
+    width: 100px;
+    float: left;
+    text-align: center;
+}
+.dc_list .dc_mate {
+    min-height: 300px;
+}
+.dc_mate>li {
+    width: 300px;
+    height: 45px;
+    line-height: 45px;
+    border-bottom: 1px solid #e08b32;
+}
+.dc_mate>li>div {
+    width: 100px;
+    text-align: center;
+    float: left;
+    font-size: 14px;
+}
+.dc_mate>li .draw_biao1 {
+    width: 91px;
+    height: 33px;
+    text-align: center;
+    line-height: 33px;
+    background: url(../images/draw_card_btn1.png) no-repeat center;
+    color: #fff;
+    font-size: 12px;
+    margin: 5px auto 0;
+    cursor: pointer;
+}
+.dc_mate>li .draw_btn2 {
+    width: 91px;
+    height: 33px;
+    text-align: center;
+    line-height: 33px;
+    background: url(../images/draw_card_btn2.png) no-repeat center;
+    color: #fff;
+    font-size: 12px;
+    margin: 5px auto 0;
+    cursor: pointer;
+}
+.scroll-pane {
+    width: 310px;
+    height: 324px;
+    overflow: auto;
+}
+.horizontal-only {
+    height: auto;
+    max-height: 322px;
+}
+.content {
+    width: 325px;
+    height: 324px;
+    overflow: auto;
+}
+/*主要部分*/
+
+.draw_num {
+    position: absolute;
+    right: 300px;
+    top: 400px;
+}
+.draw_num li {
+    float: left;
+    width: 50px;
+    height: 50px;
+    background: blue;
+    text-align: center;
+    line-height: 50px;
+    margin-left: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+.color1 {
+    color: #ffe4b5;
+}
+.draw_card_bg3 {
+    width: 100%;
+    height: 1346px;
+    background: url(../images/draw_card_bg3.jpg) no-repeat center;
+    position: relative;
+}
+.draw_card_bg3>img {
+    position: absolute;
+    left: 50%;
+    margin-left: -326px;
+}
+.draw_card_bg3 .draw3_img1 {
+    top: 40px;
+}
+.draw_card_bg3 .draw3_img2 {
+    top: 660px;
+}
+.draw3_font {
+    position: absolute;
+    width: 930px;
+    padding: 120px 59px 0;
+    height: 324px;
+    background: url(../images/draw_card_kuang.png) no-repeat center;
+    left: 50%;
+    margin-left: -524px;
+    color: #ffe4b5;
+    font-size: 18px;
+    line-height: 40px;
+}
+.draw3_font1 {
+    top: 190px;
+}
+.draw3_font2 {
+    top: 815px;
+}

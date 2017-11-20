@@ -1,0 +1,11 @@
+ #{list items:pageBean?.page } 	
+<li class="left">
+ <a href="@{front.mallFront.MallFrontCtrl.showGoodsDetailPre(_?.sign)}">
+      <img src="${_?.image_url}"  onerror="this.src='/public/front/images/shop_hongbao.png'" alt="${_?.name}"/>
+      <p class="fs14 c3 mt35 ml20">${_?.name}</p>
+      <div class="clearfix mt5">
+          <p class="fs14 c9 ml20 left">尊享价: <span class="corange">${_?.spend_scroe}</span>虹银</p>
+      </div>
+ </a>
+</li>
+#{/list}	

@@ -1,0 +1,88 @@
+#{extends 'common/wechatMain.html' /}
+<style type="text/css">
+.header { width: 100%; height: 1.2rem; line-height: 1.2rem; background: #fe4f51; text-align: center;   color: #fff; font-size: 0.48rem; position: fixed;  left: 0; top: 0;z-index: 10000;}
+.header .icon_goback { width: 0.586rem; height: 0.586rem; overflow: hidden;position: absolute;left: 0.16rem; top: 0.294rem; background: url(/public/wechat/newedition/images/icon/login-back.png) no-repeat;background-size: 100% auto;}
+.login_logo{ background:#fff; overflow:hidden;}
+.login_logo img{ display:block; width:3.65rem; height:2.93rem; margin:0.34rem auto;}
+</style>
+<div class="header" style="display:block; "><a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}"><span class="icon_goback"></span></a> <span class="title_name">个人详情</span></div>
+
+<div class="center">
+<ul class="xf-security">
+	#{if userFund?.payment_account != null && userFund?.payment_account !=""}
+		#{ifnot userFund?.is_actived}
+    	<li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.bosAcctActivatePre()}'">
+        	<div class="flex-1">资金托管开户</div>
+        	<div>未激活 <span style="font-size:20px">></span></div>
+    	</li>
+    	#{/ifnot}
+    	#{else}
+	    <li class="flex">
+	        <div class="flex-1">资金托管开户</div>
+	        <div>${userFund?.payment_account}</div>
+	    </li>
+	    #{/else}
+    #{/if}
+    #{else}
+   	<li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.createAccountPre()}'">
+       	<div class="flex-1">资金托管开户</div>
+       	<div>未开户 <span style="font-size:20px">></span></div>
+   	</li>
+    #{/else}
+    
+    #{if userInfo.reality_name != null && userInfo.reality_name != '' && userInfo.id_number != null && userInfo.id_number != ''}
+    <li class="flex">
+        <div class="flex-1">实名认证</div>
+        <div>${userInfo.reality_name}</div>
+    </li>
+    #{/if}
+    #{else}
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.certificationPre()}'">
+        <div class="flex-1">实名认证</div>
+        <div>未认证 <span style="font-size:20px">></span></div>
+    </li>
+    #{/else}
+    
+    <li class="flex">
+        <div class="flex-1">手机号</div>
+        <div>
+        	#{if user?.mobile != null && user?.mobile != ''}
+        		${user?.mobile}
+        	#{/if}
+        	#{else}
+        		未绑定
+        	#{/else}
+        </div>
+    </li>
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.updateUserEmailPre()}'">
+        <div class="flex-1">个人邮箱</div>
+        <div>
+        	#{if userInfo?.email == null || userInfo?.email == ""}
+        		未绑定 <span style="font-size:20px">></span>
+        	#{/if}
+        	#{else}
+        		${userInfo?.email} <span style="font-size:20px">></span>
+        	#{/else}
+        </div>
+    </li>
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.updateUserBankCardPre()}'">
+        <div class="flex-1">银行卡</div>
+        <div>
+        	#{if cardList.size() <= 0}
+         	未绑定 <span style="font-size:20px">></span>
+        	#{/if}
+        	#{else}
+        		${cardList?.get(0)?.bank_name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${cardList?.get(0)?.account}  <span style="font-size:20px">></span>
+        	#{/else}
+        </div>
+    </li>
+    <li class="flex" onclick="location.href='@{wechat.front.account.MySecurityCtrl.updateUserPasswordPre()}'">
+        <div class="flex-1">修改密码</div>
+        <div>已保护 <span style="font-size:20px">></span> </div>
+    </li>
+     <li class="flex" onclick="location.href='@{wechat.front.account.MyInfoCtrl.toUserInfoPre()}'">
+        <div class="flex-1">更多信息</div>
+        <div> <span style="font-size:20px">></span></div>
+    </li>
+</ul>
+</div>

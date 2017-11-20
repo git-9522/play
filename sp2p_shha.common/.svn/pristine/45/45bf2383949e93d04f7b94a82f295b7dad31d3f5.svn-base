@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>高端金融理财平台 | 虹金所_引领投资、理财新方向!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="虹金所,虹奥财富,上海网络借贷,P2P网络借贷">
+    <meta name="description" content="虹金所为上海虹奥财富旗下P2P网络借贷平台，为广大用户提供一个安全、诚信、低风险、回报稳定的理财新渠道。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <link rel="stylesheet" href="../stylesheets/myoperation.css" />
+	<link rel="shortcut icon" type="image/png" href="/data/attachments/64c09f1d-6e99-4347-96b0-46c778da714d" />
+    <link rel="stylesheet" href="../stylesheets/operationReport7.css" />
+    <script src="../javascripts/jquery.js"></script>
+</head>
+
+<body>
+    <div class="operat_box">
+        <div class="operat_one">
+            <img ondragstart="return false;" src="../images/or7-img/or7_one_icon1.png" alt="" class="operat_one_img1">
+            <img ondragstart="return false;" src="../images/or7-img/or7_one_icon2.png" alt="" class="operat_one_img2">
+            <div class="or7_one_btn">
+                <img ondragstart="return false;" src="../images/or7-img/or7_one_btn1.png" alt="" class="ope_one_img">
+                <img ondragstart="return false;" src="../images/or7-img/or7_one_btn2.png" alt="" class="ope_one_quan waveRaidus">
+            </div>
+        </div>
+        <div class="or7_container none">
+            <h3 class="or7_title"></h3>
+            <div class="or7_main">
+                <ul class="or7_animate">
+                    <li class="ani1 or7_animate or7_ani_act">
+                        <ul class="or7_util">
+                            <li class="oa1_1 ou7_act">
+                                <div class="oa1_1_left oa1_1_biao">
+                                    <h3 class="c3">115,279,446</h3>
+                                    <p class="c6">累计成交额(元)</p>
+                                    <i style="margin-left: 1rem;" class="or7_line"></i>
+                                    <div class="oa1_1_tab">
+                                        <div class="oa1_1_comb">
+                                            <div class="comb_list comb_list1">
+                                                <span>55,402,177元</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="comb_list comb_list2">
+                                                <span>66,782,592元</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="comb_list comb_list3">
+                                                <span>78,999,315元</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="comb_list comb_list4">
+                                                <span>115,279,446元</span>
+                                                <i></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oa1_1_right oa1_1_biao">
+                                    <h3 class="c3">36,280,131</h3>
+                                    <p class="c6">当月成交额(元)</p>
+                                    <i style="margin-left: 1rem;" class="or7_line"></i>
+                                    <div class="oa1_1_tab">
+                                        <div class="oa1_1_comb">
+                                            <div class="comb_list comb_list1">
+                                                <span>9,267,597元</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="comb_list comb_list2">
+                                                <span>11,380,415元</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="comb_list comb_list3">
+                                                <span>12,216,723元</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="comb_list comb_list4">
+                                                <span>36,280,131元</span>
+                                                <i></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oa1_font">
+                                    <p class="c6">环比六月成交额增长率：196.97%</p>
+                                    <span class="c9">（截至7月31日）</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="oa1_2">
+                                    <h3 class="c3">115,279,446</h3>
+                                    <p class="c6">累计成交额(元)</p>
+                                    <i style="margin-left: 3.125rem;" class="or7_line"></i>
+                                    <div class="oa1_2_box">
+                                        <div class="oa1_2_most">
+                                            <div class="most_list most_list1">
+                                                <span>3012240</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list2">
+                                                <span>3382040</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list3">
+                                                <span>5524640</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list4">
+                                                <span>10610640</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list5">
+                                                <span>17411980</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list6">
+                                                <span>21996870</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list7">
+                                                <span>24817370</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list8">
+                                                <span>33370320</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list9">
+                                                <span>46134580</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list10">
+                                                <span>55402177</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list11">
+                                                <span>66782592</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list12">
+                                                <span>78999315</span>
+                                                <i></i>
+                                            </div>
+                                            <div class="most_list most_list13">
+                                                <span>115279446</span>
+                                                <i></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="oa1_2_font">
+                                        <p class="c6">2016年7月成交额：<span>795,100</span>元</p>
+                                        <p class="c6">同比成交额增长率：<span>4462.96%</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="or7_left">
+                            <ul class="or7_dots">
+                                <li class="od7_act"></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ani2 or7_animate">
+                        <img ondragstart="return false;" src="../images/or7-img/oa2_img.png" alt="" class="oa2">
+                    </li>
+                    <li class="ani3 or7_animate">
+                        <img ondragstart="return false;" src="../images/or7-img/oa3_img1.png" alt="" class="oa3_img1">
+                        <img ondragstart="return false;" src="../images/or7-img/oa3_img2.png" alt="" class="oa3_img2">
+                    </li>
+                    <li class="ani4 or7_animate">
+                        <ul class="or7_util">
+                            <li class="oa4_1 ou7_act">
+                                <div class="oa4_1_box">
+                                    <div class="oa4_1_img">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_1_icon1.png" alt="" class="oa4_1_pic1">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_1_icon2.png" alt="" class="oa4_1_pic2">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_1_icon3.png" alt="" class="oa4_1_pic3">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_1_icon4.png" alt="" class="oa4_1_pic4">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_1_icon5.png" alt="" class="oa4_1_pic5">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="oa4_2">
+                                <div class="oa4_2_box">
+                                    <div class="oa4_1_img">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_2_icon1.png" alt="" class="oa4_1_pic1">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_2_icon2.png" alt="" class="oa4_1_pic2">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_2_icon3.png" alt="" class="oa4_1_pic3">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_2_icon4.png" alt="" class="oa4_1_pic4">
+                                        <img ondragstart="return false;" src="../images/or7-img/oa4_2_icon5.png" alt="" class="oa4_1_pic5">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="or7_left">
+                            <ul class="or7_dots">
+                                <li class="od7_act"></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ani5 or7_animate">
+                        <ul class="or7_util">
+                            <li class="oa5_1">
+                                <div class="oa5_1_box">
+                                    <p class="c6">本月总投资金额TOP3：（龙虎榜）
+                                    </p>
+                                    <i class="or7_line"></i>
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_1_icon1.png" alt="" class="oa5_1_img1">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_1_icon2.png" alt="" class="oa5_1_img2">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_1_icon3.png" alt="" class="oa5_1_img3">
+                                    <span>投资总额排行</span>
+                                </div>
+                            </li>
+                            <li class="oa5_2">
+                                <div class="oa5_1_box">
+                                    <p class="c6">本月单次投资金额TOP3：（土豪榜）</p>
+                                    <i class="or7_line"></i>
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_2_icon1.png" alt="" class="oa5_1_img1">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_2_icon2.png" alt="" class="oa5_1_img2">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_2_icon3.png" alt="" class="oa5_1_img3">
+                                    <span>单次投资金额排行</span>
+                                </div>
+                            </li>
+                            <li class="oa5_3">
+                                <div class="oa5_1_box">
+                                    <p class="c6">当月投资次数TOP3：（精明榜）
+                                    </p>
+                                    <i class="or7_line"></i>
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_3_icon1.png" alt="" class="oa5_1_img1">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_3_icon2.png" alt="" class="oa5_1_img2">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa5_3_icon3.png" alt="" class="oa5_1_img3">
+                                    <span>投资次数排行</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="or7_left">
+                            <ul class="or7_dots">
+                                <li class="od7_act"></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ani6 or7_animate">
+                        <ul class="or7_util">
+                            <li class="oa6_1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_img1.png" alt="" class="oa6_1_img1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_img2.png" alt="" class="oa6_1_img2">
+                            </li>
+                            <li class="oa6_1 oa6_2">
+                                <p class="c6">标的类型</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_2_img1.png" alt="" class="oa6_1_img1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_2_img2.png" alt="" class="oa6_1_img2">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_2_img3.png" alt="" class="oa6_1_img3">
+                            </li>
+                            <li class="oa6_1 oa6_3">
+                                <p class="c6">标的类型</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_3_img1.png" alt="" class="oa6_1_img1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_3_img2.png" alt="" class="oa6_1_img2">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_3_img3.png" alt="" class="oa6_1_img3">
+                            </li>
+                            <li class="oa6_1 oa6_4">
+                                <p class="c6">标的类型</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_4_img1.png" alt="" class="oa6_1_img1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_4_img2.png" alt="" class="oa6_1_img2">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_4_img3.png" alt="" class="oa6_1_img3">
+                            </li>
+                            <li class="oa6_1 oa6_5">
+                                <p class="c6">发标数目及金额</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_5_img1.png" alt="" class="oa6_1_img1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa6_5_img2.png" alt="" class="oa6_1_img2">
+                            </li>
+                        </ul>
+                        <div class="or7_left">
+                            <ul class="or7_dots">
+                                <li class="od7_act"></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ani7 or7_animate">
+                        <ul class="or7_util">
+                            <li class="oa7_1">
+                                <p class="c6">总的信息</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_1_bg1.png" alt="" class="oa7_1_img1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_1_bg2.png" alt="" class="oa7_1_img2">
+                            </li>
+                            <li class="oa7_2">
+                                <p class="c6">红包金额及信息</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_2_img1.png" alt="" class="oa7_2_img1">
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_2_img2.png" alt="" class="oa7_2_img2">
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_2_img3.png" alt="" class="oa7_2_img3">
+                            </li>
+                            <li class="oa7_3">
+                                <p class="c6">抽取次数前十名</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_3_img1.png" alt="" class="oat_img1">
+                                <div class="or7_3_list">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_3_icon1.png" alt="" class="or7_3_icon1">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_3_icon2.png" alt="" class="or7_3_icon2">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_3_icon3.png" alt="" class="or7_3_icon3">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_3_icon4.png" alt="" class="or7_3_icon4">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_3_icon5.png" alt="" class="or7_3_icon5">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_3_icon6.png" alt="" class="or7_3_icon6">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_3_icon7.png" alt="" class="or7_3_icon7">
+                                </div>
+                            </li>
+                            <li class="oa7_3 oa7_4">
+                                <p class="c6">总红包金额前十名</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_4_img1.png" alt="" class="oat_img1">
+                                <div class="or7_3_list">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_4_icon1.png" alt="" class="or7_3_icon1">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_4_icon2.png" alt="" class="or7_3_icon2">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_4_icon3.png" alt="" class="or7_3_icon3">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_4_icon4.png" alt="" class="or7_3_icon4">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_4_icon5.png" alt="" class="or7_3_icon5">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_4_icon6.png" alt="" class="or7_3_icon6">
+                                    <img ondragstart="return false;" src="../images/or7-img/oa7_4_icon7.png" alt="" class="or7_3_icon7">
+                                </div>
+                            </li>
+                            <li class="oa7_5">
+                                <p class="c6">抽中188元现金红包的幸运星</p>
+                                <i class="or7_line"></i>
+                                <img ondragstart="return false;" src="../images/or7-img/oa7_5_bg.png" alt="" class="oa7_5_img">
+                            </li>
+                        </ul>
+                        <div class="or7_left">
+                            <ul class="or7_dots">
+                                <li class="od7_act"></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ani8 or7_animate">
+                        <p class="c6">粉丝互动</p>
+                        <i class="or7_line"></i>
+                        <img ondragstart="return false;" src="../images/or7-img/or8_bg.png" alt="" class="oa8_img">
+                        <img ondragstart="return false;" src="../images/or7-img/or8_img1.png" alt="" class="oa8_icon1">
+                        <img ondragstart="return false;" src="../images/or7-img/or8_img2.png" alt="" class="oa8_icon2">
+                    </li>
+                </ul>
+                <img ondragstart="return false;" src="../images/or7-img/or7_btnl.png" alt="" class="or7_prev operat_same">
+                <img ondragstart="return false;" src="../images/or7-img/or7_btnr.png" alt="" class="or7_next operat_same">
+            </div>
+            <ul class="or7_list">
+                <li class="or7_sea1 or7_active1">累计成交额统计</li>
+                <li class="or7_sea2">整体数据罗列</li>
+                <li class="or7_sea1">用户性别、年龄占比</li>
+                <li class="or7_sea2">投资人地域分布</li>
+                <li class="or7_sea1">投资前三名</li>
+                <li class="or7_sea2">标的详情</li>
+                <li class="or7_sea1">大转盘活动信息</li>
+                <li class="or7_sea2">粉丝互动</li>
+            </ul>
+        </div>
+        <div class="or7_end none">
+            <img ondragstart="return false;" src="../images/or7-img/or7_end.png" alt="" class="or7_end_bg">
+            <div class="or7_one_btn">
+                <img ondragstart="return false;" src="../images/or7-img/or7_one_btn1.png" alt="" class="ope_one_img">
+                <img ondragstart="return false;" src="../images/or7-img/or7_one_btn2.png" alt="" class="ope_one_quan waveRaidus">
+            </div>
+            <p class="cf">返回首页</p>
+        </div>
+    </div>
+</body>
+<script>
+    $(function () {
+        var oIndex = 0;
+        var aIndex = 0;
+        var oArr1 = ['累计成交额统计', '整体数据罗列', '用户性别、年龄占比', '投资人地域分布', '投资前三名', '标的详情', '大转盘活动信息', '粉丝互动'];
+        $('.operat_one .or7_one_btn').click(function () {
+            $('.operat_one').hide();
+            $('.or7_container').show();
+            oIndex = 0;
+            aIndex = 0;
+            $('.or7_animate>li').eq(oIndex).not('.operat_same').show().siblings().hide();
+            $('.or7_animate>li').eq(oIndex).find('.or7_util>li').eq(aIndex).show().siblings().hide();
+            $('.or7_animate>li').eq(oIndex).find('.or7_dots>li').eq(aIndex).addClass('od7_act').siblings().removeClass('od7_act');
+            $('.or7_title').html(oArr1[oIndex]);
+            oDot();
+        })
+        $('.or7_end .or7_one_btn').click(function () {
+            $('.or7_end').hide();
+            $('.operat_one').show();
+        })
+        $('.or7_main>.operat_same').click(function () {
+            if ($('.or7_animate>li').eq(oIndex).find('.or7_util').length > 0) {
+                oClick(this);
+                oDot();
+            } else {
+                if ($(this).index() == 1) {
+                    oIndex--;
+                    if (oIndex == 0) {
+                        oIndex = 0;
+                    } else {
+                        if (aIndex == 0) {
+                            aIndex = $('.or7_animate>li').eq(oIndex).find('.or7_util>li').length - 1;
+                            $('.or7_animate>li').eq(oIndex).find('.or7_util>li').eq(aIndex).show().siblings().hide();
+                            $('.or7_animate>li').eq(oIndex).find('.or7_dots>li').eq(aIndex).addClass('od7_act').siblings().removeClass('od7_act');
+                        }
+                    }
+
+                    /*console.log(aIndex);*/
+                    $('.or7_animate>li').eq(oIndex).not('.operat_same').show().siblings().hide();
+                    /*console.log($(this).index());*/
+                    aIndex = $('.or7_animate>li').eq(oIndex).find('.or7_util>li').length - 1;
+                    oDot();
+
+                } else {
+                    oIndex++;
+                    if (oIndex > $('.or7_animate>li').length - 1) {
+                        $('.or7_container').hide();
+                        $('.or7_end').show();
+                    } else {
+                        aIndex = 0;
+                        /*console.log($(this).index());*/
+                        $('.or7_animate>li').eq(oIndex).not('.operat_same').find('.or7_util>li').eq(aIndex).show().siblings().hide();
+                        $('.or7_animate>li').eq(oIndex).not('.operat_same').show().siblings().hide();
+                        oDot();
+                    }
+                }
+            }
+            $('.or7_title').html(oArr1[oIndex]);
+            $('.or7_animate>li').eq(oIndex).find('.or7_dots>li').eq(aIndex).addClass('od7_act').siblings().removeClass('od7_act');
+            $('.or7_animate>li').eq(oIndex).find('.or7_util>li').eq(aIndex).show().siblings().hide();
+            console.log(aIndex);
+
+        });
+        $('.or7_dots>li').click(function () {
+            aIndex = $(this).index();
+            $(this).addClass('od7_act').siblings().removeClass('od7_act');
+            $('.or7_animate>li').eq(oIndex).not('.operat_same').find('.or7_util>li').eq(aIndex).show().siblings().hide();
+        });
+        $('.or7_list>li').click(function () {
+            oIndex = $(this).index();
+            aIndex = 0;
+            $('.or7_title').html(oArr1[oIndex]);
+            $('.or7_animate>li').eq(oIndex).not('.operat_same').show().siblings().hide();
+            $('.or7_animate>li').eq(oIndex).find('.or7_util>li').not('.operat_same').eq(aIndex).show().siblings().hide();
+            $('.or7_animate>li').eq(oIndex).find('.or7_dots>li').eq(aIndex).addClass('od7_act').siblings().removeClass('od7_act');
+            oDot();
+        })
+
+        function oClick(a) {
+            /*console.log($(a).index());*/
+            if ($(a).index() == 1) {
+                aIndex--;
+                /*console.log($(this).index());*/
+            } else {
+                aIndex++;
+                /*console.log($(this).index());*/
+            }
+            oMove();
+
+            function oMove() {
+
+                /*console.log(aIndex+'a',oIndex+'o');*/
+                /*console.log($('.or7_animate>li').eq(oIndex).find('.or7_util>li').length);*/
+                if (aIndex > $('.or7_animate>li').eq(oIndex).find('.or7_util>li').length - 1) {
+                    oIndex++;
+                    $('.or7_animate>li').eq(oIndex).not('.operat_same').show().siblings().hide();
+                    aIndex = 0;
+                    $('.or7_animate>li').eq(oIndex).find('.or7_util>li').eq(aIndex).show().siblings().hide();
+                    $('.or7_animate>li').eq(oIndex).find('.or7_dots>li').eq(aIndex).addClass('od7_act').siblings().removeClass('od7_act');
+                } else if (aIndex == -1) {
+                    oIndex--;
+                    if (oIndex < 0) {
+                        oIndex = 0;
+                        aIndex = 0;
+                    } else {
+                        $('.or7_animate>li').eq(oIndex).not('.operat_same').show().siblings().hide();
+                        aIndex = $('.or7_animate>li').eq(oIndex).find('.or7_util>li').length - 1;
+                        /*console.log(aIndex);*/
+                        $('.or7_animate>li').eq(oIndex).find('.or7_util>li').not('.operat_same').eq(aIndex).show().siblings().hide();
+                    }
+
+                } else {
+                    $('.or7_animate>li').eq(oIndex).find('.or7_util>li').not('.operat_same').eq(aIndex).show().siblings().hide();
+                }
+                $('.or7_animate>li').eq(oIndex).find('.or7_dots>li').eq(aIndex).addClass('od7_act').siblings().removeClass('od7_act');
+                /*console.log(aIndex)*/
+                /*console.log(aIndex);*/
+
+            }
+        };
+
+        function oDot() {
+            if (oIndex % 2) {
+                $('.or7_list>li').removeClass('or7_active2');
+                $('.or7_list>li').removeClass('or7_active1');
+                $('.or7_list>li').eq(oIndex).addClass('or7_active2');
+            } else {
+                $('.or7_list>li').removeClass('or7_active1');
+                $('.or7_list>li').removeClass('or7_active2');
+                $('.or7_list>li').eq(oIndex).addClass('or7_active1');
+            }
+        }
+    });
+</script>
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?652a94abffc87db62109ab474047f10e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</html>

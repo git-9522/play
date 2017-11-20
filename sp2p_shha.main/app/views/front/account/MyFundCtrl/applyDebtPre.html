@@ -1,0 +1,137 @@
+<div class="account-box c3">
+	<h2 class="account-title">
+		<div class="left account-checktitle"><i class="icon transfer-icon"></i>转让申请</div>
+		<span class="right">${debtInvest?.bid_no}  ${debtInvest?.title}</span>
+	</h2>
+	<div class="account-transfer-box position">
+		<div class="clearfix mt20">
+			<div class="left w-zh-box1 mt50">
+				<p class="account-debtdata c3">
+					<span class="left">债权总额&nbsp;&nbsp;${debtInvest?.debt_amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span>
+					<span class="left">待收本金&nbsp;&nbsp;${debtInvest?.debt_principal?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span>
+					<span class="left">待收利息&nbsp;&nbsp;${debtInvest?.debt_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span>
+					<span class="left">待收期数&nbsp;&nbsp;#{formatIntMoney money:debtInvest?.period /}期</span>
+				</p>
+				<ul class="borrow-list">
+					<form action="@{front.account.MyFundCtrl.applyDebtTransfer()}" method="POST" id="form_applayDept">
+						#{authenticityToken /}
+						<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">
+						<li>
+							<span class="left c3 borrowleft"><i class="important-point">*</i>转让标题</span>
+							<div class="borrowright">
+								<input name="title" id="title" type="text" class="text" maxlength=20 />
+								<input name="sign" id="sign" type="hidden" value="${debtInvest?.sign}" />
+							</div>
+						</li>
+						<li>
+							<span class="left c3 borrowleft"><i class="important-point">*</i>转让期限</span>
+							<div class="borrowright">
+								<label class="unit-input">
+								<select class="select" name="period" style="background-position: 251px 0px;">
+									#{list items:1..7,as:'i'}
+										<option value="${i}">${i}</option>
+									#{/list}
+								</select>
+								<i class="unit selectunit">天</i>
+								</label>
+							</div>
+						</li>
+						<li>
+							<span class="left c3 borrowleft"><i class="important-point">*</i>转让底价</span>
+							<div class="borrowright">
+								<label class="unit-input">
+									<input type="text" class="text" oninput="$(this).ndigitInteger(9)" onkeyup="$(this).ndigitInteger(9)" name="transfer_price" id="transfer_price" />
+									<i class="unit">元</i>
+								</label>
+							</div>
+						</li>
+						<li>
+							<span class="left c3 borrowleft">&nbsp;</span>
+							<div class="borrowright">
+								<input type="button" id="form_applayDept_sub" value="立即申请" class="condition-btn btn" />
+							</div>
+						</li>
+					</form>
+				</ul>
+			</div>
+			<div class="w-zh-tips1 c9 right">
+				<span class="borrow-notehead"><i class="icon note-icon"></i>温馨提示：</span><br/>
+							一、转让者<br/>
+				1. 出让债权限非首投标的债权；<br/>
+				2. 转让的债权投资标的期限需3月以上（含3个月）；<br/>
+				3. 逾期中的债权均不得转让，债权在转让过程中变为逾期状态，剩余未转让债权将停止转让；<br/>
+				4. 转让人持有债权需超过投资标的期限的1/3（自然月）以上（含1/3）；转让日期需在该债权的还款日前2个工作日完成（还款日遇法定节假日顺延）；平台需三个工作日审核。<br/>
+				5. 转让人进行债权转让时需全部转让，不能拆分，虹金所仅支持一对一受让；<br/>
+				6、转让的债权和利息按整自然月计算。<br/>
+				7、单个债权的转让次数限1次。<br/>
+				8、债权转让价格不得低于转让标的金额的80%。<br/>
+				9、债权转让成功后，平台将向转让者收取该债权转让成交金额*0.5%手续费；<br/>
+				
+				二、受让者<br/>
+				1、购买债权转让不参与平台所有优惠活动（不限于红包、现金券、加息券等）；<br/>
+				2、购买债权转让标必须受让全部标的金额；<br/>
+				3、购买债权转让标之后，该债权转让标不得再次转让；<br/>
+				4、本规则解释权归虹金所所有。<br/>
+			</div>
+		</div>
+		<p class="returnprev">
+			<a href="@{front.account.MyFundCtrl.accountManagePre(0)}" class="backpage"><i class="icon return-icon"></i>返回</a>
+		</p>
+	</div>
+
+<script type="text/javascript">
+
+require(["front"],function(front){
+	require(['validation/validateExt']);
+	$("#form_applayDept").validate({
+		errorPlacement: function(error, element) {
+			error.addClass('register-error').insertAfter(element);
+			if(element.parent().hasClass("unit-input")){
+				error.addClass('register-error').insertAfter(element.parent());
+			} else {
+				error.addClass('register-error').insertAfter(element);
+			}
+		},
+		rules:{
+			"title":{
+				required:true,
+				rangelength:[1,20]
+			},
+			"transfer_price":{
+				required:true,
+				digits:true,
+				min: 1,
+				range:[#{formatIntMoney money:half_principal /},#{formatIntMoney money:debtInvest?.debt_principal /}]
+			}
+		},
+		messages:{
+			"title":{
+				required:"请输入转让标题",
+				rangelength:"标题长度不超过20个字"
+			},
+			"transfer_price":{
+				required:"请输入转让的底价",
+				digits:"转让底价为正整数",
+				min:"底价必须大于0",
+				range:'底价在本金的80~100%区间'
+			}
+		},
+		submitHandler: function(form){
+			form.submit();
+		}
+	});
+	
+	$("#form_applayDept_sub").click(function(){
+		#{if isSimulated}
+			alert("模拟登录不能执行该操作");
+			return false;
+		#{/if}
+		#{else}
+			$("#form_applayDept").submit();
+		#{/else}
+		
+	})
+})
+
+
+</script>

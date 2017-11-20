@@ -1,0 +1,131 @@
+#{extends 'common/wechatMain.html' /}
+<style>
+	.header { width: 100%; height: 1.2rem; line-height: 1.2rem; background: #fe4f51; text-align: center;   color: #fff; font-size: 0.48rem; position: fixed;  left: 0; top: 0;z-index: 10000;}
+	.header .icon_goback { width: 0.586rem; height: 0.586rem; overflow: hidden;position: absolute;left: 0.16rem; top: 0.294rem; background: url(/public/wechat/newedition/images/icon/login-back.png) no-repeat;background-size: 100% auto;}
+	.login_logo{ background:#fff; overflow:hidden;}
+	.login_logo img{ display:block; width:3.65rem; height:2.93rem; margin:0.34rem auto;}
+</style>
+ <div class="header" style="display:block; "><a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}"><span class="icon_goback"></span></a> <span class="title_name">提现</span></div>
+   
+<div class="center recharge">
+<form action="@{wechat.front.account.MyAccountCtrl.withdrawal()}" method="post" id="withdrawform">
+#{authenticityToken /}
+<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">	
+<section class="detail-txt flex">
+    <span class="">提现</span>
+    <input type="text" id="withdrawalAmt" name="withdrawalAmt" oninput="$(this).withdrawRange()" onkeyup="$(this).withdrawRange()" class="detailtxt flex-1" />
+    <span class="">元</span>
+</section>
+	<div style="font-size: 14px;display: flex;">
+	#{list items:common.enums.CashType, as:'cashType'}
+		#{ifnot cashType_index == 3}<label style="flex:1;"><input style="position: relative;  top: 0.04rem;  margin-right: 0.1rem;" name="cashType" type="radio" value="${cashType.code}" #{if cashType_index == 2}checked="checked"#{/if} />${cashType.value}</label>#{/ifnot}
+	#{/list}
+	</div>
+<p class="tr withdrawal-p mt40">手续费<strong id="withdrawFee">0</strong>元</p>	
+<input type="submit" class="condition-btn btn"  value="提现">
+</form>
+</div>
+<script type="text/javascript">
+require(['wechat'],function(){
+	require(["validation/validateExt"]);	
+	var balance = ${balance};
+    var withdrawFeePoint = ${withdrawFeePoint};
+    var withdrawFeeRate= ${withdrawFeeRate};
+    var withdrawFeeMin = ${withdrawFeeMin};
+    var withdrawMaxRate = ${withdrawMaxRate};
+    var maxRate = 0.01; //换算为%
+    
+    $("#withdrawalAmt").keyup(function(){
+    	var withdrawalAmt = $(this).val();
+    	var cashType = $('input[name="cashType"]:checked ').val();
+    	if(withdrawalAmt == '' || withdrawalAmt == 0) {
+    		$("#withdrawFee").html(0);
+    	} else {
+    		$.ajax({
+        		url : "@{front.account.MyAccountCtrl.getServFee}",
+        		type : 'post',
+        		data : {
+        			"cashType" : cashType,
+        			"withdrawalAmt" : withdrawalAmt
+        		},
+        		success : function(result) {
+        			if(result.code != 1) {
+        				window.alert(result.msg);
+        			} else {
+        				$("#withdrawFee").html(result.obj);
+        			}
+        		},
+        		error : function() {
+        			window.alert('超时了！！！');
+        		}
+        	});
+    	}
+    });
+    
+    $('input[name="cashType"]').change(function() {
+    	var withdrawalAmt = $("#withdrawalAmt").val();
+    	var cashType = $('input[name="cashType"]:checked ').val();
+    	console.info(cashType);
+    	if(!isNaN(withdrawalAmt) && withdrawalAmt != 0) {
+    		$.ajax({
+        		url : "@{front.account.MyAccountCtrl.getServFee}",
+        		type : 'post',
+        		data : {
+        			"cashType" : cashType,
+        			"withdrawalAmt" : withdrawalAmt
+        		},
+        		success : function(result) {
+        			if(result.code != 1) {
+        				window.alert(result.msg);
+        			} else {
+        				$("#withdrawFee").html(result.obj);
+        			}
+        		},
+        		error : function() {
+        			window.alert('超时了！！！');
+        		}
+        	});
+    	}
+    });
+    
+	 $.validator.addMethod("isBalanceRemain",function(value, element){	
+		    /* 可提现金额   外扣方式  这里需要扣除提现手续费    */
+   			//var withdrawMin = balance - ((value - withdrawFeePoint) * withdrawFeeRate * maxRate + withdrawFeeMin);
+   
+   			var withdrawMin = balance;   //汇付接口，内扣外扣兼容，所有这里不需要去除提现手续费 
+		    
+			if(value > withdrawMin){
+			    return false;
+		     }
+		     return true;
+		},"余额不足")   
+	    
+      $("#withdrawform").validate({
+				errorPlacement: function(error, element) {
+						error.addClass('cored').addClass("wrong-txt mb40").insertAfter(element.parent());
+				},
+				errorElement:"p",
+				rules:{
+					"withdrawalAmt":{
+						required:true,
+						max:200000,
+						isBalanceRemain:true
+					}
+				},
+				messages:{
+						"withdrawalAmt":{
+						required:"请输入提现金额",
+						max:"提现金额不能大于200000元",
+						isBalanceRemain:"余额不足"
+					}
+				},
+				submitHandler:function(form){
+					form.submit();
+				}
+
+		});
+
+})
+    
+
+</script>

@@ -1,0 +1,73 @@
+#{extends 'common/frontMain.html' /}
+
+*{
+	公司介绍、平台优势、加入我们、联系我们、帮助中心等几个栏目的二级导航栏
+}*
+
+<div class="w-banner"></div>
+<div class="w-content clearfix">
+		<div class="w-subnav">
+            <div class="w-subnav-img">
+                <img src="@{'/public/front/images/zixun-img.png'}">
+            </div>
+            <dl class="w-submenu">
+                <dt><a href="@{front.FrontHomeCtrl.aboutUsPre()}">${columns?.get(common.constants.ColumnKey.HOME_PROFILE)?:'公司介绍'}<i></i></a></dt>
+            </dl>
+            <dl class="w-submenu">
+                <dt>资讯公告<i></i></dt>
+                <dd #{if columnkey==null} class="hide" #{/if}>
+                    <a #{if columnkey=='info_bulletin'} class="on" #{/if} href="@{front.InformationCtrl.showInfosPre('info_bulletin')}">${columns?.get(common.constants.ColumnKey.INFO_BULLETIN)?:'官方公告'}</a>
+                    <a #{if columnkey=='info_report'} class="on" #{/if} href="@{front.InformationCtrl.showInfosPre('info_report')}">${columns?.get(common.constants.ColumnKey.INFO_REPORT)?:'媒体报道'}</a>
+                    <a #{if columnkey=='info_story'} class="on" #{/if} href="@{front.InformationCtrl.showInfosPre('info_story')}">${columns?.get(common.constants.ColumnKey.INFO_STORY)?:'理财故事'}</a>
+                </dd>
+            </dl>
+          <!--   <dl class="w-submenu">
+                <dt><a href="javascript:void(0);">法律法规<i></i></a></dt>
+            </dl> -->
+            <dl class="w-submenu">
+                <dt><a href="@{front.FrontHomeCtrl.safePre()}">${columns?.get(common.constants.ColumnKey.HOME_ADVANTAGE)?:'平台优势'}<i></i></a></dt>
+            </dl>
+         <!--    <dl class="w-submenu">
+                <dt><a>合作伙伴<i></i></a></dt>
+            </dl> -->
+            <dl class="w-submenu">
+                <dt><a href="@{front.FrontHomeCtrl.contactusPre()}">${columns?.get(common.constants.ColumnKey.HOME_CONTACTUS)?:'联系我们'}<i></i></a></dt>
+            </dl>
+            <dl class="w-submenu">
+                <dt><a href="@{front.FrontHomeCtrl.joinusPre()}">${columns?.get(common.constants.ColumnKey.HOME_JOINUS)?:'加入我们'}<i></i></a></dt>
+            </dl>
+            <dl class="w-submenu">
+                <dt>${columns?.get(common.constants.ColumnKey.HOME_HELPCENTER)?:'帮助中心'}<i></i></dt>
+                <dd #{if column==null} class="hide" #{/if}>
+                	#{list items:models.common.entity.t_help_center.Column.values(),as:'col'}
+                    <a #{if column == col} class="on" #{/if} href="@{front.FrontHomeCtrl.helpPre(col.code,1)}">${col?.value}</a>
+               		#{/list}
+                </dd>
+            </dl>
+        </div>
+        #{doLayout /}
+        
+	<script type="text/javascript">
+		require(['front'],function(front){
+			// 导航选中效果
+			front.navSelected(4);
+            $(function(){
+                //我的账户左侧菜单
+                $('.w-subnav dl').each( function(){
+                    var oBtn = $(this).find('dt');
+                    var oDiv = $(this).find('dd');
+                    oBtn.click(function(){
+                        $('.w-subnav dl dd').slideUp(200);
+                        $('.w-subnav dl').find('dt').removeClass('on');
+                        if(oDiv.is(":visible")){    
+                            oBtn.removeClass('on');         
+                            oDiv.slideUp(200)
+                        } else {
+                            oBtn.addClass("on")
+                            oDiv.slideDown(200)
+                        }           
+                    });
+                });
+            })
+		});
+	</script>

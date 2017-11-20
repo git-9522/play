@@ -1,0 +1,18 @@
+<ul class="info_report_main clearfix">
+                         
+#{list items:page?.page,as:"advertisement"}
+<li>
+         <a href="${advertisement?.url}" target="${advertisement?.target?.value}">
+             <img src="${advertisement?.image_url}" alt="${advertisement?.name}">
+             <p class="c6 fs18 center mt15">${advertisement?.name}</p>
+         </a>
+</li>
+ #{/list}   
+ </ul>                
+<div class="check_center">
+		<div class="page-wrap f-page" >
+		 		#{if page?.page}
+					#{frontPageTag page:page,showPage:"loadMoreInfos"/}
+				#{/if}
+		</div>
+</div>

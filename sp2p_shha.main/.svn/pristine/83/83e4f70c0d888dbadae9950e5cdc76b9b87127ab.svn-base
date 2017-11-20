@@ -1,0 +1,550 @@
+#{extends 'common/frontMain.html' /}
+#{set title:bid?.title/}
+#{set AItem:1 /}
+
+<style type="text/css">
+.fancybox-overlay{z-index: 30000 !important}
+.fancybox-skin{z-index: 30001 !important}
+.old {
+	width:300px;
+	background: url('/public/front/images/old_xiang.png') no-repeat right center;
+}
+
+.yu {
+	width:300px;
+	background: url('/public/front/images/yu_xiang.png') no-repeat right center;
+}
+
+.hand {
+	width:300px;
+	background: url('/public/front/images/hand_xiang.png') no-repeat right center;
+}
+
+.pu {
+	width:300px;
+	background: url('/public/front/images/pu_xiang.png') no-repeat right center;
+}
+</style>
+<!-- main -->
+<div class="container mt30">
+	<!-- 理财详情头部 -->
+	<div class="clearfix">
+		<div class="detail-box detail-left left">
+			<h2 class="detail-head">
+				<input type="hidden" id="bid_id" name="bidId" value="${bid?.id}"/>
+				<span class="left c3 #{if bid?.product_id == 4}old#{/if}#{elseif  bid?.product_id == 6}yu#{/elseif}#{elseif bid?.product_id == 5}hand#{/elseif}#{else}pu#{/else}">${bid?.bid_no}  ${bid?.title}</span>
+			</h2>
+			
+			<ul class="f-lcxq-ul1 clearfix">
+			    <li class="tl brs">
+			        <span class="fs30 color1 lh40">${bid?.apr}%#{if bid?.is_invest_reward}<span class="fs24">+${bid?.reward_rate}%</span>#{/if}</span><br>
+			        <p class="mt20">期待年回报率</p>
+			    </li>
+			    <li class="center brs">
+			        <span class="fs30 color1 lh40">#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}</span><br>
+			        <p class="mt20">#{if models.core.entity.t_product.BuyType.PURCHASE_BY_AMOUNT.code==bid?.buy_type?.code}起购金额#{/if}#{else}每份金额#{/else}（元）</p>
+			    </li>
+			    <li class="center">
+			        <span class="fs30 color1 lh40">${bid?.period}</span><br>
+			       <p class="mt20">投资期限（${bid?.period_unit?.getShowValue()}）</p>
+			    </li>
+			</ul>
+			
+			<div class="clearfix pl35 pr35 mt25">
+			    <span class="left f-400">项目金额： <span class="color1">#{formatIntMoney money:bid?.amount}#{/formatIntMoney}</span> 元</span>
+			    <span class="left">还款方式：${bid?.getRepayment_type().value}</span>
+			</div>
+			<div class="clearfix pl35 pr35 mt20">
+			    <span class="left f-400">剩余金额： <span class="color1">#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney}</span> 元</span>
+			    <span class="left">起息日期：结标后起息</span>
+			</div>
+			<div class="clearfix pl35 pr35 mt20">
+			    <span class="left f-400 clearfix">
+                          <span class="left">募集进度：</span>
+                          <div class="f-jdt f-190 mr10 left mt7 ml5">
+                              <div class="f-jd" style="width:${bid?.loan_schedule}%;"></div>
+                          </div>
+                          <span class="left color1">${bid?.loan_schedule}%</span>
+			    </span>
+			    <span class="left">发布机构：#{if bid?.is_agency} ${agencies?.name}#{/if}#{else}无#{/else}</span>
+			</div>
+			<div class="clearfix pl35 mt20">
+			    <img src="@{'/public/front/images/ii.png'}" class="left mt3 mr5" alt="">
+			    <span class="left">截止时间：${bid?.invest_expire_time?.format("yyyy/MM/dd HH:mm")}  起息方式T（成交日）+1</span>
+			</div>
+		</div>
+		
+		<!-- 购买成功 -->
+		#{if flash?.investBidSuccess}
+			#{include "front/invest/InvestCtrl/investSuccess.html"/}
+		#{/if}
+		<!-- 购买页面 -->
+		#{else}
+			#{if preRelease}
+			#{include "front/invest/InvestCtrl/preRelease.html"/}
+			#{/if}
+			#{else}
+			#{include "front/invest/InvestCtrl/prepareInvest.html"/}
+			#{/else}
+		#{/else}
+	</div>
+	<!-- 理财详情头部 end -->
+	
+	<!-- 理财详情 start -->
+	<div class="detail-box mt30">
+		<ul class="detail-tabmenu tab-menu c3">
+			<li class="selected">项目详情</li>
+			<li>加入记录( ${bid?.invest_count} )</li>
+			<li>回款计划</li>
+			<li>信息披露</li>
+		</ul>
+		
+		<div class="detail-cont c3">
+		<!-- 未登录 
+			<div class="tab-cont">
+				<p class="detail-unlogin">请<a href="login.html" class="major">登录</a>或<a href="register.html" class="major">注册</a>后查看</p>
+			</div>
+		-->
+		
+		<!-- 项目详情 -->
+		#{if currUser}
+			<div class="tab-cont">
+				<div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">项目名称</div>
+				    <div class="left mr40 center c6">${bid?.title}</div>
+				</div>
+				<div class="clearfix lh45">
+				    <div class="left mr40 f-190 center c9">计划简介</div>
+				    <div class="left mr40 c6 w-table-text" limit="500">${bid?.description}</div>
+				</div>
+				<div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">年化收益率</div>
+				    <div class="left mr40 center c6">${bid?.apr}%</div>
+				</div>
+				<div class="clearfix lh45 ">
+				    <div class="left mr40 f-190 center c9">收益率说明</div>
+				    <div class="left mr40 center c6">${bid?.getRepayment_type().value}</div>
+				</div>
+				<div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">保障方式</div>
+				    <div class="left mr40 center c6">
+				    	#{bidName name:bid?.title /}
+						</div>
+				</div>
+				<div class="clearfix lh45">
+				    <div class="left mr40 f-190 center c9">购买期限</div>
+				    <div class="left mr40 center c6">${bid?.invest_period}天</div>
+				</div>
+				<div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">锁定期</div>
+				    <div class="left mr40 center c6">${bid?.period}${bid?.period_unit?.getShowValue()}</div>
+				</div>
+				<div class="clearfix lh45">
+				    <div class="left mr40 f-190 center c9">加入条件</div>
+				    <div class="left mr40 center c6">无</div>
+				</div>
+				<div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">每人购买限制</div>
+				    <div class="left mr40 center c6">起购金额#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}元,单笔投资不得超过可投标的金额</div>
+				</div>
+				<div class="clearfix lh45">
+				    <div class="left mr40 f-190 center c9">到期赎回方式</div>
+				    <div class="left mr40 center c6">${bid?.getRepayment_type().value}</div>
+				</div>
+			</div>
+		#{/if}
+		#{else}
+			<div class="tab-cont">
+				<p class="detail-unlogin">请<a href="@{front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+			</div>
+		#{/else}
+		
+			<!-- 投标记录 -->
+			<div class="tab-cont" id="invest_record">
+				
+			</div>
+				
+			<!-- 回款计划 -->
+			<div class="tab-cont" id="repayment_record">
+
+			</div>
+		#{if currUser}	
+			<!-- 信息披露 -->
+            <div class="tab-cont">
+            <div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">借款人</div>
+				    <div class="left mr40 center c6">#{asterisk str:loanUserInfo?.reality_name, start:1, end:0, count:(loanUserInfo?.reality_name.size()-1)/}</div>
+				</div>
+				<div class="clearfix lh45">
+				    <div class="left mr40 f-190 center c9">工作年限</div>
+				    <div class="left mr40 c6 w-table-text" limit="500">${loanUserInfo?.getWork_experience()?.value}</div>
+				</div>
+				<div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">年收入</div>
+				    <div class="left mr40 center c6">${loanUserInfo?.getAnnual_income()?.value}</div>
+				</div>
+				<div class="clearfix lh45 ">
+				    <div class="left mr40 f-190 center c9">资产估值</div>
+				    <div class="left mr40 center c6">${loanUserInfo?.getNet_asset()?.value}</div>
+				</div>
+				<div class="clearfix lh45 f-bg3">
+				    <div class="left mr40 f-190 center c9">身份证是否认证</div>
+				    <div class="left mr40 center c6">已认证</div>
+				</div>
+				<div class="clearfix lh45 ">
+				    <div class="left mr40 f-190 center c9">手机是否认证</div>
+				    <div class="left mr40 center c6">已认证</div>
+				</div>
+<!--                 <ul class="f-xxpl-ul clearfix"> -->
+<!--                     <li><img src="@{'/public/front/images/xxpl-img1.png'}"></li> -->
+<!--                     <li><img src="@{'/public/front/images/xxpl-img2.png'}"></li> -->
+<!--                     <li><img src="@{'/public/front/images/xxpl-img3.png'}"></li> -->
+<!--                     <li><img src="@{'/public/front/images/xxpl-img4.png'}"></li> -->
+<!--                     <li><img src="@{'/public/front/images/xxpl-img5.png'}"></li> -->
+<!--                     <li><p>真实的项目背景</p></li> -->
+<!--                     <li><p>严苛的甄选流程</p></li> -->
+<!--                     <li><p>风险备付金银行监管</p></li> -->
+<!--                     <li><p>银行级别风控体系保障</p></li> -->
+<!--                     <li><p>实体经营，全国数十店承担</p></li> -->
+<!--                 </ul> -->
+<!--                <div class="f-xxpl-div"> -->
+<!--                     <h1>风险赔付金计划</h1> -->
+<!--                     <p>本标的适用于“风险备付金计划”，您成功投资后，若标的出现逾期，将由存管于厦门银行的风险备付金金向您垫付全额本金及相应收益损失。</p> -->
+<!--                     <h1>严格的风控流程</h1> -->
+<!--                     <p>虹金所细化贷前调查、贷中审查、贷后管理、逾期处理等四个风控流程，把风险控制渗入每一个环节中。通过详尽的贷前审查、审慎的贷中核查、完善的贷后管理以及<br>妥当的逾期处理，<br>把风险控制在合理的范围内，坚持追求所有标的均真实、有效，可追溯、可审查。</p> -->
+<!--                     <h1>投资人监督委员会监督</h1> -->
+<!--                     <p>虹金所投资人监督委员会，是由投资人自发成立的组织，投监会成员可以随时随地到虹金所任意一家正式营业的营业部查询觉得有疑问标的的所有原始资料。若投资人<br>对虹金所所发标的存疑，<br>均可委托投监会查标，虹金所督导监察部配合线上查标对接分部所有事宜。</p> -->
+<!--                 </div>  -->
+               	
+               	<!-- 借款资料 -->
+                <div class="f-xxpl-div">
+                	<ul class="w-bdxq-photo">
+					#{list bidItemOfSupervisorSubjects, as:'bidItemOfSupervisorSubject'}
+						#{if bidItemOfSupervisorSubject?.bid_item_supervisor}
+<!-- 						<h1>${bidItemOfSupervisorSubject.bid_audit_subject.name}</h1> -->
+						
+							#{list bidItemOfSupervisorSubject?.bid_item_supervisor, as:'bidItemSupervisor'}
+								<li>
+									<a href="javascript:void(0);" class="major previewbtn">
+										<img src="${bidItemSupervisor?.url}">
+<!-- 										<span>${bidItemSupervisor?.name}</span> -->
+									</a>
+									<div class="fancybox-container">
+										<a class="fancybox" data-fancybox-group="material${bidItemOfSupervisorSubjects_index}" title="${bidItemSupervisor?.name}" href="${bidItemSupervisor?.url}"></a>
+									</div>
+								</li>
+							#{/list}
+							
+						#{/if}
+					#{/list}
+					</ul>
+				</div>
+            </div>
+            #{/if}
+			#{else}
+				<div class="tab-cont">
+					<p class="detail-unlogin">请<a href="@{front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+				</div>
+			#{/else}
+		</div>
+	</div>
+	<!-- 理财详情 end -->
+	
+	<!-- 支付弹窗 -->
+	<div class="dialog tc1">
+		<div class="dialog-bg"></div>
+		<div class="dialog-cont trusteeship-dialog">
+			<h2 class="dialog-head">
+				<span class="left">平台提示</span>
+			</h2>
+			<div class="trusteeship-cont">
+				<div class="trusteeship-wrap">
+					<i class="trusteeship-icon"></i>
+					<p class="major">请在新页面完成支付。</p>
+					<a href="javascript:window.location.reload(true)" class="bdbtn">支付成功</a>
+					<p class="trusteeship-help"><a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="c9">支付遇到问题></a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- main end-->
+
+<!-- 会员分组弹窗 -->
+	<div class="dialog tc2">
+		<div class="dialog-bg"></div>
+		<div class="dialog-cont invest-dialog">
+			<h2 class="dialog-head">
+				<span class="left">投标密码</span>
+				<p href="javascript:void(0);" class="dialog-close hover-green" id="dialogClose">×</p>
+			</h2>
+			<div class="invest-trusteeship-cont">
+				<div class="trusteeship-wrap j-trusteeship-wrap">
+				<input type="text" class="j-input" maxlength="6" id="invest_password_input"/>
+				<a href="javascript:void(0)" class="bdbtn f-lcxq-qrjr">立即投标</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var tc2_show = false;
+
+require(['front'],function(front){	
+	
+	
+	// 导航选中效果
+	front.navSelected(1);
+	$(".detail-record").each(function(){front.treven($(this))});
+	require(['fancybox']);
+	
+	$(".detail-record").each(function(){front.treven($(this))});
+	if (${models.core.entity.t_bid.Status.FUNDRAISING.code} == ${bid?.status?.code}) {//筹款中
+		var EndTime = new Date('${bid?.invest_expire_time?.format(common.constants.Constants.DATE_PLUGIN)}').getTime();
+		var NowTime = ${sysNowTime?:0};
+		GetRTime(EndTime, NowTime, "count_down_time");
+	} else {
+		 $("#count_down_time").html('0天0时0分0秒');
+	}
+
+	$(".tab-menu").children().eq(1).click(function(){
+		if ($("#invest_record").find("tr").length > 1) {
+			return;
+		}
+		investRecordPre(function(data){
+			$("#invest_record").html(data);
+			trevenRows();
+			if(parseInt($("#investTotalSize").val())<=parseInt($("#investPagesize").val())){
+				$(".loadmore").html("<span>没有更多了</span>");
+			}
+		});
+	});
+	//回款计划
+	$(".tab-menu").children().eq(2).click(function(){
+		if ($("#repayment_record").find("tr").length > 1) {
+			return;
+		}
+		repaymentRecordPre(function(data){
+			$("#repayment_record").html(data);
+			trevenRows();
+			if(parseInt($("#repaymentTotalSize").val())<=parseInt($("#repaymentPagesize").val())){
+				$(".loadmore").html("<span>没有更多了</span>");
+			}
+		});
+	});
+	
+	$
+	
+	//投标
+	$(".f-lcxq-qrjr").click(function(){
+		var investAmount = $('#invest_amount').val();//投标金额或者投标份数
+		var rewardType = "";
+		var str = '您投资的标的为：' + ${bid?.period} + '月标；加入金额：' + investAmount + '元；';
+		$(".f-lc-yh").each(function(){
+			if ($(this).hasClass("f-on")) {
+				rewardType = $(this).attr("id");
+			}
+		});
+		if(rewardType == "redPacketSpan"){
+			var cost = $(".rcr").find("option:selected").attr('data');
+			if(cost != '') {
+				str += "使用红包金额：" + cost + "元；";
+			}
+		}else if(rewardType == "cashSpan"){
+			var cost = $(".rcc").find("option:selected").attr('data');
+			if(cost != '') {
+				str += "使用现金券金额：" + cost + "元；";
+			}
+		}
+		//使用加息卷
+		$("#rateSign").val($(".addRate").val());
+		var cost = $(".addRate").find("option:selected").attr('ids');
+		if(cost != '') {
+			str += "使用加息券金额：" + cost + "%；";
+		}
+
+		confirm(str, doInvest);
+	});
+});
+
+//倒计时
+function GetRTime(EndTime, NowTime, domId){
+	if (NowTime == 0) {
+		NowTime = new Date().getTime();
+	}
+	var t =EndTime - NowTime;
+	timeShow(t, domId);
+    setInterval(function() {
+    	t = t-1000;
+    	timeShow(t, domId);
+    },1000);
+}
+function timeShow(t, domId){
+    var d=Math.floor(t/1000/60/60/24);
+    var h=Math.floor(t/1000/60/60%24);
+    var m=Math.floor(t/1000/60%60);
+    var s=Math.floor(t/1000%60);
+    $("#"+domId).html((d<0?0:d)+'天'+(h<0?0:h)+'时'+(m<0?0:m)+'分'+(s<0?0:s)+'秒');
+}
+
+function investRecordPre(callback){
+	var bidId = $("#bid_id").val();
+	var currPage = $("#investCurrpage").val();
+	var pageSize = $("#investPagesize").val();
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.investRecordPre()}",
+		type : "GET",
+		data : {
+			"bidId" : bidId,
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data) {
+			if(callback){
+				callback(data);
+			}
+		}
+	});
+}
+function repaymentRecordPre(callback){
+	var bidId = $("#bid_id").val();
+	var currPage = $("#repaymentCurrpage").val();
+	var pageSize = $("#repaymentPagesize").val();
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.repaymentRecordPre()}",
+		type : "GET",
+		data : {
+			"bidId" : bidId,
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data) {
+			if(callback){
+				callback(data);
+			}
+		}
+	});
+}
+
+//表格隔行换色
+function trevenRows(){
+	$('.detail-record').each(function(){
+		$(this).children('tbody').children('tr:not(.detail-record):even').addClass('treven');
+	});
+}
+
+//投标
+function doInvest() {
+	#{ifnot currUser}
+		window.location.href="@{front.LoginAndRegisteCtrl.loginPre()}";
+		return false;
+	#{/ifnot}
+	#{if isSimulated}
+    	alert("模拟登录不能执行该操作");
+    	return false;
+    #{/if}
+    #{else}
+	var userBalance = "${balance?:'0'}";//可用余额
+	var investAmount = $('#invest_amount').val();//投标金额或者投标份数
+	var buy_type = "${bid?.buy_type?.code?:'0'}";//购买方式
+	var bid_min_invest = ${bid?.min_invest_amount?:'0'};//起投
+	var bid_max_invest = ${bid?.amount?:'0'}-${bid?.has_invested_amount?:'0'};//可投金额
+	var is_invest_password = ${bid?.is_invest_password};//是否开启投标密码
+	var rewardType = "";
+	var str = '您投资的标的为：' + ${bid?.period} + '月标；加入金额：' + investAmount + '元；';
+	$(".f-lc-yh").each(function(){
+		if ($(this).hasClass("f-on")) {
+			rewardType = $(this).attr("id");
+		}
+	});
+	if(rewardType == "redPacketSpan"){
+		$("#redPacketSign").val($(".rcr").val());
+	}else if(rewardType == "cashSpan"){
+		$("#cashSign").val($(".rcc").val());
+	}
+	//使用加息卷
+	$("#rateSign").val($(".addRate").val());
+	var cost = $(".addRate").find("option:selected").attr('ids');
+
+	#{if bid?.user_id==currUser?.id}
+		var selfBid = 'true';
+	#{/if}
+	#{else}
+		var selfBid = 'false';
+	#{/else}
+	if(selfBid=='true'){
+		weakDialog('不能投资自己的借款项目!');
+		return false;
+	}
+	
+	if(parseInt(buy_type)==1){//按金额购买
+		if(investAmount==null || investAmount=='' || investAmount==undefined){
+			weakDialog('请输入购买金额!');
+			return false;
+		}
+		//可投金额大于起购金额时，投资金额必须大于或等于起购金额
+		if(parseInt(bid_max_invest)>=parseInt(bid_min_invest)){
+			if(parseInt(bid_min_invest)>parseInt(investAmount)){
+				weakDialog('不能小于最低购买金额!');
+				return false;
+			}
+		}else{
+			if(parseInt(bid_max_invest)!=parseInt(investAmount)){
+				weakDialog('请全部投完!');
+				return false;
+			}
+		}
+		if(parseInt(bid_max_invest)<parseInt(investAmount)){
+			weakDialog('不能大于可投金额!');
+			return false;
+		}
+		if(parseFloat(userBalance)<parseFloat(investAmount)){
+			weakDialog('可用金额不足!');
+			return false;
+		}
+	}else if(parseInt(buy_type)==2){//按份数购买
+		if(investAmount==null || investAmount=='' || investAmount==undefined){
+			weakDialog('请输入购买份数!');
+			return false;
+		}
+		var lostCopies = parseInt(bid_max_invest)/parseInt(bid_min_invest);//剩余可投份数
+		if(parseInt(investAmount)>parseInt(lostCopies)){
+			weakDialog('购买份数超出!');
+			return false;
+		}
+		var investAmt = parseInt(investAmount)*parseInt(bid_min_invest);//投资金额
+		if(parseFloat(userBalance)<parseFloat(investAmt)){
+			weakDialog('可用余额不足!');
+			return false;
+		}
+	}else{
+		return false;
+	}
+	
+	//投资密码
+	if(is_invest_password){
+		if(!tc2_show){
+			$('.tc2').dialog();
+			tc2_show = true;
+			return false;
+		}else{
+	
+			var invest_password = $("#invest_password_input").val();
+			if(invest_password == ""){
+				
+				weakDialog('请输入投资密码!');
+				return false;
+			}
+			
+			$("#investPassword").val(invest_password);
+			
+			$("#dialogClose").trigger("click");
+		}
+	}
+    $('.tc1').dialog();
+    $("#invest_bid").submit();
+    #{/else}
+}
+
+</script>

@@ -1,0 +1,190 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'投资抽奖大转盘' /}
+#{set AItem:0 /}
+		<script type="text/javascript" src="@{'/public/front/javascripts/jquery.js'}"></script>
+		<script type="text/javascript" src="@{'/public/front/javascripts/jq_scroll.js'}"></script>
+		<script type="text/javascript" src="@{'/public/front/javascripts/jquery.rotate.min.js'}"></script>
+    <script>
+    $(document).ready(function() {
+    	
+    		$("#scrollDiv").Scroll({line:1,speed:500,timer:3000,up:"but_up",down:"but_down"});
+    	
+    		var remains = ${remains};
+        var $plateBtn = $('.plateBtn');
+        var $result = $('.result');
+        var $resultTxt = $('.resultTxt');
+        var $resultBtn = $('.resultBtn');
+        var startInterval;
+        var angle = 0;
+        var flag =  true;
+        
+        $('#remains').html(remains);
+        
+        for (var i = 0; i < $('.plate_ban>li').length; i++) {
+            $('.plate_ban>li').eq(i).css('transform', 'rotate(' + (parseFloat(-22.5 + i * 45)) + 'deg)');
+        }
+        
+        /*Math.random()是中奖概率*/
+        $plateBtn.click(function(){
+        		// 控制按钮
+        		if(flag && remains > 0 ) {
+        			// 先不停的转
+                	startRotate();
+        			// 等待3s
+        			flag = false;
+        			$.ajax({
+        				url : "@{front.ActivityCtrl.doLottery}",
+        				type : "POST",
+        				success : function(result) {
+	    						endRotate();
+        					if(result.code != 1) {
+        						rotateFunc(0, result.msg);
+        					} else {
+        						console.info(result.obj.prizeId)
+        						rotateFunc(calcAngle(result.obj.prizeId), formatMoney(result.obj.msg));
+        				    $('#remains').html(--remains);
+        					}
+        				},
+        				error : function() {
+        					endRotate();
+        					flag = true;
+        				}
+        			});
+        		} else {
+        			if(flag) {
+            			window.alert("您的当前抽奖次数为0");
+        			}
+        		}
+        });
+
+        var rotateFunc = function(angle,text){  //awards:奖项，angle:奖项对应的角度
+            $plateBtn.stopRotate();
+            $plateBtn.rotate({
+                angle: 0,
+                duration: 5000,
+                animateTo: angle + 3600,  //angle是图片上各奖项对应的角度，1440是让指针固定旋转4圈
+                callback: function(){
+                	if(angle != 0) {
+                        $resultTxt.html(text);
+                        $result.show();
+                	} else {
+                		window.alert(text);
+                	}
+                	flag = true;
+                }
+            });
+        };
+        
+       var startRotate = function() {
+    	   startInterval = setInterval(
+    				function() {
+    					angle += 36;
+       				$plateBtn.rotate({
+       					angle : angle
+       				});
+    				},
+    				50
+    	   );
+       } 
+    	 
+       var endRotate = function() {
+    	   window.clearInterval(startInterval);
+       }
+        
+        $resultBtn.click(function(){
+            $result.hide();
+        });
+        
+        
+        function onDate(){
+            $('#scrollDiv>ul').html()
+        }
+        
+        function calcAngle(index) {
+        	var first = -22.5;
+        	var every = 45;
+        	var current = $plateBtn.getRotateAngle();
+        	return (360 - 180) + index * every + first;
+        }
+    });
+    
+    function formatMoney(value) {
+    	if(value % 1.0 != 0)
+    		return value;
+    	else 
+    		return parseInt(value);
+    }
+    
+    function errorAlert(value) {
+    	$('.tankuang1 p')
+    }
+    
+    </script>
+
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/draw.css'}" />
+    <div class="draw_page">
+        <div class="page1"></div>
+        <div class="page2">
+            <div class="page2_center relative">
+                <img class="page2_title" src="@{'public/front/images/invest_lottery/font_img1.png'}" alt="">
+                <h3>您抽奖，我买单！100%中奖！抽奖抽到手抽筋！</h3>
+                <div class="plate_img absolute"></div>
+                <div class="dowebok absolute">
+                    <div class="plate absolute">
+                    	<ul class="plate_ban absolute">
+                    		#{list items:rewards, as:'reward'}
+                            <li class="${reward_parity}">
+                                <p class="absolute fs20 center">#{formatIntMoney money:reward?.value/}元红包</p>
+                                <div class="plate_hb absolute">
+                                    <span class="absolute cf fs18">#{formatIntMoney money:reward?.value/}</span>
+                                </div>
+                            </li>
+                            #{/list}
+                        </ul>
+                        <a class="plateBtn absolute" href="javascript:" title="开始抽奖">开始抽奖</a>
+                    </div>
+                    <div class="result">
+                        <div class="tankuang absolute">
+                            <p class="resultTxt absolute"></p>
+                            <a class="resultBtn absolute" href="javascript:" title="关闭">关闭</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="plate_tips absolute">
+                    <img class="plate_en absolute none" src="@{'public/front/images/invest_lottery/ipt_btn_font.png'}" alt="">
+                    <img class="plate_num absolute" src="@{'public/front/images/invest_lottery/ipt_btn_font2.png'}" alt="">
+                    <span id='remains' class="plate_shu absolute"></span>
+                </div>
+                <div class="plate_add absolute">
+                    <div class="plate_add_l absolute">
+                       <div id="scrollDiv">
+                            <ul>
+                            	#{list items:investLotteries, as:'lottery'}
+                                <li>
+                                    <span class="plate_name">#{asterisk str:"${lottery?.mobile}", start:2, end:2, count:3/}</span>
+                                    <span class="plate_data">刚刚获得了#{formatIntMoney money:lottery?.value/}元现金</span>
+                                </li>
+                              #{/list}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <img class="plate_size absolute" src="@{'public/front/images/invest_lottery/plate_size.png'}" alt="">
+            </div>
+        </div>
+        <div class="page3 relative">
+            <div class="page3_bg absolute">
+                <div class="page3_center">
+                    <img class="page3_title" src="@{'public/front/images/invest_lottery/font_img2.png'}" alt="">
+                    <h3>您投资，我返现！您投多少我返多少！</h3>
+                    <img class="page3_img" src="@{'public/front/images/invest_lottery/plate_wen.png'}" alt="">
+                    <h3 class="guize">返现规则</h3>
+                    <p>1）、用户首笔投资金额不享受本活动；</br>2）、获取返现成功后，累投金额=投资总额-已返现投资金额；</br>3）、获取返现的用户必须提供用户名、手机号、姓名、QQ号，确认 后客服将于次日处理</br>(QQ、微信、支付宝转账）。
+</p>
+                </div>
+            </div>
+        </div>
+        <div class="page4 relative">
+            <div class="page4_bg absolute"></div>
+        </div>
+    </div>		

@@ -1,0 +1,27 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+<!-- 遮罩 -->
+<div class="bill">
+    <h3 class="bill-title">${dealRecord?.summary}</h3>
+    <ul class="bill-uls">
+        <li class="flex">
+            <div>类型</div>
+            <div class="flex-1 tr"> ${dealRecord?.dealType}</div>
+        </li>
+        <li class="flex">
+            <div>金额 </div>
+            <div class="flex-1 cored tr">${dealRecord?.amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>时间  </div>
+            <div class="flex-1 tr"> ${dealRecord?.time}</div>
+        </li>
+        <li class="flex">
+            <div>流水号  </div>
+            <div class="flex-1 tr"> ${dealRecord?.orderNo}</div>
+        </li>
+    </ul>
+</div>
+
+</div>

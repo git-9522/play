@@ -1,0 +1,58 @@
+.section {
+    padding-bottom: 40px;
+}
+.ne_about_seat {
+    width: 1200px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 auto;
+}
+.ne_about_cen {
+    width: 1200px;
+    margin: 0 auto;
+}
+.ne_about_nav  {
+    width: 215px;
+    border: 1px solid #e6e6e6;
+}
+.ne_about_nav>dt {
+    height: 55px;
+    line-height: 55px;
+    width: 215px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+    text-align: center;
+    border-bottom: 1px solid #e7e7e7;
+}
+.ne_about_nav>dd {
+    height: 55px;
+    line-height: 55px;
+    width: 213px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #333;
+    text-align: center;
+    border-left: 2px solid #fff;
+}
+.ne_about_nav>dd.ne_about_act {
+    color: #ff5c5c;
+    background: #f7f7f7;
+    border-left: 2px solid #ff5256;
+}
+.ne_about_nav>li:hover {
+    color: #ff5c5c;
+}
+.ne_about_main {
+    width: 955px;
+    border: 1px solid #e6e6e6;
+    padding-bottom: 50px;
+}
+.ne_about_main>li {
+    width: 920px;
+    margin: 0 auto;
+    display: none;
+}
+.ne_about_main>li.about_act {
+    display: block;
+}

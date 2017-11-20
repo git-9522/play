@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		#{if customize}
+		<title>#{get 'title' /}</title>
+		<meta name="keywords" content="#{get 'keywords' /}" />
+		<meta name="description" content="#{get 'description' /}" />
+		#{/if}
+		#{else}
+		<title>#{get 'title' /}${' | '+settings?.get(common.constants.SettingKey.SEO_TITLE)+' | '+settings?.get(common.constants.SettingKey.PLATFORM_NAME)}</title>
+		<meta name="keywords" content="${settings?.get(common.constants.SettingKey.SEO_KEYWORDS)}" />
+		<meta name="description" content="${settings?.get(common.constants.SettingKey.SEO_DESCRIPTION)}" />
+		#{/else}
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="shortcut icon" type="image/png" href="${settings?.get(common.constants.SettingKey.PLATFORM_ICON_FILENAME)}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/front.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/rules.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/index.css'}" />
+	    <link rel="stylesheet" href="/public/front/stylesheets/aboutUs.css">
+	    <link rel="stylesheet" href="/public/front/stylesheets/page.css">
+	    <link rel="stylesheet" href="/public/front/stylesheets/swiper.min.css">
+	    <link rel="stylesheet" href="/public/front/stylesheets/animate.min.css">
+	    <link type="text/css" href="/public/front/stylesheets/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+	   
+		<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/jquery.fancybox.css" media="screen" />
+		<!-- 皮肤背景、颜色 -->
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/themes/'+settings?.get(common.constants.SettingKey.THEME_NAME)+'/background.css'}" />
+		#{if settings?.get(common.constants.SettingKey.THEME_CUSTOMIZE).equals('0')}
+			<link rel="stylesheet" type="text/css" href="@{'/public/front/themes/'+settings?.get(common.constants.SettingKey.THEME_NAME)+'/color.css'}" />
+		#{/if}
+		#{else}
+			#{set mainColor:'#'+settings?.get(common.constants.SettingKey.THEME_MAIN_COLOR) /}
+			#{set auxColor:'#'+settings?.get(common.constants.SettingKey.THEME_AUX_COLOR) /}
+			#{set thdColor:'#'+common.utils.StrUtil.colorByAlpha(settings?.get(common.constants.SettingKey.THEME_MAIN_COLOR)) /}
+			#{include 'common/front/colorCont.html' /}
+		#{/else}
+		
+		#{get 'moreStyles' /}
+		<!-- 页面js -->
+    <script src="/public/front/javascripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/public/front/javascripts/jquery.fancybox.js"></script>
+   <script type="text/javascript" src="/public/front/javascripts/jquery.mousewheel.js"></script>
+   <script type="text/javascript" src="/public/front/javascripts/jquery.jscrollpane.min.js"></script>
+      <script src="/public/front/javascripts/jquery.waypoints.min.js"></script>
+	<script type="text/javascript" src="/public/front/javascripts/jquery.countup.min.js"></script>
+</head>
+	<body>
+
+	 <!-- 头部部分 -->
+   <div class="header" style="position: fixed;width: 100%">
+   
+        <div class="top">
+            <div class="container">
+                <div class="left fs12">
+                    <img src="/public/front/images/new_images/top1.png" class="f-top-img1">
+                    客服热线：${settings?.get(common.constants.SettingKey.COMPANY_TEL)}
+                </div>
+                <div class="right mr20">
+                    <a href="@{front.FrontHomeCtrl.invitePre()}" class="left cbu">邀请好友</a>
+                    <i class="left split-line"></i>
+              	    <a href="@{front.FrontHomeCtrl.activePre()}" class="left cbu">新手好礼</a>
+                    <i class="left split-line"></i>
+                    <a href="@{front.FrontHomeCtrl.toActivityCenterPre()}" class="left cbu">活动中心</a>
+                    <i class="left split-line"></i>
+                    <a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="left cbu">帮助中心</a>
+                    <i class="left split-line"></i>
+					#{if currUser == null}
+                    <a href="@{front.LoginAndRegisteCtrl.loginPre()}" class="cblue left">登录</a>
+                    <i class="left split-line"></i>
+                    <a href="@{front.LoginAndRegisteCtrl.registerPre()}" class="cblue left">注册</a>
+                    #{/if}
+                    #{else}
+                    <i class="left split-line"></i>
+                    <a href="@{front.account.MyAccountCtrl.homePre()}" class="cblue left ">${currUser?.name}</a>
+                    <i class="left split-line"></i>
+                    <a href="@{front.LoginAndRegisteCtrl.loginOutPre()}" class="cblue left">退出</a>
+                     #{/else}
+                </div>
+            </div>
+        </div>
+        <div class="navbox bgf">
+            <div class="gai_innerbox">
+                <div class="container clearfix">
+                    <a href="@{front.FrontHomeCtrl.frontHomePre()}" class="logo left clearfix" title="" target="">
+                        	 <img src="${settings?.get(common.constants.SettingKey.PLATFORM_LOGO_FILENAME)}"  onerror="this.src='/public/common/default.jpg'" height="56" class="left" alt="logo" >
+                        <div class="left f-logo2">
+                            <img src="/public/front/images/new_images/logo2.png" height="49">
+                        </div>
+                    </a>
+                    <ul class="gai_nav right clearfix">
+                        <li class=""><a href="@{front.FrontHomeCtrl.frontHomePre()}" title="" target="" class="selected">首页</a></li>
+                        <li class="gai_nav_act gai_tim relative">
+                            <a href="@{front.invest.InvestCtrl.toInvestPre()}">我要出借</a>
+                            <div class="gai_dropdown absolute bgf">
+                                <ul>
+                                    <li><a href="@{front.invest.InvestCtrl.toInvestPre()}">散标投资</a></li>
+                                    <li><a href="@{front.invest.InvestCtrl.toDebtPre()}">债权转让</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li style="margin-left:20px;"><a href="@{front.LoanCtrl.toLoanPre()}" title="" target="">我要借款</a></li>
+                        <li><a href="@{front.FrontHomeCtrl.toSafetyPre()}" title="" target="">安全保障</a></li>
+                        <li><a href="@{front.FrontHomeCtrl.aboutUsPre()}" title="" target="">关于我们</a></li>
+                        <li class="gai_nav_act gai_shequ relative">
+                            <a href="@{front.newbie.NewbieCtrl.toNewbiePre()}">社区中心</a>
+                            <div class="gai_dropdown absolute bgf">
+                                <ul>
+                                    <li><a href="@{front.newbie.NewbieCtrl.toNewbiePre()}">我是新手</a></li>
+                                    <li><a href="@{front.mallFront.MallFrontCtrl.mallFrontPre()}">虹银商城</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- header end -->
+
+	<!-- main Content start -->
+		#{doLayout /}
+	<!-- main Content start -->
+
+
+
+	<div style="display:none;" >
+		${settings?.get(common.constants.SettingKey.BAIDU_CODE)?.raw()}
+	</div>
+	</body>
+	<script type="text/javascript" language="javascript">
+		var navSelected=function(index){
+			$(".gai_nav>li").removeClass('ord');
+			$(".gai_nav>li").eq(index).addClass("ord");
+		}
+		navSelected(#{get 'AItem' /})	
+    function Cookie(key, value) {
+        this.key = key;
+        if (value != null) {
+            this.value = escape(value);
+        }
+        this.expiresTime = null;
+        this.domain = null;
+        this.path = "/";
+        this.secure = null;
+    }
+    Cookie.prototype.setValue = function (value) {
+        this.value = escape(value);
+    }
+    Cookie.prototype.getValue = function () {
+        return (this.value);
+    }
+    Cookie.prototype.setExpiresTime = function (time) {
+        this.expiresTime = time;
+    }
+    Cookie.prototype.getExpiresTime = function () {
+        return this.expiresTime;
+    }
+    Cookie.prototype.setDomain = function (domain) {
+        this.domain = domain;
+    }
+    Cookie.prototype.getDomain = function () {
+        return this.domain;
+    }
+    Cookie.prototype.setPath = function (path) {
+        this.path = path;
+    }
+    Cookie.prototype.getPath = function () {
+        return this.path;
+    }
+    Cookie.prototype.Write = function (v) {
+        if (v != null) {
+            this.setValue(v);
+        }
+        var ck = this.key + "=" + this.value;
+        if (this.expiresTime != null) {
+            try {
+                ck += ";expires=" + this.expiresTime.toUTCString();;
+            }
+            catch (err) {
+                alert("expiresTime参数错误");
+            }
+        }
+        if (this.domain != null) {
+            ck += ";domain=" + this.domain;
+        }
+        if (this.path != null) {
+            ck += ";path=" + this.path;
+        }
+        if (this.secure != null) {
+            ck += ";secure";
+        }
+        document.cookie = ck;
+    }
+    Cookie.prototype.Read = function () {
+        try {
+            var cks = document.cookie.split("; ");
+            var i = 0;
+            for (i = 0; i < cks.length; i++) {
+                var ck = cks[i];
+                var fields = ck.split("=");
+                if (fields[0] == this.key) {
+                    this.value = fields[1];
+                    return (this.value);
+                }
+            }
+            return null;
+        }
+        catch (err) {
+            alert("cookie读取错误");
+            return null;
+        }
+    }
+    window.onload = function () {
+        var ck = new Cookie("HasLoaded"); //每个页面的new Cookie名HasLoaded不能相同
+        if (ck.Read() == null) { //未加载过，Cookie内容为空
+            window.location.reload();
+            //设置保存时间
+            var dd = new Date();
+            dd = new Date(dd.getYear() + 1900, dd.getMonth(), dd.getDate());
+            dd.setDate(dd.getDate() + 365);
+            ck.setExpiresTime(dd);
+            ck.Write("true"); //设置Cookie。只要IE不关闭，Cookie就一直存在
+        }
+        else { //Cookie存在，表示页面是被刷新的
+           // alert("页面刷新")
+        }
+    }
+</script>
+</html>

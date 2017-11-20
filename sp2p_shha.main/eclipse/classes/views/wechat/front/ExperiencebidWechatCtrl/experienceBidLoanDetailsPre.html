@@ -1,0 +1,21 @@
+*{
+	体验标-借款详情
+	主页面在:/com.shovesoft.sp2p.wechat/app/views/wechat/front/ExperiencebidWechatCtrl/experienceBidWXPre.html
+}*
+
+#{if currUser}
+    <h3 class="detail-titile">借款描述</h3>
+    <article class="detail-main">
+		${bidDetail.raw()}
+    </article>
+
+#{/if}
+#{else}
+	<p class="detail-p1">请<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+#{/else}
+
+<script type="text/javascript">
+require(['wechat'],function(){
+
+})			
+</script>

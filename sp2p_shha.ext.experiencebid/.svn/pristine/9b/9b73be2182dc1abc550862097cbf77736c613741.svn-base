@@ -1,0 +1,41 @@
+*{
+	被包含页面:(*Cont.html页面都是被包含页面)
+	主页面在:/com.shovesoft.sp2p.main/app/views/front/account/MyRewardCtrl/awardPre.html
+}*
+
+<!-- CPS模块的展示位置 -->
+<div class="tab-cont none clearfix account-manange" id=extExpgoldAcc>
+</div>
+
+<script type="text/javascript">
+	require(['front'],function(front){
+		$(".tab-menu").children("a[id='extExpgold']").click(function(){
+			var tab = $("#extExpgoldAcc");
+			var flag = tab.children("div").length == 0;
+			if(flag  || $(".account-main").is(":hidden")){
+				showExtExpgoldAcc();
+			}
+		});
+	});
+	
+	function showExtExpgoldAcc(){
+		$.ajax({
+			url : "@{front.spread.ExperienceGoldCtrl.queryExpGoldAccountUserByUserId()}",
+			type : "POST",
+			data : {
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#extExpgoldAcc").html(data);
+				// 表格隔行换色
+				$('.account-table').each(function(){
+					$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+				});
+			}
+	    });
+	}
+
+</script>

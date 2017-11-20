@@ -1,0 +1,56 @@
+.bank_tuo_bg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: url(../images/actived/kuang_bg.png) repeat-y center;
+    top: 0;
+    left: 0;
+    z-index: 20505;
+    display: none;
+}
+.bank_tuo_box {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    margin-left: -276px;
+    width: 553px;
+    height: 390px;
+    background: #fff url(../images/actived/lab_bg.png) no-repeat center top;
+    border-radius: 10px;
+    z-index: 20506;
+}
+.bank_check_off {
+    right: 10px;
+    top: 10px;	
+    display: block;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.bank_check_off:hover {
+    transform: rotate(180deg);
+}
+.bank_tuo_box>p {
+    position: absolute;
+    width: 553px;
+    top: 270px;
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+}
+.bank_check_btn {
+    position: absolute;
+    width: 327px;
+    height: 70px;
+    background: url(../images/actived/lab_btn.png) no-repeat center;
+    font-size: 18px;
+    text-align: center;
+    line-height: 60px;
+    color: #fff;
+    left: 50%;
+    margin-left: -163px;
+    top: 300px;
+    transition: all 0.2s;
+}
+.bank_check_btn:hover {
+    background: url(../images/actived/lab_btn1.png) no-repeat center;
+}

@@ -1,0 +1,31 @@
+<ul class="lable_right">
+#{if pageBean}
+  	#{list items:pageBean?.page,as:'bid'}
+		<li class="lable_detail relative">
+			<div class="lable_title absolute">
+				<a class="c0 #{if bid?.product_id == 5}hand_xiang#{/if}#{elseif  bid?.product_id == 4}old_xiang#{/elseif}#{elseif  bid?.product_id == 6}yu_xiang#{/elseif}#{else}pu_xiang#{/else}" href="@{front.invest.InvestCtrl.investPre(bid?.id)}">${bid?.title}</a>
+			</div> <span class="rate_num corange absolute"><span>${bid?.apr}</span> %#{if bid?.is_invest_reward} <span class="fs14">+${bid?.reward_rate}%</span>#{/if}</span> <span
+			class="mon_num corange absolute"><span>${bid?.period}</span>${bid?.period_unit?.getShowValue()}</span> <span
+			class="rate_best c9 absolute">期待年回报率</span> <span
+			class="mon_best c9 absolute">期限</span>
+			<p class="lable_money c9 absolute">可投金额：${bid?.amount-bid?.has_invested_amount}元</p>
+			<div class="lable_line absolute">
+				<div class="line absolute" style="width: ${bid?.loan_schedule}% !important;"></div>
+			</div> 
+			<span class="lable_rate c9 absolute">${bid?.loan_schedule}%</span> 
+<!-- 			<a class="lable_btn f-blue cf absolute" href="">立即购买</a> -->
+			   #{if bid?.status == models.core.entity.t_bid.Status.FUNDRAISING}
+                  	#{if sysNowTime.compareTo(bid?.pre_release_time) == 1}
+                  	<a href="@{front.invest.InvestCtrl.investPre(bid?.id)}" class="lable_btn f-blue cf absolute">我要出借</a>
+                  	#{/if}
+                  	#{else}
+                  	<a href="@{front.invest.InvestCtrl.investPre(bid?.id)}" class="lable_btn f-blue cf absolute">预发售</a>
+                  	#{/else}
+               #{/if}
+               #{else}
+               <a href="@{front.invest.InvestCtrl.investPre(bid?.id)}" class="lable_btn f-blue cf absolute" style="background:#abb1b3 !important">已售罄</a>
+               #{/else}
+		</li>  
+    #{/list}
+#{/if}
+</ul>

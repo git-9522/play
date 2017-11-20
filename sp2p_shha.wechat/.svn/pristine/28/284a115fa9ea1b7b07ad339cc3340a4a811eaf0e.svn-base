@@ -1,0 +1,31 @@
+#{list pageBean?.page}
+    <li onclick="location.href='@{wechat.front.InvestCtrl.investWechatPre(_?.id)}'">
+        <h3 class="xf-disperse-titile">${_?.bidNo} 	${_?.title}</h3>
+        <div class="flex">
+            <div class="flex-1 xf-index-detail">
+                <div class="index-progress"><div style="width:${_?.loanSchedule}%;" class="index-progressbar"></div></div>
+                <div class="product-list flex">
+                    <span class="assistant"><em class="f18">${_?.apr}</em>%</span>
+                    <span class=""><em class="c333">${_?.period}</em>${_?.periodUnit}</span>
+                    <span class="flex-1">可投<em class="c333">#{formatIntMoney money:(_?.amount-_?.hasInvestedAmount)}#{/formatIntMoney}</em>元</span>
+                </div>
+            </div>
+            
+            	#{if models.core.entity.t_bid.Status.FUNDRAISING.equals(_?.status)}
+					
+					#{if now.compareTo(_?.preRelease) == 1}
+						<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="btn product-btn">立即购买</a>
+					#{/if}
+					#{else}
+						<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn">预发售</a>
+					#{/else}
+						
+				#{/if}
+				#{else}
+					<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn">已售罄</a>
+				#{/else}
+ 		 </div>
+    </li>
+#{/list}
+<input type="hidden" id="investCurrpage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="totalPageCount" value="${pageBean?.totalPageCount}"/>

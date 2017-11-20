@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>${loanUser?.title}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link href="@{'/public/wechat/newedition/css/reset.css'}" type="text/css" rel="stylesheet">
+<link href="@{'/public/wechat/newedition/css/style.css'}" type="text/css" rel="stylesheet">
+<link href="@{'/public/wechat/newedition/css/swiper.min.css'}" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="@{'/public/wechat/newedition/js/jquery-1.8.3.min.js'}"></script>
+</head>
+
+<body>
+<div class="header" style="display:block;"><a href="@{wechat.front.InvestCtrl.investWechatPre(loanUser?.bid_id)}"><span class="icon_goback2">取消</span></a> <span class="title_name">${jobs.IndexStatisticsJob.webProdMap?.get(loanUser?.product_id+"")}<i style="font-size:1rem; margin-left:0.2rem;">${loanUser?.title}</i></span> </div>
+<div class="content2">
+  <div class=" biao_tit">
+    <ul>
+      <li class="cur2"><a href="javascript:void(0)" class="cur">项目详情</a></li>
+      <li  class="biao_tit_two"><a href='@{wechat.front.InvestCtrl.repaymentRecordPre(loanUser?.bid_id,loanUser?.title,jobs.IndexStatisticsJob.webProdMap?.get(loanUser?.product_id+""))}'>回款计划</a></li>
+      <li ><a href='@{wechat.front.InvestCtrl.investRecordPre(loanUser?.bid_id,loanUser?.title,jobs.IndexStatisticsJob.webProdMap?.get(loanUser?.product_id+""))}'>投资记录</a></li>
+<!--       <li><a href="javascript:void(0)">评价(300)</a></li> -->
+    </ul>
+  </div>
+  <div class="biao_cont"> 
+    <!--项目详情-->
+    <div class="b_box" style="display:block;">
+      <div class="b_table">
+        <table width="100%" border="1" bordercolor="#ddd">
+          <tr>
+            <td colspan="2" class="t_icon"><img src="@{'/public/wechat/newedition/images/icon/biao-icon5.png'}" class="t_icon"><span>标的信息</span></td>
+          </tr>
+          <tr>
+            <td>保障方式：<span>${loanUser?.guarantee_mode}</span></td>
+            <td>年化收益率：<span>${loanUser?.apr}%</span></td>
+          </tr>
+          <tr>
+            <td>锁定期限：<span>${loanUser?.period}个月</span></td>
+            <td>购买期限：<span>${loanUser?.invest_period}天</span></td>
+          </tr>
+          <tr>
+            <td>收益说明：<span>${loanUser?.repaymentType}</span></td>
+            <td>购买条件：<span>无</span></td>
+          </tr>
+          <tr>
+            <td><span>每人购买限制</span></td>
+            <td>起投金额：<span>100元</span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="b_table">
+        <table width="100%" border="1" bordercolor="#ddd">
+          <tr>
+            <td class="t_icon"><img src="@{'/public/wechat/newedition/images/icon/biao-icon6.png'}" class="t_icon"><span>借款人信息</span></td>
+          </tr>
+          <tr>
+            <td style="padding:0.9rem 0"><ul class="borrow">
+                <li><i class="b_ico b1"></i>身份证认证</li>
+                <li><i class="b_ico b2"></i>手机认证</li>
+                <li><i class="b_ico b5"></i>工作证明</li>
+               #{if loanUser?.guarantee_mode_id==1} <li><i class="b_ico b3"></i>车产认证</li>#{/if}
+               #{if loanUser?.guarantee_mode_id==2} <li><i class="b_ico b4"></i>房产认证</li>#{/if}
+               #{if loanUser?.guarantee_mode_id==3} <li><i class="b_ico b6"></i>企业认证</li>#{/if}
+              </ul></td>
+          </tr>
+          <tr>
+            <td><ul class="message">
+                <li>姓名：<span>${loanUser?.realityName}</span></li>
+                <li>性别：<span>${loanUser?.sex}</span></li>
+                <li style=" margin-bottom:0;">年龄：<span>${loanUser?.age}岁</span></li>
+                <li style=" margin-bottom:0;">户籍：<span>${loanUser?.province==""?"暂无":loanUser?.province}</span></li>
+              </ul></td>
+          </tr>
+          <tr>
+            <td><ul class="message">
+                <li style="width:100%;">名称：<span>${loanUser?.work_unit==""?"暂无":loanUser?.work_unit}</span></li>
+                <li style=" margin-bottom:0;">注册资金：<span>${loanUser?.registered_fund?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}万</span></li>
+                <li style="margin-bottom:0;">成立时间：<span>${loanUser?.start_time?.format(common.constants.Constants.DATE_PLUGIN6)==null?"暂无":loanUser?.start_time?.format(common.constants.Constants.DATE_PLUGIN6)}</span></li>
+              </ul></td>
+          </tr>
+          <tr>
+            <td> 还款来源：<span>#{if loanUser?.repayment_source?.equals("")}暂无#{/if}#{else}${loanUser?.repayment_source}#{/else}</span></td>
+          </tr>
+          <tr>
+            <td> 担保措施：<span>#{if loanUser?.guarantee_measures?.equals("")}暂无#{/if}#{else}${loanUser?.guarantee_measures}#{/else}</span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="b_table" style="border:none;">
+        <table width="100%" border="1" bordercolor="#ddd">
+          <tr>
+           <!--  <td class="t_icon"><img src="@{'/public/wechat/newedition/images/icon/biao-icon7.png'}" class="t_icon"><span>图片信息</span></td> -->
+          </tr>
+         
+        </table>
+   <!--      <div class="hmFocus hmFocus2">
+                <div class="swiper-container autoImg">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="images/biao-img.png"></div>
+                    <div class="swiper-slide"><img src="images/biao-img.png"></div>
+                    <div class="swiper-slide"><img src="images/biao-img.png"></div>
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+      </div> -->
+    </div>
+    <!--回款计划-->
+    <div class="b_box">回款计划 </div>
+    <!--投资记录-->
+    <div class="b_box"> 投资记录 </div>
+    <!--评价-->
+<!--     <div class="b_box"> 评价 </div> -->
+  </div>
+</div>
+<script type="text/javascript" src="@{'/public/wechat/newedition/js/swiper.min.js'}"></script> 
+<script type="text/javascript">
+/**图片信息 js**/
+$(function(){
+	var swiper = new Swiper('.hmFocus .swiper-container', {
+	pagination: '.swiper-pagination',
+	loop: true,
+	autoplay: 4000,
+	paginationClickable: true
+		});
+		
+})
+</script>
+</body>
+</html>

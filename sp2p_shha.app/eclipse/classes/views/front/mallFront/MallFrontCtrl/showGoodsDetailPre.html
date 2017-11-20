@@ -1,0 +1,342 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'兑换商城'/}
+#{set AItem:0 /}
+<!--内容-->
+   		<div class="q-center">
+   			<p class="q-mbtop">您现在的位置：首页 > 积分商城 > ${goods?.name}详情</p>
+   		</div>
+   		<form action="@{front.mallFront.MallFrontCtrl.exchangeGoods()}" method="POST" id="exchangeGoods">
+			<input type="hidden" name="goodsSign" value="${goods?.sign}" />
+			<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}" />
+		<div class="q-xqbox">
+			<div class="q-center1200">
+				<div class="q-padding clearfix">
+					<img class="q-xqimg left" src="${goods?.image_url}" onerror="this.src='/public/common/default.jpg'" />
+					<div class="q-xqright left">
+						<p class="p01">${goods?.name}</p>
+						<p class="p02">尊享价 : <span><i>${goods?.spend_scroe}</i>虹银</span></p>
+						<p class="p03">可用积分 : <span>${scoreBalance}</span></p>
+						<p class="p03">可兑份数 : #{if !goods?.is_unlimited_exc_max}
+													${(goods?.exchange_maximum-hasExchangeNum) >= 0? goods?.inventory >= (goods?.exchange_maximum-hasExchangeNum)?goods?.exchange_maximum-hasExchangeNum : goods?.inventory : 0} 份
+													
+												#{/if}
+												#{else}
+													#{if !goods?.is_unlimited_inven}${goods?.inventory} 份#{/if}#{else}无限#{/else}
+												#{/else}</p>
+						<div class="q-fendiv clearfix mt25">
+							<p class="q-p01 left">数量 : </p>
+							<div class="q-inputdiv left">
+								<span class="q-jian">-</span>
+								<input class="q-date" type="" name="exchangeNum" id="exchangeNum" value="1" />
+								<span class="q-add">+</span>
+							</div>
+							<p class="q-p02 left">已兑换 ${goods?.exchanged_num} 件#{if !goods?.is_unlimited_inven}，剩余 <span class="q-fulldate">${goods?.inventory}</span>件#{/if}</p>
+						</div>
+						#{if currUser != null && goods?.type == 0}
+						<div class="q-fendiv clearfix mt25">
+						    <input type="hidden" id="addressId" name="addressId" value="${defaultAddress?.sign}"/>
+							<p class="q-p01 left">默认地址 : </p>
+							<div class="left q-p01" id="defaultAddress">
+								${defaultAddress?.getAllAddress()}
+							</div></br>
+							<div class="left q-p01" >
+							<a id="selAddress">点击更换地址</a>或<a id="addAddress">添加地址</a>
+							</div>
+						</div>
+						#{/if}
+						#{if count >= goods?.min_invest_count}
+						<a class="q-xqlink canExchange">立即兑换</a>
+						#{/if}
+						#{else}
+						<a class="q-xqlink" title="还有${goods?.min_invest_count - count}次可以兑换" href="@{front.invest.InvestCtrl.toInvestPre()}">去投资>></a>
+						#{/else}
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+		<div class="q-xqbtm q-center1200">
+			<p class="q-xqtitle">商品详情</p>
+			<div class="q-xqimgbox">
+				#{verbatim}${goods?.description}#{/verbatim}
+			</div>
+		</div>
+	<!--内容 end-->
+	<!--新增地址弹窗-->
+	<div class="q-tcbg tc1" style="display: none;"></div>
+	<div class="q-tcdiv q-tcdiv02 tc1" style="display: none;">
+	<div class="q-tctop">
+		<p>填写地址</p>
+		<p id='errorInfo' style="color:red"></p>
+		<img class="q-close" src="/public/front/images/close.png"/>
+	</div>
+	<div class="q-tcbtm">
+		<div class="q-dzone clearfix">
+			<p class="left">联系人姓名：</p>
+			<input class="left" type="text" maxlength="5" id="receiver" value="" />
+		</div>
+		<div class="q-dzone clearfix">
+			<p class="left">联系电话：</p>
+			<input class="left" type="text"  maxlength="11" id="tel" value="" onkeyup="$(this).ndigitInteger(this,11)"/>
+		</div>
+		<div class="q-dzone clearfix">
+			<p class="left">省市：</p>
+			<select class="left" id="prov" onchange="findCity()">
+				<option value="0">请选择</option>
+	  			#{list list}
+					<option value = "${_?.prov_num}">${_?.prov_name}</option>
+				#{/list}
+			</select>
+			<select class="left" id="city">
+				<option value="0">请选择</option>
+			</select>
+		</div>
+		<div class="q-dzone clearfix">
+			<p class="left">详细地址：</p>
+			<input class="left q-ladzinput" type="text" id="address" maxlength="25" value="" />
+		</div>
+		<input class="q-dzbtn" type="button" onclick="addAddress()" value="添加地址" />
+	</div>
+	</div>
+	
+	
+	<!--收货地址弹窗-->
+	<div class="q-tcbg tc2" style="display: none;"></div>
+	<div class="q-tcdiv q-tcdiv02 tc2" style="display: none;">
+	<div class="q-tctop">
+		<p>选择收货地址</p>
+		<p id='errorInfo2' style="color:red"></p>
+		<img class="q-close" src="/public/front/images/close.png"/>
+	</div>
+	<div class="q-tcbtm" style="height:344px;overflow: auto" id="listOfAddress">
+		
+	</div>
+	</div>
+<script type="text/javascript">
+	require(['front'],function(front){
+		
+		
+		listOfAddressPre();
+//      商品数量
+        $(function(){
+			var timeid;
+			var fulldate =100;// $(".q-fulldate").text();
+			timeids = setInterval(function(){
+			txtval=parseInt($(".q-date").val());
+			
+				if(txtval>fulldate){
+					$(".q-date").val(fulldate);
+				}
+				if (txtval<1) {
+					$(".q-date").val(1);
+				}
+			},10);
+			/*减少*/
+			$(".q-jian").click(function(){
+				$(".q-date").val(txtval-1);
+			});
+			/*增加*/
+			$(".q-add").click(function(){
+				$(".q-date").val(txtval+1);
+			});
+			$(".q-close").click(function(){
+				$(".tc1,.tc2").hide();
+			});
+			$("#addAddress").click(function(){
+				$(".tc1").show();
+			});
+			$("#selAddress").click(function(){
+				$(".tc2").show();
+			});
+		}); 
+		//兑换
+		$(".q-xqlink.canExchange").click(function(){
+			#{ifnot currUser}
+				window.location.href="@{front.LoginAndRegisteCtrl.loginPre()}";
+				return false;
+			#{/ifnot}
+			#{if isSimulated}
+		    	alert("模拟登录不能执行该操作");
+		    	return false;
+		    #{/if}
+		    #{else}
+			var scoreBalance = "${scoreBalance?:'0'}";//可用积分
+			var exchangeNum = $('#exchangeNum').val();//兑换份数
+			var spendScroe = "${goods?.spend_scroe?:'0'}";//单价
+			//总价
+			var totalScore = parseInt(exchangeNum)*parseInt(spendScroe);
+			
+			if(parseInt(scoreBalance)<parseInt(totalScore)){
+				weakDialog('可用积分不足!');
+				return false;
+			}
+			var type = ${goods?.type};
+			var address = $("#addressId").val();
+			if(address == null && type == 0){
+				weakDialog('请选择收货地址!');
+				return false;
+			}
+		    $("#exchangeGoods").submit();
+		    #{/else}
+		});
+    });
+	
+	function findCity(){
+		var prov_num = $("#prov").val();
+		$.post("@{front.account.MySecurityCtrl.findByCity()}", {'prov_num':prov_num}, function(data){
+			var option = '<option value = "0">请选择</option>';
+			for (var i =0; i < data.length; i++){
+				option = option + '<option value = "'+data[i].city_num+'">'+data[i].city_name+'</option>';
+			}
+			$("#city").html(option);
+		})
+	}
+	
+	//添加地址
+	function addAddress(){
+		var receiver = $("#receiver").val();
+		var tel = $("#tel").val();
+		var province = $("#prov").find("option:selected").text();
+		var city = $("#city").find("option:selected").text();
+		var address = $("#address").val();
+		
+		if (!receiver.isNotBlank()){
+			$("#errorInfo").html("请填写收件人");
+			return;
+		}else{
+			$("#errorInfo").html("");
+		}
+		
+		if (!tel.isNotBlank()){
+			$("#errorInfo").html("请填写联系电话");
+			return;
+		}else{
+			$("#errorInfo").html("");
+		}
+		
+		if ($("#prov").val() == 0){
+			$("#errorInfo").html("请选择省市");
+			return;
+		}else{
+			$("#errorInfo").html("");
+		}
+		
+		if ($("#city").val() == 0){
+			$("#errorInfo").html("请选择省市");
+			return;
+		} else{
+			$("#errorInfo").html("");
+		}
+		
+		if (!address.isNotBlank()){
+			$("#errorInfo").html("请填写详细地址");
+			return;
+		}else{
+			$("#errorInfo").html("");
+		}
+		
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.addAddress()}",
+			type : "POST",
+			dataType : 'json',
+			data : {
+				"receiver" : receiver,
+				     "tel" : tel,
+				"province" : province,
+				    "city" : city,
+				 "address" : address
+			},
+			success : function(data) {
+				
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					$("#errorInfo").html(data.msg);
+					return;
+				}
+				
+				$(".tc1,.tc2").hide();
+				$("#receiver").val("");
+				$("#tel").val("");
+				$("#address").val("");
+				
+				$("#defaultAddress").html(data.getAllAddress);
+				$("#addressId").val(data.addressId);
+			}
+		 });
+		
+		listOfAddressPre();
+	}
+	
+	//设置默认地址
+	function setDefaultAddress(sign){
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.setDefaultAddress()}",
+			type : "POST",
+			data : {
+				"sign" : sign
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				if(data.code < 1){
+					alert(data.msg)
+					return;
+				}
+				
+				listOfAddressPre();
+			}
+		 });
+	}
+	
+	//查询所有地址
+	function listOfAddressPre(){
+		
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.listOfAddressPre()}",
+			type : "GET",
+			data : {
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#listOfAddress").html(data);
+				// 表格隔行换色
+				$('.q-dztab').each(function(){
+					$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+				});
+			}
+		 });
+	}
+	
+	//删除地址
+	function delAddress(sign){
+		$.ajax({
+			url : "@{front.mallFront.MallFrontCtrl.delAddress()}",
+			type : "POST",
+			data : {
+				"sign" : sign
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				if(data.code < 1){
+					$("#errorInfo2").html(data.msg);
+					return;
+				}
+				$("#errorInfo2").html("");
+				
+				listOfAddressPre();
+			}
+		 });
+	}
+</script>

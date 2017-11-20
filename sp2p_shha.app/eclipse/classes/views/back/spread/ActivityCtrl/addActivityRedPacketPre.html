@@ -1,0 +1,172 @@
+#{extends 'back/spread/ActivityCtrl/activityMain.html' /}
+	#{set title:'推广 | 红包领取活动 | 活动红包设置' /}
+	#{set smallclass:2 /}
+	#{set crumbs:'推广>红包领取规则>活动红包设置'/}
+	
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">添加活动红包</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.spread.ActivityCtrl.showActivityRedPacketsPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.spread.ActivityCtrl.addActivityRedPacket}" method="POST" id="formAddRewards">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">活动红包信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">红包金额</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="#{formatIntMoney money:flash?.amount/}" maxlength="6" name="packet.amount"  oninput="$(this).withdrawRange();" onkeyup="$(this).withdrawRange();"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">红包金额</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">最低投资</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="#{formatIntMoney money:flash?.use_rule/}" maxlength="6" name="packet.use_rule"  oninput="$(this).withdrawRange();" onkeyup="$(this).withdrawRange();"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">最低投资金额</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">有效期限</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${flash?.end_time}" maxlength="3" name="packet.end_time"  oninput="$(this).ndigitInteger(3);" onkeyup="$(this).ndigitInteger(3);"/>
+							<i class="unit">天</i>
+						</label>
+						<span class="back-text-limit">必须在有效期限内使用，到期会过期</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">标的期限</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${flash?.bid_period}" maxlength="3" name="packet.bid_period"  oninput="$(this).ndigitInteger(3);" onkeyup="$(this).ndigitInteger(3);"/>
+							<i class="unit">月</i>
+						</label>
+						<span class="back-text-limit">红包使用于几月标，0表示没有限制</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">通知渠道</span>
+					<div class="liright">
+						<input onclick="myClick();" type="checkbox" id="letter" #{if flash?.is_send_letter == 'true'}checked="checked"#{/if}>站内信&nbsp;&nbsp;
+						<input onclick="myClick();" type="checkbox" id="email" #{if flash?.is_send_email == 'true'}checked="checked"#{/if} />邮件&nbsp;&nbsp;
+						<input onclick="myClick();" type="checkbox" id="sms" #{if flash?.is_send_sms == 'true'}checked="checked"#{/if} />手机短信
+						<input type="hidden" id="letterInput" name="packet.is_send_letter" value="${flash?.is_send_letter}" />
+						<input type="hidden" id="emailInput" name="packet.is_send_email" value="${flash?.is_send_email}" />
+						<input type="hidden" id="smsInput" name="packet.is_send_sms" value="${flash?.is_send_sms}" />
+						<span class="back-text-limit"></span>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+            <input type="hidden" id="service_fee_rule" name="service_fee_rule" value=""/>
+            <input type="hidden" id="audit_subjects" name="audit_subjects" value=""/>
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.spread.ActivityCtrl.showActivityRedPacketsPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		
+		//效验组件
+		require(["validation/validateExt"]);
+		
+		$("#formAddRewards").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				}else if(element.parent().parent().hasClass("back-unitinput")){
+					error.addClass('back-notice').insertAfter(element.parent().parent());
+				}else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"packet.amount": {
+					required: true,
+					number: true
+				},
+				"packet.use_rule":{
+					required: true,
+					number: true
+				},
+				"packet.bid_period":{
+					required: true,
+					digits: true
+				},
+				"packet.end_time":{
+					required: true,
+					digits: true
+				},
+			},
+			messages: {
+				"packet.amount": {
+					required: "请输入红包金额",
+					number: "只能为正整数"
+				},
+				"packet.use_rule": {
+					required: "请输入最低投资",
+					number: "只能为正整数"
+				},
+				"packet.bid_period" : {
+					required: "请输入标的期限",
+					digits: "只能为正整数"
+				},
+				"packet.end_time" : {
+					required: "请输入有效期限",
+					digits: "只能为正整数"
+				},
+			},
+		});
+		
+	});
+	function myClick() {
+		if($("#letter").is(':checked')) {
+			$('#letterInput').val("true");
+		} else {
+			$('#letterInput').val("false");
+		}
+		if($("#email").is(':checked')) {
+			$('#emailInput').val("true");
+		} else {
+			$('#emailInput').val("false");
+		}
+		if($("#sms").is(':checked')) {
+			$('#smsInput').val("true");
+		} else {
+			$('#smsInput').val("false");
+		}
+	}
+
+</script>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>关于虹金所</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link href="@{'/public/wechat/newedition/css/reset.css'}" type="text/css" rel="stylesheet">
+<link href="@{'/public/wechat/newedition/css/style.css'}" type="text/css" rel="stylesheet">
+</head>
+
+<body style=" background:#f8f8f8;">
+<div class="header" style="display:block;"><span class="icon_goback"></span> <span class="title_name">关于虹金所</span></div>
+<div class="content2">
+  <h2 class="about_logo"><img src="@{'/public/wechat/newedition/images/icon/hjs-logo.png'}"><span>虹金所</span></h2>
+  <div class="about_box">
+    <div class="about_group clearfix"> <a href="@{wechat.front.WechatHomeCtrl.aboutUsPre()}">
+      <p class="ab_left"><i class="a_ico ico1"></i></p>
+      <p class="ab_right">关于我们 <i class="about_right"></i> </p>
+      </a> </div>
+    <div class="about_group clearfix"> <a href="tel:${settings?.get(common.constants.SettingKey.COMPANY_TEL)}">
+      <p class="ab_left"><i class="a_ico ico2"></i></p>
+      <p class="ab_right">客服电话 <span>${settings?.get(common.constants.SettingKey.COMPANY_TEL)}</span><i class="about_right"></i> </p>
+      </a> </div>
+   
+  </div>
+</div>
+</body>
+</html>

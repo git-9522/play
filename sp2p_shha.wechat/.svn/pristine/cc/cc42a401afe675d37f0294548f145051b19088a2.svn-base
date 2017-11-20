@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body class="q-bgfff">
+    	<a href="@{wechat.front.WechatHomeCtrl.noviceGotoWechatPre()}" class="q-xsimg"><img src="@{'/public/wechat/images/xsimg.jpg'}"/></a>
+		<div class="flex q-padding q-fldiv">
+			<p class="flex-1">新手任务</p>
+			<a href="@{wechat.front.WechatHomeCtrl.noviceRulesPre()}" class="flex-1 tr">查看任务说明</a>
+		</div>
+		<div class="q-fldiv02">
+			<img class="q-flimg" src="@{'/public/wechat/images/flimg.png'}"/>
+			<ul class="q-fldivul q-padding">
+				<li class="flex">
+					<img class="q-img" src="@{'/public/wechat/images/1.png'}"/>
+					<dl class="flex-1">
+						<dt>注册</dt>
+						<dd>即日起新用户首次注册就送20元现金红包(投资之后可抵投资金额参与计息);</dd>
+					</dl>
+					#{if isRegister}
+						<a href="javascript:void(0);" class="xrbnt1">已完成</a>
+					#{/if}
+					#{else}
+						<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}">做任务</a>
+					#{/else}
+				</li>
+				<li class="flex">
+					<img class="q-img" src="@{'/public/wechat/images/2.png'}"/>
+					<dl class="flex-1">
+						<dt>实名认证</dt>
+						<dd>即日起实名认证即送380元(分别为40元、
+							60元、100元、180元)红包大奖；
+							</dd>
+					</dl>
+					#{if isRnAuth}
+						<a href="javascript:void(0);" class="xrbnt1">已完成</a>
+					#{/if}
+					#{else}
+						<a href="@{wechat.front.account.MySecurityCtrl.securityPre()}">做任务</a>
+					#{/else}
+				</li>
+				<li class="flex">
+					<img class="q-img" src="@{'/public/wechat/images/3.png'}"/>
+					<dl class="flex-1">
+						<dt>每日签到</dt>
+						<dd>即注册日起，签到必送虹银，虹银可抵现、
+						抽奖、兑换礼券；
+						</dd>
+					</dl>
+					#{if isSignIn}
+						<a href="javascript:void(0);" class="xrbnt1">已完成</a>
+					#{/if}
+					#{else}
+						<a href="@{wechat.front.account.MyAccountCtrl.signInPre()}">做任务</a>
+					#{/else}
+				</li>
+			</ul>
+		</div>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

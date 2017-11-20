@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<p class="q-zntopp q-padding q-bgfff">了解虹金所</p>
+    	<ul class="q-padding q-bgfff q-znul">
+    		<li class="flex">
+    			<i></i>
+    			<p class="flex-1">虹金所是由上海虹奥金融信息服务有限公司(注册地：上海市，注册资金：一亿五百万);</p>
+    		</li>
+    		<li class="flex">
+    			<i></i>
+    			<p class="flex-1">负责建设和运营的创新型在线金融信息服务平台;</p>
+    		</li>
+    		<li class="flex">
+    			<i></i>
+    			<p class="flex-1">专注于普惠金融领域的在线借贷撮合平台，虹金所主打车贷抵押业务，资产特点小额、分散、质押和直营;</p>
+    		</li>
+    	</ul>
+    	<p class="q-zntopp q-padding q-bgfff mt30">了解虹金所投资流程</p>
+    	<ul class="q-znul02 q-padding">
+    		<li class="flex">
+    			<img src="@{'/public/wechat/images/hong1.png'}"/>
+    			<dl>
+    				<dt>第一步：注册帐号</dt>
+    				<dd>还没有虹金所账号？有手机号码就能注册、简单、高效！</dd>
+    			</dl>
+    		</li>
+    		<li class="flex">
+    			<img src="@{'/public/wechat/images/hong2.png'}"/>
+    			<dl>
+    				<dt>第二步：实名认证</dt>
+    				<dd>虹金所理财账号与用户身份证绑定，通过实名认证，保障账号安全。</dd>
+    			</dl>
+    		</li>
+    		<li class="flex">
+    			<img src="@{'/public/wechat/images/hong3.png'}"/>
+    			<dl>
+    				<dt>第三步：账号充值</dt>
+    				<dd>正式开始投资之前，请确保账户里余额充足。</dd>
+    			</dl>
+    		</li>
+    		<li class="flex">
+    			<img src="@{'/public/wechat/images/hong4.png'}"/>
+    			<dl>
+    				<dt>第四步：投资收益</dt>
+    				<dd>选择适合你的产品，投资购买，接下来就坐等收益吧！</dd>
+    			</dl>
+    		</li>
+    	</ul>
+    	<p class="q-zntopp q-padding q-bgfff mt30">热门投资项目</p>
+    	#{list newbieBids}
+    	<ul class="q-lclist">
+				<li class="q-padding">
+					<p class="q-p01">${_?.title}<span>新手专享</span></p>
+					<div class="q-lcbtm flex">
+						<dl class="flex-1 dl01">
+							<dt class="q-color">${_?.apr}%</dt>
+							<dd>期待年回报率</dd>
+						</dl>
+						<dl class="flex-1 tc dl02">
+							<dt>${_?.period}${_?.getPeriod_unit().getShowValue()}</dt>
+							<dd>期限</dd>
+						</dl>
+						<dl class="flex-1 tr dl03">
+							<dt>#{formatIntMoney money:(_?.amount-_?.has_invested_amount)}#{/formatIntMoney}元</dt>
+							<dd>可投</dd>
+						</dl>
+					</div>
+					<div class="q-lcperdiv flex">
+						<div class="q-perdiv flex-1">
+							<div class="q-perin" style="width: ${_?.loan_schedule}%;">	
+							</div>
+						</div>
+						<span>${_?.loan_schedule}%</span>
+						#{if models.core.entity.t_bid.Status.FUNDRAISING.equals(_?.status)}
+							#{if sysNowTime.compareTo(_?.pre_release_time) == 1}
+								<dd><a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}">抢购</a></dd>
+							#{/if}
+							#{else}
+								<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn">预发售</a>
+							#{/else}
+						#{/if}
+						#{else}
+							<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn bd-bnt2">已售罄</a>
+						#{/else}
+					</div>
+					<p class="q-aqp"><img src="@{'/public/wechat/images/aqimg.png'}"/>安全保障计划</p>
+				</li>
+			</ul>
+		#{/list}
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

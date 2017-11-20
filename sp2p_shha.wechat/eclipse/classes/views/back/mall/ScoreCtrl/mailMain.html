@@ -1,0 +1,13 @@
+#{extends 'common/supervisorMain.html' /}
+#{set AItem:4 /}
+
+<!-- 二级导航 -->
+<ul class="back-secnav">
+	<li><a href="@{back.mall.ScoreCtrl.showSignInRulesPre()}">积分规则</a></li>
+	<li><a href="@{back.mall.GoodsCtrl.showGoodsPre()}">积分商品</a></li>
+	<li><a href="@{back.mall.ExchangeCtrl.showExchangesPre()}">实物派送</a></li>
+	<li><a href="@{back.mall.RewardsCtrl.showRewardsPre()}">积分抽奖</a></li>
+	<li><a href="@{back.mall.ScoreCtrl.showScoreRecordPre()}">积分记录</a></li>
+</ul>	
+
+#{doLayout /}

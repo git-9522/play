@@ -1,0 +1,19 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+	<ul class="bank-ul amend">
+		#{list listOfUserBankCard,as:'bankCard'}
+	     <li>
+	         <h4 class="bank-title"><i class=""></i>${bankCard?.bank_name}</h4>
+	         <p class="tc">${bankCard?.account}</p>
+	         #{else}
+	         	<p class="default-p flex">
+	        			<a href="@{wechat.front.account.MySecurityCtrl.setDefaultBankCardPre(bankCard?.id)}" onMouseOver="this.style.color='#F00';" onMouseOut="this.style.color='#fff';">设为默认银行卡</a> 
+	         		<span class="flex-1 tr">${bankCard?.status?.value}</span>
+	         	</p>
+	         #{/else}
+	     </li>
+	    #{/list}
+	</ul>
+	<input type="button" class="condition-btn exit-btn bankbtn"  value="换绑卡" onclick="location.href='@{wechat.front.account.MySecurityCtrl.bindCardPre(0)}'">
+</div>

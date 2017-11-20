@@ -1,0 +1,25 @@
+#{extends 'common/frontMain.html' /}
+#{set title: '活动页'/}
+#{set AItem:0 /}
+
+<div class="y-activity-div">
+	#{if type == 1}
+		<img alt="" src="@{'/public/front/images/activity1.jpg'}">
+	#{/if}
+	#{elseif type == 2}
+		<img alt="" src="@{'/public/front/images/activity2.jpg'}">
+	#{/elseif}
+	#{elseif type == 3}
+		<img alt="" src="@{'/public/front/images/activity3.jpg'}">
+	#{/elseif}
+	#{elseif type == 4}
+		<img alt="" src="@{'/public/front/images/activity4.jpg'}">
+	#{/elseif}
+	#{elseif type == 5}
+		<img alt="" src="@{'/public/front/images/activity5.jpg'}">
+	#{/elseif}
+</div>
+
+<style>
+.f-foot{margin-top: 0px !important;}
+</style>

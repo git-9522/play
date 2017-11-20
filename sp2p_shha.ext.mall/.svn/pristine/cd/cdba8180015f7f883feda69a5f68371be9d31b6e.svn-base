@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>#{get 'title' /}${' | '+settings?.get(common.constants.SettingKey.SEO_TITLE)+' | '+settings?.get(common.constants.SettingKey.PLATFORM_NAME)}</title>
+		
+		<meta name="keywords" content="${settings?.get(common.constants.SettingKey.SEO_KEYWORDS)}" />
+		<meta name="description" content="${settings?.get(common.constants.SettingKey.SEO_DESCRIPTION)}" />
+		
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<link rel="shortcut icon" type="image/png" href="${settings?.get(common.constants.SettingKey.PLATFORM_ICON_FILENAME)}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/front.css'}" />
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/stylesheets/rules.css'}" />
+		<!-- 皮肤背景、颜色 -->
+		<link rel="stylesheet" type="text/css" href="@{'/public/front/themes/'+settings?.get(common.constants.SettingKey.THEME_NAME)+'/background.css'}" />
+		#{if settings?.get(common.constants.SettingKey.THEME_CUSTOMIZE).equals('0')}
+			<link rel="stylesheet" type="text/css" href="@{'/public/front/themes/'+settings?.get(common.constants.SettingKey.THEME_NAME)+'/color.css'}" />
+		#{/if}
+		#{else}
+			#{set mainColor:'#'+settings?.get(common.constants.SettingKey.THEME_MAIN_COLOR) /}
+			#{set auxColor:'#'+settings?.get(common.constants.SettingKey.THEME_AUX_COLOR) /}
+			#{set thdColor:'#'+common.utils.StrUtil.colorByAlpha(settings?.get(common.constants.SettingKey.THEME_MAIN_COLOR)) /}
+			#{include 'common/front/colorCont.html' /}
+		#{/else}
+		
+		#{get 'moreStyles' /}
+		<!-- 页面js -->
+		<script type="text/javascript" data-main="/public/front/javascripts/front.js" src="@{'public/front/javascripts/require.js'}" ></script>
+		#{get 'moreScripts' /}		
+</head>
+	<body>
+	<!-- header start -->
+		<div class="header">
+			<div class="top">
+				<div class="container">
+                    <div class="left c6 fs12">
+                        <img src="@{'/public/front/images/top1.png'}" class="f-top-img1">
+                        客服热线：${settings?.get(common.constants.SettingKey.COMPANY_TEL)}（9:00-17:00）
+                    </div>
+                    <div class="right clearfix relative">
+                       <!--  <div class="f-top-sjapp left">
+                            <img src="@{'/public/front/images/top2.png'}" alt="">
+                            <span>手机APP</span>
+                        </div> -->
+                        <img src="@{'/public/front/images/top3.png'}" class="ml15 left f-top-img3" alt="">
+                       <a target="_blank"  href="http://weibo.com/hjs360?refer_flag=1001030201_" ><img src="@{'/public/front/images/top4.png'}" class="ml15 left f-top-img4" alt=""></a> 
+                        <div class="f-top-ewm">
+                            <img src="@{'/public/front/images/dyh.jpg'}">
+                            <img src="@{'/public/front/images/fwh.jpg'}">
+                            <div class="f-ewm-text clearfix">
+                                <span class="left pl10">[订阅号]</span>
+                                <span class="left">[服务号]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right mr20">
+                    	#{if currUser == null}
+                        <a href="@{front.LoginAndRegisteCtrl.loginPre()}" class="c3 left">登录</a>
+                        <i class="left split-line"></i>
+                        <a href="@{front.LoginAndRegisteCtrl.registerPre()}" class="c3 left">注册</a>
+                        #{/if}
+                        #{else}
+                        <a href="@{front.account.MyAccountCtrl.homePre()}" class="c3 left">${currUser?.name}</a>
+                        <i class="left split-line"></i>
+                        <a href="@{front.LoginAndRegisteCtrl.loginOutPre()}" class="c3 left">退出</a>
+                        #{/else}
+                        <i class="left split-line"></i>
+                        <a href="@{front.account.MyAccountCtrl.homePre()}" class="left">签到有礼</a>
+                        <i class="left split-line"></i>
+                        <a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="left">帮助中心</a>
+                        <i class="left split-line"></i>
+                        <a href="javascript:void(0);" class="left">活动专题</a>
+                        <i class="left split-line"></i>
+                        <a href="@{front.mallFront.MallFrontCtrl.mallFrontPre()}" class="left">商城</a>
+                    </div>
+				</div>
+			</div>
+			<div class="navbox">
+				<div class="navbox-innerbox">
+					<div class="container clearfix">
+						<a href="@{front.FrontHomeCtrl.frontHomePre()}" class="logo left clearfix" title="" target="" >
+							#{img data_original:settings?.get(common.constants.SettingKey.PLATFORM_LOGO_FILENAME), class:"left lazy", height:"56", alt:"logo" /}
+							<div class="left f-logo2">
+							    <img src="/public/front/images/logo2.png" height="49">
+							</div>
+						</a>
+						<ul class="nav left tr ml100">
+							<li><a href="@{front.mallFront.MallFrontCtrl.mallFrontPre()}" title="" target="" >兑换商城</a></li>
+							 <li><a href="@{front.mallFront.MallFrontCtrl.mallLotteryPre()}" title="" target="" >积分抽奖</a></li>
+							<li><a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" title="" target="" >帮助中心</a></li>
+						</ul>
+						<a href="@{front.FrontHomeCtrl.frontHomePre()}" class="q-topnav right">返回首页</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- header end -->
+
+	<!-- main Content start -->
+		#{doLayout /}
+	<!-- main Content start -->
+
+<!-- right bar -->
+		
+		<ul class="rightbar">
+			<li class="goto-top">
+				<div class="rightbar-box">
+					<i class="icon top-icon"></i>
+					<span class="rightbar-word">
+						返回顶部
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="rightbar-box">
+					<i class="icon weixin-icon"></i>
+					<span class="rightbar-word">
+						关注微信
+					</span>
+				</div>
+				<div class="rightbar-leftbox">
+					<i></i>
+					<i></i>
+					<img src="/public/front/images/qr-paltform-wechat.png" width="100" height="100" align="" />
+				</div>
+			</li>
+			<li>
+				<div class="rightbar-box">
+					<i class="icon weibo-icon"></i>
+					<a target="_blank"  href="http://weibo.com/hjs360?refer_flag=1001030201_" class="rightbar-word">
+						关注微博
+					</a>
+				</div>
+			</li>
+			<li>
+				<div class="rightbar-box">
+					<i class="icon kefu-icon"></i>
+					<a target="_blank" class="rightbar-word">
+						在线客服
+					</a>
+				</div>
+				<div class="rightbar-kflist">
+					<a class="rightbar-kflink" href="http://wpa.qq.com/msgrd?v=3&uin=${settings?.get(common.constants.SettingKey.COMPANY_QQ1)}&site=qq&menu=yes" target="_blank" title="客服01" ><img src="/public/front/images/kfimg.png" width="77" height="21" /></a>
+					<a class="rightbar-kflink" href="http://wpa.qq.com/msgrd?v=3&uin=${settings?.get(common.constants.SettingKey.COMPANY_QQ2)}&site=qq&menu=yes" target="_blank" title="客服02" ><img src="/public/front/images/kfimg.png" width="77" height="21" /></a>
+					<a class="rightbar-kflink" href="http://wpa.qq.com/msgrd?v=3&uin=${settings?.get(common.constants.SettingKey.COMPANY_QQ3)}&site=qq&menu=yes" target="_blank" title="客服03" ><img src="/public/front/images/kfimg.png" width="77" height="21" /></a>
+				</div>
+			</li>
+			<li class="goto-end">
+				<div class="rightbar-box">
+					<i class="icon end-icon"></i>
+					<span class="rightbar-word">
+						跳到底部
+					</span>
+				</div>
+			</li>
+		</ul>
+	<!-- right bar end -->
+
+	<!-- footer start -->
+    <div class="f-foot">
+        <div class="clearfix f-1200 auto">
+            <ul class="left brs pb35">
+                <li class="clearfix c6 fs16">
+                    <div class="left f-110" onclick="window.location.href='@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}'">${columns?.get(common.constants.ColumnKey.HOME_HELPCENTER)?:'帮助中心'}</div>
+                    <div class="left f-110" onclick="window.location.href='@{front.InformationCtrl.showInfosPre('info_bulletin')}'">${columns?.get(common.constants.ColumnKey.INFO_BULLETIN)?:'官方公告'}</div>
+                    <div class="left f-110" onclick="window.location.href='@{front.FrontHomeCtrl.aboutUsPre()}'">${columns?.get(common.constants.ColumnKey.HOME_PROFILE)?:'公司介绍'}</div>
+                </li>
+                <li class="clearfix c6 fs14 mt20">
+                    <a class="left f-110 pl5">合作伙伴</a>
+                    <a class="left f-110" onclick="window.location.href='@{front.InformationCtrl.showInfosPre('info_report')}'">${columns?.get(common.constants.ColumnKey.INFO_REPORT)?:'媒体报道'}</a>
+                    <a class="left f-110">资质简介</a>
+                </li>
+                <li class="clearfix c6 fs14 mt10">
+                    <a class="left f-110 pl5" onclick="window.location.href='@{front.FrontHomeCtrl.joinusPre()}'">${columns?.get(common.constants.ColumnKey.HOME_JOINUS)?:'加入我们'}</a>
+                    <a class="left f-110">发展支持</a>
+                    <a class="left f-110">荣誉证书</a>
+                </li>
+                <li class="clearfix c6 fs14 mt10">
+                    <a class="left f-110 pl5" onclick="window.location.href='@{front.FrontHomeCtrl.contactusPre()}'">${columns?.get(common.constants.ColumnKey.HOME_CONTACTUS)?:'联系我们'}</a>
+                    <a class="left f-110" onclick="window.location.href='@{front.FrontHomeCtrl.safePre()}'">${columns?.get(common.constants.ColumnKey.HOME_ADVANTAGE)?:'平台优势'}</a>
+                    <a class="left f-110">发展历史</a>
+                </li>
+            </ul>
+            <div class="left clearfix">
+                <div class="f-foot-ewm left">
+                    <img src="@{'/public/front/images/fwh.jpg'}" alt="">
+                    <p>关注服务号</p>
+                </div>
+                <div class="f-foot-ewm2 left">
+                    <img src="@{'/public/front/images/dyh.jpg'}" alt="">
+                    <p>关注订阅号</p>
+                </div>
+            </div>
+            <div class="right">
+                <p class="color1 fs36 tr">${settings?.get(common.constants.SettingKey.COMPANY_TEL)}</p>
+                <p class="fs14 c6 tr mt20">客服热线（服务时间：9:00-17:00）</p>
+                <div class="clearfix mt20 relative">
+                    <div class="right f-foot-yx clearfix">
+                        <img src="@{'/public/front/images/foot-yx.png'}" alt="" class="left"><span class="left">客服邮箱</span>
+                    </div>
+                    <div class="right f-foot-kf clearfix" onclick="window.location.href='http://wpa.qq.com/msgrd?v=3&uin=${settings?.get(common.constants.SettingKey.COMPANY_QQ1)}&site=qq&menu=yes'">
+                        <img src="@{'/public/front/images/foot-kf.png'}" alt="" class="left"><span class="left">在线客服</span>
+                    </div>
+                    <div class="f-foot-kfyx">
+                        <p class="c3">客服邮箱：</p>
+                        <p class="c6">${settings?.get(common.constants.SettingKey.COMPANY_EMAIL)}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="c6 fs14 center mt40">
+            2016 ${settings?.get(common.constants.SettingKey.PLATFORM_NAME)} ${settings?.get(common.constants.SettingKey.SITE_ICP_NUMBER)} ${settings?.get(common.constants.SettingKey.COMPANY_NAME)}
+            &nbsp;&nbsp;&nbsp;&nbsp;地址：${settings?.get(common.constants.SettingKey.COMPANY_ADDRESS)}
+        </p>
+        <div class="center mt15">
+            <img src="@{'/public/front/images/foot-bottom.png'}" alt="">
+        </div>
+    </div>
+	<!-- footer end -->
+	<div style="display:none;" >
+		${settings?.get(common.constants.SettingKey.BAIDU_CODE)?.raw()}
+	</div>
+	</body>
+	
+	<script type="text/javascript">
+		require(['front'],function(front){
+			require(['domReady!'],function(doc){
+				//字符串截取
+				$(this).limit();
+				
+				front.navSelected(#{get 'AItem' /});
+				front.secondNav(#{get 'smallclass' /});
+				
+				#{if flash?.success}
+					weakDialog('${flash?.success}');
+				#{/if}
+				
+				#{if flash?.error}
+					alert('${flash?.error}');
+				#{/if}
+				
+				//图片懒加载
+				$("img.lazy").lazyload();
+				
+				//文本域换行 
+				$(this).newline();
+			});
+			#{if settings?.get(common.constants.SettingKey.THEME_WIDGET)}
+				require(["../themes/${settings?.get(common.constants.SettingKey.THEME_NAME)}/${settings?.get(common.constants.SettingKey.THEME_WIDGET)}"]);
+			#{/if}
+			
+			$(function(){
+                //顶部二维码
+                $(".f-top-img3").hover(function(){
+                    $(".f-top-ewm").show();
+                },function(){
+                    $(".f-top-ewm").hide();
+                });
+                //底部客服邮箱
+                $(".f-foot-yx").hover(function(){
+                    $(".f-foot-kfyx").show();
+                },function(){
+                    $(".f-foot-kfyx").hide();
+                });
+            })
+		});
+		function toHref(href,target){
+			if(target == '_blank'){
+				window.open(href);
+			}else {
+				window.location.href=href;
+			}
+		}
+	</script>
+	<script type="text/javascript" language="javascript">
+    function Cookie(key, value) {
+        this.key = key;
+        if (value != null) {
+            this.value = escape(value);
+        }
+        this.expiresTime = null;
+        this.domain = null;
+        this.path = "/";
+        this.secure = null;
+    }
+    Cookie.prototype.setValue = function (value) {
+        this.value = escape(value);
+    }
+    Cookie.prototype.getValue = function () {
+        return (this.value);
+    }
+    Cookie.prototype.setExpiresTime = function (time) {
+        this.expiresTime = time;
+    }
+    Cookie.prototype.getExpiresTime = function () {
+        return this.expiresTime;
+    }
+    Cookie.prototype.setDomain = function (domain) {
+        this.domain = domain;
+    }
+    Cookie.prototype.getDomain = function () {
+        return this.domain;
+    }
+    Cookie.prototype.setPath = function (path) {
+        this.path = path;
+    }
+    Cookie.prototype.getPath = function () {
+        return this.path;
+    }
+    Cookie.prototype.Write = function (v) {
+        if (v != null) {
+            this.setValue(v);
+        }
+        var ck = this.key + "=" + this.value;
+        if (this.expiresTime != null) {
+            try {
+                ck += ";expires=" + this.expiresTime.toUTCString();;
+            }
+            catch (err) {
+                alert("expiresTime参数错误");
+            }
+        }
+        if (this.domain != null) {
+            ck += ";domain=" + this.domain;
+        }
+        if (this.path != null) {
+            ck += ";path=" + this.path;
+        }
+        if (this.secure != null) {
+            ck += ";secure";
+        }
+        document.cookie = ck;
+    }
+    Cookie.prototype.Read = function () {
+        try {
+            var cks = document.cookie.split("; ");
+            var i = 0;
+            for (i = 0; i < cks.length; i++) {
+                var ck = cks[i];
+                var fields = ck.split("=");
+                if (fields[0] == this.key) {
+                    this.value = fields[1];
+                    return (this.value);
+                }
+            }
+            return null;
+        }
+        catch (err) {
+            alert("cookie读取错误");
+            return null;
+        }
+    }
+    window.onload = function () {
+        var ck = new Cookie("HasLoaded"); //每个页面的new Cookie名HasLoaded不能相同
+        if (ck.Read() == null) { //未加载过，Cookie内容为空
+            window.location.reload();
+            //设置保存时间
+            var dd = new Date();
+            dd = new Date(dd.getYear() + 1900, dd.getMonth(), dd.getDate());
+            dd.setDate(dd.getDate() + 365);
+            ck.setExpiresTime(dd);
+            ck.Write("true"); //设置Cookie。只要IE不关闭，Cookie就一直存在
+        }
+        else { //Cookie存在，表示页面是被刷新的
+           // alert("页面刷新")
+        }
+    }
+</script>
+<script type="text/javascript">
+				var lottery={
+			    index:-1,    //当前转动到哪个位置，起点位置
+			    count:8,    //总共有多少个位置
+			    timer:0,    //setTimeout的ID，用clearTimeout清除
+			    speed:20,    //初始转动速度
+			    times:0,    //转动次数
+			    cycle:50,    //转动基本次数：即至少需要转动多少次再进入抽奖环节
+			    prize:-1,    //中奖位置
+			    init:function(id){
+			        if ($("#"+id).find(".lottery-unit").length>0) {
+			            $lottery = $("#"+id);
+			            $units = $lottery.find(".lottery-unit");
+			            this.obj = $lottery;
+			            this.count = $units.length;
+			            $lottery.find(".lottery-unit-"+this.index).addClass("active");
+			        };
+			    },
+			    roll:function(){
+			        var index = this.index;
+			        var count = this.count;
+			        var lottery = this.obj;
+			        $(lottery).find(".lottery-unit-"+index).removeClass("active");
+			        index += 1;
+			        if (index>count-1) {
+			            index = 0;
+			        };
+			        $(lottery).find(".lottery-unit-"+index).addClass("active");
+			        this.index=index;
+			        return false;
+			    },
+			    stop:function(index){
+			        this.prize=index;
+			        return false;
+			    }
+			};
+			
+		    var prizeName = "";
+		    var isPrize  = -1;
+			function roll(){
+			    lottery.times += 1;
+			    lottery.roll();//转动过程调用的是lottery的roll方法，这里是第一次调用初始化
+			    if (lottery.times > lottery.cycle+10 && lottery.prize==lottery.index) {
+			        clearTimeout(lottery.timer);
+			        lottery.prize=-1;
+			        lottery.times=0;
+			        click=false;
+			        
+			        if(isPrize == 1){
+						alert("恭喜您，获得"+prizeName);
+					}else if(isPrize != -1){
+						alert("很遗憾，您没有中奖");
+					} 
+			        
+			        setTimeout(function (){
+						 window.location.reload();
+			         }, 2000);
+			        
+			    }else{
+			        if (lottery.times<lottery.cycle) {
+			            lottery.speed -= 10;
+			        }else if(lottery.times==lottery.cycle) {
+			        	
+			        	$.ajax({
+							   url : "@{front.mallFront.MallFrontCtrl.doLottery()}",
+							   type : "POST",
+							   data : {},
+								success : function(data1) {
+									if(data1.code < 0){
+										alert(data1.msg);
+										 setTimeout(function (){
+											 window.location.reload();
+								         }, 2000); // ho
+										return false;
+									}else{
+										lottery.prize = data1.prizeId;
+										prizeName = data1.msg;
+										isPrize = data1.isPrize;
+									}
+								},
+							    error : function() {
+									alert("对不起，出现错误!");
+									window.location.reload();
+									return false;
+								}
+						});         
+			        }else{
+			            if (lottery.times > lottery.cycle+10 && ((lottery.prize==0 && lottery.index==7) || lottery.prize==lottery.index+1)) {
+			                lottery.speed += 110;
+			            }else{
+			                lottery.speed += 20;
+			            }
+			        }
+			        if (lottery.speed<40) {
+			            lottery.speed=40;
+			        };	
+			        //console.log(lottery.times+'^^^^^^'+lottery.speed+'^^^^^^^'+lottery.prize);
+			        lottery.timer = setTimeout(roll,lottery.speed);//循环调用
+			    }
+			    return false;
+			}
+			
+			var click=false;
+			
+			window.onload=function(){
+			    lottery.init('lottery');
+			    $("#lottery a").click(function(){
+			    	
+			    	var score = ${scoreBalance?:0};
+				    if(score == '' || parseInt(score)<${expend_score?:0}){
+				        alert("积分不足，无法进行抽奖");
+			        	return false;
+			    	}
+				    
+				    if(parseInt(${activity_is_use})== 0){
+				        alert("抽奖未开启");
+			        	return false;
+			    	}
+				    
+				    if(parseInt(${dailyLotteryNumber})== 0){
+				        alert("今日抽奖次数已用完");
+			        	return false;
+			    	}
+			    	
+			        if (click) {//click控制一次抽奖过程中不能重复点击抽奖按钮，后面的点击不响应
+			            return false;
+			        }else{
+			            lottery.speed=100;
+			            roll();    //转圈过程不响应click事件，会将click置为false
+			            click=true; //一次抽奖完成后，设置click为true，可继续抽奖
+			            return false;
+			        }
+			    });
+			};
+		</script>
+</html>

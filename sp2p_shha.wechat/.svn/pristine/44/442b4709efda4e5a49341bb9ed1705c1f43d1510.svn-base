@@ -1,0 +1,167 @@
+package dao.wechat;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import common.utils.PageBean;
+import daos.core.InvestDao;
+import models.core.bean.UserInvestRecord;
+import models.core.entity.t_bid.Status;
+import models.core.entity.t_bill_invest;
+import models.wechat.bean.BidDetailsBean;
+import models.wechat.bean.BidLoanUserBean;
+import models.wechat.bean.InvestBidBean;
+import models.wechat.bean.InvestRecordBean;
+import models.wechat.bean.RepaymentRecordBean;
+import models.wechat.bean.UserInvestDetail;
+
+public class InvestWechatDao extends InvestDao {
+
+	protected InvestWechatDao() {
+	}
+	
+	/***
+	 * 
+	 * 理财标的列表
+	 * @param currPage
+	 * @param pageSize
+	 * @return
+	 * @description 
+	 *
+	 * @author luzhiwei
+	 * @createDate 2016-5-5
+	 */
+	public PageBean<InvestBidBean> pageOfInvestBids(int currPage, int pageSize) {
+		String sql = " SELECT tb.id AS id ,tb.title AS title, tb.repayment_type AS repayment_type, tb.apr AS apr ,tb.period  AS period , tb.period_unit AS periodUnit , tb.amount AS amount, tb.product_id AS product_id, tb.has_invested_amount AS hasInvestedAmount, tb.status AS status ,tb.loan_schedule AS loanSchedule, tb.pre_release_time AS preRelease, tp.type AS type from t_bid tb, t_product tp WHERE tb.product_id = tp.id and status IN(:statusList) ORDER BY CASE WHEN status > 1 THEN 2 ELSE 1 END, pre_release_time DESC ";
+		String sqlCount = " SELECT COUNT(1) FROM t_bid WHERE  status IN(:statusList)   ";
+		
+		Map<String, Object> conditionArgs = new HashMap<String, Object>();
+		conditionArgs.put("statusList", Status.PROCESS);
+		
+		return pageOfBeanBySQL(currPage, pageSize, sqlCount, sql, InvestBidBean.class, conditionArgs);
+	}
+	
+	/***
+	 * 
+	 * 项目详情
+	 * @param bidId 标的Id
+	 * @return
+	 * @description 
+	 *
+	 * @author luzhiwei
+	 * @createDate 2016-5-5
+	 */
+	public BidDetailsBean investInfo(long bidId){
+		String sql ="SELECT id AS id,user_id AS userId, title AS title, apr AS apr, period_unit AS periodUnit, period AS period, amount AS amount, has_invested_amount AS hasInvestedAmount, min_invest_amount AS minInvestAmount, loan_schedule AS loanSchedule, buy_type AS buyType, repayment_type AS repaymentType, status AS status, pre_release_time AS preRelease FROM t_bid WHERE id =:bidId";
+		
+		Map<String, Object> conditionArgs = new HashMap<String, Object>();
+		conditionArgs.put("bidId", bidId);
+		
+		return findBeanBySQL(sql, BidDetailsBean.class, conditionArgs);
+	}
+	
+	/***
+	 * 标的借款人详情
+	 *
+	 * @param bidId 标的Id
+	 * @return
+	 * @throws Exception
+	 * @description 
+	 *
+	 * @author luzhiwei
+	 * @createDate 2016-5-5
+	 */
+	public BidLoanUserBean findInvestBidsUserInfo(long bidId) {
+		
+		String sql = "SELECT  u.reality_name AS realityName,u.id_number AS idNumber,u.credit_level_id AS creditLevelId,u.sex AS sex ,u.education AS education, u.marital AS marital  ,u.annual_income AS annualIncome ,u.net_asset AS netAsset,u.work_experience AS workExperience ,u.house AS house ,u.car AS car ,b.preaudit_suggest AS preauditSuggest ,b.description AS description  FROM  t_bid b LEFT JOIN t_user_info u  ON b.user_id=u.user_id WHERE b.id=:bidId";
+		
+		Map<String, Object>conditionArgs = new HashMap<String, Object>();
+		conditionArgs.put("bidId", bidId);
+		
+		return findBeanBySQL(sql, BidLoanUserBean.class, conditionArgs);
+	}
+	
+	/**
+	 * 根据理财id查询理财相关信息
+	 *
+	 * @param investId 理财id
+	 * @return
+	 *
+	 * @author DaiZhengmiao
+	 * @createDate 2016年6月12日
+	 */
+	public UserInvestDetail findUserInvestDetail(long investId) {
+		String querySQL ="SELECT ti.id AS id,ti.user_id AS user_id,ti.bid_id AS bid_id,ti.amount AS amount,tb.title AS title,tb.apr AS apr,tb.period AS period,tb.period_unit AS period_unit,tb.repayment_type AS repayment_type,tb.release_time AS release_time,tb.status AS status,(SELECT COUNT(1) FROM t_bill_invest tbi WHERE tbi.invest_id = ti.id AND tbi.status IN ("+t_bill_invest.Status.RECEIVED.code+","+t_bill_invest.Status.TRANSFERED.code+") AND tbi.user_id =ti.user_id) AS alreadRepay,(SELECT COUNT(1) FROM t_bill_invest tbi WHERE tbi.invest_id = ti.id AND tbi.user_id =ti.user_id ) AS totalPay FROM t_bid tb,t_invest ti WHERE tb.id = ti.bid_id AND ti.id = :investId";
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("investId", investId);
+		return findBeanBySQL(querySQL, UserInvestDetail.class, condition);
+	}
+	
+	/***
+	 * 投标记录
+	 * @param currPage
+	 * @param pageSize
+	 * @param bidId 标的Id
+	 * @return
+	 * @author luzhiwei
+	 * @createDate 2016-5-5
+	 */
+	public PageBean<InvestRecordBean> pageOfInvestBidsRecord(int currPage, int pageSize,long bidId) {
+		String sql = " SELECT   i.id AS id,u.name AS name ,i.amount AS amount, client AS client,i.time FROM t_invest i LEFT JOIN t_user u ON i.user_id=u.id WHERE i.bid_id=:bidId AND i.debt_id=0  ORDER BY i.id DESC";
+		String sqlCount = " SELECT COUNT(1) FROM t_invest WHERE bid_id=:bidId  ";
+		
+		Map<String, Object>conditionArgs = new HashMap<String, Object>();
+		conditionArgs.put("bidId", bidId);
+		
+		return pageOfBeanBySQL(currPage, pageSize, sqlCount, sql, InvestRecordBean.class, conditionArgs);
+	}
+	
+	/***
+	 * 
+	 *  回款计划
+	 * @param currPage
+	 * @param pageSize
+	 * @param bidId 标的Id
+	 * @return
+	 * @description 
+	 *
+	 * @author luzhiwei
+	 * @createDate 2016-5-11
+	 */
+	public PageBean<RepaymentRecordBean> pageOfRepaymentRecord(int currPage,int pageSize,long bidId) {
+		String querySQL = "SELECT tb.id as id,tb.period AS period, ( tb.repayment_corpus + tb.repayment_interest ) AS principalInterest, tb.repayment_time AS repaymentTime, tb.status AS status, ( SELECT COUNT(id) FROM t_bill WHERE bid_id =:bidId ) AS totalPeriod FROM t_bill tb WHERE tb.bid_id =:bidId ";
+        String countSQL = "select count(1) FROM t_bill tb WHERE tb.bid_id =:bidId ";
+		
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("bidId", bidId);
+		
+		return pageOfBeanBySQL(currPage, pageSize, countSQL, querySQL, RepaymentRecordBean.class, condition);
+	}
+
+	/**
+	 * 我的理财
+	 *
+	 * @param currPage
+	 * @param pageSize
+	 * @param userId
+	 * @return
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月7日
+	 */
+	@Deprecated
+	public PageBean<UserInvestRecord> pageOfAccountInvest(int currPage, int pageSize, long userId) {
+		String sql="SELECT ti.id AS id,ti.user_id AS user_id,ti.bid_id AS bid_id,ti.amount AS amount,tb.title AS title,tb.apr AS apr,tb.period AS period,tb.period_unit AS period_unit,tb.repayment_type AS repayment_type,tb.release_time AS release_time,tb.status AS status,(SELECT COUNT(1) FROM t_bill_invest tbi WHERE tbi.invest_id = ti.id AND tbi.status IN ("+t_bill_invest.Status.RECEIVED.code+","+t_bill_invest.Status.TRANSFERED.code+") AND tbi.user_id =ti.user_id) AS alreadRepay,(SELECT COUNT(1) FROM t_bill_invest tbi WHERE tbi.invest_id = ti.id AND tbi.user_id =ti.user_id ) AS totalPay FROM t_bid tb,t_invest ti WHERE tb.id = ti.bid_id AND ti.user_id =:userId ORDER BY ti.id DESC";
+		
+		String sqlCount="SELECT COUNT(1) FROM t_bid tb,t_invest ti WHERE tb.id = ti.bid_id AND ti.user_id =:userId";
+	
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("userId", userId);
+			
+		return pageOfBeanBySQL(currPage, pageSize, sqlCount, sql, UserInvestRecord.class, condition);
+	}
+
+
+
+	
+}

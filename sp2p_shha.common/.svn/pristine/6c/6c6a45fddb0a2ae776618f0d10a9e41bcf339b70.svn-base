@@ -1,0 +1,274 @@
+.cz {
+    color: #3f46b8;
+}
+.co {
+    color: #e28726;
+}
+.cb {
+    color: #41b3fa;
+}
+/*第一部分*/
+.bankDeposit {
+    width: 100%;
+}
+.bankDeposit1 {
+    height: 730px;
+    background: url(../images/new_bank_bg1.jpg) no-repeat center;
+}
+.bank_cen {
+    width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+}
+.bank_font {
+    left: 50%;
+}
+.bankDeposit1 a {
+    width: 255px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    left: 50%;
+    border-radius: 4px;
+    top: 285px;
+}
+.bankDeposit1 .new_bank_btn1:hover {
+    color: #fff5c5;
+}
+.bankDeposit1 .new_bank_btn2:hover {
+    color: #1a508f;
+}
+.new_bank_btn1 {
+    background: #1a508f;
+    color: #fff5c5;
+    border: 1px solid #1a508f;
+    margin-left: -275px;
+}
+.new_bank_btn2 {
+    border: 1px solid #1a508f;
+    color: #1a508f;
+    margin-left: 20px;
+}
+/*第一部分*/
+/*第二部分*/
+.bankDeposit2 {
+    height: 450px;
+    background: #fff;
+    border-top: 1px solid #fff;
+}
+.bank_title {
+    text-align: center;
+    font-size: 28px;
+    line-height: 36px;
+}
+.bank_title>span {
+    padding: 0 20px;
+}
+.new_bank_font {
+    width: 947px;
+    height: 168px;
+    background: url(../images/new_bank_form1.png) no-repeat center;
+    margin: 65px auto 0;
+}
+/*第二部分*/
+/*第三部分*/
+.bankDeposit3 {
+    height: 940px;
+    background: url(../images/new_bank_bg2.jpg) no-repeat center;
+    border-top: 1px solid #fff;
+}
+.bd3_font {
+    width: 946px;
+    margin: 65px auto 0;
+    
+}
+.bankDeposit3>img {
+    display: block;
+    margin: 80px auto 0;
+}
+/*第三部分*/
+/*第四部分*/
+.bankDeposit4 {
+    height: 555px;
+    background: #fff;
+    border-top: 1px solid #fff;
+}
+.bankDeposit4>img {
+    display: block;
+    margin: 110px auto 0;
+}
+/*第四部分*/
+/*第五部分*/
+.bankDeposit5 {
+    height: 927px;
+    background: url(../images/new_bank_bg3.jpg) no-repeat center;
+    border-top: 1px solid #fff;
+}
+.bd5 {
+    width: 930px;
+    height: 510px;
+    margin: 60px auto 0;
+}
+.bd5_btn {
+    width: 195px;
+    height: 53px;
+    text-indent: 3em;
+    line-height: 53px;
+    background: url(../images/new_bank_tip1.png) no-repeat center;
+    margin: 40px auto 0;
+    box-shadow: 0 1px 10px #458fee;
+    cursor: pointer;
+}
+.bd5>p {
+    left: 145px;
+    top: 0;
+}
+.bd5>i {
+    display: block;
+    width: 56px;
+    height: 56px;
+    top: 235px;
+    cursor: pointer;
+}
+.bd5>i.bd5_left {
+    left: 0;
+    background: url(../images/new_bank_l.png) no-repeat center;
+}
+.bd5>i.bd5_left:hover {
+    background: url(../images/new_bank_l1.png) no-repeat center;
+}
+.bd5>i.bd5_right {
+    right: 0;
+    background: url(../images/new_bank_r.png) no-repeat center;
+}
+.bd5>i.bd5_right:hover {
+    background: url(../images/new_bank_r1.png) no-repeat center;
+}
+.bd5_kuang {
+    width: 813px; 
+    height: 466px;
+    position: absolute;
+    left: 50%;
+    margin-left: -406px;
+    top: 45px;
+    background: url(../images/news_bank_kuang.png) no-repeat center;
+}
+.bd5_kuang>img {
+    position: absolute;
+    width: 609px;
+    height: 379px;
+    left: 102px;
+    top: 34px;
+}
+/*第五部分*/
+/*第六部分*/
+.bankDeposit6 {
+    height: 580px;
+    background: #fff;
+    border-top: 1px solid #fff;
+}
+.bd6_kuang {
+    width: 1200px;
+    height: 355px;
+    margin: 60px auto 0;
+    position: relative;
+}
+.bd6_img {
+    width: 900px;
+    height: 355px;
+    margin: 0 auto;
+}
+.bd6_img>li {
+    width: 900px;
+    height: 355px;
+    display: none;
+}
+.bd6_img>li.bd6_act {
+    display: block;
+}
+.bd6_img>li .bd6 {
+    width: 450px;
+    height: 355px;
+    float: left;
+}
+.bd6 img {
+    display: block;
+    width: 259px;
+    height: 354px;
+    border: 1px solid #3f46b8;
+    margin: 0 auto;
+}
+.bd6_kuang>i {
+    display: block;
+    width: 56px;
+    height: 56px;
+    top: 135px;
+    cursor: pointer;
+}
+.bd6_kuang>i.bd6_left {
+    left: 0;
+    background: url(../images/new_bank_l.png) no-repeat center;
+}
+.bd6_kuang>i.bd6_left:hover {
+    background: url(../images/new_bank_l1.png) no-repeat center;
+}
+.bd6_kuang>i.bd6_right {
+    right: 0;
+    background: url(../images/new_bank_r.png) no-repeat center;
+}
+.bd6_kuang>i.bd6_right:hover {
+    background: url(../images/new_bank_r1.png) no-repeat center;
+}
+/*第六部分*/
+/*第七部分*/
+.bankDeposit7 {
+    height: 540px;
+    background: #fff;
+    border-top: 1px solid #fff;
+}
+.bankDeposit7>h3 {
+    font-weight: bold;
+}
+.bankDeposit6>a:hover {
+    color: #fff;
+}
+.new_bank_link1 {
+    display: block;
+    width: 320px;
+    height: 72px;
+    line-height: 72px;
+    margin: 48px auto 0;
+    border-radius: 5px;
+    background: url(../images/new_bank_btn1.png) no-repeat center;
+    box-shadow: 0 1px 10px #41ccfc;
+}
+.new_bank_link2 {
+    display: block;
+    width: 320px;
+    height: 72px;
+    line-height: 72px;
+    margin: 20px auto 0;
+    border-radius: 5px;
+    background: url(../images/new_bank_btn2.png) no-repeat center;
+    box-shadow: 0 1px 10px #9ecafb;
+}
+/*第七部分*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

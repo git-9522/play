@@ -1,0 +1,87 @@
+#{extends 'back/mall/ScoreCtrl/mailMain.html' /}
+	#{set title:'积分商城 | 实物派送' /}
+	#{set smallclass:3 /}
+	#{set crumbs:'积分商城>实物派送'/}
+	
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">实物派送</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.mall.ExchangeCtrl.showExchangesPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">收货信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">收件姓名：</span>
+					<div class="liright">
+						${exhange?.receiver_name}
+					</div>
+				</li>
+				<li>
+					<span class="lileft">收货地址：</span>
+					<div class="liright">
+						${exhange?.address}
+					</div>
+				</li>
+				<li>
+					<span class="lileft">联系电话：</span>
+					<div class="liright">
+						${exhange?.mobile}
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">物流公司：</span>
+					<div class="liright">
+						${exhange?.express_company}
+					</div>
+				</li>
+				<li>
+					<span class="lileft">快递单号：</span>
+					<div class="liright">
+						${exhange?.tracking_number}
+					</div>
+				</li>
+				<li>
+					<span class="lileft">派发时间：</span>
+					<div class="liright">
+						${exhange?.delivery_time?.format(common.constants.Constants.DATE_TIME_FORMATE)}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">实物信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">实物信息：</span>
+					<div class="liright">
+						
+						#{verbatim}${exhange?.description}#{/verbatim}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		
+	});
+
+</script>

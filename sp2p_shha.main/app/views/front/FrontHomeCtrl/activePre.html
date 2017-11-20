@@ -1,0 +1,52 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: true/}
+#{set title: '新手好礼'/}
+#{set AItem:0 /} 
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/newHand.css">
+<div class="section">
+        <div class="new_hand1">
+            <div class="new_hand_cen">
+                <a onclick="expres()">立即体验</a>
+            </div>
+        </div>
+        <div class="new_hand2">
+            <div class="new_hand_cen">
+                <a href="@{front.LoginAndRegisteCtrl.registerPre()}">立即注册</a>
+            </div>
+        </div>
+        <div class="new_hand3">
+            <div class="new_hand_cen">
+                <a href="@{front.LoginAndRegisteCtrl.registerPre()}">立即注册</a>
+            </div>
+        </div>
+        <div class="new_hand4">
+            <div class="new_hand_cen">
+                <div class="ne_hand_font">
+                    <p class="fs20 mt10">一，体验金使用规则</p>
+                    <p class="fs16 mt10" style="line-height: 28px;">1、体验金是平台为降低投资门槛，鼓励用户投资，提升投资体验度的奖励行为，无需用户绑卡、开户、充值即可体验投资。体验金的本金不可提现，体验金收益可在复投后提现。例如：18888元,7日年化10%，期限1天，收益5.20元复投后可提现。<br/>2、体验金领取。账户注册成功后，7日内可领取体验金，过期失效。一个注册账户限领取一次体验金，无需绑卡、开户。<br/>3、体验金使用。账户成功领取的体验金，使用期限为15天，过期失效。体验金限第一次复投使用（首次投资不能使用）。第一次复投时，体验金收益可以和红包同时使用，系统自动根据复投金额匹配总体验金数。例如：用户先领取体验金，再复投，体验金收益可在本次复投使用；用户先复投后领体验金，体验金收益自动追加至第一次复投。<br/>4、复投和体验金收益关系：第一次复投金额和体验金收益存在复合计算关系，总体验金收益=基础体验金收益+复投金额的千分之一。例如：复投1000元，用户当前账号的体验金收益为5.2+ 1/1000元。（最少5.20元，上不分封顶）<br/>5、用户复投结束，复投的本金和收益可提现或再次投资。</p>
+                </div>
+                <div class="ne_hand_font1">
+                    <p class="fs20 mt10">二，红包活动内容</p>
+                    <p class="fs16 mt10 lh30" style="line-height: 28px;">首次注册虹金所平台用户，即可获取3975元新手红包，具体获取规则如下：<br/>用户首次注册后获取15元（新手标、一月标可用）、35元（二月标可用），70元（三月标可用）；<br/>实名绑卡后再获取25元、80元、100元、250元、350元、450元、600元、800元、1200元新手红包。<br/>单笔投资最多只能使用一张红包;每位用户系统返现上限为5000元/日（可多笔系统返现）。</p>
+                    <p class="fs20 mt10">三，红包活动规则</p>
+                    <p class="fs16 mt10 lh30" style="line-height: 28px;">新手标、一月标：<br/>1）、15元红包：   单笔投资满1000元可以使用,  有效期为30天；<br/>2）、25元红包：   单笔投资满5000元可以使用,  有效期为30天；<br/>3）、80元红包：   单笔投资满10000元可以使用, 有效期为30天；<br/>4）、250元红包：  单笔投资满30000元可以使用, 有效期为30天；<br/>5）、450元红包：  单笔投资满50000元可以使用, 有效期为30天；<br/>6）、800元红包：  单笔投资满80000元可以使用, 有效期为30天。<br/>二月标：<br/>1）、35元红包：   单笔投资满2000元可以使用,  有效期为30天；<br/>2）、100元红包：  单笔投资满8000元可以使用,  有效期为30天；<br/>3）、600元红包：  单笔投资满40000元可以使用, 有效期为30天。<br/>三月标：<br/>1）、70元红包：   单笔投资满3000元可以使用,  有效期为30天；<br/>2）、350元红包：  单笔投资满20000元可以使用, 有效期为30天；<br/>3）、1200元红包： 单笔投资满60000元可以使用, 有效期为30天；</p>
+                </div>
+            </div>
+        </div>
+    </div> 
+ <script type="text/javascript">
+function expres() {
+		$.ajax({
+			url : "@{front.spread.ExperienceGoldCtrl.receiveExpGoldPre(common.enums.Client.PC.code)}",
+			type : "GET",
+			success : function(data) {
+				 if(data.code==-1){
+					location.href="@{front.LoginAndRegisteCtrl.loginPre()}";
+				}else{
+					alert(data.msg);
+				}
+			}
+		});
+	}
+</script> 
+    

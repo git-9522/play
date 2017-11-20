@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>虹金所- | 高端金融理财平台 | 虹金所_引领投资、理财新方向!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="虹金所,虹奥财富,上海网络借贷,P2P网络借贷" />
+    <meta name="description" content="虹金所为上海虹奥财富旗下P2P网络借贷平台，为广大用户提供一个安全、诚信、低风险、回报稳定的理财新渠道。" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=1200px">
+    <link rel="shortcut icon" type="image/png" href="/data/attachments/64c09f1d-6e99-4347-96b0-46c778da714d" />
+    <link rel="stylesheet" href="../stylesheets/reset.css">
+    <link rel="stylesheet" href="../stylesheets/iphoneX.css">
+    <link href="../stylesheets/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <script src="../javascripts/jquery-1.8.2.min.js"></script>
+    <script src="../javascripts/jquery.mCustomScrollbar.concat.min.js"></script>
+</head>
+
+<body>
+    <div class="ipX_bg1">
+        <p class="ipX_time">活动时间：2017.11.01-2017.11.30</p>
+    </div>
+    <div class="ipX_bg2">
+        <div class="ip2_cen">
+            <div class="ip2_list">
+                <ul class="ip2_til">
+                    <li class="til1">用户</li>
+                    <li class="til2">获奖号码</li>
+                    <li class="til3">上证指数</li>
+                    <li class="til4">奖品</li>
+                    <li class="til5">期数</li>
+                </ul>
+                <div class="one">
+                    <div class="content_3 content2">
+                        <table class="ipt2_lie1" cellspacing="0" cellpadding="0">
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ipX_bg3">
+        <div class="ip3_cen">
+            <h3 class="ip3_til1">活动内容</h3>
+            <p class="ip3_font1"> 活动期间内，用户累计复投年化金额每满100元可获得一个抽奖号（0000号开始，顺序发放至9999号结束），当平台发完一万个号之后，平台将按照下一个工作日上证指数的收盘价为中奖号码<span>（取上证指数收盘价小数点前两位与后两位组成的四位数的顺序排序与倒序作为中奖号码）</span>；平台客服会在中奖当天通过电话联系用户告知中奖信息并核对用户真实信息，核对无误后客服会按照用户的要求进行奖品发放。</p>
+            <div class="ip3_main">
+                <ul class="ip3_list">
+                    <li class="ip3_list1">用户</li>
+                    <li class="ip3_list2">投资金额</li>
+                    <li class="ip3_list3">期数</li>
+                    <li class="ip3_list4">抽奖号码</li>
+                    
+                </ul>
+                <div class="two">
+                    <div class="content_2 content1">
+                        <ul class="ipt2_lie2 clearfix">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="ipX_huodong">
+                <h3>活动规则</h3>
+                <p>1）、平台首次投资金额不计算在累计复投年化金额内；<br/>
+例：用户平台首笔投资了1000元新手标后再次投资了10000元三月标，用户累计复投年化金额为2500元<br/>
+2）、抽奖号码按照平台总数据进行顺序发放，用户可以一次获得多个抽奖号码；<br/>
+例：用户复投了10000元三月标，则用户的复投年化金额为2500元，用户可以获得25个抽奖号码；若此时的抽奖号码已发至0215号，则<br/>
+该用户将获得0216号-0240号区间的25个抽奖号码<br/>
+3）、每次抽奖活动将在平台发完一万个抽奖号码后的下一个工作日进行；<br/>
+例：平台在（星期五）发完一万个抽奖号码，那么平台将会（星期一）进行抽奖<br/>
+4）、中奖号码取上证指数收盘价小数点前两位与后两位组成的四位数顺序数字与四位数倒序数字；<br/>
+例：若开奖当天上证指数收盘价为3384.15点，那么中奖号码就是8415号和5148号，拥有8415号的用户可以获得一部iphoneX手机，
+拥有5148号的用户可以获得1111元现金<br/>
+例：若开奖当天上证指数收盘价为3318.81点，那么中奖号码就是1881号，拥有1881号的用户可以同时获得一部iphoneX手机和1111元
+现金。<br/>
+5）、每次抽奖活动送出一部iphoneX、配置为256G、颜色（银色、深空灰色）二选一和1111元现金；平台接受iphoneX折现，折现比<br/>
+例为9折。</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+  var host = location.host;
+    var webroot="http://"+host;
+    $(function () {
+         $.getJSON('../json/ipX_json.json',function (data) {
+                 for (var j = 0; j < data.length; j++) {
+                     var aIte = '<tr><td class="til1-1">'+data[j].userName+'</td><td class="til1-2">'+data[j].userNumber+'</td><td class="til1-3">'+data[j].userSse+'</td><td class="til1-4">' + data[j].userPrize + '</td><td class="til1-5">' + data[j].time + '</td></tr>';
+                    $('.ipt2_lie1').append(aIte);
+                 }
+                 $(".content_3").mCustomScrollbar({
+                    scrollInertia: 150
+                });
+            });
+        $.getJSON(webroot+'/activity/iphonex',function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var oTime = data[i].time;
+                    oTime = oTime.replace(/ /g, '<br>');
+                    var oIte = '<li><div class="til2-1">' + data[i].user_name + '</div><div class="til2-2">' + data[i].amount + '元</div><div class="til2-3">'+data[i].periods+'</div><div class="til2-4">'
+					+(data[i].min_award_number==data[i].max_award_number? data[i].min_award_number:'('+data[i].count + ')' + data[i].min_award_number + '......' + data[i].max_award_number) + '</div></li>';
+                    $('.ipt2_lie2').append(oIte);
+                }
+                $(".content_2").mCustomScrollbar({
+                    scrollInertia: 150
+                });
+        });
+    });
+</script>
+
+</html>

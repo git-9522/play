@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>债权转让详情-虹金所</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link href="@{'/public/wechat/newedition/css/reset.css'}" type="text/css" rel="stylesheet">
+<link href="@{'/public/wechat/newedition/css/style.css'}" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+ <div class="header" style="display:block;"><a href="@{wechat.front.DebtCtrl.toWechatDebtPre(1)}"><span class="icon_goback"></span></a> <span class="title_name">债权详情</span><a href="" class="title_right"></a></div> 
+<div class="content2">
+  <div class="zhai_top">
+    <p class="z1">${detail?.apr}% <span>#{if detail?.reward_rate!=0}+${detail?.reward_rate}%#{/if}</span></p>
+    <p class="z2">期待年回报率<span>折让：<i class="color_red">${(detail?.debt_amount-detail?.transfer_price)?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</i>元</span></p>
+    <ul class="z3 clearfix">
+      <li class="left">金额：<span class="color_red">#{formatIntMoney money:detail?.transfer_price /}</span>元</li>
+      <li class="right">期限：<span class="color_red">${detail?.period}</span>个月</li>
+    </ul>
+  </div>
+  <div class="zhai_center">
+    <ul>
+      <li>债权金额：${detail?.debt_amount?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</li>
+      <li>查看原标<a href="@{wechat.front.InvestCtrl.investWechatPre(detail?.bid_id)}"><img src="@{'/public/wechat/newedition/images/icon/find-ico1.png'}"></a></li>
+      <li style="border:none">转让人：#{asterisk str:detail?.user_name, start:2, end:2, count:6/} </li>
+    </ul>
+  </div>
+  <div class="zhai_bottom">
+    <h2>回款计划</h2>
+   #{if currUser}
+    #{list bill?.page}
+     <ul class="mes clearfix">
+      <li>${_?.period}/${_?.totalPeriod}</li>
+      <li>${_?.corpus_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</li>
+      <li style="text-align:right;">${_?.receive_time?.format(common.constants.Constants.DATE_FORMATE)}</li>
+    </ul>
+    #{/list}
+   #{/if}
+   #{else}
+     <p class="detail-p1" style="font-size: 15px; color: #999;text-align: center;padding-top: 0.266667rem;">请<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+   #{/else}
+  </div>
+</div>
+
+	<!-- 转让中，且未过期的可以购买 -->
+		#{if models.core.entity.t_debt_transfer.Status.AUCTING.equals(detail?.status) && sysNowTime?.compareTo(detail?.end_time) == -1}
+		<form action="@{wechat.front.DebtCtrl.buyDebt()}" method="POST" id="form_auction" target="_blank">
+				#{authenticityToken /}
+				<input type="hidden" value="${detail?.sign}" name="debtSign" />
+				<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">
+				<a  onclick="submit()" class="biao_btn">立即投资</a>		
+		</form>
+
+	<script type="text/javascript">
+	function submit(){
+		document.getElementById('form_auction').submit();
+		
+	}
+	
+	</script>
+		#{/if}
+		#{else}
+			<a href="javasceipt:void(0)" style ="background: #c8c8c8;" class="biao_btn">已结束</a> 
+		#{/else}
+
+</body>
+</html>

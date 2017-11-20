@@ -1,0 +1,286 @@
+<!-- 可购买 -->
+<div class="right f-lcxq-right">
+	#{if models.core.entity.t_bid.Status.PREAUDITING.equals(bid?.status)}
+	<ul class="c3 detail-buylist">
+		<li class="detail-buyover">
+			<span>${bid?.status?.value}</span>
+		</li>
+	</ul>
+	#{/if}
+	#{elseif models.core.entity.t_bid.Status.AUDITING.equals(bid?.status)||models.core.entity.t_bid.Status.WAIT_RELEASING.equals(bid?.status)||models.core.entity.t_bid.Status.REPAYING.equals(bid?.status)}
+	    <img src="/public/front/images/ne-indetail-full.png" alt="" />
+<!-- 	<ul class="c3 detail-buylist"> -->
+<!-- 		<li class="detail-buyover"> -->
+<!-- 			<span>已售罄</span> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+	#{/elseif}
+	#{elseif models.core.entity.t_bid.Status.FUNDRAISING.equals(bid?.status)}
+	<form action="@{front.invest.InvestCtrl.invest()}" method="POST" id="invest_bid" target='_blank'>
+	<input type="hidden" name="bidSign" value="${bid?.sign}" />
+	<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}" />
+	<input type="hidden" id="redPacketSign" name="redPacketSign" value="" />
+	<input type="hidden" id="cashSign" name="cashSign" value="" />
+	<input type="hidden" id="rateSign" name="rateSign" value="" />
+	<input type="hidden" id="investPassword" name="investPassword" value="" />
+			
+            
+                <div class="ne_ind_til ">
+                    <p class="c6 fs14">剩余可投：<span class="corange">#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney}</span>元</p>
+                </div>
+                <div class="ne_ind_bot ">
+                #{if currUser}
+                    <div class="clearfix">
+                        <p class="left lh30 c6 fs14">账户余额：<span class="corange">#{formatIntMoney money:balance}#{/formatIntMoney}</span>元</p>
+                        <a href="@{front.account.MyAccountCtrl.rechargePre()}" class="right">去充值</a>
+                    </div>
+                 #{/if}   
+                    <div class="ne_ind_cer mt15">
+                        <div class="clearfix f-lcxq-inp1">
+		                    <input type="text" class="f-text" value="#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}" onchange="initbuttonstyle();" id="invest_amount" name='investAmt' autocomplete="off" oninput="$(this).ndigitInteger(6);calculateIncome();" onkeyup="$(this).ndigitInteger(6); #{if currUser} queryRewardRecord();queryRateRecord(); #{/if} " maxlength="6">元
+		                </div>
+                       <p class="c6 fs14 mt10">预期收益：<span class="corange" id="invest_expece_income">0.00元</span>
+                       <div class="ne_ind_l ne_ind_l1 in_ind_add" onclick="reduce_money()"></div>
+                       <div class="ne_ind_r ne_ind_r2 in_ind_add" onclick="add_money()"></div>
+                    </div>
+                    <div class="ne_ind_more">
+                        <p class="c6 fs14 ">红包：<span  class="rcr " >无</span></p>
+<!--                         <p class="c6 fs14 rcc">现金券：<span>无</span></p> -->
+                        <p class="c6 fs14 ">加息券：<span   class="addRate ">无</span></p>
+                    </div>
+                    #{if currUser}
+		    	   		<div class="ne_ind_btn">确认加入</div>
+				    #{/if}
+				    #{else}
+                    <div onclick="javascript:window.location.href='@{front.LoginAndRegisteCtrl.loginPre()}'" class="ne_ind_btn en">确认加入</div>
+                	#{/else}
+                </div>
+	#{/elseif}
+</div>
+
+
+<script type="text/javascript">
+var  issend=false;
+function queryRewardRecord() {
+	var bidPeriod = 0;
+	if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+		bidPeriod = ${bid?.period};
+	}
+	
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.rewardRecord()}",
+		type : "POST",
+		data : {
+			"investAmount" : $("#invest_amount").val(),
+			"bidPeriod" : bidPeriod
+		},
+		success : function(data) {
+			if(data.code < 1){
+				alert(data.msg);
+			}else{
+				var rewardMap = data.obj;
+				$(".rcr").html("无");
+				$(".rcr").removeAttr("addrule");
+				$(".rcr").removeAttr("title");
+				$(".rcr").removeAttr("data-v");
+				$(".rcc").html("无");
+				$(".rcc").removeAttr("addrule");
+				$(".rcc").removeAttr("title");
+				$(".rcc").removeAttr("data-v");
+				if(rewardMap.redPacketList == null || rewardMap.redPacketList.length <= 0){
+					$(".rcr").html("无");
+					$(".addRate").html("无");
+				}else{
+					$(".rcr").html("");
+					if(rewardMap.redPacketList.length>0){
+						$(".rcr").attr("data-v", rewardMap.redPacketList[0].sign);
+						$(".rcr").attr("title",  rewardMap.redPacketList[0].amount + "元（最低投资" + rewardMap.redPacketList[0].use_rule + "元）");
+						$(".rcr").html( rewardMap.redPacketList[0].amount + "元");
+						$(".rcr").attr("addrule", rewardMap.redPacketList[0].use_rule);
+					}
+				}
+				
+				
+				if(rewardMap.cashList == null || rewardMap.cashList <= 0){
+					$(".rcc").html("无");
+				}
+				
+				if(rewardMap.cashList != null && rewardMap.cashList.length > 0){
+					 
+					$(".rcc").html("无");
+					if(rewardMap.cashList.length>0){
+						$(".rcc").attr("data-v", rewardMap.cashList[0].sign);
+						$(".rcc").attr("title",  rewardMap.cashList[0].amount + "元（最低投资" + rewardMap.cashList[0].use_rule + "元）");
+						$(".rcc").html( rewardMap.cashList[0].amount + "元");
+						$(".rcc").attr("addrule", rewardMap.cashList[0].use_rule);
+					}
+				}
+			}
+		}
+	});
+}
+ function initbuttonstyle(){
+ if(document.getElementById("invest_amount").value==''){document.getElementById("invest_amount").value=0;}
+ 	var a = parseInt(document.getElementById("invest_amount").value);
+ 	if (a == 0||a<=#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}) {
+			$("#invest_amount").val(#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney});
+			$('.ne_ind_l').addClass('ne_ind_l1');
+			$('.ne_ind_l').removeClass('ne_ind_l2');
+	}else{
+			$('.ne_ind_l').addClass('ne_ind_l2');
+			$('.ne_ind_l').removeClass('ne_ind_l1');
+	}
+	if(a>=parseInt(#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney})){
+				$('.ne_ind_r').addClass('ne_ind_r1');
+				$('.ne_ind_r').removeClass('ne_ind_r2');
+				$("#invest_amount").val(#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney});
+		}else{
+			$('.ne_ind_r').addClass('ne_ind_r2');
+			$('.ne_ind_r').removeClass('ne_ind_r1');
+	}
+ 
+ 
+ }
+	//减法
+	function reduce_money() {
+		var a = parseInt(document.getElementById("invest_amount").value);
+		a = a - 100;
+		if (a == 0||a<=#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney}) {
+			$("#invest_amount").val(#{formatIntMoney money:bid?.min_invest_amount}#{/formatIntMoney});
+			$('.ne_ind_l').addClass('ne_ind_l1');
+			$('.ne_ind_l').removeClass('ne_ind_l2');
+		} else {
+			$('.ne_ind_r').addClass('ne_ind_r2');
+			$('.ne_ind_r').removeClass('ne_ind_r1');
+			$('.ne_ind_l').addClass('ne_ind_l2');
+			$('.ne_ind_l').removeClass('ne_ind_l1');
+			$("#invest_amount").val(a);
+		}
+		calculateIncome();
+		#{if currUser} queryRewardRecord();queryRateRecord();#{/if}
+	}
+	//加法
+	function add_money() {
+		var a = parseInt(document.getElementById("invest_amount").value);
+		a = a + 100;
+		if(a>=parseInt(#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney})){
+				$('.ne_ind_r').addClass('ne_ind_r1');
+				$('.ne_ind_r').removeClass('ne_ind_r2');
+				$("#invest_amount").val(#{formatIntMoney money:(bid?.amount-bid?.has_invested_amount)}#{/formatIntMoney});
+		}else{
+			$('.ne_ind_l').addClass('ne_ind_l2');
+			$('.ne_ind_l').removeClass('ne_ind_l1');
+			$('.ne_ind_r').addClass('ne_ind_r2');
+			$('.ne_ind_r').removeClass('ne_ind_r1');
+			$("#invest_amount").val(a);			
+		}
+		calculateIncome();
+		#{if currUser} queryRewardRecord();queryRateRecord();#{/if}
+	}
+//加息卷
+function queryRateRecord() {
+	
+	var bidPeriod = 0;
+	if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+		bidPeriod = ${bid?.period};
+	}
+	
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.rateRecord()}",
+		type : "POST",
+		data : {
+			"investAmount" : $("#invest_amount").val(),
+			"bidPeriod" : bidPeriod
+		},
+		success : function(data) {
+			if(data.code < 1){
+				alert(data.msg);
+			}else{
+				var rewardMap = data.obj;
+				$(".addRate").html("无");
+				$(".addRate").removeAttr("addrule");
+				$(".addRate").removeAttr("title");
+				$(".addRate").removeAttr("ids");
+				$(".addRate").removeAttr("data-v");
+				if(rewardMap.rateList == null || rewardMap.rateList.length <= 0){
+					return;
+				}
+			
+				if(rewardMap.rateList.length>0){
+					$(".addRate").attr("ids", rewardMap.rateList[0].rate);
+					$(".addRate").attr("data-v", rewardMap.rateList[0].sign);
+					var bidPeriod = rewardMap.rateList[0].bid_period;
+					if(typeof bidPeriod != 'undefined' && parseInt(bidPeriod) > 0){
+							$(".addRate").attr("title",  "+"+rewardMap.rateList[0].rate + "%（最低投资" + rewardMap.rateList[0].use_rule + "元，标的期限" + bidPeriod + "个月）");
+					}else{
+							$(".addRate").attr("title",  "+"+rewardMap.rateList[0].rate + "%（最低投资" + rewardMap.rateList[0].use_rule + "元）");
+					}
+					$(".addRate").attr("addrule", rewardMap.rateList[0].use_rule);
+					$(".addRate").html( "+"+rewardMap.rateList[0].rate + "%");
+				}
+			}
+			
+		}
+	});
+}
+/** 计算预期收益**/
+function calculateIncome(){
+	var invest = parseInt($("#invest_amount").val());
+	//按份数购买时，投资金额=每份金额*份数
+	#{if models.core.entity.t_product.BuyType.PURCHASE_BY_COPY.code==bid?.buy_type.code}
+	var investAmount = parseInt($("#invest_amount").val())*${bid?.min_invest_amount};
+	#{/if}
+	#{else}
+	var investAmount = parseInt($("#invest_amount").val());
+	#{/else}
+	if(investAmount==''){
+		$("#invest_expece_income").html("0.00 元");
+		return;
+	}
+	var apr = ${bid?.apr};
+	var period = ${bid?.period};
+	var income = '0.00';
+	
+	if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+		//月标，等额本息的计算
+		if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==${bid?.repayment_type?.code}){
+			var monthApr = apr/12/100;
+			var monthSum = investAmount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+			income = (monthSum * period - investAmount).toFixed(2);
+		}else{
+			income = ((investAmount*(apr/100)/12)*period).toFixed(2);
+		}
+	}else{
+		income = ((investAmount*(apr/100)/360)*period).toFixed(2);
+	}
+	//使用加息卷
+	var addIncome = '0.00';
+	var addRate = $(".addRate").attr("ids");
+	var addrule = $(".addRate").attr("addrule");
+	
+	if(typeof addRate != "undefined" && addRate != "" && parseInt(investAmount) >= parseInt(addrule)){
+		
+		if(${bid?.period_unit?.code} == ${models.core.entity.t_product.PeriodUnit.MONTH.code}){//月标
+			//月标，等额本息的计算
+			if(${models.core.entity.t_product.RepaymentType.AND_OTHER_INFORMATION.code}==${bid?.repayment_type?.code}){
+				var monthApr = addRate/12/100;
+				var monthSum = investAmount*monthApr*Math.pow((1 + monthApr), period)/(Math.pow((1 + monthApr), period) - 1)
+				addIncome = (monthSum * period - investAmount).toFixed(2);
+			}else{
+				addIncome = ((investAmount*(addRate/100)/12)*period).toFixed(2);
+			}
+		}else{
+			addIncome = ((investAmount*(addRate/100)/360)*period).toFixed(2);
+		}
+	}
+	
+	if(isNaN(addIncome)){
+		addIncome = '0.00';
+	}
+	if(isNaN(income)){
+		income = '0.00';
+	}
+	income = parseFloat(income)+parseFloat(addIncome)
+	$("#invest_expece_income").html(income.toFixed(2)+"元");
+}
+</script>

@@ -1,0 +1,104 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'理财' /}
+#{set AItem:1 /}
+
+
+<!--内容-->
+<div class="bgf mt20 bbs">
+    <div class="f-1200 auto pt25">
+        <div class="clearfix">
+            <div class="clearfix f-wylc-nav1 f-on">
+                <span class="left">全部项目</span>
+                <span class="f-sp1">${findFrontDebtsNum}</span>
+                <div class="f-div-on">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bgf">
+      <div class="f-1200 auto pb25">
+          <div class="pt20 fs14 clearfix">
+              <div class="c9 f-100 left mt5">项目状态：</div>
+              <div class="left clearfix f-sx">
+                  <a  class="left f-sp2 f-on #{if status==99}f-on#{/if}" onclick="chooseCondition('status',99);">全部</a>
+                  <a  class="left f-sp2 #{if status==1}f-on#{/if}" onclick="chooseCondition('status',1);">转让中</a>
+                  <a  class="left f-sp2 #{if status==2}f-on#{/if}" onclick="chooseCondition('status',2);">已结束</a>
+              </div>
+          </div>
+      </div>
+  </div>
+<input type="hidden" id="status" name="status" value="${status?:99}" />
+</form>
+<div class="w-bd-box mt30">
+    <div class="clearfix f-wylc-boxTitle">
+        <div class="left f-200">项目名称</div>
+        <div class="left w-co1 tc">转让价格</div>
+        <div class="left f-160 tc">转让期数</div>
+        <div class="left w-co2 tc">债权总额</div>
+        <div class="left w-co2 tc">剩余时间</div>
+    </div>
+    <ul id="financial_transfer" class="w-bd-list"">
+    </ul>
+</div>
+
+<!--内容 end-->
+    
+<script type="text/javascript">
+require(['front'],function(front){
+	showTransfer(1,5,99);
+	
+    $(function(){
+        //标2左边栏切换
+        $(".f-left2-ul li").click(function(){
+            $(".f-left2-ul li").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //导航切换
+        $(".f-wylc-nav1").click(function(){
+            $(".f-wylc-nav1").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //筛选1切换
+        $(".f-sx .f-sp2").click(function(){
+            $(".f-sx .f-sp2").removeClass("f-on");
+            $(this).addClass("f-on");
+        })
+        //筛选2切换
+        $(".f-sx2 a").click(function(){
+            //判断点击的是否为选中的a
+            if($(this).hasClass("f-on")){
+            	$(this).toggleClass("f-again");//再次点击改变升降序
+            }
+            $(".f-sx2 a").removeClass("f-on");//移除选中的a
+            $(this).addClass("f-on");//为当前a添加选中
+            if($(this).hasClass("f-again")){
+            	$("#orderValue").val(1);
+            }else{
+            	$("#orderValue").val(0);
+            }
+            var _value = $(this).attr("_value");
+            chooseCondition("orderType",_value);
+        })
+    })
+});
+
+function chooseCondition(key,value){
+	$("#"+key).val(value);
+	showTransfer(1);
+}
+
+function showTransfer(currPage,pageSize){
+	$.ajax({
+		url : "@{front.invest.InvestCtrl.showTransfersPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"pageSize" : pageSize,
+			"status" : $("#status").val()	
+		},
+		success : function(data){
+			$("#financial_transfer").html(data);
+		}
+	});
+}
+</script>

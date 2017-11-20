@@ -1,0 +1,679 @@
+package controllers.wechat.front.account;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.shove.security.Encrypt;
+
+import common.annotation.PaymentAccountCheck;
+import common.annotation.RealNameCheck;
+import common.constants.CacheKey;
+import common.constants.ConfConst;
+import common.constants.Constants;
+import common.constants.WxPageType;
+import common.enums.Area;
+import common.enums.Bank;
+import common.enums.BusiType;
+import common.enums.Client;
+import common.enums.Province;
+import common.enums.ServiceType;
+import common.utils.Factory;
+import common.utils.IDCardValidate;
+import common.utils.LoggerUtil;
+import common.utils.OrderNoUtil;
+import common.utils.ResultInfo;
+import common.utils.Security;
+import common.utils.StrUtil;
+import controllers.wechat.WechatBaseController;
+import controllers.wechat.interceptor.AccountWxInterceptor;
+import models.common.entity.t_bank_card_user;
+import models.common.entity.t_user;
+import models.common.entity.t_user_fund;
+import models.common.entity.t_user_info;
+import payment.impl.PaymentProxy;
+import play.cache.Cache;
+import play.mvc.Scope.Session;
+import play.mvc.With;
+import services.common.BankCardUserService;
+import services.common.NoticeService;
+import services.common.UserFundService;
+import services.common.UserInfoService;
+import services.common.UserService;
+
+/**
+ * 微信-账户中心-安全中心控制器
+ *
+ * @description 
+ *
+ * @author DaiZhengmiao
+ * @createDate 2016年5月4日
+ */
+
+@With({AccountWxInterceptor.class})
+public class MySecurityCtrl extends WechatBaseController {
+	
+	protected static UserService userService = Factory.getService(UserService.class);
+	
+	protected static UserInfoService userInfoService = Factory.getService(UserInfoService.class);
+	
+	protected static UserFundService userFundService = Factory.getService(UserFundService.class);
+	
+	protected static BankCardUserService bankCardUserService = Factory.getService(BankCardUserService.class);
+	
+	protected static NoticeService noticeService = Factory.getService(NoticeService.class);
+	
+	/**
+	 * 第三方开户交互页面
+	 *
+	 *
+	 * @author huangyunsong
+	 * @createDate 2016年1月9日
+	 */
+	public static void createAccountPre() {
+		long userId = getCurrUser().id;
+		
+		t_user_fund userFund = userFundService.queryUserFundByUserId(userId);
+		if (userFund == null) {
+			flash.error("获取用户信息失败");
+
+			MyAccountCtrl.toAccountHomePre();
+		}
+		
+		if (StringUtils.isNotBlank(userFund.payment_account)) {
+			flash.error("你已开通资金托管");
+			
+			MyAccountCtrl.toAccountHomePre();
+		}
+
+		//业务订单号
+		// String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.REGIST);
+		
+		// ResultInfo result = PaymentProxy.getInstance().regist(Client.WECHAT.code, serviceOrderNo, userId);
+		
+		render();
+		
+		/*if (result.code < 1) {
+			LoggerUtil.info(true, result.msg);
+			flash.error(result.msg);
+			MyAccountCtrl.toAccountHomePre();
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "资金托管开户成功");*/
+	}
+	
+	/**
+	 * 第三方开户执行
+	 */
+	@SuppressWarnings("unchecked")
+	public static void createAccount(String hfName, String realName, String idNumber, String mobile,
+			String cardId, String bankId, String provId, String areaId, String smsCode) { 
+		long userId = getCurrUser().id;
+		
+		if(!StrUtil.isMobileNum(mobile)) {
+			flash.error("手机号码不准确");
+			securityPre();
+		}
+		
+		t_user_fund userFund = userFundService.queryUserFundByUserId(userId);
+		if (userFund == null) {
+			flash.error("获取用户信息失败");
+			securityPre();
+		}
+		
+		if (StringUtils.isNotBlank(userFund.payment_account)) {
+			flash.error("你已开通资金托管");
+			securityPre();
+		}
+		
+		ResultInfo result = userInfoService.checkHfname(hfName);
+		
+		if(result.code != 1) {
+			flash.error("不能使用此汇付用户号");
+			createAccountPre();
+		}
+		
+		if(StringUtils.isBlank(realName)) {
+			flash.error("真实姓名不能空");
+			createAccountPre();
+		}
+		
+		if(StringUtils.isBlank(idNumber)) {
+			flash.error("身份证号码不能为空");
+			createAccountPre();
+		}
+
+		
+		if(idNumber.length() != 18) {
+			flash.error("身份证号码长度必须为18位");
+			createAccountPre();
+		}
+		
+		if(StringUtils.isBlank(cardId)) {
+			flash.error("银行卡号不能为空");
+			createAccountPre();
+		}
+		
+		if(cardId.length() < 16) {
+			flash.error("银行卡号不能小于16位");
+			createAccountPre();
+		}
+		
+		if(StringUtils.isBlank(bankId)) {
+			flash.error("开户银行不能为空");
+			createAccountPre();
+		}
+		
+		Bank bank = Bank.getBank(bankId);
+		
+		if(bank == null) {
+			flash.error("开户银行错误");
+			createAccountPre();
+		}
+		
+		if(StringUtils.isBlank(provId)) {
+			flash.error("开户银行所在省市不能空");
+			createAccountPre();
+		}
+		
+		Province province = Province.getProvByCode(provId);
+		
+		if(province == null) {
+			flash.error("开户银行所在省市错误");
+			createAccountPre();
+		}
+		
+		if(StringUtils.isBlank(areaId)) {
+			flash.error("开户银行所在城市不能空");
+			createAccountPre();
+		}
+		
+		Area area = Area.getAreaByCode(areaId);
+		
+		if(area == null) {
+			flash.error("开户银行所在城市错误");
+			createAccountPre();
+		}
+		
+		if(StringUtils.isBlank(smsCode)) {
+			flash.error("短信验证码不能空");
+			createAccountPre();
+		}
+		
+		// 业务订单号
+		String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.REGIST);
+		
+		String sessionId = Session.current().getId();
+		Object obj = Cache.get(CacheKey.SMSCODE_ + sessionId);
+		if(obj == null) {
+			flash.error("验证码已经过期，请重新获取");
+			createAccountPre();
+		}
+		
+		Map<String, Object> map = (Map<String, Object>) obj;
+		BusiType busiType = (BusiType) map.get("busiType");
+		if(busiType.code != BusiType.REGISTER.code) {
+			flash.error("短信seq验证错误");
+			createAccountPre();
+		}
+		String smsSeq = map.get("smsSeq").toString();
+		
+		result = PaymentProxy.getInstance().userRegist(Client.PC.code, serviceOrderNo, userId, hfName, realName, idNumber, mobile, cardId, bankId, provId, areaId, smsCode, smsSeq);
+		
+		if (result.code < 1) {
+			LoggerUtil.info(true, result.msg);
+			flash.error(result.msg);
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "资金存管开户成功");
+	}
+
+	
+	/**
+	 * 安全中心首页
+	 *
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	public static void securityPre() {
+		long userId = getCurrUser().id;
+		
+		t_user user = userService.findByID(userId);
+		
+		t_user_info userInfo = userInfoService.findUserInfoByUserId(userId);
+		
+		t_user_fund userFund = userFundService.queryUserFundByUserId(userId);
+		
+		List<t_bank_card_user> cardList = bankCardUserService.queryCardByUserId(userId);
+		render(user, userInfo, userFund, cardList);
+	}
+	
+	/**
+	 * 实名认证页面跳转
+	 */
+	@PaymentAccountCheck
+	public static void certificationPre(){
+
+		render();
+	}
+	
+	/**
+	 * 实名认证
+	 *
+	 * @author huangyunsong
+	 * @createDate 2016年5月31日
+	 */
+	@PaymentAccountCheck
+	public static void checkRealName(String realName, String idNumber) {
+		checkAuthenticity();
+		
+		flash.put("realName", realName);
+		flash.put("idNumber", idNumber);
+
+		if (StringUtils.isBlank(realName)) {
+			flash.error("真实姓名不能为空");
+
+			certificationPre();
+		}
+
+		if (StringUtils.isBlank(idNumber)) {
+			flash.error("身份证不能为空");
+			
+			certificationPre();
+		}
+
+		if(!"".equals(IDCardValidate.chekIdCard(0, idNumber))) {
+			flash.error("请输入正确的身份证号");
+			
+			certificationPre();
+		}
+	
+		t_user_info userInfo = userInfoService.findUserInfoByUserId(getCurrUser().id);
+		if (userInfo == null) {
+			flash.error("用户信息不存在");
+			
+			certificationPre();
+		}
+		
+		userInfo.reality_name = realName;
+		userInfo.id_number = idNumber;
+		
+		ResultInfo result = userInfoService.updateUserInfo(userInfo);
+		if (result.code < 0) {
+			flash.error("保存用户信息失败");
+			
+			certificationPre();
+		}
+		
+		//刷新用户缓存信息
+		userService.flushUserCache(getCurrUser().id);
+
+		flash.success("实名认证成功！");
+		securityPre();
+	}
+	
+	
+	/**
+	 * 跳转修改用户邮箱页面
+	 *
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	@PaymentAccountCheck
+	public static void updateUserEmailPre(){
+		
+		render();
+	}
+	
+	/**
+	 * 修改、绑定邮箱
+	 *
+	 * @param email
+	 * @param userName
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	@PaymentAccountCheck
+	public static void updateEmailSuccess(String email, String userName){
+		checkAuthenticity();
+		
+		ResultInfo result = new ResultInfo();
+		
+		long userId = getCurrUser().id;
+		/* 判断是否是有效邮箱 */
+		if (!StrUtil.isEmail(email)) {
+			flash.error("邮箱格式不正确");
+			
+			updateUserEmailPre();
+		}
+		
+		/* 判断邮箱是否存在 */
+		if (userInfoService.isEailExists(email)) {
+			flash.error("邮箱已经存在");
+			
+			updateUserEmailPre();
+		}
+		
+		/* 用户Id进行加密 */
+		String userSign = Security.addSign(userId, Constants.USER_ID_SIGN, ConfConst.ENCRYPTION_KEY_DES);
+		
+		/* 邮箱进行加密 */
+		String emailStr = Security.addEmailSign(email, Constants.MSG_EMAIL_SIGN, ConfConst.ENCRYPTION_KEY_DES);
+		
+		/* 获取修改邮箱URL */
+		String url = getBaseURL() + "loginAndRegiste/confirmactiveemail.html?su=" + userSign +"&se="+emailStr;
+
+		/* 发送邮件激活 */
+		result = noticeService.sendReBindEmail(email, userName, url);
+		if (result.code < 1) {
+			LoggerUtil.error(true, result.msg);
+			flash.put("msg",result.msg);
+			
+			toResultPage(WxPageType.PAGE_COMMUNAL_FAIL, result.msg);
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "验证邮件已发送到你的邮箱，请登录邮箱验证。");
+	}
+	
+	/**
+	 * 银行卡列表页
+	 *
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月14日
+	 */
+	@PaymentAccountCheck
+	public static void updateUserBankCardPre(){
+		long userId = getCurrUser().id;
+		List<t_bank_card_user> listOfUserBankCard = bankCardUserService.queryCardByUserId(userId);
+		render(listOfUserBankCard);
+	}
+	
+	/**
+	 * 设置默认银行卡
+	 *
+	 * @param id 银行卡ID
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	public static void setDefaultBankCardPre(long bankId){
+		ResultInfo result = new ResultInfo();
+		long userId = getCurrUser().id;
+		int isFlag = bankCardUserService.updateUserCardStatus(bankId, userId);
+		if (isFlag < 1) {
+			result.code = -1;
+			result.msg = "设置默认银行卡失败";
+			
+			updateUserBankCardPre();
+		}
+		result.code = 1;
+		result.msg = "设置默认银行卡成功";
+		updateUserBankCardPre();
+	}
+	
+	/**
+	 * 添加银行卡
+	 *
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	@SuppressWarnings("unchecked")
+	@PaymentAccountCheck
+	@RealNameCheck
+	public static void bindCardPre(int step) {	
+		
+		if(step < 0 || step > 1) {
+			flash.error("出错了");
+			MyAccountCtrl.toAccountHomePre();
+		}
+		
+		long userId = getCurrUser().id;
+		
+		t_user_fund userFund = userFundService.queryUserFundByUserId(userId);
+		if (userFund == null) {
+			flash.error("获取用户信息失败");
+			MyAccountCtrl.toAccountHomePre();
+		}
+		
+		if (StringUtils.isBlank(userFund.payment_account)) {
+			flash.error("你未开通资金存管");
+			MyAccountCtrl.toAccountHomePre();
+		}
+
+		if (!userFund.is_actived) {
+			flash.error("你的资金存管账户未被激活");
+			MyAccountCtrl.toAccountHomePre();
+		}
+		
+		if(step == 0) {
+			// 进入换绑卡页面
+			List<t_bank_card_user> bankCards = bankCardUserService.queryCardByUserId(userId);
+			
+			if(bankCards == null || bankCards.isEmpty()) {
+				flash.error("请联系虹金所客服，错误代号 ：#NBCS");
+				MyAccountCtrl.toAccountHomePre();
+			}
+			
+			t_bank_card_user bank = bankCards.get(0);
+			
+			render(step, bank);
+		} else {
+			String smsCode = params.get("smsCode");
+			
+			if(StringUtils.isBlank(smsCode)) {
+				flash.error("短信验证码不能为空");
+				bindCardPre(0);
+			}
+			
+			String sessionId = Session.current().getId();
+			Object obj = Cache.get(CacheKey.ORGIN_SMSCODE_ + sessionId);
+			if(obj == null) {
+				flash.error("验证码失效，请重新获取");
+				bindCardPre(0);
+			}
+			
+			Map<String, Object> map = (Map<String, Object>) obj;
+			map.put("orginSmsCode", smsCode);
+			Cache.set(CacheKey.ORGIN_SMSCODE_ + sessionId, map, Constants.CACHE_TIME_MINUS_30);
+			render(step);
+		}
+		
+		/*result = PaymentProxy.getInstance().userBindCard(Client.PC.code, serviceOrderNo, userId);
+		if (result.code < 1) {
+			LoggerUtil.info(true, result.msg);
+			flash.error(result.msg);
+
+			updateUserBankCardPre();
+		}*/
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void bindCard(String mobile, String cardId, String bankId, String provId,
+			String areaId, String smsCode) {
+		long userId = getCurrUser().id;
+		
+		if(!StrUtil.isMobileNum(mobile)) {
+			flash.error("手机号码不准确");
+			securityPre();
+		}
+		
+		t_user_fund userFund = userFundService.queryUserFundByUserId(userId);
+		if (userFund == null) {
+			flash.error("获取用户信息失败");
+			securityPre();
+		}
+		
+		if (StringUtils.isBlank(userFund.payment_account)) {
+			flash.error("你未开通资金托管");
+			securityPre();
+		}
+		
+		
+		if (!userFund.is_actived) {
+			flash.error("你未激活资金存管账户");
+			securityPre();
+		}
+		
+		String sessionId = Session.current().getId();
+		
+		Object obj = Cache.get(CacheKey.ORGIN_SMSCODE_ + sessionId);
+		
+		if(obj == null) {
+			flash.error("验证码已过期，请重新获取");
+			bindCardPre(0);
+		}
+		
+		Map<String, String> orginSms = (Map<String, String>) obj;
+		
+		obj = Cache.get(CacheKey.SMSCODE_ + sessionId);
+
+		if(obj == null) {
+			flash.error("验证码已过期，请重新获取");
+			bindCardPre(0);
+		}
+		
+		Map<String, Object> sms = (Map<String, Object>) obj;
+		
+		// check session sms type
+		BusiType busiType = (BusiType) sms.get("busiType");
+		if(busiType.code != BusiType.NEW_BIND.code) {
+			flash.error("短信验证码失效，请重新获取");
+			bindCardPre(1);
+		}
+		
+		String smsSeq = sms.get("smsSeq").toString();
+		
+		String orgSmsExt = orginSms.get("orginSmsCode") + orginSms.get("orginSmsSeq");
+		
+		/* 业务处理 */
+		// 业务订单号
+		String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.QUICKBINDING);
+		
+		ResultInfo result = PaymentProxy.getInstance().quickBinding(Client.PC.code, serviceOrderNo,
+				userId, cardId, bankId, provId, areaId, mobile, smsCode, smsSeq, orgSmsExt);
+		
+		if (result.code < 1) {
+			LoggerUtil.info(true, result.msg);
+			flash.error(result.msg);
+			MyAccountCtrl.toAccountHomePre();
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "换绑卡成功");
+	}
+	
+	/**
+	 * 跳转修改密码页面
+	 *
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	public static void updateUserPasswordPre(){
+		render();
+	}
+	
+	
+	/**
+	 * 修改密码
+	 *
+	 * @param oldPassword        旧密码
+	 * @param newPassword        新密码
+	 * @param confirmPassword    确认密码
+	 *
+	 * @author Songjia
+	 * @createDate 2016年5月11日
+	 */
+	public static void restPassword(String oldPassword, String newPassword, String confirmPassword){
+		checkAuthenticity();
+		
+		ResultInfo result = new ResultInfo();
+		long userId =  getCurrUser().id;
+		
+		if (StringUtils.isBlank(oldPassword)) {
+			flash.error("密码不能为空");
+			
+			updateUserPasswordPre();
+		}
+		
+		t_user user = userService.findByID(userId);
+		oldPassword = Encrypt.MD5(oldPassword + ConfConst.ENCRYPTION_KEY_MD5);
+		
+		if (!oldPassword.equalsIgnoreCase(user.password)) {
+			flash.error("密码不正确");
+			
+			updateUserPasswordPre();
+		}
+		
+		/* 验证密码是否符合规范 */
+		if (!StrUtil.isValidPassword(newPassword)) {
+			flash.error("新密码不符合规范");
+			
+			updateUserPasswordPre();
+		}
+		
+		/* 确认密码校验*/
+		if(!newPassword.equals(confirmPassword)) {
+			flash.error("两次输入的密码不一致");
+			
+			updateUserPasswordPre();
+		}
+		
+		/*密码加密*/
+		newPassword = Encrypt.MD5(newPassword + ConfConst.ENCRYPTION_KEY_MD5);
+	
+		/*新密码与旧密码不能相同*/
+		if(newPassword.equals(user.password)){
+			flash.error("新密码不能与旧密码相同");
+			
+			updateUserPasswordPre();
+		}
+		
+		result = userService.updatePassword(userId, newPassword);
+		if (result.code < 1) {
+			flash.error(result.msg);
+			
+			updateUserPasswordPre();
+		}
+		
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "密码修改成功,下次登录时生效");
+	}
+	
+	public static void bosAcctActivatePre() {
+		long userId = getCurrUser().id;
+		
+		t_user_fund userFund = userFundService.queryUserFundByUserId(userId);
+		if (userFund == null) {
+			flash.error("获取用户信息失败");
+			securityPre();
+		}
+		
+		if (!StringUtils.isNotBlank(userFund.payment_account)) {
+			flash.error("你未开通资金存管");
+			securityPre();
+		}
+		
+		
+		if (userFund.is_actived) {
+			flash.error("你已激活资金存管账号");
+			securityPre();
+		}
+
+		String serviceOrderNo = OrderNoUtil.getNormalOrderNo(ServiceType.BOSACCTACTIVATE);
+		
+		ResultInfo result = PaymentProxy.getInstance().bosAcctActivate(Client.WECHAT.code, serviceOrderNo, userId);
+		
+		if (result.code < 1) {
+			LoggerUtil.info(true, result.msg);
+			flash.error(result.msg);
+			MyAccountCtrl.toAccountHomePre();
+		}
+
+		toResultPage(WxPageType.PAGE_COMMUNAL_SUCC, "资金存管账户激活成功");
+	}
+}

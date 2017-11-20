@@ -1,0 +1,10 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center reg-protocol">
+#{verbatim}
+	${pact?.content}
+#{/verbatim}
+</div>
+
+
+

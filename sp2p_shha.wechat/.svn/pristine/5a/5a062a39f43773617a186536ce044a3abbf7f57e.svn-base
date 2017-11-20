@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<div class="q-footerpbtm">
+			<section id="slideBox" class="slideBox">
+				<div class="bd">
+					<ul>
+						#{list items:banners,as:'banner'}
+							#{if banner.url}
+								<li><a class="pic" href="${banner.url}"><img src="${banner.image_url}" onerror="this.src='/public/common/default.jpg'"/></a></li>
+							#{/if}
+							#{else}
+								<li><a class="pic" href="javascript:void(0)"><img src="${banner.image_url}" onerror="this.src='/public/common/default.jpg'"/></a></li>
+							#{/else}
+						#{/list}
+					</ul>
+				</div>
+				<div class="hd">
+					<ul></ul>
+				</div>
+			</section>
+	       	#{if currUser == null}
+	       	<div class="q-indexdiv tc pl20 color1">
+	       		<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}">登录</a>/<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}">注册</a>
+	       	</div>
+	       	#{/if}
+	       	#{else}
+	       	<div class="q-indexdiv pl20">
+	       		<front>HI,<a>${currUser?.getTelName()}</a>欢迎来到虹金所！</front>
+	       	</div>
+	       	#{/else}
+	       	<ul class="q-indexul flex mt10">
+	       		<li class="flex-1">
+	       			<a href="@{wechat.front.IntegralMallCtrl.showMallPre()}">
+	       				<dl>
+	       					<dt class="dt01"></dt>
+	       					<dd>虹银商城</dd>
+	       				</dl>
+	       			</a>
+	       		</li>
+	       		<li class="flex-1">
+	       			<a href="@{wechat.front.WechatHomeCtrl.noviceGotoAppPre()}">
+	       				<dl>
+	       					<dt class="dt02"></dt>
+	       					<dd>新手福利</dd>
+	       				</dl>
+	       			</a>
+	       		</li>
+	       		<li class="flex-1">
+	       			<a href="@{app.AppController.download()}">
+	       				<dl>
+	       					<dt class="dt03"></dt>
+	       					<dd>下载APP</dd>
+	       				</dl>
+	       			</a>
+	       		</li>
+	       		<li class="flex-1">
+	       			<a href="@{wechat.front.account.MyAccountCtrl.signInPre()}">
+	       				<dl>
+	       					<dt class="dt04"></dt>
+	       					<dd>签到</dd>
+	       				</dl>
+	       			</a>
+	       		</li>
+	       	</ul>
+	       	
+	       	<div class="q-indexxs mt10">
+	       		<img class="q-indexxsimg" src="@{'/public/wechat/images/indexxs.png'}"/>
+	       		<span class="q-qtspan">${newbieBids?.min_invest_amount}起投</span>
+	       		<div class="q-cterdiv">
+	       			<p class="p01">${newbieBids?.apr}%</p>
+	       			<p class="p02">期待年回报率</p>
+	       			<p class="p03">期限${newbieBids?.period}天</p>
+	       		</div>
+	       		#{if models.core.entity.t_bid.Status.FUNDRAISING.equals(newbieBids?.status)}
+					#{if sysNowTime.compareTo(newbieBids?.pre_release_time) == 1}
+						<a href="@{wechat.front.InvestCtrl.investWechatPre(newbieBids?.id)}">我要出借</a>
+					#{/if}
+					#{else}
+						<a href="@{wechat.front.InvestCtrl.investWechatPre(newbieBids?.id)}">预发售</a>
+					#{/else}
+				#{/if}
+				#{else}
+					<a href="@{wechat.front.InvestCtrl.investWechatPre(newbieBids?.id)}">已售罄</a>
+				#{/else}
+	       	</div>
+	       	
+	       	
+	       	<p class="q-indexhot"><img src="@{'/public/wechat/images/hot.png'}"/>热门推荐</p>
+	       	
+	       	<ul class="q-hotul">
+	       		#{list bids}
+	       		<li class="q-padding">
+	       			<p class="q-title">${_?.title}</p>
+	       			<div class="flex q-indexhotxs">
+	       				<dl class="dl01">
+	       					<dt>预期年化利率</dt>
+	       					<dd class="q-color" id="split"><span>${_?.bigNum}</span>.${_?.smallNum}%</dd>
+	       				</dl>
+	       				<dl class="flex-1 dl02 tc">
+	       					<dt>${_?.getRepayment_type().value}</dt>
+	       					<dd>${_?.period}${_?.getPeriodUnit()}</dd>
+	       				</dl>
+	       				<dl class="dl03">
+	       					<dt>#{formatIntMoney money:(_?.amount-_?.hasInvestedAmount)}#{/formatIntMoney}元</dt>
+	       				</div>
+	       			<div class="q-lcperdiv flex">
+							<div class="q-perdiv flex-1">
+								<div class="q-perin" style="width: ${_?.loanSchedule}%;">	
+								</div>
+							</div>
+							<span>${_?.loanSchedule}%</span>	
+	       					#{if models.core.entity.t_bid.Status.FUNDRAISING.equals(_?.status)}
+								
+								#{if sysNowTime.compareTo(_?.preRelease) == 1}
+									<dd><a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}">抢购</a></dd>
+								#{/if}
+								#{else}
+									<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn">预发售</a>
+								#{/else}
+								
+							#{/if}
+							#{else}
+								<a href="@{wechat.front.InvestCtrl.investWechatPre(_?.id)}" class="graybtn product-btn bd-bnt2">已售罄</a>
+							#{/else}
+	       					
+	       				</dl>
+	       			</div>
+	       			<p class="q-aqp"><img src="@{'/public/wechat/images/aqimg.png'}"/>安全保障计划</p>
+	       		</li>
+	       		</br>
+	       		#{/list}
+	       	</ul>
+	      	<!-- 	footer-->
+	       	<ul class="q-footerul flex">
+	       		<li class="flex-1 q-on">
+	       			<a href="javascript:void(0)" onclick="location.reload()">
+		       			<dl class="dl01">
+		       				<dt></dt>
+		       				<dd>首页</dd>
+		       			</dl>
+	       			</a>
+	       		</li>
+	       		<li class="flex-1">
+	       			<a href="@{wechat.front.InvestCtrl.toWechatInvestPre()}">
+		       			<dl class="dl02">
+		       				<dt></dt>
+		       				<dd>理财</dd>
+		       			</dl>
+	       			</a>
+	       		</li>
+	       		<li class="flex-1">
+	       			<a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}">
+		       			<dl class="dl03">
+		       				<dt></dt>
+		       				<dd>我的财富</dd>
+		       			</dl>
+	       			</a>
+	       		</li>
+	       	</ul>
+       	</div>
+        <!-- 	footer-->
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+     #{get 'moreStyles' /}
+		<script type="text/javascript" data-main="/public/wechat/javascripts/wechat.js" src="@{'public/wechat/javascripts/require.js'}" ></script>
+	#{get 'moreScripts' /}
+	<script type="text/javascript">
+		require([ 'wechat' ], function() {
+			require([ 'touchslide' ]);
+		});
+	</script> 
+</html>

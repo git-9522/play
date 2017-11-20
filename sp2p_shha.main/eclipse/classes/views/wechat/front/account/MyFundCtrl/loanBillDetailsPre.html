@@ -1,0 +1,66 @@
+#{extends 'common/wechatMain.html' /}
+<div class="center">
+<div class="bill">
+    <ul class="bill-uls" style="display: block;">
+        <li class="flex">
+            <div>账单编号</div>
+            <div class="flex-1 tr"> ${loanBillDetails.bill_no}</div>
+        </li>
+        <li class="flex">
+            <div>期数 </div>
+            <div class="flex-1 tr"> ${loanBillDetails?.period}/${totalPeriod}</div>
+        </li>
+        <li class="flex">
+            <div>本金  </div>
+            <div class="flex-1 tr assistant"> ${loanBillDetails?.repayment_corpus?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>利息  </div>
+            <div class="flex-1 tr assistant"> ${loanBillDetails?.repayment_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>应收本息  </div>
+            <div class="flex-1 tr assistant"> ${loanBillDetails?.corpus_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+        </li>
+        <li class="flex">
+            <div>到期时间   </div>
+            <div class="flex-1 tr">${loanBillDetails?.repayment_time?.format(common.constants.Constants.DATE_FORMATE)}</div>
+        </li>
+        <li class="flex">
+            <div>还款时间   </div>
+            <div class="flex-1 tr">
+            	${loanBillDetails?.real_repayment_time?.format(common.constants.Constants.DATE_FORMATE)?:"----"}
+            </div>
+        </li>
+        <li class="flex">
+        	<div>状态   </div>
+        	#{if loanBillDetails?.status==models.wechat.bean.LoanBillDetailsBean.Status.NORMAL_NO_REPAYMENT||loanBillDetails?.status==models.wechat.bean.LoanBillDetailsBean.Status.ADVANCE_PRINCIIPAL_NO_REPAYMENT}
+            	<div class="flex-1 tr">未还</div>
+            #{/if}
+			#{else}
+				<div class="flex-1 tr">已还</div>
+			#{/else}
+        </li>
+        <li class="flex">
+        	<div>操作   </div>
+        	#{if loanBillDetails?.status==models.wechat.bean.LoanBillDetailsBean.Status.NORMAL_NO_REPAYMENT||loanBillDetails?.status==models.wechat.bean.LoanBillDetailsBean.Status.ADVANCE_PRINCIIPAL_NO_REPAYMENT}
+            	<div class="flex-1 tr">
+					<a onclick="repayBill(${loanBillDetails?.id});" class="contract2">还款</a>
+					<form action="@{wechat.front.account.MyFundCtrl.repayment()}" method="POST" id="form_${loanBillDetails?.id}">
+						<input type="hidden" name="billSign" value="${loanBillDetails?.sign}"/>
+					</form>
+                </div>
+            #{/if}
+			#{else}
+				<div class="flex-1 tr">----</div>
+			#{/else}
+        </li>
+    </ul>
+</div>
+</div>
+<script type="text/javascript">
+	function repayBill(billId){
+		//处理中遮罩 
+		$("#form_"+billId).submit();
+	}
+</script>

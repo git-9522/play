@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<ul class="q-hdgzul q-bgfff q-padding">
+    		<li>
+    			<p class="p01">1.任务内容</p>
+    			<p class="p02">注册账号、首次投资(实名认证后进行的第一次投资)、每日参与签到；</p>
+    		</li>
+    		<li>
+    			<p class="p01">2.参与对象</p>
+    			<p class="p02">新注册用户以及已注册但未完成其他任务的用户</p>
+    		</li>
+    		<li>
+    			<p class="p01">3.活动时间</p>
+    			<p class="p02">即日生效，结束时间以虹金所公告为准</p>
+    		</li>
+    		<li>
+    			<p class="p01">4.任务奖励</p>
+				<p class="p02">首次注册虹金所平台用户，即可获取6600元新手红包，具体获取规则如下：
+用户首次注册后获取15元（新手标、预约标、一月标可用）、120元红包（预约标、三月标可用）；
+实名绑卡后再获取30元、75元、120元、240元、400元、640元、800元；320元、720元、1320元、1800元新手红包
+单笔投资最多只能使用一张红包;每位用户系统返现上限为5000元/日（可多笔系统返现）</p>
+    		</li>
+    		<li>
+    			<p class="p01">5.什么是加息券</p>
+    			<p class="p02">加息券，是虹金所奖励给用户的最高级别的电子虚拟礼金，用户只能通过某些特殊活动、生日和虹银兑换获得。加息
+券能够提升用户投资项目的年化收益率，有起购金额及使
+用期限限制，具体使用期限请见具体详情。年化券使用不
+能进行叠加，只能使用至某个项目当中。
+举例说明：如果您投资某个项目10000元，项目年化收益率是10%，您虹金所账户里有一张5%加息券，那么您使
+用之后，您投资的项目年化收益率就变成15%；</p>
+    		</li>
+    		<li>
+    			<p class="p01">6.什么是红包</p>
+    			<p class="p02">红包，是虹金所奖励给用户的电子虚拟礼金的一种，一般可以通过新用户注册、相关活动、虹银兑换、推荐新用户获得，每次只能投资对应金额时保存。投资红包不可以和现金券、叠加使用，不能直接提现，投资之后可抵投资金额参与计息，项目到期后提现。 
+单个红包不可拆分使用，单笔投资只可使用一个符合条件的红包。</p>
+    		</li>
+    		<li>
+    			<p class="p01">7.什么是虹银</p>
+    			<p class="p02">虹银是虹金所推出的依据相应活动和规则获取的虚拟货币，可在虹银商城中用于兑换礼品、礼券、红包等，也可用来
+提现抵扣、参与秒杀、抽奖等其它站内活动。可到虹银商
+城去赚获取赚取方式。
+虹银为本平台专属虚拟货品，用户间无法转让、赠予，且
+不可作虹金所规定以外之用；</p>
+    		</li>
+    	</ul>
+    	<div class="q-lastgz q-padding">
+    		本活动最终解释权归虹金所所有，如发现作弊违规用户，经查属实后
+虹金所有权取消其活动资格。借贷有风险，投资需谨慎。
+    	</div>
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

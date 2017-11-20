@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body class="q-bgfff">
+    	
+		<img class="q-bzbanner" src="@{'/public/wechat/images/gybanner.png'}"/>
+		<div class="q-padding">
+			<div class="q-gyone">
+	    		<p class="q-gytitle">平台简介</p>
+	    		<p class="q-gypcet">虹金所是由上海虹奥金融信息服务有限公司（注册地：上海自贸区，注册资金：一亿五百万）负责建设和运营的创新型在线金融信息服务平台。依托多年线下财富运作和金融管理经验，平台聚集了丰富的优质资产项目和忠实客户群体，逐渐建立起一整套安全、规范的标准化业务管理和风控体系，为其转型升级及强势崛起打下了坚实的基础。</p>
+	    		<p class="q-gypcet mt30">
+	作为国内“互联网+”时代下专注于普惠金融领域的在线借贷撮合平台，虹金所主打优质政信资产、供应链核心体系、三农改造项目、高新产品研发等区域性投融资业务，将有融资需求的小微企业或个人与有富余理财资金的投资人进行在线信息配对，并结合线上线下内在资源优势，提供一系列与之相关的配套服务。</p>
+				<p class="q-gypcet mt30">
+	虹金所致力于成为一个具有卓越本土经济特色的的在线金融信息服务平台，将更加安全、稳定、透明、高效的互联网金融服务带到全国各地，覆盖传统金融服务体系的薄弱环节，为国家经济新兴增长领域供输血液。平台通过引领行业的精锐财富管理团队的成熟运作，满足多样客户的投资理财需求，帮助客户尽早实现财务自由和财富增值。</p>
+				<p class="q-gypcet"></p>
+			</div>
+			<div class="q-gyone">
+	    		<p class="q-gytitle">核心价值</p>
+	    		<p class="q-gypcet">至诚普惠：追求基于事实的决策与管理，专注于战略经营的创新
+与效益，建设客户、员工与合作者之间的利益共同体，优化市场
+格局，惠及大众；
+卓越人生：坚持卓越与创造，维持诚信与尊重，鼓励精准求实与
+开放合作，为客户创造价值，为员工创造机会，为社会创造效益，引领财富人生。</p>
+			</div>
+			<div class="q-gyone">
+	    		<p class="q-gytitle">平台使命</p>
+	    		<p class="q-gypcet">提供最优质、最高效、最合规、最人性化的普惠金融服务</p>
+			</div>
+			<div class="q-gyone">
+	    		<p class="q-gytitle">平台愿景</p>
+	    		<p class="q-gypcet">创建一个兼具稳健与效益，并为广大客户带来最大财富盈余的普惠金融服务平台</p>
+			</div>
+			<div class="q-gyone">
+	    		<p class="q-gytitle">平台原则</p>
+	    		<p class="q-gypcet">
+	    			锐意进取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;敢为人先<br />
+					重诺守信&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以质求存<br />
+					团结拼搏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;超越自我<br />
+	    		</p>
+			</div>
+		</div>
+		
+		
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

@@ -1,0 +1,15 @@
+*{
+	体验标-投标记录
+	主页面在:/com.shovesoft.sp2p.wechat/app/views/wechat/front/ExperiencebidWechatCtrl/experienceBidWXPre.html
+}*
+
+#{list pageBean?.page}
+    <li class="flex">
+        <div class="flex-1">#{asterisk str:_?.user_name, start:2, end:2, count:4/}</div>
+        <div class="flex-1 tc">#{formatIntMoney money:_?.invest_amount}#{/formatIntMoney}元</div>
+        <div class="flex-1 tr">${common.utils.DateUtil.getTimeLine(_?.invest_time)}</div>
+    </li>
+#{/list}
+ 
+<input type="hidden" id="investCurrpage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="investTotalPageCount" value="${pageBean?.totalPageCount}"/>

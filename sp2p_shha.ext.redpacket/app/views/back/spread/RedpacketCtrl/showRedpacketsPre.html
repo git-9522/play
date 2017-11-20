@@ -1,0 +1,222 @@
+#{extends 'back/spread/RedpacketCtrl/redpacketsMain.html' /}
+	#{set title:'推广 | 红包 | 开户红包' /}
+	#{set smallclass:1 /}
+	#{set crumbs:'推广>红包>开户红包'/}
+
+<div class="back-main">
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head"><span class="left">开户红包</span>
+			#{rightMng rightId:701002}
+			<a href="javascript:void(0);" class="right iconfont finance-edit" data-title="编辑" >&#xe602;</a>
+			<input class="right y-add-rule" onclick="addRedPacketRule()" value="添加" type="button" />
+			#{/rightMng}
+			</h2>
+			
+			<div class="back-infor-lcset back-infor-getset">
+				<p>当红包金额设置为0时，该场景的红包将不会被触发，前台红包栏目也不会显示该红包类型。</p>
+				<form action="@{back.spread.RedpacketCtrl.editRedpackets()}" method="POST" id="form_redpacket">
+					#{authenticityToken /}
+						#{if redPackets}
+						#{list items:redPackets}
+						<p class="back-experience-set">
+							<label>
+								开户红包
+								<label class="back-unitinput">
+									<input type="text" name="amount${_?.id}" disabled="disabled" oninput="$(this).ndigitInteger(4)" onpropertychange="$(this).ndigitInteger(4)" value="#{formatIntMoney money:_?.amount?:0 /}" class="width01 iffocus"><i class="unit">元</i>
+								</label>
+								最低投资
+								<label class="back-unitinput">
+									<input type="text" name="useRule${_?.id}" disabled="disabled" oninput="$(this).ndigitInteger(6)" onpropertychange="$(this).ndigitInteger(6)" value="#{formatIntMoney money:_?.use_rule?:0 /}" class="width01 iffocus"><i class="unit">元</i>
+								</label>
+								标的期限
+								<label class="back-unitinput">
+									<input type="text" name="bidPeriod${_?.id}" disabled="disabled" oninput="$(this).ndigitInteger(2)" onpropertychange="$(this).ndigitInteger(2)" value="${_?.bid_period}" class="width01 iffocus"><i class="unit">月</i>
+								</label>
+								有效期限
+								<label class="back-unitinput">
+									<input type="text" name="endTime${_?.id}" disabled="disabled" oninput="$(this).ndigitInteger(3)" onpropertychange="$(this).ndigitInteger(3)" value="${_?.end_time}" class="width01 iffocus"><i class="unit">天</i>
+								</label>
+								#{rightMng rightId:701006}
+								<input class="back-addmsg y-delete-rule" onclick="changeIsUseStatus('${_?.sign}',false)" value="删除" type="button">
+								#{/rightMng}
+							</label>
+						</p>
+						#{/list}
+						#{/if}
+						<p class="back-experience-set y-red-packet-rule y-red-packet-rule-no">
+							<label>
+								开户红包
+								<label class="back-unitinput">
+									<input type="text" name="amount" disabled="disabled" oninput="$(this).ndigitInteger(4)" onpropertychange="$(this).ndigitInteger(4)" value="" class="width01 iffocus"><i class="unit">元</i>
+								</label>
+								最低投资
+								<label class="back-unitinput">
+									<input type="text" name="useRule" disabled="disabled" oninput="$(this).ndigitInteger(6)" onpropertychange="$(this).ndigitInteger(6)" value="" class="width01 iffocus"><i class="unit">元</i>
+								</label>
+								标的期限
+								<label class="back-unitinput">
+									<input type="text" name="bidPeriod" disabled="disabled" oninput="$(this).ndigitInteger(2)" onpropertychange="$(this).ndigitInteger(2)" value="" class="width01 iffocus"><i class="unit">月</i>
+								</label>
+								有效期限
+								<label class="back-unitinput">
+									<input type="text" name="endTime" disabled="disabled" oninput="$(this).ndigitInteger(3)" onpropertychange="$(this).ndigitInteger(3)" value="" class="width01 iffocus"><i class="unit">天</i>
+								</label>
+								<input class="back-addmsg y-delete-rule" onclick="deleteAndClearRule()" value="删除" type="button">
+							</label>
+						</p>
+						<p class="back-experience-set">
+							<label>
+								<span class="lileft">通知渠道</span>
+								<label id="send_input">
+									<input type="checkbox" id="letter" #{if maps?.get("letter")}checked="checked"#{/if}>站内信&nbsp;&nbsp;
+									<input type="checkbox" id="email" #{if maps?.get("email")}checked="checked"#{/if}>邮件&nbsp;&nbsp;
+									<input type="checkbox" id="sms" #{if maps?.get("sms")}checked="checked"#{/if}>手机短信
+									<input type="hidden" name="letter" value="${maps?.get('letter')}" />
+									<input type="hidden" name="email" value="${maps?.get('email')}" />
+									<input type="hidden" name="sms" value="${maps?.get('sms')}" />
+								</label>
+							</label>
+						</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		// 搜索 排序 选中
+		require(["search","order","linechecked"]);
+		require(["validation/validateExt"]);
+
+		$(".back-infor").each( function() {
+			var that = this, 
+			editBtn = $(this).find( ".finance-edit"),
+			editText = $(this).find("input:not(.easyui-datetimebox)");
+			editText.prop("disabled", true);
+			editBtn.click(function() {
+				disable = editText.prop("disabled");
+				if (disable) {
+					editBtn.html("&#xe630;").data("title","保存");
+					
+					$(".titlebox").text( editBtn.data('title'));
+					editText.prop("disabled", !disable);
+					editText.eq(0).focus();
+				} else {
+					$("#form_redpacket").submit();
+				}
+			});
+		});
+		
+		$("#form_redpacket").validate({
+			errorPlacement: function(error, element) {
+				error.addClass('back-notice').insertAfter(element.parent());
+			},
+			rules:{
+				"amount":{
+					required:true,
+					digits:true,
+					range: [1, 10000]
+				},
+				"useRule":{
+					required:true,
+					digits:true,
+					range: [1, 999999]
+				},
+				"bidPeriod":{
+					required:true,
+					digits:true,
+					range: [0, 12]
+				},	
+				"endTime":{
+					required:true,
+					digits:true,
+					range: [1, 365]
+				}
+			},
+			messages:{
+				"amount":{
+					required:"请填写开户红包金额",
+					digits:"开户红包金额不正确",
+					range: "范围是1~10000"
+				},
+				"useRule":{
+					required:"请填写最低投资金额",
+					digits:"最低投资金额不正确",
+					range: "范围是1~999999"
+				},
+				"bidPeriod":{
+					required:"请填写标的期限",
+					digits:"标的期限不正确",
+					range: "范围是0~12"
+				},	
+				"endTime":{
+					required:"请填写有效期限",
+					digits:"有效期限不正确",
+					range: "范围是1~365"
+				}
+			},
+			submitHandler:function(form){
+				if ($("#letter").is(":checked")) {
+					$("input[name='letter']").val(true);
+				} else {
+					$("input[name='letter']").val(false);
+				}
+				if ($("#email").is(":checked")) {
+					$("input[name='email']").val(true);
+				} else {
+					$("input[name='email']").val(false);
+				}
+				if ($("#sms").is(":checked")) {
+					$("input[name='sms']").val(true);
+				} else {
+					$("input[name='sms']").val(false);
+				}
+				form.submit();
+			}
+		});
+	});
+	
+	function addRedPacketRule(){
+		if ($(".y-red-packet-rule").hasClass("y-red-packet-rule-no")) {
+			$(".y-red-packet-rule").removeClass("y-red-packet-rule-no");
+		} else {
+			alert("请先保存当前处于编辑状态的规则");
+		}
+	}
+	
+	function changeIsUseStatus(sign,flag){
+		var size = "${redPackets.size()}";
+		if (size <= 1) {
+			alert("至少需要保留一个开户红包");
+			return;
+		}
+		
+		confirm("确定删除？", function(){
+			$.ajax({
+				url : "@{back.spread.RedpacketCtrl.changeIsUseStatus()}",
+				type : "POST",
+				data : {
+					"sign" : sign,
+					"isUse" : flag
+				},
+				success : function(data){
+					if(data.code < 1){
+						alert(data.msg);
+						return;
+					}
+					location.reload();
+				}
+			});
+		});
+	}
+
+	function deleteAndClearRule(){
+		$(".y-red-packet-rule").addClass("y-red-packet-rule-no");
+		$(".y-red-packet-rule>label>label").each(function(){
+			$(this).children(".iffocus").val("");
+		})
+	}
+</script>	

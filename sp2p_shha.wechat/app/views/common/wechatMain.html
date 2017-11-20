@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>${settings?.get(common.constants.SettingKey.PLATFORM_NAME)}</title>
+        <meta content="telephone=no" name="format-detection">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">  
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/wx-my-alert.css'}" />
+		#{if settings?.get(common.constants.SettingKey.THEME_CUSTOMIZE).equals('0')}
+			<link rel="stylesheet" type="text/css" href="@{'/public/front/themes/'+settings?.get(common.constants.SettingKey.THEME_NAME)+'/color.css'}" />
+		#{/if}
+		#{else}
+			#{set mainColor:'#'+settings?.get(common.constants.SettingKey.THEME_MAIN_COLOR) /}
+			#{set auxColor:'#'+settings?.get(common.constants.SettingKey.THEME_AUX_COLOR) /}
+			#{set thdColor:'#'+common.utils.StrUtil.colorByAlpha(settings?.get(common.constants.SettingKey.THEME_MAIN_COLOR)) /}
+			#{include 'common/front/colorCont.html' /}
+		#{/else}
+		#{get 'moreStyles' /}
+		<script type="text/javascript"  src="@{'public/wechat/javascripts/flexible.js'}" ></script>
+		<script type="text/javascript" data-main="/public/wechat/javascripts/wechat.js" src="@{'public/wechat/javascripts/require.js'}" ></script>
+    	<script type="text/javascript">
+			require(['wechat'],function(){
+				#{if flash?.error}
+					setTimeout(function(){
+						alert('${flash?.error}');
+					},300)
+				#{/if}
+								
+				//文本域换行 
+				$(this).newline();
+				
+				require(['script']);
+			})
+		</script>
+		#{get 'moreScripts' /}	
+    </head>
+    <body>
+        <!-- header -->
+ <!--        <header class="xf-header">
+            <a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}" class="xf-logo"><img src="${settings?.get(common.constants.SettingKey.PLATFORM_LOGO_FILENAME)}" height="77" /></a>
+            <div class="xf-menu"></div>
+           	<ul class="xf-menulist">
+            	<li>
+            		#{if currUser == null}
+		            	<a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}"><i class="xf-menuico menuico1"></i>主页</a>
+			            <a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}"><i class="xf-menuico menuico2"></i>登录</a>
+			            <a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}"><i class="xf-menuico menuico3"></i>注册</a>
+		            #{/if}
+		            #{else}
+			            <a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}"><i class="xf-menuico menuico1"></i>主页</a>
+		                <a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}"><i class="xf-menuico menuico4"></i>账户</a>
+		                <a href="@{wechat.front.LoginAndRegisteCtrl.loginOutPre()}"><i class="xf-menuico menuico5"></i>退出</a>
+	                #{/else}
+	            </li>
+           	</ul>
+        </header> -->
+        <!-- 遮罩 -->
+        <section class="xf-mask" ></section>
+            #{doLayout /}
+        <!-- footer -->
+    <!--     <footer class="xf-footer">
+            <a href="@{front.FrontHomeCtrl.frontHomePre()}"><i class="xf-computer"></i>web端</a>
+            <a href="tel:${settings?.get(common.constants.SettingKey.COMPANY_TEL)}" class="xf-tell"><i class="xf-contact"></i>联系我们</a>
+            <article class="xf-article">©2016 ${settings?.get(common.constants.SettingKey.PLATFORM_NAME)}&nbsp;All&nbsp;rights&nbsp;resered<br/>${settings?.get(common.constants.SettingKey.SITE_ICP_NUMBER)}</article>
+        </footer> -->
+    </body>
+
+</html>

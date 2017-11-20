@@ -1,0 +1,73 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+
+    <!-- 列表 -->
+	<section class="detail-menu flex">
+		<a href="javascript:void(0);" class="flex-1 ">${columns?.get(common.constants.ColumnKey.WEALTH_REWARD_EXPERIENCE)?:'体验标'}</a>
+	    *{<a href="javascript:void(0);" class="flex-1 ">${columns?.get(common.constants.ColumnKey.WEALTH_REWARD_EXPERIENCE)?:'红包'}</a>}*
+	</section>
+	<!-- 体验标 -->
+	<div class="award" id="award_expBid" >
+		
+	</div>
+	
+	<!-- 红包-->
+	<div class="award" style="display:none;" id="award_redpacket">
+		
+	</div>
+	
+
+</div>
+<script type="text/javascript">
+
+	var expBid = 0;//未加载过体验标
+	var redpacket = 0;//未加载过红包
+	
+	require([ 'wechat' ], function() {
+
+		$(".detail-menu>a").click(function(){
+			$(".detail-menu>a").removeClass("click");
+			$(this).addClass("click");
+			var index = $(this).index();
+			if(index == 0 && expBid == 0) {//判断是否已加载
+				showMyExperienceGoldWXPre(1);
+			} else if(index == 1 && redpacket == 0) {
+
+			}
+			$(".award").not(index).hide();
+			$(".award").eq(index).show();	
+		});
+		
+		$(function(){
+			showMyExperienceGoldWXPre(1); //默认显示体验标
+		});
+
+	});
+	
+	//-------------------------------------------------->
+	
+	//体验标 
+	function showMyExperienceGoldWXPre(currPage){
+		$(".detail-menu>a").eq(0).addClass("click");
+		$.ajax({
+			url : "@{wechat.front.account.MyExperiencebidCtrl.showMyExperienceGoldWXPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage
+			},
+			async:false,
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				expBid = 1;  //已加载 
+				
+				$("#award_expBid").html(data);
+			}
+		});
+	}
+	
+</script>

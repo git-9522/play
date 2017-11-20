@@ -1,0 +1,57 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+<ul class="register-list">
+<form action="@{wechat.front.WechatHomeCtrl.bindWx()}" method="POST" id="bindwx">
+    <li>您正在将您的虹金所帐户绑定至微信公众号</li>
+    <li>
+    	<input type="hidden" name="code" value="${code}">
+        <input type="text" name="mobile" id="mobile" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" placeholder="输入手机号" />
+    </li>
+    <li>
+        <input type="password" name="password" maxlength="15" placeholder="输入登录密码" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" oninput="$(this).integerAndLetters()" onkeyup="$(this).integerAndLetters()" />
+    </li>
+    <li>
+        <input type="button" class="condition-btn btn" value="绑定微信号">
+    </li>
+</form>
+</ul>
+</div>
+<script type="text/javascript">
+require(["wechat"],function(wechat){
+	require(["validation/validateExt"]);
+	//绑定微信
+	$("#bindwx").validate({
+			errorPlacement: function(error, element) {
+				error.addClass('cored').addClass("wrong-txt").insertAfter(element);
+			},
+			errorElement:"p",
+			rules:{
+				"mobile":{
+					required:true,
+					number:true,
+					isMobile:true
+				},
+				"password":{
+					required:true
+				}
+			},
+			messages:{
+				"mobile":{
+					required:"请输入手机号码",
+					number:"请输入正确的手机号",
+					isMobile:"请输入正确的手机号"
+				},
+				"password":{
+					required:"请输入登录密码"
+				}
+			},
+			submitHandler:function(form){
+				form.submit();
+			}
+		})
+		$("input[type='button']").click(function(){
+			$("#bindwx").submit();
+		});
+});
+</script>

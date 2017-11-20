@@ -1,0 +1,113 @@
+<section class="reward">
+	<ul class="reward-ul">
+		<li class="flex"><span class="flex-1">体验金可领次数</span>
+			<span class="major reward-1" id="experienceCount">${experienceBidAccount?.count?:'0'}次</span> 
+			<a href="javascript:getExperienceGold()"><span class="major">领取<i></i></span></a>
+		</li>
+		<li class="flex">
+			<span class="flex-1">体验金余额</span>
+			<span class="major reward-1" id="experienceAmount">#{formatIntMoney money:experienceBidAccount?.amount?:'0'/} 元</span> 
+			<a href="@{wechat.front.ExperiencebidWechatCtrl.experienceBidWXPre()}"><span class="major">投资<i></i></span></a>
+		</li>
+		<li class="flex">
+			<span class="flex-1">体验金收益</span>
+			<span class="major reward-1">${experienceBidAccount?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)?:'0.00'}元</span>
+			<form action="@{wechat.front.account.MyExperiencebidCtrl.applayConversion()}" method="post" id="applayConversion"></form>
+			<a href="javascript:applayConversion()"><span class="major">兑换<i></i></span></a>
+		</li>
+	</ul>
+</section>
+<div class="assets myzr">
+	#{include 'wechat/front/account/MyExperiencebidCtrl/showMyExperienceGoldInvestPre.html' /}
+
+	<!-- 加载更多  -->
+	<p class="xf-load" id="invest_more">
+		#{if pageBean?.currPage >= pageBean?.totalPageCount}
+		    <a>没有更多了</a>
+		#{/if}
+		#{else}
+			<a  onclick='investExpBidPre(${pageBean?.currPage+1})'>加载更多项目</a>
+		#{/else} 
+	</p> 
+</div>
+
+<script type="text/javascript">
+	require(['wechat'], function() {
+		$(function(){
+			$('.bill-title').first().click();
+		});
+	});
+	
+	//购买列表 
+	function investExpBidPre(currPage){
+		$.ajax({
+			url : "@{wechat.front.account.MyExperiencebidCtrl.showMyExperienceGoldInvestPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage
+			},
+			async:false,
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$(data).insertBefore("#invest_more");
+				
+				if(parseInt($("#investCurrPage").val())>=parseInt($("#investTotalPageCount").val())){
+					$("#invest_more").html("<a>没有更多了</a>");
+				} else{
+					var investCurrPage = parseInt($("#investCurrPage").val()) + 1 ;
+					$("#investCurrPage").remove();
+					$("#investTotalPageCount").remove();
+					$("#invest_more").html("<a onclick='investExpBidPre("+investCurrPage+")'>加载更多</a>");
+				}
+			}
+		});
+	}
+	
+	function getExperienceGold(){
+		var count = ${experienceBidAccount?.count?:'0'};
+		var amount = ${experienceBidAccount?.amount?:'0'};
+		var everyGrant = ${experienceBidAccount?.every_grant?:'0'};
+		if(parseInt(count)==0){
+			alert("可领取次数不足！");
+			
+			return;
+		}
+		
+		$.ajax({
+			url:"@{wechat.front.account.MyExperiencebidCtrl.getExperienceGold()}",
+			type:"POST",
+			success:function(data){
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					alert(data.msg);
+					return;
+				}
+				
+				$("#experienceCount").html((parseInt(count)-1)+"次");
+				$("#experienceAmount").html((parseInt(amount)+parseInt(everyGrant))+"元");
+			}
+		});
+	}
+	
+	function applayConversion(){
+		var balance = ${experienceBidAccount?.balance};
+		
+		if (balance == 0) {
+			alert("体验金收益不足，无法兑换！");
+			
+			return;
+		}
+		
+		$("#applayConversion").submit();
+	}
+
+</script>
+
+	

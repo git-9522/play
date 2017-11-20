@@ -1,0 +1,51 @@
+#{extends 'common/wechatMain.html' /}
+<div class="center recharge">
+	<form action="@{wechat.front.account.MySecurityCtrl.updateEmailSuccess()}" method="post" id="updateemail">
+	    #{authenticityToken /}
+	    <section class="detail-txt flex">
+	        <span class="">邮箱</span>
+	        <input type="text" id="email" name="email" value="" class="detailtxt c666 flex-1"  maxlength="30"/>
+	        <input type="hidden" id="userName" name="userName" value="${currUser?.name}">
+	    </section>
+	    <input type="button" id="updateemail_submit" class="condition-btn btn" value="下一步">
+	</form>
+</div>
+<script type="text/javascript">
+require(['wechat'],function(){
+	require(["validation/validateExt"]);
+	$("#updateemail_submit").click(function(){
+		$("#updateemail").submit();
+	});
+	$("#updateemail").validate({
+		errorPlacement: function(error, element) {
+			error.addClass('cored').addClass("wrong-txt").addClass("mb30").insertAfter(element.parent());
+			error.css("margin-top","-33px");
+		},
+		errorElement:"p",
+		rules:{
+			"email":{
+				required:true,
+				isEmail:true,
+				remote:{//后端返回的只能是true或者false
+					 url: "@{wechat.front.WechatAjaxValideCtrl.checkEmail()}",
+					 type: "post",
+					 dataType: "json",
+					 data: {
+						 email: function() {
+							return $("input[name='email']").val();
+						}
+					}
+				}
+			}
+		},
+		messages:{
+			"email":{
+				required:"邮箱地址不能为空",
+				isEmail:"邮箱格式不正确",
+				remote:"邮箱地址已存在"
+			}
+		}
+	})
+	
+})
+</script>

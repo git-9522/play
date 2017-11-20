@@ -1,0 +1,200 @@
+#{extends 'common/front/frontLoginMain.html' /} #{set title: '登录'/}#{set islogin:'true'/}
+<link rel="stylesheet" type="text/css"
+	href="/public/front/stylesheets/min.css" />
+<div class="login-bg relative">
+	<form action="@{front.LoginAndRegisteCtrl.logining()}" method="post"
+		id="loginForm">
+		<div class="login-box">
+			<h3>欢迎登录</h3>
+			<div class="login-wrap">
+				<label class="login-input"> <input type="text" class="text"
+					name="mobile" id="mobile" value="" maxlength="11"
+					placeholder="输入手机号" onkeyup="$(this).ndigitInteger(this,11)" />
+				</label>
+			</div>
+			<div class="login_tips1 corange none">
+				<img src="/public/front/images/enroll_tishi.png" alt="" /><span>用户名不能为空</span>
+			</div>
+			<div class="login-wrap">
+				<label class="login-input"> <input type="password"
+					class="text" autocomplete="off" name="password" id="password"
+					value="" maxlength="15" placeholder="输入密码"
+					oninput="$(this).integerAndLetters()"
+					onkeyup="$(this).integerAndLetters()" onpaste="return false"
+					oncontextmenu="return false" oncopy="return false"
+					oncut="return false" />
+				</label>
+			</div>
+			<div class="login_tips2 corange none">
+				<img src="/public/front/images/enroll_tishi.png" alt="" /><span>密码不能为空</span>
+			</div>
+			#{if flash?.loginCount > "1"}
+			<!-- 验证码输错几次后显示 -->
+			<div class="login-wrap clearfix">
+				<label class="login-input left"> <i class="icon code-icon"></i>
+					<input id="randomId" name="randomId" value="${randomId}"
+					type="hidden"> <input type="text" class="codetext text"
+					id="code" name="code" value="${flash?.code}" placeholder="1-2位数"
+					maxlength="2">
+				</label> <img src="@{common.CaptchaController.createCaptcha(randomId)}"
+					id="captchaImage" onclick="refreshCaptcha();" class="codeimg right"
+					height="46" alt="" title="换一张" />
+			</div>
+			#{/if}
+			<div class="login-center relative">
+				#{if flash.error!=null}
+				<div class="login_tips3 corange">
+					<img src="/public/front/images/enroll_tishi.png" alt=""><span>${flash.error}</span>
+				</div>
+				#{/if} #{else}
+				<div class="login_tips3 corange none">
+					<img src="/public/front/images/enroll_tishi.png" alt=""><span>用户名密码错误</span>
+				</div>
+				#{/else} <input type="button" value="登  录" onclick="submitFrom()"
+					id="login" class="condition-btn btn" />
+			</div>
+			<div class="forgetPassword">
+				<a href="@{front.LoginAndRegisteCtrl.forgetPwdFirstPre()}">忘记密码</a>&nbsp;&nbsp;|
+				&nbsp;&nbsp;<a href="@{front.LoginAndRegisteCtrl.registerPre()}">注册领福利</a>
+			</div>
+		</div>
+		</from>
+</div>
+<script type="text/javascript"
+	data-main="/public/front/javascripts	/front.js"
+	src="/public/front/javascripts/require.js"></script>
+<script type="text/javascript">
+  document.onkeydown = function(e)
+{
+    var e = window.event   ?   window.event   :   e; 
+    if(e.keyCode == 13){
+     var btn=document.getElementById("login");
+     btn.onclick();}
+}
+		#{if currUser != null}
+			window.location.href="@{front.FrontHomeCtrl.frontHomePre()}";
+		#{/if}
+			require(['front'],function(){
+				var classnames = ['downshow','scaleshow'];
+				
+					$('.login-box').addClass(classnames[Math.floor(Math.random()*classnames.length)]);
+				
+				
+				//打开登入页面光标停在手机号码输入框
+				$("#mobile").removeClass("text-error").focus().addClass("focus");
+				//密码框类型改变
+				$("#password").focus(function(){
+					$(this).attr("type","password");
+				})
+				
+				$('#mobile').bind("blur keyup change",function(){
+					var mobile = $.trim($(this).val());
+					if(mobile == ""){
+						$(this).removeClass("focus");
+						$(this).removeClass("text-error");
+					}else if(!mobile.isMobileNum()){
+						$(this).removeClass("focus");
+						$(this).addClass("text-error");
+					}else{
+						$(this).addClass("focus");
+						$(this).removeClass("text-error");
+					}
+				});
+				
+				$('#password').bind("blur keyup change",function(){
+					var password = $.trim($(this).val());
+					if(password == ""){
+						$(this).removeClass("focus");
+						$(this).removeClass("text-error");
+					}else if(!password.isPassWord()){
+						$(this).removeClass("focus");
+						$(this).addClass("text-error");
+					}else{
+						$(this).addClass("focus");
+						$(this).removeClass("text-error");
+					}
+				});
+				$('#code').bind("blur keyup change",function(){
+					var code = $.trim($(this).val());
+					if(code == ""){
+						$(".login_tips3").show();
+						$(this).removeClass("focus");
+						$(this).removeClass("text-error");
+					}else if(!code.isNumber()){
+						$(".login_tips3").show();
+						$(this).removeClass("focus");
+						$(this).addClass("text-error");
+					}else{
+						$(".login_tips3").hide();
+						$(this).addClass("focus");
+						$(this).removeClass("text-error");
+					}
+				});
+			});
+			/* 验证码刷新 */
+			function refreshCaptcha(){
+				$.post("/common/captcha/flushcaptcha.html",function(data){
+						var arr=eval(data);
+						var randomid = arr.randomID;
+						$("#captchaImage").attr("src","/common/captcha/createcaptcha.html?uuid="+randomid);	
+						$("#randomId").val(randomid);
+					});
+				$("#code").val("");
+			}
+			function submitFrom(){
+					var mobile = $.trim($("#mobile").val());
+					if(mobile == ""){
+						$("#mobile").removeClass("focus");
+						$("#mobile").removeClass("text-error");
+						$(".login_tips1").show();
+						$(".login_tips1 span").text("账号不能为空")
+						return;
+					}else if(!mobile.isMobileNum()){
+						$("#mobile").removeClass("focus");
+						$("#mobile").addClass("text-error");
+						$(".login_tips1").show();
+						$(".login_tips1 span").text("账号格式错误")
+						return;
+					}else{
+						$(".login_tips1").hide();
+						$("#mobile").addClass("focus");
+						$("#mobile").removeClass("text-error");
+					}
+					var password = $.trim($("#password").val());
+					if(password == ""){
+						$("#password").removeClass("focus");
+						$("#password").removeClass("text-error");
+						$(".login_tips2").show();
+						$(".login_tips2 span").text("密码不能为空")
+						return;
+					}else if(!password.isPassWord()){
+						$("#password").removeClass("focus");
+						$("#password").addClass("text-error");
+						$(".login_tips2").show();
+						$(".login_tips2 span").text("密码格式错误")
+						return;
+					}else{
+						$(".login_tips2").hide();
+						$("#password").addClass("focus");
+						$("#password").removeClass("text-error");
+					}
+					
+					#{if flash?.loginCount > "1"}
+						var code = $.trim($("#code").val());
+						if(code == ""){
+							$(".login_tips3").show();
+							$("#code").removeClass("focus");
+							$("#code").removeClass("text-error");
+						}else if(!code.isNumber()){
+							$(".login_tips3").show();
+							$("#code").removeClass("focus");
+							$("#code").addClass("text-error");
+						}else{
+							$(".login_tips3").hide();
+							$("#code").addClass("focus");
+							$("#code").removeClass("text-error");
+						}
+					#{/if}
+					$('#loginForm').submit();	
+			}
+		</script>

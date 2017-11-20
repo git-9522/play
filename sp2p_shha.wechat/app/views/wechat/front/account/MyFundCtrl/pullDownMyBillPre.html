@@ -1,0 +1,7 @@
+#{list loanBillList}
+	<li class="flex"  onclick="location.href='@{wechat.front.account.MyFundCtrl.loanBillDetailsPre(_?.id,totalPeriod)}'">
+	    <div class="flex-1">${_?.bill_no}</div>
+	    <div class="flex-1 tc">${_?.corpus_interest?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+	    <div class="flex-1 tr">${_?.repayment_time?.format(common.constants.Constants.DATE_FORMATE)}</div>
+	</li>
+#{/list}

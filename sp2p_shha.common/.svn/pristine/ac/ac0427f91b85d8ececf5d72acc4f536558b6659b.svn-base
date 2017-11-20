@@ -1,0 +1,400 @@
+.c3 {
+    color: #333;
+}
+.c6 {
+    color: #666;
+}
+.c9 {
+    color: #999;
+}
+.cf {
+    color: #fff;
+}
+img {
+    position: absolute;
+}
+@media screen and (min-width: 1500px) and (max-width: 1920px) {
+    /*body,html{
+        font-size: 16px;
+    }*/
+}
+@media screen and (min-width: 800px) and (max-width: 1400px) {
+    body,html{
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 800px) {
+    body,html{
+        font-size: 10px;
+    }
+}
+.none {
+    display: none;
+}
+.operat_box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url(../images/or8-img/or8_one_bg.png) center no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+.or8_cen {
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+.or8_cen>img {
+    width: 69.5rem;
+    height: 17.8125rem;
+    top: 0;
+    left: -22.5rem;
+    z-index: 3;
+}
+/*内部部分*/
+.or8_util {
+    position: relative;
+}
+.or8_util>li {
+    position: absolute;
+    width: 61.25rem;
+    height: 40.625rem;
+    left: 0;
+    top: 0;
+    display: none;
+}
+.or8_util>li.ou7_act {
+    display: block;
+}
+/*内部部分*/
+/*首个部分*/
+.or8_container {
+    position: absolute;
+    width: 75rem;
+    height: 43.125rem;
+    left: 50%;
+    top: 50%;
+    margin-left: -37.5rem;
+    margin-top: -20.3125rem;
+}
+.or8_main {
+    position: absolute;
+    width: 68.125rem;
+    height: 43.125rem;
+    background: url(../images/or8-img/or8_box_bg.png) no-repeat center;
+    background-size: cover;
+    left: -3rem;
+}
+.or8_all {
+    position: absolute;
+    width: 62.625rem;
+    height: 38.625rem;
+    background: url(../images/or8-img/or8_box.png) no-repeat center;
+    background-size: contain;
+    left: 50%;
+    top: 50%;
+    margin-left: -31.3125rem;
+    margin-top: -19.3125rem;
+}
+.or8_list {
+    position: absolute;
+    width: 14.375rem;
+    right: 0;
+    top: 5rem;
+}
+.or8_list>li {
+    height: 4.0625rem;
+    text-align: center;
+    line-height: 4.0625rem;
+    font-size: 1.125rem;
+    color: #232e22;
+    background-size: contain;
+    cursor: pointer;
+}
+.or8_list>li:hover {
+    color: #f45366;
+}
+.or8_list>li.sea {
+    color: #f45366;
+}
+.or8_sea1 {
+    background: url(../images/or8-img/or8_onblur1.png) no-repeat center;
+    background-size: cover;
+}
+.or8_sea2 {
+    background: url(../images/or8-img/or8_onblur2.png) no-repeat center;
+    background-size: cover;
+}
+.or8_sea3 {
+    background: url(../images/or8-img/or8_onblur3.png) no-repeat center;
+    background-size: cover;
+}
+.or8_sea4 {
+    background: url(../images/or8-img/or8_onblur4.png) no-repeat center;
+    background-size: cover;
+}
+.operat_same {
+    position: absolute;
+    width: 4.0652rem;
+    height: 2.0652rem;
+    bottom: 4.625rem;
+    cursor: pointer;
+}
+.operat_same:hover {
+    opacity: 0.8;
+}
+.or8_prev {
+    left: 27.03125rem;
+    background: url(../images/or8-img/or8_btnl1.png) no-repeat center;
+}
+.or8_prev:hover {
+    background: url(../images/or8-img/or8_btnl2.png) no-repeat center;
+}
+.or8_next {
+    right: 27.03125rem;
+    background: url(../images/or8-img/or8_btnr1.png) no-repeat center;
+}
+.or8_next:hover {
+    background: url(../images/or8-img/or8_btnr2.png) no-repeat center;
+}
+.or8_all .operat_same {
+    display: none;
+}
+.or8_all>li {
+    position: absolute;
+    width: 62.625rem;
+    height: 38.625rem;
+    left: 0;
+    top: 0;
+    display: none;
+    
+}
+.or8_all>li.or8_ani_act {
+    display: block;
+}
+.or8_title {
+    position: absolute;
+    width: 24.75rem;
+    height: 5.6875rem;
+    top: 4.125rem;
+    left: 50%;
+    margin-left: -12.375rem;
+}
+/*第零个*/
+.ani0>img{
+    width: 47.625rem;
+    height: 27rem;
+    left: 50%;
+    margin-left: -23.8125rem;
+    top: 5rem;
+}
+/*第零个*/
+/*第一个*/
+.ani1 .or8_two {
+    width: 45rem;
+    height: 21.5rem;
+    left: 50%;
+    margin-left: -22.5rem;
+    top: 11.875rem;
+}
+/*第一个*/
+/*第二个*/
+.ani2 .or8_thr {
+    width: 47.6875rem;
+    height: 18.4375rem;
+    left: 50%;
+    margin-left: -23.84375rem;
+    top: 10.9375rem;
+}
+/*第二个*/
+/*第三个*/
+.ani3 .or8_four {
+    width: 54.75rem;
+    height: 20.625rem;
+    left: 50%;
+    margin-left: -27.375rem;
+    top: 10.3125rem;
+}
+/*第三个*/
+/*第四个*/
+.ani4 .or8_five1 {
+    width: 47.8125rem;
+    height: 24.375rem;
+    left: 50%;
+    margin-left: -23.90625rem;
+    top: 8.5rem;
+}
+.ani4 .or8_five2 {
+    width: 47.8125rem;
+    height: 24.375rem;
+    left: 50%;
+    margin-left: -23.90625rem;
+    top: 8.5rem;
+}
+/*第四个*/
+/*第五个*/
+.ani5 .or8_six1 {
+    width: 52.75rem;
+    height: 27.25rem;
+    left: 50%;
+    margin-left: -26.375rem;
+    top: 5.25rem;
+}
+.ani5 .or8_six2 {
+    width: 52.75rem;
+    height: 27.25rem;
+    left: 50%;
+    margin-left: -26.375rem;
+    top: 5.25rem;
+}
+.ani5 .or8_six3 {
+    width: 52.75rem;
+    height: 27.25rem;
+    left: 50%;
+    margin-left: -26.375rem;
+    top: 5.25rem;
+}
+/*第五个*/
+/*第六个*/
+.ani6 .or8_sen1 {
+    width: 54.375rem;
+    height: 20rem;
+    left: 50%;
+    margin-left: -27.1875rem;
+    top: 11.125rem;
+}
+.ani6 .or8_sen2 {
+    width: 49.75rem;
+    height: 22.375rem;
+    left: 50%;
+    margin-left: -24.875rem;
+    top: 10.625rem;
+}
+.ani6 .or8_sen3 {
+    width: 50.75rem;
+    height: 22.5rem;
+    left: 50%;
+    margin-left: -25.375rem;
+    top: 11rem;
+}
+.ani6 .or8_sen4 {
+    width: 55.625rem;
+    height: 18.625rem;
+    left: 50%;
+    margin-left: -27.8125rem;
+    top: 11rem;
+}
+/*第六个*/
+/*第七个*/
+.ani7 .or8_ent1 {
+    width: 47.25rem;
+    height: 21.5rem;
+    left: 50%;
+    margin-left: -23.625rem;
+    top: 10.125rem;
+}
+.ani7 .or8_ent2 {
+    width: 52.625rem;
+    height: 29.125rem;
+    left: 50%;
+    margin-left: -26.3125rem;
+    top: 3.75rem;
+}
+.ani7 .or8_ent3 {
+    width: 52.625rem;
+    height: 29.125rem;
+    left: 50%;
+    margin-left: -26.3125rem;
+    top: 3.75rem;
+}
+.ani7 .or8_ent4 {
+    width: 49.875rem;
+    height: 26.875rem;
+    left: 50%;
+    margin-left: -24.9375rem;
+    top: 5.25rem;
+}
+.ani7 .or8_ent5 {
+    width: 49.875rem;
+    height: 28.125rem;
+    left: 50%;
+    margin-left: -24.9375rem;
+    top: 5.25rem;
+}
+.ani7 .or8_ent6 {
+    width: 52.25rem;
+    height: 26.875rem;
+    left: 50%;
+    margin-left: -26.125rem;
+    top: 5.25rem;
+}
+/*第七个*/
+/*第八个*/
+.ani8 .or8_nine {
+    width: 54.875rem;
+    height: 28.5rem;
+    left: 50%;
+    margin-left: -27.4875rem;
+    top: 4.625rem;
+}
+/*第八个*/
+/*第九个*/
+.ani9 .or8_ten {
+    width: 40rem;
+    height: 21.125rem;
+    left: 50%;
+    margin-left: -20rem;
+    top: 7.5rem;
+}
+.ani9 .or8_back {
+    position: absolute;
+    width: 3.5rem;
+    height: 2.375rem;
+    background: url(../images/or8-img/or8_ten_btn1.png) no-repeat center;
+    background-size: contain;
+    left: 50%;
+    margin-left: -1.75rem;
+    bottom: 4rem;
+    cursor: pointer;
+}
+.ani9 .or8_back:hover {
+    background: url(../images/or8-img/or8_ten_btn2.png) no-repeat center;
+}
+/*第九个*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

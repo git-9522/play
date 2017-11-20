@@ -1,0 +1,233 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+<section class="detail-menu flex">
+     <a class="flex-1 click">项目详情</a>
+     <a class="flex-1">借款详情</a>
+     <a class="flex-1">投标记录</a>
+</section> 
+
+<!-- 项目详情 -->
+<div class="detail" id="detail">
+	<form action="@{wechat.front.ExperiencebidWechatCtrl.investExperienceBid()}" method="POST" id="invest_experiencebid" >
+		#{authenticityToken /}
+		<input type="hidden" name="experienceBidId" value="${experienceBid?.id}"/>
+		<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">
+	    <h3 class="xf-disperse-titile pt20">${experienceBid?.getBid_no()} ${experienceBid?.title}</h3>
+	   
+	    <div class="detail-list flex">
+			<span class="assistant flex-1"><em class="f18">${experienceBid?.apr}</em>%</span> <span
+				class="flex-1 tc"><em class="c333">${experienceBid?.apr}</em>天</span> <span
+				class="flex-1 tr"><em class="c333">无限制</em></span>
+		</div>
+		<div class="detail-list2  flex">
+			<span class="flex-1">年利率</span> <span class="flex-1 tc">期限</span> <span
+				class="flex-1 tr">借款金额</span>
+		</div>
+	    <div class="detail-list flex">
+			<span class="flex">${experienceBid?.repayment_type}</span> <span class="flex-1 tr"><em
+				class="c333">#{formatIntMoney money:experienceBid?.min_invest_amount?:'0'}#{/formatIntMoney}</em>起投</span>
+		</div>
+		<section class="detail-txt flex">
+			<span class="">购买</span>
+			<input type="text"  id="invest_amount"  name='investAmt' autocomplete="off" oninput="$(this).ndigitInteger(6);calculateIncome()" onkeyup="$(this).ndigitInteger(6)" maxlength="6" class="detailtxt flex-1" />
+			<span class="">元</span>
+		</section>
+		<p class="wrong-txt cored" id="wrongInvest"></p>
+		<p class="detailp major" id="invest_expece_income">预计收益0.00 元</p>
+		
+		#{if experienceBid?.is_overdue}
+			<input type="button" class="condition-btn graybtn"  value="已结束" >
+		#{/if}		   
+		#{else}
+			#{if currUser}								
+				<input type="submit" class="condition-btn btn"  value="立即购买" >
+			#{/if}		   
+			#{else}
+			   	<input type="button" class="condition-btn btn" onclick="location.href='@{wechat.front.LoginAndRegisteCtrl.loginPre()}'" value="立即购买">				    
+			#{/else}
+		#{/else}
+	</form>
+</div>
+
+<!-- 借款详情  -->
+<div id="loan_details" class="detail" > </div>
+
+<!-- 投标记录 -->
+<div  class="detail" style="display: none"> 
+  #{if currUser}
+    <div class="detail-tab flex">
+        <span class="flex-1 pl20">投标人</span>
+        <span class="flex-1 tc">投标金额</span>
+        <span class="flex-1 tr pr20">投标时间</span>
+    </div>
+  
+    <div class="detail-main">
+        <ul class="detail-history" id="invest_record">
+        
+         </ul>
+        <p class="xf-load" id="invest_load"></p>
+    </div>
+   #{/if}
+   #{else}
+	  <p class="detail-p1">请<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+   #{/else}
+</div>
+
+<!-- 回款计划 -->
+<div  class="detail" style="display: none"> 
+      #{if currUser}
+     <div class="detail-tab flex">
+        <span class="pl20 width140">期数</span>
+        <span class="flex-1">应还本息</span>
+        <span class="flex-1 tc">到期时间</span>
+        <span class="flex-1 tr pr20">状态</span>
+    </div>
+     
+      <div class="detail-main" >
+        <ul class="detail-history" id="repayment_plan">
+        
+        </ul>
+		<p class="xf-load" id="repayment_load"></p>
+   	 </div>
+      #{/if}
+      #{else}
+	      <p class="detail-p1">请<a href="@{wechat.front.LoginAndRegisteCtrl.loginPre()}" class="major">登录</a>或<a href="@{wechat.front.LoginAndRegisteCtrl.registerPre()}" class="major">注册</a>后查看</p>
+
+  	  #{/else}
+</div>
+</div>
+
+<script type="text/javascript">
+var loan = 0;//未加载过借款详情
+var invest = 0;//未加载过投标记录
+
+require(['wechat'],function(wechat){	
+    
+	$(".detail-menu>a").click(function(){
+		$(".detail-menu>a").removeClass("click");
+        $(this).addClass("click");
+        var index = $(this).index();
+        switch (index) {
+		case 1:{
+		 	if(loan == 0){
+           		loanDetails();//借款详情
+            }
+		   break;
+		 }
+		case 2:{
+		 	if(invest == 0){
+           		 investRecord(1,5);//投标记录
+            }
+		   break;
+		 }
+		default:
+			break;	
+		}
+		$(".detail").not(index).hide();
+		$(".detail").eq(index).show();		
+	});
+
+	$("#invest_amount").keyup(function(){
+		investValidate();
+	})
+	
+	$("#invest_experiencebid").submit(function(){
+		return investValidate();
+	})
+
+});
+
+function investValidate(){
+	
+	var investAmount = $("#invest_amount").val();
+	if(investAmount==null || investAmount=='' || investAmount==undefined){
+		$("#wrongInvest").html('请输入购买金额!');
+		
+		return false;
+	}
+
+
+	if(parseInt(investAmount) > 200000){
+		$("#wrongInvest").html('单笔投资不能超过20万!');
+		
+		return false;
+	}
+	
+	if(parseInt(investAmount)%1000 != 0){
+		$("#wrongInvest").html('体验标投资金额必须为1000的正整数倍!');
+		
+		return false;
+	}
+	$("#wrongInvest").html('');
+	
+	return true;
+ }
+
+
+//借款详情
+function loanDetails () {
+
+	$.ajax({
+		url : "@{wechat.front.ExperiencebidWechatCtrl.experienceBidLoanDetailsPre()}",
+		type : "GET",
+		data : {},
+		success : function(data){ 
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#loan_details").html(data);
+			loan = 1;//标记为已加载
+		}
+	});
+}
+
+//投标记录
+function investRecord (currPage,pageSize) {
+	$.ajax({
+		url : "@{wechat.front.ExperiencebidWechatCtrl.experienceBidRecordPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"pageSize" : pageSize,
+			"experienceBidId"  : ${experienceBid?.id}
+		},
+		success : function(data){ 
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#invest_record").append(data);
+			invest = 1;
+			var nextPage = parseInt($("#investCurrpage").val()) + 1;
+			if( nextPage <= parseInt($("#investTotalPageCount").val())){
+				$("#invest_load").html("<a onclick='investRecord("+nextPage+",5)' >加载更多</a>");
+				$("#investCurrpage").remove();
+				$("#investTotalPageCount").remove();
+			}
+			else{
+				$("#invest_load").html("<a  >没有更多了</a>");
+			}
+
+		}
+	});
+}
+
+//预计收益
+function calculateIncome(){
+	var investAmount = parseInt($("#invest_amount").val());
+	if(investAmount==''){
+		$("#invest_expece_income").html("期待回报0.00元");
+		return;
+	}
+	var apr = ${experienceBid?.apr};
+	var period = ${experienceBid?.period};
+	var income = ((investAmount*(apr/100)/360)*period).toFixed(2);
+	if(isNaN(income)){
+		income = '0.00';
+	}
+	$("#invest_expece_income").html("期待回报"+income+"元");
+}
+
+</script>

@@ -1,0 +1,581 @@
+#{extends 'common/front/frontFootMain.html' /}
+#{set customize: true/}
+#{set title: '虹金所公司简介地址电话_企业文化-关于我们-虹金所'/} 
+#{set keywords: '虹金所公司地址,虹金所企业文化,虹金所官方电话'/}
+#{set description: '虹金所是由上海虹奥金融信息服务有限公司(注册资金:10500万)运营的p2p网贷平台,总部位于上海松江,官方电话400-637-6969。'/}
+#{set smallclass:0 /}
+#{set AItem:4 /}
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		/*
+		 *  Simple image gallery. Uses default settings
+		 */
+
+		$('.fancybox').fancybox();
+		var bars = '.jspHorizontalBar, .jspVerticalBar';
+
+		$('.scroll-pane').bind('jsp-initialised', function(event, isScrollable) {
+
+			//hide the scroll bar on first load
+			$(this).find(bars).hide();
+
+
+		}).jScrollPane().hover(
+			/*var oswiper = new Swiper('.main-container', {
+                    
+                    mousewheelControl: false,
+                    
+                });*/
+			//hide show scrollbar
+			function() {
+				$(this).find(bars).stop().fadeTo('fast', 0.9);
+			},
+			function() {
+				$(this).find(bars).stop().fadeTo('fast', 0);
+			}
+
+		);
+	})
+</script>
+<!-- Demo styles -->
+<!-- Swiper -->
+<div class="swiper-container main-container">
+	<div class="swiper-wrapper">
+		<div class="swiper-slide slide_one">
+			<div class="make_btn"></div>
+			<ul class="ones_list absolute">
+				<h3 class="ones_title">公司简介</h3>
+				<li class="tall ones_same">
+					<div class="tall_img absolute">
+						<img src="/public/front/images/about_one1.jpg" alt=""> <img
+							src="/public/front/images/about_one2.jpg" alt=""> <img
+							src="/public/front/images/about_one3.jpg" alt=""> <img
+							class="tall_no" src="/public/front/images/about_one4.jpg" alt="">
+					</div>
+					<div class="tall_font absolute">
+						<p>
+							虹金所是由上海虹奥金融信息服务有限公司（<span class="cblue">注册地：上海自贸区，注册资金：一亿五百万</span>）负责建设和运
+						</p>
+						<p>营的创新型在线金融信息服务平台。依托多年线下财富运作和金融管理经验，平台聚集了丰富的优质资产项目和忠实客户群体，逐渐建立起一整套安全、规范</p>
+						<p>的标准化业务管理和风控体系，为其转型升级及强势崛起打下了坚实的基础。</p>
+						<p>作为国内”互联网+”时代下专注于普惠金融领域的在线借贷撮合平台，虹金所主打车贷抵押业务，资产特点小额，分散，质押和直营，将有融资需求的小微企业或</p>
+						<p>个人与有富余理财资金的投资人进行在线信息配对，并结合线上线下内在资源优势，提供一系列与之相关的配套服务。
+							上海虹奥金融信息服务有限公司</p>
+					</div>
+				</li>
+				<li class="team relative ones_same none">
+					<div class="team_slide absolute">
+						<div class="slider_box">
+							<div class="master master1 absolute">
+								<h3 class="ma_h1 c0">
+									胡宏良<span>董事长</span>
+								</h3>
+								<div class="master_form1 master_form">
+									<p>虹金所创始人，上海虹奥金融信息服务有限公司董事长。</p>
+									<p>具备25年实业经营管理经验，5年以上金融投资从业经验。</p>
+									<p>获北大总裁经济管理学院专修证书。其本人是一位理论与实践经验兼备的企业高级管理专家。</p>
+									<p>准确把握和理解现下互联网金融发展趋势，调动各项产品服务资源，筹建独立财富管理团队。</p>
+									<p>在从事实业和金融投资管理的工作实践中不断创造行业佳绩。</p>
+								</div>
+							</div>
+							<div class="master master2 absolute">
+								<h3 class="ma_h2 c0">
+									<span>市场经理</span>李水林
+								</h3>
+								<div class="master_form2 master_form">
+									<p>拥有五年以上金融投资管理经验，尤其擅长线下财富门店的运营管理和品牌推广工作。</p>
+									<p>现任虹金所运营经理一职，主要负责计划、指导或协调公司所有运营活动。</p>
+									<p>还包括对物资和人力资源使用进行计划、审核财务报表、销售和业务报告。</p>
+									<p>除此以外，还负责制定并贯彻部门政策，宗旨，目标、流程及其他投资理财相关活动。</p>
+								</div>
+							</div>
+						</div>
+						<div class="slider_box none">
+							<div class="master master3 absolute">
+								<h3 class="ma_h1 c0">
+									邹明亮<span>财务总监</span>
+								</h3>
+								<div class="master_form1 master_form">
+									<p>现任虹金所财务总监一职，中级经济师，一级企业人力资源管理师，ISO体系内审员。</p>
+									<p>外汇核销员，中级会计师，拥有20余年会计工作经历，15年以上公司财务及行政人事管理工作经历。</p>
+									<p>熟悉企业内部管理，有筹办新三板上市工作经验，有ERP系统实施经历，擅长财务内控管理。</p>
+									<p>
+										将公司财务管理与公司战略目标结合起来，形成财务目标管理来对公司各项财务活动进行控制，</br>收到过良好效果。
+									</p>
+								</div>
+							</div>
+							<div class="master master4 absolute">
+								<h3 class="ma_h2 c0">
+									<span>风控总监</span>刘晓兵
+								</h3>
+								<div class="master_form2 master_form">
+									<p>刘晓兵，大连理工大学本科学历，拥有5年小贷及p2p金融从业经验。</p>
+									<p>现任虹金所风控总监一职，熟练掌握企业、个人信用贷款及房屋车辆抵押贷款业务操作流程。</p>
+									<p>善于在总体经济环境下对各行业进行分析总结，深入察觉行业发展动向。</p>
+									<p>
+										曾担任多家投资管理公司风控主管一职，在职期间外派北京分公司自建团队，熟练掌握风控审核</br>机制及详细流程，参与房贷项目的复核工作，直接对接上海总部风控总监完成。
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="slider_btnl slider_btn"></div>
+						<div class="slider_btnr slider_btn"></div>
+					</div>
+				</li>
+				<li class="book relative ones_same none">
+					<div class="book_slide absolute">
+						<div class="slide slide_ry">
+							<div class="book1 book_s">
+								<a class="fancybox" href="/public/front/images/book1.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book1.jpg" alt="" /></a> <a
+									class="fancybox" href="/public/front/images/book2.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book2.jpg" alt="" /></a> <a
+									class="fancybox" href="/public/front/images/book3.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book3.jpg" alt="" /></a> <a
+									class="fancybox" href="/public/front/images/book4.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book4.jpg" alt="" /></a> <a
+									class="fancybox" href="/public/front/images/book5.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book5.jpg" alt="" /></a> <a
+									class="fancybox" href="/public/front/images/book6.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book6.jpg" alt="" /></a>
+							</div>
+						</div>
+						<div class="slide slide_ry none">
+							<div class="book2 book_s">
+								<a class="fancybox" href="/public/front/images/book7.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book7.jpg" alt="" /></a> <a
+									class="fancybox" href="/public/front/images/book8.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book8.jpg" alt="" /></a> <a
+									class="fancybox" href="/public/front/images/book9.jpg"
+									data-fancybox-group="gallery"
+									title="Lorem ipsum dolor sit amet"><img
+									src="/public/front/images/book9.jpg" alt="" /></a>
+							</div>
+						</div>
+						<div class="slider_btnl slider_btn"></div>
+						<div class="slider_btnr slider_btn"></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="swiper-slide slide_two">
+			<div class="expand absolute">
+				<h3 class="fours_title cf">发展历程</h3>
+				<div class="expand_img absolute">
+					<img class="huan1" src="/public/front/images/huan1.png" alt="">
+					<img class="huan2" src="/public/front/images/huan2.png" alt="">
+					<img class="huan3" src="/public/front/images/huan3.png" alt="">
+					<img class="huan4" src="/public/front/images/huan4.png" alt="">
+					<img class="huan5" src="/public/front/images/huan5.png" alt="">
+					<img class="huan6" src="/public/front/images/huan6.png" alt="">
+				</div>
+			</div>
+		</div>
+		<div class="swiper-slide slide_three">
+			<div class="make_btn"></div>
+			<div class="newpar_list absolute">
+				<h3 class="fours_title cf">资讯公告</h3>
+				<ul class="newpar_nc absolute cf">
+					<li class="newpar_nav absolute">
+						<!-- 展示列表 -->
+					</li>
+					<li class="newpar_font absolute">
+						<!-- 展示内容 -->
+					</li>
+				</ul>
+
+			</div>
+		</div>
+		<div class="swiper-slide slide_four">
+			<div class="good_job absolute">
+				<h3 class="fours_title cf">平台优势</h3>
+				<ul class="us_num absolute cf">
+					<li>
+						<div>
+							<p class="counter do_num">#{formatShortNumMoney money:jobs.IndexStatisticsJob.totalBorrowAmount /}</p>
+							<span>
+							#{if jobs.IndexStatisticsJob.totalBorrowAmount<10000}
+							#{/if}
+							#{elseif jobs.IndexStatisticsJob.totalBorrowAmount>=10000&&jobs.IndexStatisticsJob.totalBorrowAmount<100000000}
+						               万
+						    #{/elseif}
+						    #{elseif 100000000 <= jobs.IndexStatisticsJob.totalBorrowAmount && jobs.IndexStatisticsJob.totalBorrowAmount < 1000000000000.00}
+							  亿
+							#{/elseif}
+							#{else}
+							   万亿
+							#{/else}
+							</span>
+						</div>
+						<h5>投资总额(元)</h5>
+					</li>
+					<li>
+						<div>
+							<p class="counter do_num">${jobs.IndexStatisticsJob.userCount}</p>
+						</div>
+						<h5>成功注册(人)</h5>
+					</li>
+					<li>
+						<div>
+							<p class="counter do_num">#{formatShortNumMoney money:jobs.IndexStatisticsJob.income /}</p>
+							<span>
+								#{if jobs.IndexStatisticsJob.income<10000}
+							#{/if}
+							#{elseif jobs.IndexStatisticsJob.income>=10000&&jobs.IndexStatisticsJob.income<100000000}
+						               万
+						    #{/elseif}
+						    #{elseif 100000000 <= jobs.IndexStatisticsJob.income && jobs.IndexStatisticsJob.income < 1000000000000.00}
+							  亿
+							#{/elseif}
+							#{else}
+							   万亿
+							#{/else}		
+	
+							</span>
+						</div>
+						<h5>累计收益(元)</h5>
+					</li>
+					<li>
+						<div>
+							<p class="counter do_num">100</p>
+							<span>%</span>
+						</div>
+						<h5>到期还款率</h5>
+					</li>
+				</ul>
+				<div class="us_font absolute">
+					<img src="/public/front/images/us_font1.png" alt=""> <img
+						src="/public/front/images/us_font2.png" alt="">
+				</div>
+			</div>
+		</div>
+		<div class="swiper-slide slide_five">
+			<div class="us_join absolute">
+				<h3 class="ones_title huohu">招聘信息</h3>
+				<ul class="join_ct join_mt absolute">
+					<li class="ct_one"><img class="join_our"
+						src="/public/front/images/join_us1.png" alt="">
+						<div class="join_left cf join_s absolute">
+							<h3>人才理念</h3>
+							<p>
+								培养核心人才，打造优势服务</br>团队，共创美好未来！
+							</p>
+						</div>
+						<div class="join_right cf join_s absolute">
+							<h3>员工福利</h3>
+							<p>
+								五险一金，交通补贴，员工旅</br>游还有高档办公写字楼！
+							</p>
+						</div></li>
+					<li class="ct_two absolute">
+						<div class="ct_back absolute"></div>
+						<div class="ct_slide">
+							<div class="slider_box slider_box_on">
+								<div class="ct_mom absolute">
+									<div class="scroll-pane">
+										<div class="ct_recruit">
+											<h4 class="fs16 c0">客服专员</h4>
+											<h5 class="bbs6 fs14">上海｜客服部</h5>
+											<h5 class="fs16">岗位职责：</h5>
+											<p>
+												1、接受客户咨询，记录客户咨询、投诉内容，按照相应流程给予客户反馈；</br>2、发掘来电客户的需求及意见，并记录整理及汇报；</br>3、为客户提供解决方案及咨询信息，解决客户问题，提供高质量服务；</br>4、进行客户回访，并统计、分析回访信息，进行客情维护；</br>5、进行信息共享、知识积累，协助改善客服流程；</br>6、解决客户需求，提供全方位咨询解答和客户服务；</br>7、及时做好上级领导交待的其它各项事宜。
+											</p>
+											<h5 class="fs16">任职要求：</h5>
+											<p>
+												1、专科及以上学历，金融、经济类专业优先；</br>2、1年以上客服相关工作经验，优秀毕业生也可考虑；</br>3、普通话流利、标准，懂得消费者心理，语言表达能力强，擅于沟通，有团队合作精神；</br>4、头脑清晰，思维敏捷，有良好的团队合作和服务意识，工作耐心细致；</br>5、熟悉办公软件和网络工具。
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="slider_box">
+								<div class="ct_mom absolute">
+									<div class="scroll-pane">
+										<div class="ct_recruit">
+											<h4 class="fs16 c0">风控人员</h4>
+											<h5 class="bbs6 fs14">上海｜风控部</h5>
+											<h5 class="fs16">岗位职责：</h5>
+											<p>
+												1、熟悉并执行公司贷款政策；</br>2、对申请贷款的客户资料进行全方位的审查；</br>3、对客户所提交资料的真实性进行核查；</br>4、收集其他必要文件和信息，为贷款决策提供必要的依据；</br>5、熟悉金融业务，曾做过信贷，尤其信贷面审工作；具备面审工作经验和业务力。
+											</p>
+											<h5 class="fs16">任职要求：</h5>
+											<p>
+												1、专科及以上学历，信用管理、经济或金融专业优先；</br>2、具有1年以上银行信贷、担保等相关审批经历，熟练操作企业融资担保业务、履约担保等业务操作流程者优先；</br>3、具有较强的分析能力和沟通能力，注重细节；</br>4、具备良好的道德品质、职业操守；</br>5、办事沉稳、细心，思维活跃，工作原则性强；</br>6、具备一定的理论素质，表达能力强，具有较强的洞察力和判断力。
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="slider_box">
+								<div class="ct_mom absolute">
+									<div class="scroll-pane">
+										<div class="ct_recruit">
+											<h4 class="fs16 c0">产品主管</h4>
+											<h5 class="bbs6 fs14">上海｜主管部</h5>
+											<h5 class="fs16">岗位职责：</h5>
+											<p>
+												1、根据业务发展、用户需求和市场研究，设计公司互联网金融产品方案，编制可行性报告；</br>2、根据业务需求，提出互联网产品规划，完成页面及功能的原型设计，提交产品需求文档；</br>3、负责对开发人员以及测试人员进行产品设计思想、具体功能、实现方法进行培训；</br>4、统筹网站部各个业务部门的资源，跟踪和推动项目进度，指导产品开发方向及产品运营方案；</br>5、跟踪产品上线后的运营及客户反馈情况，进行产品优化和改进，深度挖掘用户需求；</br>6、对网站各个产品应用知识，工作流程，项目制度进行管理；</br>7、负责配合其他部门制定产品运营计划,,配合其他部门拟定公司金融运营、项目投融资方案。
+											</p>
+											<h5 class="fs16">任职要求：</h5>
+											<p>
+												1、本科及以上学历，经济、金融等相关专业；</br>2、5年以上(含)金融行业从业经验，2年以上(含)P2P小额信贷公司产品经理从业经验；</br>3、掌握axure、mindmanager、Visio等软件知识；</br>4、熟悉互联网领域产品设计、开发、管理和运营流程，对用户需求敏感，创新能力强，有较强的产品设计能力；</br>5、具有金融机构从业经验优。
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="slider_btnl slider_btn none"></div>
+							<div class="slider_btnr slider_btn none"></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="swiper-slide slide_six">
+			<div class="call_us absolute">
+				<h3 class="fours_title cf">联系我们</h3>
+				<ul class="call_list fs14 absolute cf">
+					<li class="call_ca1 left"><i></i> <span>热线</span>
+						<p>${settings?.get(common.constants.SettingKey.COMPANY_TEL)}</p></li>
+					<li class="call_ca2 left"><i></i> <span>传真</span>
+						<p>021-67715230</p></li>
+					<li class="call_ca3 left"><i></i> <span>邮编</span>
+						<p>201620</p></li>
+					<li class="call_ca4 left"><i></i> <span>客服群</span>
+						<p>264238865</p></li>
+					<li class="call_ca5 left"><i></i> <span>邮箱</span>
+						<p>${settings?.get(common.constants.SettingKey.COMPANY_EMAIL)}</p></li>
+					<li class="call_ca6 left"><i></i> <span>地址</span>
+						<p>${settings?.get(common.constants.SettingKey.COMPANY_ADDRESS)}</p></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Add Pagination -->
+	<div class="swiper-pagination"></div>
+</div>
+<!-- Swiper JS -->
+<script src="/public/front/javascripts/swiper.min.js"></script>
+<!-- Initialize Swiper -->
+<!-- Initialize Swiper -->
+<script>
+	var oFon = [ '公司简介', '团队介绍', '荣誉证书' ];
+	var oFon1 = [ '官方公告', '媒体报道', '行业资讯' ];
+	var op = true;
+	//判断是否是其他页面直接跳转
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}
+	var columnkey = getQueryString("columnkey");
+	var id = getQueryString("id");
+	var index = getQueryString("index");
+	var defaultindex = 0;
+	if (id || columnkey) {
+		defaultindex = 2
+	} else if (index) {
+		defaultindex = index;
+	}
+	var swiper = new Swiper('.main-container', {
+		pagination : '.swiper-pagination',
+		direction : 'vertical', //可设置水平(horizontal)或垂直(vertical)。
+		slidesPerView : 1,
+		paginationClickable : true,
+		spaceBetween : 0,
+		initialSlide : defaultindex, //第几个页面
+		mousewheelControl : true, //鼠标滑动事件
+		simulateTouch : false, //启动滑动
+		onSlideChangeEnd : function(swiper) {
+			if (swiper.activeIndex == 3) {
+				$('.counter').countUp();
+			}
+			if (swiper.activeIndex == 2 & op) {
+				$('.slide_three .make_btn>span>i').eq(0).click();
+				op = false;
+			}
+		}
+	});
+	$(function() {
+		$('.ct_mom,.newpar_ct').mouseenter(function() {
+			swiper.lockSwipes();
+		}).mouseleave(function() {
+			swiper.unlockSwipes();
+		})
+	})
+	oLen(0, $('.slide_three .make_btn'), 3, oFon1);
+	oLen(0, $('.slide_one .make_btn'), $('.ones_list>li').length, oFon);
+	function oLen(oneIndex, oNc, ot, oAct) {
+		//oneIndex是当前$('.make_btn>span')的下标；ot是有需要多少个菱形按钮；oAc菱形按钮上的数组 
+		for (var i = 0; i < ot; i++) {
+			oNc.append('<span class="absolute">' + oAct[i] + '<i></i></span>');
+			if (i % 2) {
+				oNc.find('span').eq(i).css({
+					left : 58 + 'px'
+				})
+			} else {
+				oNc.find('span').eq(i).css({
+					left : 0
+				})
+			}
+			oNc.find('span').eq(i).css({
+				top : i * 58 + 'px'
+			})
+		}
+		oNc.find('span').eq(oneIndex).addClass('bm');
+	}
+	//绑定公司简介导航按钮切换
+	$('.slide_one .make_btn>span>i').click(function() {
+		$('.slide_one .make_btn>span>i').parent('span').removeClass('bm');
+		$('.ones_same').hide();
+		$(this).parent('span').addClass('bm');
+		$('.ones_same').eq($(this).parent('span').index()).show();
+		$('.ones_list .ones_title').html(oFon[$(this).parent('span').index()]);
+	})
+	$('.slide_three .make_btn>span>i').click(function() {
+		$(this).parent().parent().find('.bm').removeClass('bm');
+		$(this).parent('span').addClass('bm');
+		// 			$('.newpar_nc').hide();
+		// 			$('.newpar_nc').eq($(this).parent('span').index()).show();
+		if ($(this).parent('span').index() <= 2) {
+			var keys = [ "info_bulletin", "info_report", "info_story" ]; //公告，媒体报道，行业资讯
+			$('.newpar_nc').load('/information/loadmoreinfos.html?columnkey=' + keys[$(this).parent('span').index()] + '&currPage=1&pageSize=6', bindGoPage)
+		}
+
+	// 			$('.ones_same').eq($(this).parent('span').index()).show();
+	// 			$('.ones_list .ones_title').html(oFon[$(this).parent('span').index()]);
+	})
+	//绑定分页事件 和查看详情
+	bindGoPage();
+	function bindGoPage() {
+		$('.page').click(function() {
+			var p = $(this).attr("data-page");
+			var keys = [ "info_bulletin", "info_report", "info_story" ]; //公告，媒体报道，行业资讯
+			var index = $('.slide_three .make_btn .bm').index()
+			if (p) {
+				$('.newpar_nc').load('/information/loadmoreinfos.html?columnkey=' + keys[index] + '&currPage=' + p + '&pageSize=6', bindGoPage);
+			}
+		});
+		// 		$('.newpar_n>a').click(function() {
+		// 			$('.newpar_font').css('zIndex', '20');
+		// 			$(this).parent().hide();
+		// 			$('.check_center').hide();
+		// 			$('.newpar_btn').show();
+		// 			$(this).parent().parent().next().show().load($(this).attr('data-url'));
+		// 		})
+
+	}
+	function co_back(e) {
+		$(e).parent().hide();
+		if ($(e).parent().prev().children().size() == 0) {
+			$('.slide_three .make_btn>span>i').eq(0).click();
+		}
+		$(e).parent().prev().show().children().show();
+		$(e).parent().css('zIndex', '-1');
+	}
+	oRate($('.book_slide .slider_btnl'), $('.book_slide .slider_btnr'), $('.book_slide .slide_ry'));
+	oRate($('.team_slide .slider_btnl'), $('.team_slide .slider_btnr'), $('.team_slide .slider_box'));
+	function oRate(oL, oR, oS) {
+		var onOff = true;
+		var oCoo = 0;
+		oL.click(function() {
+			if (onOff) {
+				onOff = false;
+				oCoo--;
+				oS.css('display', 'none');
+				if (oCoo < 0) {
+					oCoo = oS.length - 1;
+					oS.eq(oCoo).fadeIn(200);
+				}
+				oS.eq(oCoo).fadeIn(200);
+				setTimeout(function() {
+					onOff = true;
+				}, 200)
+			}
+		})
+		oR.click(function() {
+			if (onOff) {
+				onOff = false;
+				oCoo++;
+				oS.css('display', 'none');
+				if (oCoo > oS.length - 1) {
+					oCoo = 0;
+					oS.eq(oCoo).fadeIn(200);
+				}
+				oS.eq(oCoo).fadeIn(200);
+				setTimeout(function() {
+					onOff = true;
+				}, 200)
+			}
+		})
+	}
+	oRate1();
+	function oRate1() {
+		var oCoo = 0;
+		$('.ct_slide .slider_btnl').click(function() {
+			oCoo--;
+			$('.ct_slide .slider_box').css('zIndex', '-1');
+			if (oCoo < 0) {
+				oCoo = oS.length - 1;
+				$('.ct_slide .slider_box').eq(oCoo).css('zIndex', '20');
+			}
+			$('.ct_slide .slider_box').eq(oCoo).css('zIndex', '20');
+		})
+		$('.ct_slide .slider_btnr').click(function() {
+			oCoo++;
+			$('.ct_slide .slider_box').css('zIndex', '-1');
+			if (oCoo > $('.ct_slide .slider_box').length - 1) {
+				oCoo = 0;
+				$('.ct_slide .slider_box').eq(oCoo).css('zIndex', '20');
+			}
+			$('.ct_slide .slider_box').eq(oCoo).css('zIndex', '20');
+		})
+	}
+	$('.join_our').click(function() {
+		$('.ct_two').css('zIndex', '20');
+		$('.ct_one').hide();
+		$('.us_join .slider_btn').show();
+	})
+	$('.ct_back').click(function() {
+		$('.ct_one').show();
+		$('.ct_two').css('zIndex', '-1');
+		$('.us_join .slider_btn').hide();
+	})
+	if (columnkey) {
+		swiper.slideTo(2);
+		var keys = [ "info_bulletin", "info_report", "info_story" ]; //公告，媒体报道，行业资讯
+		if (keys.indexOf(columnkey) != -1) {
+			$('.slide_three .make_btn>span>i').eq(keys.indexOf(columnkey)).click();
+		} else {
+			$('.slide_three .make_btn>span>i').eq(0).click();
+		}
+
+
+	} else if (id) {
+		swiper.slideTo(2);
+		$('.newpar_nav').hide();
+		$('.newpar_font').show();
+		$('.newpar_font').eq(0).load('/information/informationdetail.html?id=' + id);
+	}
+	if (defaultindex == 2) {
+		$('.slide_three .make_btn>span>i').eq(0).click();
+	}
+</script>

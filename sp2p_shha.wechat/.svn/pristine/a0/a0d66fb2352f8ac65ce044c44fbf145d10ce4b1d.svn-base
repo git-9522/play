@@ -1,0 +1,62 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+<form action="@{wechat.front.LoginAndRegisteCtrl.logining()}" id="form_login" method="POST">
+	<ul class="register-list">
+	    <li>
+	        <input type="text" name="mobile" id="mobile" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" placeholder="手机号"  value="${flash?.name}"/>
+	    </li>
+	    <li>
+	        <input type="password" name="password" maxlength="15" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" oninput="$(this).integerAndLetters()" onkeyup="$(this).integerAndLetters()" id="password" placeholder="登录密码，由6~15位数字或字母组成"/>
+	    </li>
+	    <li>
+	        <input type="button" class="condition-btn btn" value="登  录">
+	    </li>
+	    <li>
+	        <a href="@{wechat.front.LoginAndRegisteCtrl.forgetPwdFirstPre()}">忘记密码？</a>
+	    </li>
+    </ul>
+</form>
+</div>
+
+<script type="text/javascript">
+	require(['wechat'],function(){
+		require(["validation/validateExt"]);
+		$("#form_login").validate({
+			errorPlacement: function(error, element) {
+				error.addClass('cored').addClass("wrong-txt").insertAfter(element);
+			},
+			errorElement:"p",
+			rules:{
+				"mobile":{
+					required:true,
+					number:true,
+					isMobile:true
+				},
+				"password":{
+					required:true,
+					rangelength:[6,15],
+					isPassWord:true
+				}
+			},
+			messages:{
+				"mobile":{
+					required:"请输入手机号码",
+					number:"请输入正确的手机号",
+					isMobile:"请输入正确的手机号"
+				},
+				"password":{
+					required:"请输入密码",
+					rangelength:"请输入6~15位数字字母组合密码",
+					isPassWord:"请输入6~15位数字字母组合密码"
+				}
+			},
+			submitHandler:function(form){
+				form.submit();
+			}
+		})
+		$("input[type='button']").click(function(){
+			$("#form_login").submit();
+		});
+	})
+</script>	

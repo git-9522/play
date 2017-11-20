@@ -1,0 +1,15 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:rate
+#
+# ~~~~
+
+# 前台-账户中心-我的奖励-加息卷控制器(controllers.front.account.MyRateCtrl)
+GET  /account/reward/rate/{action}.html                   front.account.MyRateCtrl.{action}Pre
+POST /account/reward/rate/{action}                        front.account.MyRateCtrl.{action}
+
+
+# 后台-推广-加息卷-加息卷控制器(controllers.back.spread.RateCtrl)
+GET  /supervisor/spread/rate/{action}.html                      back.spread.RateCtrl.{action}Pre
+POST /supervisor/spread/rate/{action}                           back.spread.RateCtrl.{action}

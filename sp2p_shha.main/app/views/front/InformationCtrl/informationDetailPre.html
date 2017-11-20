@@ -1,0 +1,38 @@
+#{extends 'common/frontMain.html' /}
+#{set title:information?.title/}
+#{set smallclass:1 /}
+
+        <div class="w-side bgf border mt20 mb20">
+            <div class="w-title overflow">
+                <span class="left f24 c333 ml10">${information?.title}</span>
+                <p class="right">
+                    <span class="mr30">来源：${information?.source_from}</span>
+                    <span class="mr30">${information?.show_time?.format(common.constants.Constants.DATE_PLUGIN3)}</span>
+                    <span class="mr30">阅读量：${information?.read_count}</span>
+                </p>
+            </div>
+            <div class="padding25-lr">
+                <div class="w-xq-detail">
+					#{verbatim}${information?.content}#{/verbatim}
+                </div>
+                <div class="w-xq-page">
+                	#{if map?.idUp!= null}
+                    <a href="@{front.InformationCtrl.informationDetailPre(map?.idUp)}">上一篇：${map?.titleUp}</a>
+                    #{/if}
+                    #{if map?.idNext !=null}
+                    <a href="@{front.InformationCtrl.informationDetailPre(map?.idNext)}">下一篇：${map?.titleNext}</a>
+                    #{/if}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--内容 end-->
+
+<script type="text/javascript">
+require(['front'],function(front){
+	require(['share']);
+});
+
+</script>
+

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、理财新方向！</title>
+   		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=yes" />
+        <meta name="keywords" content="虹金所_引领投资、理财新方向！" />
+        <meta name="description" content="虹金所_引领投资、理财新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/reset.css'}" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/activity.css'}" />
+		<script type="text/javascript" src="@{'/public/wechat/javascripts/lib/jquery.js'}"></script>
+		<script type="text/javascript" src="@{'/public/wechat/javascripts/rem.js'}"></script>
+		<script type="text/javascript" src="@{'/public/front/javascripts/jquery.rotate.min.js'}"></script>
+		<script type="text/javascript">
+			$(function() {
+				var open = true;				
+				var remains = #{if remains}${remains}#{/if}#{else}0#{/else};
+		        var $plateBtn = $('.plateBtn');
+		        var $result = $('.result');
+		        var $resultTxt = $('.resultTxt');
+		        var $resultBtn = $('.resultBtn');
+		        var angle = 0;
+		        var flag = true;
+		        var startInterval;
+		        for (var i = 0; i < $('.plate_ban>li').length; i++) {
+	                $('.plate_ban>li').eq(i).css('transform', 'rotate(' + (parseFloat(-22.5 + i * 45)) + 'deg)');
+	            }
+		        #{if flash?.error}
+		        	errorAlert('${flash?.error}');
+				#{/if}
+		        
+				if(isNaN(remains)) {
+					remains = 0;
+				}
+				
+				setRemains(remains);
+				
+				$plateBtn.click(function() {
+					var userId = getQueryVariable("userId");
+					var type = getQueryVariable("type");
+					if(flag && open && remains > 0) {
+		              	startRotate();
+		              	flag = false;
+	        			$.ajax({
+	        				url : "@{wechat.front.ActivityCtrl.doLottery}",
+	        				type : "POST",
+	        				data : {
+	        					"userId" : userId,
+	        					"type" : type
+	        				},
+	        				success : function(result) {
+		    					endRotate();
+	        					if(result.code != 1) {
+	        						if(result.code == -999) {
+	        							window.location.href = "@{wechat.front.LoginAndRegisteCtrl.loginPre}";
+	        						}
+	        						rotateFunc(0, result.msg, false);
+	        					} else {
+	        						console.info(result.obj.prizeId)
+	        						rotateFunc(calcAngle(result.obj.prizeId), formatMoney(result.obj.msg), true);
+	        				    	$('#remains').html(--remains);
+	        					}
+	        				},
+	        				error : function() {
+	        					endRotate();
+	        					flag = true;
+	        				}
+	        			});
+					} else {
+						if(!open) {
+							errorAlert("活动未开启");
+						} else {
+							if(flag && remains <= 0) {
+								errorAlert("可抽奖次数不足");
+							}
+						}
+					}
+				});
+				
+				var rotateFunc = function(angle,text,f){  //awards:奖项，angle:奖项对应的角度
+		            $plateBtn.stopRotate();
+		            $plateBtn.rotate({
+		                angle: 0,
+		                duration: 8000,
+		                animateTo: angle + 5760,  //angle是图片上各奖项对应的角度，1440是让指针固定旋转4圈
+		                callback: function(){
+		                	if(f) {
+			                    $resultTxt.html(text);
+			                    $result.show();
+			                    $('.tankuang').show();
+		                	} else {
+		                		errorAlert(text);
+		                	}
+        					flag = true;
+		                }
+		            });
+		        };
+		        
+		        var startRotate = function() {
+		     	   startInterval = setInterval(
+	     				function() {
+	     					angle += 36;
+	        				$plateBtn.rotate({
+	        					angle : angle
+	        				});
+	     				},
+	     				50
+		     	   );
+		        }
+		        
+		        var endRotate = function() {
+		    	   	window.clearInterval(startInterval);
+		       	}
+		        
+		        $resultBtn.click(function(){
+		            $result.hide();
+		            $('.tankuang').hide();
+		        });
+		        
+		        function calcAngle(index) {
+		        	var first = -22.5;
+		        	var every = 45;
+		        	var current = $plateBtn.getRotateAngle();
+		        	return (360 - 180) + index * every + first;
+		        }
+			});
+			
+			function setRemains(remains) {
+				$('#remains').html(remains);
+			}
+			
+			function formatMoney(value) {
+		    	if(value % 1.0 != 0)
+		    		return value;
+		    	else 
+		    		return parseInt(value);
+		    }
+			
+			function getQueryVariable(variable)	{
+		    	var query = window.location.search.substring(1);
+		       	var vars = query.split("&");
+		       	for (var i = 0; i < vars.length; i++) {
+	            	var pair = vars[i].split("=");
+	               	if(pair[0] == variable){
+	               		return pair[1];
+	               	}
+		       	}
+		       	return "";
+			}
+			
+		    
+		    function errorAlert(value) {
+		    	$('.tankuang1 p').html(value);
+		    	$('.result').show();
+		    	$('.tankuang1').show();
+		    }
+		    
+		    function errorClose() {
+		    	$('.result').hide();
+		    	$('.tankuang1').hide();
+		    }
+		</script>
+    </head>
+    <body>
+	    <div class="cj_top">
+	        <img src="@{'/public/wechat/images/activity/cj_app_bgt.jpg'}" alt="">
+	    </div>
+	    <div class="cj_center">
+	        <!-- 转盘部分 -->
+	        <div class="dowebok">
+	            <div class="plate">
+	            	 <ul class="plate_ban">
+                        #{list items:rewards, as:'reward'}
+                        <li>
+                            <p class="absolute">#{formatIntMoney money:reward?.value/}元红包</p>
+                            <div class="plate_hb">
+                                <span class="absolute">#{formatIntMoney money:reward?.value/}</span>
+                            </div>
+                        </li>
+                        #{/list}
+                    </ul>
+	                <a class="plateBtn" href="javascript:" title="开始抽奖">开始抽奖</a>
+	            </div>
+	            <!-- 弹框部分 -->
+	            <div class="result">
+	                <!-- 正确抽奖弹框 -->
+	                <div class="tankuang">
+	                    <p class="resultTxt"></p>
+	                    <a class="resultBtn" href="javascript:" title="关闭">关闭</a>
+	                </div>
+	                <!-- 正确抽奖弹框 -->
+	                <!-- 问题或者提示弹框 -->
+	                <div class="tankuang1">
+	                    <h3>平台提示</h3>
+	                    <p>此次抽奖失败！请点击重抽</p>
+	                    <a href="javascript:" onclick="errorClose();">关闭</a>
+	                </div>
+	                <!-- 问题或者提示弹框 -->
+	            </div>
+	            <!-- 弹框部分 -->
+	            <!-- 抽奖次数提示 -->
+	            <div class="plate_tips">
+	                <div class="plate_font">
+	                    您还有
+	                    <span id="remains" class="plate_shu">0</span>
+	                    次机会
+	                </div>
+	            </div>
+	            <!-- 抽奖次数提示 -->
+	            <div class="cj_say">
+	                <span>活动内容</span>
+	                <p>活动期间内，用户累计投资额每满<span>1000元</span>即可获得一次抽奖机会。</p>
+	            </div>
+	        </div>
+	        <!-- 转盘部分 -->
+	    </div>
+	    <div class="cj_bot">
+	        <img src="@{'/public/wechat/images/activity/cj_app_bgb.jpg'}" alt="">
+	    </div>
+	</body>
+</html>

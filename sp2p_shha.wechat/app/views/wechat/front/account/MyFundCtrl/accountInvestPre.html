@@ -1,0 +1,16 @@
+#{list pageBean?.page}
+	<div class="bill">
+			<h3 class="bill-title" onclick="showAndHideInvest($(this),${_?.id})">
+				${_?.getBid_no()}&nbsp;${_?.title}<img src="/public/wechat/images/billico.png" />
+			</h3>
+			<ul class="bill-uls"></ul>
+			<div class="bill-bortop">
+				<p class="bill-menu" #{if _?.totalPay>0} onclick="pullDownInvest($(this),${_?.id})" #{/if}>
+					账单${_?.alreadRepay}/${_?.totalPay}<img src="/public/wechat/images/selectico.png" />
+				</p>
+				<ul class="bill-ul2"></ul>
+			</div>
+		</div>
+#{/list}
+<input type="hidden" id="investCurrPage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="investTotalPageCount" value="${pageBean?.totalPageCount}"/>

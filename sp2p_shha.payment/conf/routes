@@ -1,0 +1,13 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_bjmkw.payment
+#
+# ~~~~
+
+# 汇付托管回调地址
+# ~~~~
+#
+* /payment/{action}                   payment.PaymentBaseCtrl.{action}
+* /payment/chinapnr/{action}          payment.hf.HfPaymentCallBackCtrl.{action}
+* /payment/fy/{action}				  payment.fy.FyPaymentCallBackCtrl.{action}

@@ -1,0 +1,250 @@
+#{extends 'common/wechatMain.html' /}
+<style type="text/css">
+.header { width: 100%; height: 1.2rem; line-height: 1.2rem; background: #fe4f51; text-align: center;   color: #fff; font-size: 0.48rem; position: fixed;  left: 0; top: 0;z-index: 10000;}
+.header .icon_goback { width: 0.586rem; height: 0.586rem; overflow: hidden;position: absolute;left: 0.16rem; top: 0.294rem; background: url(/public/wechat/newedition/images/icon/login-back.png) no-repeat;background-size: 100% auto;}
+.login_logo{ background:#fff; overflow:hidden;}
+.login_logo img{ display:block; width:3.65rem; height:2.93rem; margin:0.34rem auto;}
+</style>
+<div class="header" style="display:block; "><a href="@{wechat.front.account.MySecurityCtrl.securityPre()}"><span class="icon_goback"></span></a> <span class="title_name">更多详情</span></div>
+
+<div class="center">
+	<form action="@{wechat.front.account.MyInfoCtrl.saveOrUpdateInformation()}" method="post" id="saveOrUpdateInformation" >
+		<!-- 成立/入职时间 -->
+		<input type="hidden" id="startTime" name="startTime"/>
+		<div class="information">
+	    	<h3 class="detail-titile">基本信息</h3>
+	        <ul class="information-ul">
+	            <li class="flex">
+	                <span class="">学历</span>
+	                <select class="selcet-ico flex-1" name="education" id="education">
+	                	<option value="" #{if userInfo?.education?.code==null}selected="selected"#{/if}></option>
+	                	#{list items:common.enums.Education.values(), as:'options'}
+	                		<option value="${options.code}" #{if options.code==userInfo?.education?.code}selected="selected"#{/if}>${options.value}</option>
+	                	#{/list}
+	                </select>
+	            </li>
+	            <li class="flex">
+	                <span class="">婚姻</span>
+	                <select class="selcet-ico flex-1" name="marital" id="marital">
+	                	<option value="" #{if userInfo?.marital?.code==null}selected="selected"#{/if}></option>
+			  			#{list items:common.enums.Marital.values(), as:'options'}
+							<option value="${options.code}" #{if options.code==userInfo?.marital?.code}selected="selected"#{/if}>${options.value}</option>
+						#{/list}
+	                </select>
+	            </li>
+	                 <li class="flex">
+	                <span class="">户籍</span>
+	                <select class="selcet-ico flex-1"  name="provId"  onchange="provSelect(this.value)">
+			  			<option #{if userInfo?.prov_id==null || userInfo?.prov_id=="" }selected="selected" #{/if} value="" >请选择</option>
+						#{list items:common.enums.Province.values(), as:'prov'}
+							<option #{if userInfo?.prov_id==prov?.code }selected="selected" #{/if}   value="${prov?.code}">${prov?.name}省</option>
+						#{/list}
+	                </select>
+	                <select class="selcet-ico"  name="areaId" id="areaIdInput">
+	                	<option #{if userInfo?.area_id==null || userInfo?.area_id== "" }selected="selected" #{/if} value="" >请选择</option>
+						#{list common.enums.Province.getAreasByCode(userInfo?.prov_id), as:'area'}
+						<option #{if userInfo?.area_id!=null || userInfo?.area_id!= "" && area?.code == userInfo?.area_id }selected="selected" #{/if} value="${userInfo?.area_id}" >${area.name}市</option>
+	                	#{/list}
+	                </select>
+	            </li>
+	        </ul>
+	        <h3 class="detail-titile">资产信息</h3>
+	        <ul class="information-ul">
+	            <li class="flex">
+	                <span class="">工作年限</span>
+	                <select class="selcet-ico flex-1" name="workExperience" id="workExperience">
+	                	<option value="" #{if userInfo?.work_experience?.code==null}selected="selected"#{/if}></option>
+			  			#{list items:common.enums.WorkExperience.values(), as:'options'}
+							<option value="${options.code}" #{if options.code==userInfo?.work_experience?.code}selected="selected"#{/if}>${options.value}</option>
+						#{/list}
+	                </select>
+	            </li>
+	            <li class="flex">
+	                <span class="">年收入</span>
+	                <select class="selcet-ico flex-1" name="annualIncome" id="annualIncome">
+	                	<option value="" #{if userInfo?.annual_income?.code==null}selected="selected"#{/if}></option>
+			  			#{list items:common.enums.AnnualIncome.values(), as:'options'}
+							<option value="${options.code}" #{if options.code==userInfo?.annual_income?.code}selected="selected"#{/if}>${options.value}</option>
+						#{/list}
+	                </select>
+	            </li>
+	            <li class="flex">
+	                <span class="">资产估值</span>
+	                <select class="selcet-ico flex-1" name="netAsset" id="netAsset">
+	                	<option value="" #{if userInfo?.net_asset?.code==null}selected="selected"#{/if}></option>
+			  			#{list items:common.enums.NetAssets.values(), as:'options'}
+							<option value="${options.code}" #{if options.code==userInfo?.net_asset?.code}selected="selected"#{/if}>${options.value}</option>
+						#{/list}
+	                </select>
+	            </li>
+	            <li class="flex">
+	                <span class="">车产</span>
+	                <select class="selcet-ico flex-1" name="car" id="car">
+	                	<option value="" #{if userInfo?.car?.code==null}selected="selected"#{/if}></option>
+			  			#{list items:common.enums.Car.values(), as:'options'}
+							<option value="${options.code}" #{if options.code==userInfo?.car?.code}selected="selected"#{/if}>${options.value}</option>
+						#{/list}
+	                </select>
+	            </li>
+	            <li class="flex">
+	                <span class="">房产</span>
+	                <select class="selcet-ico flex-1" name="house" id="house">
+	                    <option value="" #{if userInfo?.house?.code==null}selected="selected"#{/if}></option>
+			  			#{list items:common.enums.House.values(), as:'options'}
+							<option value="${options.code}" #{if options.code==userInfo?.house?.code}selected="selected"#{/if}>${options.value}</option>
+						#{/list}
+	                </select>
+	            </li>
+	            <li class="flex">
+	                <span class="">工作单位</span>
+	                <input type="text" class="info-txt flex-1" id="" name="workUnit"   maxlength="20" value='${userInfo?.work_unit}' />
+	            </li>
+	              <li class="flex">
+	                <span class="">注册资金</span>
+	                <input type="text" class="info-txt flex-1" id="registered_fund" name="registeredFund"  value="${userInfo?.registered_fund?.format(common.constants.Constants.NUMBER_FORMATE_NORMAL)}" />万
+	            </li>
+	            <li class="flex">
+	                <span class="">成立/入职时间</span>
+	                <select class="selcet-ico flex-1" name="" id="time_y">
+	                	<option value="" >请选择</option>
+	                	#{list items:1970..2030,as: 'y'}
+	                	<option value="${y}" #{if year == y} selected="selected" #{/if}>${y}年</option>
+	                	#{/list}
+			  		
+	                </select>
+	                   <select class="selcet-ico"  name="" id="time_m">
+	                	<option value="" >请选择</option>
+			  			#{list items:1..12,as: 'M'}
+	                	<option value="${M}" #{if (month+1) == M&&M!=0} selected="selected" #{/if}>#{if M<10}0${M}月#{/if}#{else}${M}月#{/else}</option>
+	                	#{/list}
+	                </select>
+	            </li>
+	            
+	        </ul>
+	        <h3 class="detail-titile">紧急联系人</h3>
+	        <ul class="information-ul">
+	            <li class="flex">
+	                <span class="">关系</span>
+	                <select class="selcet-ico flex-1" name="emergencyContactType" id="emergencyContactType">
+	                	<option value="-1"  #{if userInfo?.emergency_contact_type?.code==null}selected="selected"#{/if}></option>
+			  			#{list items:common.enums.Relationship.values(), as:'options'}
+							<option value="${options.code}" #{if options.code==userInfo?.emergency_contact_type?.code}selected="selected"#{/if}>${options.value}</option>
+						#{/list}
+	                </select>
+	            </li>
+	            <li class="flex">
+	                <span class="">姓名</span>
+	                <input type="text" class="info-txt flex-1" id="emergencyContactName" name="emergencyContactName" value="${userInfo?.emergency_contact_name}" maxlength="10"/>
+	            </li>
+	            <li class="flex">
+	                <span class="">手机号</span>
+	                <input type="text" class="info-txt flex-1" id="emergencyContactMobile" name="emergencyContactMobile" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" maxlength="11" value="${userInfo?.emergency_contact_mobile}" />
+	            </li>
+	        </ul>
+	        <input type="button" class="condition-btn btn" onclick="saveOrUpdateInformation();" value="保 存">
+	    </div>
+	</form>
+</div>        
+<script type="text/javascript" src="@{'/public/wechat/newedition/js/jquery-1.8.3.min.js'}"></script>
+<script type="text/javascript">
+	require(['wechat'],function(wechat){
+	});
+	
+	//保存或者更新用户信息
+	function saveOrUpdateInformation() {
+		var education = $("#education").val();//学历
+		if(education == 0){
+			alert("请选择学历状况");
+			return;
+		}
+		
+		var marital = $("#marital").val();//婚姻
+		if(marital == 0){
+			alert("请选择婚姻状况");
+			return;
+		}
+		
+		var workExperience = $("#workExperience").val();//工作年限
+		if(workExperience == 0){
+			alert("请选择工作年限");
+			return;
+		}
+		
+		var annualIncome = $("#annualIncome").val();//年收入
+		if(annualIncome == 0){
+			alert("请选择年收入状况");
+			return;
+		}
+		
+		var netAsset = $("#netAsset").val();//资产估值
+		if(netAsset==0){
+			alert("请选择资产估值状况");
+			return;
+		}
+		
+		var car = $("#car").val();//车产
+		if(car == 0){
+			alert("请选择车产状况");
+			return;
+		}
+		
+		var house = $("#house").val();//房产
+		if(house == 0){
+			alert("请选择房产状况");
+			
+			return;
+		}
+		
+		var emergencyContactType = $("#emergencyContactType").val();//联系人关系
+		if(emergencyContactType < 0){
+			alert("请选择联系人关系");
+			return;
+		}
+		
+		var emergencyContactName = $("#emergencyContactName").val();//联系人姓名
+		if(!emergencyContactName.isNotBlank()){
+			alert("请填写联系人姓名");
+			return;
+		}
+		
+		var emergencyContactMobile = $("#emergencyContactMobile").val();//联系人手机号
+		if(!emergencyContactMobile.isNotBlank()){
+			alert("请填写联系人手机");
+			return;
+		} else if(!emergencyContactMobile.isMobileNum()){
+			alert("联系人手机号码格式错误");
+			return;
+		}
+		//成立/入职时间
+		var time_y=$("#time_y").val();
+		var time_m=$("#time_m").val();
+		var startTime="";
+		if(time_y!=""||time_m!=""){
+			startTime = time_y+"-"+time_m
+			 $("#startTime").val(startTime); 
+		}
+		
+	   $("#saveOrUpdateInformation").submit();
+	};
+	$("#registered_fund").keyup(function () {
+        var reg = $(this).val().match(/\d+\.?\d{0,2}/);
+        var txt = '';
+        if (reg != null) {
+            txt = reg[0];
+        }
+        $(this).val(txt);
+    }).change(function () {
+        $(this).keyup();
+    });
+	
+	function provSelect(value) {
+		console.info(value);
+		$('#areaIdInput').html('<option value="" selected="selected">请选择</option>');
+		if(value == '') {
+			$('#areaIdInput').html('<option value="" selected="selected">请选择</option>');
+		} else {
+			$('#areaIdInput').load("@{front.account.MySecurityCtrl.getAreas}", {"code" : value});
+		}
+	}
+	
+</script>

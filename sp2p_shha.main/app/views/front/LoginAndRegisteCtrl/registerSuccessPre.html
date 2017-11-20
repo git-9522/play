@@ -1,0 +1,38 @@
+#{extends 'common/front/frontLoginMain.html' /}
+#{set title: '注册成功'/}
+#{set islogin:'true'/}
+		<div class="login-body" style="background: #fff;">
+			<div class="success-box">
+				<span class="success_timeout-note major"><i class="icon success-icon"></i>注册成功</span>
+				<p class="success_trusteeship-note c3">
+				为了你的账户安全，建议你继续完成 资金托管开户。
+				</p>
+				<a href="@{front.account.MySecurityCtrl.createAccountPre()}" target="_blank" title="" class="major success_trusteeship-openbtn">去开户></a>
+			</div>
+			<p class="timeout-return">你也可以<a href="/" class="major">进入首页</a></p>
+		</div>
+		<!-- 开户弹窗 -->
+		<div class="dialog" id="register_success_dialog">
+			<div class="dialog-bg"></div>
+			<div class="dialog-cont trusteeship-dialog">
+				<h2 class="dialog-head">
+					<span class="left">平台提示</span>
+				</h2>
+				<div class="trusteeship-cont">
+					<div class="trusteeship-wrap">
+						<i class="trusteeship-icon"></i>
+						<p class="major">请在新页面完成资金托管开户。</p>
+						<a href="@{front.account.MySecurityCtrl.securityPre()}" class="bdbtn">开户成功</a>
+						<p class="trusteeship-help"><a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="c9">开户遇到问题></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 页面js -->
+		<script type="text/javascript">
+			require(['front'],function(front){
+				$(".trusteeship-openbtn").click(function(){
+					$("#register_success_dialog").dialog();
+				});
+			})
+		</script>

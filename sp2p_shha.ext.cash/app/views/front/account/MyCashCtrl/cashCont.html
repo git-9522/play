@@ -1,0 +1,36 @@
+*{
+	被包含页面:(*Cont.html页面都是被包含页面)
+	主页面在:/com.shovesoft.sp2p.main/app/views/front/account/MyRewardCtrl/awardPre.html
+}*
+
+<!-- 红包模块的展示位置 -->
+<div class="tab-cont none clearfix account-manange" id="extTabCash">
+</div>
+
+<script type="text/javascript">
+	require(['front'],function(front){
+		$(".tab-menu").children("a[id='extCash']").click(function(){
+			var tab = $("#extTabCash");
+			var flag = tab.children("div").length == 0;
+			if(flag  || $(".account-main").is(":hidden")){
+				showMyCashPre();
+			}
+		});
+		
+	});
+	
+	function showMyCashPre(){
+		$.ajax({
+			url : "@{front.account.MyCashCtrl.showMyCashPre()}",
+			type : "GET",
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				$("#extTabCash").html(data);
+			}
+	    });
+	}
+
+</script>

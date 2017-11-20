@@ -1,0 +1,92 @@
+#{extends 'common/frontMain.html' /}
+#{set title:'邀请好友' /}
+#{set smallclass:0 /}
+#{set AItem:0 /}
+   <link rel="stylesheet" href="/public/front/stylesheets/invite.css">
+<div class="invite-ban">
+
+</div>
+<div class="mainBox">
+    <div class="invite-con1">
+        <h3>一重礼&nbsp;邀请好友&nbsp;拿现金</h3>
+        <p><em>奖励条件：</em>每邀请1位好友注册并投资，可获得好友首次投资金额的1%的返现。朋友越多，您赚的就越多</p>
+        <div class="first-invit">
+            <ul>
+                <li>
+                    <img src="/public/front/images/hy11.png" alt="">
+                </li>
+                <li>
+                    <img src="/public/front/images/hy12.png" alt="">
+                </li>
+                <li>
+                    <img src="/public/front/images/hy13.png" alt="">
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="invite-kong">
+
+    </div>
+    <div class="invite-con2">
+        <h3>二重礼&nbsp;邀请好友&nbsp;得虹银</h3>
+        <p>
+            邀请好友实名认证后可一次获得500虹银，虹银积分可以进行实物兑换、抽奖等。
+        </p>
+        <div class="second-invit">
+            <ul>
+                <li>
+                    <img src="/public/front/images/hy21.png" alt="">
+                </li>
+                <li>
+                    <img src="/public/front/images/hy22.png" alt="">
+                </li>
+                <li>
+                    <img src="/public/front/images/hy23.png" alt="">
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="invite-kong">
+
+    </div>
+    <div class="invite-con3">
+        <h3>好友福利（新手奖励）</h3>
+        <div class="hongbao">
+            <div class="hb-left">
+                <div class="area">
+                    <p>3975元</p>
+                    <p>新手红包</p>
+                </div>
+
+            </div>
+            <div class="hb-right">
+                <div class="area">
+                    <p>12%年化</p>
+                    <p>新手专享标</p>
+                </div>
+
+            </div>
+
+        </div>
+        <a href="@{front.LoginAndRegisteCtrl.registerPre()}" class="hb-btn">免费注册领取福利</a>
+    </div>
+    <div class="invite-kong">
+
+    </div>
+    <div class="invite-con4">
+        <h3>【参与方式】</h3>
+        <p>1、进入个人中心-我的福利-好友推荐页面-专属推广邀请码，邀请的好友在注册时输入。</p>
+        <p>2、进入个人中心-我的福利-好友推荐页面-专属推广二维码，邀请的好友扫描二维码进行注册。</p>
+        <h3>活动规则</h3>
+        <p>
+            1、邀请人需要在注册时输入您的邀请码，或者通过扫描二维码完成注册。
+        </p>
+        <p>2、邀请好友成功后，您将获得好友首次投资单笔金额的1%的奖励，所奖励金额将在项目满标后由客服人员进行统一返现。</p>
+        <p>3、邀请好友的数量无上限，多邀请多得，上不封顶。</p>
+        <p>4、如有问题或者遗漏请联系虹金所客服，或拨打理财热线：400-637-6969</p>
+        <p>5、本活动最终解释权归虹金所所有。</p>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+#{extends 'common/back/financeMain.html' /}
+	#{set title:'财务 | 托管记录 | 请求参数' /}
+	#{set smallclass:9 /}
+	#{set crumbs:'财务>托管记录>请求参数'/}
+	
+	
+<div class="back-main">
+	<div class="back-usertop">
+		<b class="left font14">${requestPrams?.service_order_no}>请求参数</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.finance.PaymentLogMngCtrl.showRequestLogsPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head"><span class="left">请求参数</span></h2>
+			<div class="back-finace-suggest">
+				#{list requestPrams}
+        	  		${_?.key}：${_?.value}<br>
+        	 	#{/list} 
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		
+	});
+</script>	
+	

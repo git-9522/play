@@ -1,0 +1,64 @@
+#{extends 'common/frontMain.html' /}
+#{set customize: 帮助中心/}
+<link rel="stylesheet" type="text/css" href="/public/front/stylesheets/inAll.css">
+<div class="section">
+     <div class="ne_about_seat">您当前所在的位置：虹金所 > 帮助中心</div>
+        <div class="ne_about_cen clearfix">
+            <dl class="ne_about_nav left bgf">
+                <dt>帮助中心</dt>
+                #{list items:models.common.entity.t_help_center.Column.values(),as:'col'}
+                    	<dd data-key='${col?.code}' class="#{if column?.code==col?.code}ne_about_act#{/if}">${col?.value}</dd>
+               	 #{/list}
+            </dl>
+            <ul class="ne_about_main right bgf">
+                <li class="about_act">
+						#{if page?.page}
+			              <div class="w-title">
+			                <span class="left f24 c333">${column?.value}</span>
+			              </div>
+			              <ul class="w-news-list">
+							#{list items:page?.page,as:"help"}
+								<li>
+					                <a href="javascript:void(0);" class="help-question-a"><span class="right"></span>${help?.title}#{if help_index == 1}<img src="@{'/public/front/images/news-ico.png'}">#{/if}</a>
+					                <div class="help-answer c9">
+										#{verbatim}${help?.content}#{/verbatim}
+									</div>
+					            </li>
+							#{/list}
+				            </ul>
+			            <div class="w-page-box tc">
+			                <div class="page-wrap">
+			                #{if page?.page}
+								#{frontPageTag page:page,showPage:"showPage"/}
+							#{/if}
+			                </div>
+			            </div>
+			        #{/if}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+        
+<form action="@{front.FrontHomeCtrl.helpPre()}" method="GET" id="helpCenter">
+	<input type="hidden" value="${column?.code}" name="columnNo" id="columnNo" />
+	<input type="hidden" name="currPage" id="currPage" />
+</form>
+    <!--内容 end-->
+<script type="text/javascript">
+require(['front'],function(front){
+	//帮助中心
+	require(['help']);
+	$('.ne_about_nav>dd').click(function(){ $(this).addClass('ne_about_act').siblings().removeClass('ne_about_act');
+//                 $('.ne_about_main>li').eq($(this).index()-1).addClass('about_act').siblings().removeClass('about_act');
+                $("#columnNo").val($(this).attr('data-key'));
+                showPage(1);
+        })
+    });
+
+function showPage(currPage){
+	$("#currPage").val(currPage);
+	$("#helpCenter").submit();
+}
+
+</script>

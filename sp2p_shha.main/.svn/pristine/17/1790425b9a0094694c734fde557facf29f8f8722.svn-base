@@ -1,0 +1,38 @@
+#{extends 'common/frontMain.html' /}
+#{set title: '活动中心'/}
+#{set AItem:0 /}
+<link rel="stylesheet" href="/public/front/stylesheets/toactivitycenter.css">
+    <div class="section mt20">
+        <div class="ne_toact_cen">
+            <ul class="ne_tocat_nav">
+                <li class="to_list" data-key="true">进行中</li>
+                <li  data-key="false">已结束</li>
+            </ul>
+            <div id="info_active">
+            </div>
+        </div>
+</div>
+	<script type="text/javascript">
+		require([ 'front' ], function(front) {
+			loadMoreInfos(1,"true");
+		   $('.ne_tocat_nav>li').click(function(){
+                	$(this).addClass('to_list').siblings().removeClass('to_list');
+                	loadMoreInfos(1,$(this).attr("data-key"));
+//                 $('.ne_tocat_list>li').eq($(this).index()).addClass('ne_tocat_act').siblings().removeClass('ne_tocat_act');
+            })
+		});
+		 function loadMoreInfos(currPage,key){
+		$.ajax({
+			url : "@{front.InformationCtrl.showInfoActivesPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : 6,
+				"isUse": key,
+			},
+			success : function(data) {
+				$("#info_active").html(data);
+			}
+		});
+	}
+	</script>

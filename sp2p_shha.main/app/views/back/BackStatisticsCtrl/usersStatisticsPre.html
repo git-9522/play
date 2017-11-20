@@ -1,0 +1,174 @@
+#{extends 'common/back/UsersStatisticsMain.html' /}
+	#{set title:'统计 | 会员统计' /}
+	#{set smallclass:0 /}
+	#{set crumbs:'统计 > 会员统计'/}
+	
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		
+		<div class="left back-usermenu">
+				<a href="#{rightMng rightId:1201001} @{back.BackStatisticsCtrl.usersStatisticsPre(0)}#{/rightMng}" #{if showType == 0}class="selected"#{/if}>所有</a>
+				<a href="#{rightMng rightId:1201001} @{back.BackStatisticsCtrl.usersStatisticsPre(1)}#{/rightMng}" #{if showType == 1}class="selected"#{/if} data-title="显示所有首投的用户">首投用户明细</a>
+				<a href="#{rightMng rightId:1201001} @{back.BackStatisticsCtrl.usersStatisticsPre(2)}#{/rightMng}" #{if showType == 2}class="selected"#{/if} data-title="显示所有复投的用户">复投用户明细</a>
+		</div>
+		
+		<!-- 搜索按钮，控制搜索条件的显示隐藏 -->
+		<div class="back-search left #{if userName}selected#{/if}">
+			<i class="iconfont searchicon">&#xe60a;</i>搜索<i class="iconfont arrowicon">&#xe603;</i>
+		</div>
+		
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:exportList(1)"><i class="iconfont">&#xe612;</i>导出</a>
+		</div>
+	</div>
+	<!-- 搜索条件，默认隐藏 -->
+	<div class="back-search-option" #{if userName}style="display: block;"#{/if}>
+		<form action="@{back.BackStatisticsCtrl.usersStatisticsPre()}" method="GET" id="usersStatisticsPre">
+			<input type="hidden" id="orderType" name="orderType" value="${orderType}" /><!-- 排序的类型 -->
+			<input type="hidden" id="orderValue" name="orderValue" value="${orderValue}" /><!-- 排序的值(0:降序，1:升序) -->
+			<input type="hidden" id="currPage" name="currPage" />
+	  		<input type="hidden" id="pageSize" name="pageSize" value="${pageBean?.pageSize}"/>
+	  		<input type="hidden" id="showType" name="showType" value="${showType}"/>
+	  		<input type="hidden" id="exports" name="exports"/>
+	  		
+	  		<input type="text" class="iffocus" name="userName" placeholder="会员" value="${userName}" maxlength="13"/>
+			<input type="submit" class="bgbtn" onclick="usersStatisticsPre(1,${page?.pageSize})" value="搜索" />
+		</form>
+	</div>
+	<div class="back-cont">
+		<div class="back-box">
+			<table width="100%" class="back-table table-fixed">
+				<tr height="40">
+				   <th width="6%">
+						<span class="back-order">
+							编号
+							 #{backPageColumTag orderType:orderType,currOrderType:1,orderValue:orderValue,orderBy:'orderBy' /} 
+						</span>
+					</th>
+					<th width="8%" class="align-left">
+						<span class="back-order">
+							会员
+							<!-- #{backPageColumTag orderType:orderType,currOrderType:1,orderValue:orderValue,orderBy:'orderBy' /} -->
+						</span>
+					</th>
+					
+					<th width="18%">
+						<span class="back-order">
+							身份证号
+							<!-- #{backPageColumTag orderType:orderType,currOrderType:2,orderValue:orderValue,orderBy:'orderBy' /} -->
+						</span>
+					</th>
+					<th width="14%">
+						<span class="back-order">
+							投资金额
+							 #{backPageColumTag orderType:orderType,currOrderType:2,orderValue:orderValue,orderBy:'orderBy' /} 
+						</span>
+					</th>
+					<th width="14%">
+						<span class="back-order">
+							利息金额
+						#{backPageColumTag orderType:orderType,currOrderType:3,orderValue:orderValue,orderBy:'orderBy' /}
+						</span>
+					</th>
+					<th  width="14%">
+						<span class="back-order">
+							红包金额
+							 #{backPageColumTag orderType:orderType,currOrderType:4,orderValue:orderValue,orderBy:'orderBy' /} 
+						</span>
+					</th>
+					<th width="14%">
+						<span class="back-order">
+							时间
+							 #{backPageColumTag orderType:orderType,currOrderType:5,orderValue:orderValue,orderBy:'orderBy' /}
+						</span>
+					</th>
+					<th width="14%">
+						<span class="back-order">
+							手机号
+							<!--  #{backPageColumTag orderType:orderType,currOrderType:5,orderValue:orderValue,orderBy:'orderBy' /} -->
+						</span>
+					</th>
+				
+				</tr>
+
+				#{if pageBean?.page && pageBean?.page?.size()>0}
+					#{list pageBean?.page,as:'userStatistics'}
+					<tr height="40" ><!-- #{ifnot user?.fund_sign_status} class="warning"#{/ifnot}  id="tr_${user?.id}"-->
+						<td class="align-left">
+							${userStatistics?.id}
+						</td>
+						<td>
+							${userStatistics?.name}
+						</td>
+						<td>${userStatistics?.id_number}</td>
+						<td>${userStatistics?.amount?.format(common.constants.Constants.FINANCE_FORMATE_TAD)}</td>
+						<td>${userStatistics?.correct_interest}</td>
+						<td>${userStatistics?.red_packet_amount.format(common.constants.Constants.FINANCE_FORMATE_TAD)}</td>
+						<td>${userStatistics?.time.format(common.constants.Constants.DATE_TIME_FORMATE)}</td>
+						<td>${userStatistics?.mobile}</td>
+					</tr>
+					#{/list}
+					<!-- 表格数据统计 -->
+					<tr height="40">
+						<td colspan="12" class="back-lasttd">
+							<p class="back-table-totle left">
+								合计 投资余额 &nbsp;<span>${amountTotal?.amount_sum?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span>，利息&nbsp;<span>${amountTotal?.correct_interest_sum?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span>，红包金额&nbsp;<span>${amountTotal?.red_packet_amount_sum?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</span> 
+							</p>
+							<!-- 分页组件--pageTag -->
+							#{backPageTag page:pageBean,showPage:'usersStatisticsPre' /} 
+						</td>
+					</tr>
+				#{/if}
+				#{else}
+					<tr height="58">
+						<td colspan="12" class="back-nodata"><i class="iconfont">&#xe613;</i>暂无记录</td>
+					</tr>
+				#{/else}
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+require(["back"],function(back){
+	// 搜索、左侧菜单展开收缩、表格排序
+	require(["search","linechecked"],function(){
+
+	});
+		
+});
+
+//排序 
+function orderBy(orderType,orderValue){
+	$("#usersStatisticsPre input[name='orderType']").val(orderType);
+	$("#usersStatisticsPre input[name='orderValue']").val(orderValue);
+	
+	$("#usersStatisticsPre input[name='currPage']").val(1);
+	
+	$("#usersStatisticsPre").submit();
+}
+
+//分页 
+function usersStatisticsPre ( currPage, pageSize) {
+	$("#currPage").val(currPage);
+	$("#pageSize").val(pageSize);
+	
+	$("#usersStatisticsPre").submit();
+}
+
+//导出
+function exportList(expor){
+	$("#exports").val(expor);
+	
+	$("#usersStatisticsPre").submit();
+	$("#exports").val(0);
+}
+
+
+
+</script>	

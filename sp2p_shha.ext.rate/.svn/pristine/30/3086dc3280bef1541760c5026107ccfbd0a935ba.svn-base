@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>sp2p_shha.ext.rate</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.playframework.playclipse.playNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>sp2p_shha.basic</name>
+			<type>2</type>
+			<location>D:/work/source/hjs/sp2p_shha.basic/app</location>
+		</link>
+		<link>
+			<name>sp2p_shha.common</name>
+			<type>2</type>
+			<location>D:/work/source/hjs/sp2p_shha.common/app</location>
+		</link>
+		<link>
+			<name>sp2p_shha.core</name>
+			<type>2</type>
+			<location>D:/work/source/hjs/sp2p_shha.core/app</location>
+		</link>
+		<link>
+			<name>sp2p_shha.ext.fdd</name>
+			<type>2</type>
+			<location>D:/work/source/hjs/sp2p_shha.ext.fdd/app</location>
+		</link>
+	</linkedResources>
+</projectDescription>

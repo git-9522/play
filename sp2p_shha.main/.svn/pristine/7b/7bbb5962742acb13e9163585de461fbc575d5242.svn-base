@@ -1,0 +1,117 @@
+<table class="account-table" width="100%">
+	<tr height="46">
+		<th>编号</th>
+		<th>实物名称</th>
+		<th>兑换个数</th>
+		<th>实物积分</th>
+		<th>兑换时间</th>
+		<th>收货地址</th>
+		<th>发货状态</th>
+		<th width="180">操作</th>
+	</tr>
+	#{if page?.page}
+		#{list items:page?.page,as:'goods'}
+			<tr height="46">
+				<td>${goods?.id}</td>
+				<td>${goods?.goods_name}</a></td>
+				<td>${goods?.exchange_num}</td>
+				<td>${goods?.spend_scroe}</td>
+				<td>${goods?.exchange_time?.format(common.constants.Constants.DATE_TIME_FORMATE)?:'----'}</td>
+				<td>${goods?.address}</td>
+				<td>${goods?.getStatus().value}</td>
+				<td>
+					<a href="javascript:void(0);" class="previewbtn account-debtbtn major">查看实物</a>
+					<div class="fancybox-container">
+						<a class="fancybox" data-fancybox-group="material02" title="查看实物" href="${goods?.image_url}"></a>
+					</div>
+					#{if goods?.getStatus().code == 1}
+					<a onclick="deliveryAddress('${goods?.sign}')" class="major account-debtbtn" >查看收货地址</a>
+					#{/if}
+					#{else}
+					<a href="javascript:void(0)"  class="c9">查看收货地址</a>
+					#{/else}
+					
+				</td>
+			</tr>
+		#{/list}
+	#{/if}
+</table>
+
+<!-- 分页组件 -->
+#{if page?.page}
+	#{frontPageTag page:page,showPage:'accountExchange' /}
+#{/if}
+#{else}
+	<div class="norecord-box c9">
+		暂无记录
+	</div>
+#{/else}
+
+<!--新增地址弹窗-->
+		<div class="q-tcbg none"></div>
+		<div class="q-tcdiv q-tcdiv03 none">
+			<div class="q-tctop">
+				<p>查看收货地址</p>
+				<img class="q-close" src="/public/front/images/close.png"/>
+			</div>
+			<div class="q-tcbtm q-tcshdiv">
+				<div class="q-dzone clearfix">
+					<p class="left">收货人姓名：</p>
+					<span id="receiver_name"></span>
+				</div>
+				<div class="q-dzone clearfix">
+					<p class="left">联系人电话：</p>
+					<span id="mobile"></span>
+				</div>
+				<div class="q-dzone clearfix">
+					<p class="left">收货地址：</p>
+					<span id="address"></span>
+				</div>
+				<div class="q-dzone clearfix">
+					<p class="left">快递公司：</p>
+					<span id="express_company"></span>
+				</div>
+				<div class="q-dzone clearfix">
+					<p class="left">快递单号：</p>
+					<span class="q-spanred" id="tracking_number"></span>
+				</div>
+			</div>
+		</div>
+
+<script type="text/javascript">
+require(['front'],function(front){
+	require(['banner','slideleft']);
+	require(['fancybox']);
+	$(".q-close").click(function(){
+		$(".q-tcbg,.q-tcdiv").hide();
+	});
+})
+//查看收货地址
+function deliveryAddress(sign){
+		$.ajax({
+			url : "@{front.account.MyFundCtrl.deliveryAddress()}",
+			type : "POST",
+			data : {
+				"sign" : sign
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				if(data.code<1){
+					alert(data.msg);
+					return;
+				}
+				
+				$("#receiver_name").html(data.receiver_name);
+				$("#mobile").html(data.mobile);
+				$("#address").html(data.address);
+				$("#express_company").html(data.express_company);
+				$("#tracking_number").html(data.tracking_number);
+				$(".q-tcbg,.q-tcdiv").show();
+				
+			}
+		});
+}
+</script>

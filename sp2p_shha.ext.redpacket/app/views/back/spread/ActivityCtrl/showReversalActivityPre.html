@@ -1,0 +1,169 @@
+#{extends 'back/spread/ActivityCtrl/reversalActivityMain.html' /}
+	#{set title:'推广 | 翻牌活动 | 活动规则' /}
+	#{set smallclass:1 /}
+	#{set crumbs:'推广>翻牌活动>活动规则'/}
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">编辑活动规则</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+				<a href="javascript:backAndRefresh('@{back.spread.ActivityCtrl.showReversalActivityPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.spread.ActivityCtrl.editReversalActivity}" method="POST" id="formEditRule">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">活动规则</span>
+				<label class="right">
+					<span >是否开启翻牌活动</span>
+					<input id="pointMallShowInput" type="checkbox" #{if reversal_is_use} checked="checked" #{/if} onclick="openActivity($(this))" />
+				</label>
+			</h2>
+			<ul class="back-infor-set">
+				<li >
+					<span class="lileft">活动时间：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="easyui-datebox" value="${reversal_start_time}" name="reversal_start_time" style="width:143px;"/>
+						</label>
+						~
+						<label class="back-unitinput">
+							<input type="text" class="easyui-datebox" value="${reversal_end_time}" name="reversal_end_time" style="width:143px;"/>
+						</label>
+						<span class="back-text-limit">倘若不在活动期限内，给予用户提示</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">单笔投资金额：</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width02 iffocus" value="${reversal_invest}" maxlength="9" name="reversal_invest"  oninput="$(this).withdrawRange()" onkeyup="$(this).withdrawRange()"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">活动期间单笔投资金额达到一定金额获得抽奖</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">活动规则：</span>
+					<div class="liright">
+						<textarea id="inforTextarea" class="back-textarea" name="reversal_rule" style="height:200px;" maxlength="500">${reversal_rule}</textarea>
+						<span class="back-text-limit"></span>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.spread.ActivityCtrl.showReversalActivityPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		//日期时间组件
+		//TODO
+		require(["datatime"]);
+		
+		/* require(["editor"],function(editor){
+			editor('#inforTextarea');
+		}); */
+		//效验组件
+		require(["validation/validateExt"]);
+		//上传组件
+		
+		$("#formEditRule").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				} else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"reversal_start_time": {
+					required: true
+				},
+				"reversal_end_time": {
+					required: true
+				},
+				"reversal_invest": {
+					required: true,
+					number: true,
+					max: 1000,
+					min: 0.01
+				}
+			},
+			messages: {
+				"reversal_start_time": {
+					required: "请输入活动开始时间"
+				},
+				"reversal_end_time": {
+					required: "请输入活动结束时间"
+				},
+				"reversal_invest": {
+					required: "请输入单笔投资金额",
+					number: "只能数字",
+					max: "不能大于1000",
+					min: "不能小于0.01"
+				}
+			},
+			submitHandler:function(form){
+				
+				if($("#inforTextarea").val()=='' || $("#inforTextarea").val()==undefined || $("#inforTextarea").val()==null){
+					alert("请输入活动规则");
+					return false;
+				}
+	            form.submit();
+	        }
+		});
+		
+	});
+	
+	function openActivity(obj) {
+		var flag = false;
+		if(obj.is(':checked')){
+				 flag = true;
+		}
+		$.ajax({
+				url : "@{back.spread.ActivityCtrl.openReversalActivity}",
+				type : "POST",
+				data : {
+					"flag" : flag
+				},
+				dataType:"json",
+				success : function(result) {
+					var flag = interceptorCheck(result);
+					if(!flag){
+						return;
+					}
+					if(result.code < 1){
+						alert(result.msg);
+						if(obj.is(':checked')){
+							
+							obj.removeAttr("checked");
+						}
+					} else {
+						weakDialog(result.msg);
+					}
+				}
+		});
+	}
+	
+    
+</script>

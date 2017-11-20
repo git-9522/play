@@ -1,0 +1,71 @@
+#{extends 'common/wechatMain.html' /}
+<style>
+.new-detail{ padding:0;}
+.new-detail-tab{ padding:0 0.2rem}
+.new-detail-history li{ padding:0 0.2rem;}
+.new-flex_one{ width:43%;}
+.new-flex_two{ width:32%;}
+.new-flex_three{ width:24%;}
+.header { width: 100%; height: 1.2rem; line-height: 1.2rem; background: #fe4f51; text-align: center;   color: #fff; font-size: 0.48rem; position: fixed;  left: 0; top: 0;z-index: 10000;}
+.header .icon_goback { width: 0.586rem; height: 0.586rem; overflow: hidden;position: absolute;left: 0.16rem; top: 0.294rem; background: url(/public/wechat/newedition/images/icon/login-back.png) no-repeat;background-size: 100% auto;}
+.login_logo{ background:#fff; overflow:hidden;}
+.login_logo img{ display:block; width:3.65rem; height:2.93rem; margin:0.34rem auto;}
+</style>
+<div class="header" style="display:block; "><a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}"><span class="icon_goback"></span></a> <span class="title_name">回款计划</span></div>
+
+<div class="center">
+	<div class="receivable ">
+	      <div class="detail new-detail" >
+	                <div class="detail-tab new-detail-tab flex">
+	                    <span class="new-flex_one">账单编号</span>
+	                    <span class="new-flex_two ">应收本息</span>
+	                    <span class="new-flex_three tr">到期时间</span>
+	                </div>
+	                <div class="detail-main">
+	                    <ul class="detail-history" id="receive_bill">
+	                    
+	           
+	                    </ul>
+	                    <p class="xf-load" id="loadmore"></p>
+	                </div>
+	       </div>
+	</div>  
+</div>         
+
+    <!-- 页面js -->
+<script type="text/javascript">
+require(['wechat'],function(){
+    showReceivePage(1,5);
+});
+
+    
+function showReceivePage (currPage,pageSize) {
+	$.ajax({
+		url : "@{wechat.front.account.MyReceiveBillCtrl.pageOfReceiveBillPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage,
+			"pageSize" : pageSize
+		},
+		success : function(data){ 
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}	
+			$("#receive_bill").append(data);
+			
+			if(parseInt($("#investCurrpage").val()) >= parseInt($("#totalPageCount").val())){	
+				$("#loadmore").html("<a>没有更多了</a>");
+			}
+			else{
+				var investCurrpage = parseInt($("#investCurrpage").val()) + 1 ;
+				$("#investCurrpage").remove();
+				$("#totalPageCount").remove();
+
+				$("#loadmore").html("<a  onclick='showReceivePage ("+investCurrpage+",5)'>加载更多</a>");
+			}
+			
+		}
+	});
+}
+</script>

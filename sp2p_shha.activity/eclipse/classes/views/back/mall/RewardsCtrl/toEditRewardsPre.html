@@ -1,0 +1,543 @@
+#{extends 'back/mall/ScoreCtrl/mailMain.html' /}
+	#{set title:'积分商城 | 奖品' /}
+	#{set smallclass:3 /}
+	#{set crumbs:'积分商城>奖品'/}
+	
+
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">编辑奖品</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:backAndRefresh('@{back.mall.RewardsCtrl.showRewardsPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.mall.RewardsCtrl.editRewards()}" method="POST" id="formAddRewards">
+	#{authenticityToken /}
+	<input type="hidden" value="${reward?.id}" name ="rewardId">
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">奖品信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">奖品名称</span>
+					<div class="liright">
+						<input type="text" autofocus="autofocus" class="width01 iffocus" maxlength="10" value="${reward?.name}" name="rewards.name"/>
+						<span class="back-text-limit">2~10个字符</span>
+					</div>
+				</li>
+				<li id="rewardImg">
+					<span class="lileft">奖品图片</span>
+					<div class="liright">
+						<span class="back-imgarea">
+							<!-- 没有上传图片 -->
+							#{if reward?.image_url == null || reward?.image_url == ""}
+								<span class="back-noimg" title="您还没有上传图片"></span>
+							#{/if}
+							#{else}
+								<!-- 上传图片后隐藏back-noimg显示img-->
+								<img src="${reward?.image_url}" onerror="this.src='/public/common/default.jpg'"  class="backupimg" height="100" width="200" id='image' name="image" alt="" title="" />
+							#{/else}
+						</span>
+						<input type="hidden" id="imgurl" name="rewards.image_url" value="${reward?.image_url}">
+						<span class="back-upimg">
+							<label class="back-upbtn">
+								<input type="file" class="upload_file" accept=".jpg,.jpeg,.png,.gif" value="" name="imgFile" id="imgFile" onchange="upload()"/>
+								<i class="iconfont">&#xe608;</i>本地上传
+							</label>
+							
+							<label class="back-lib-upbtn back-cropbtn" onclick="cropImg(1920,400,1);" id="cropImgLabel" style="display: none;">
+								<b class="iconfont">&#xe642;</b>裁剪
+							</label>
+								
+								
+							<label class="back-lib-upbtn">
+								<!-- <b class="iconfont">&#xe634;</b>从素材库中选择 -->
+							</label>
+							<p class="back-imginfor-note">1920*400&nbsp;jpg/png&nbsp;大小不超过2M</p>
+							<div class="back-upload-imginfor">
+								<span id="resolutionshow">&nbsp;</span><span id="formatshow">&nbsp;</span><span id="sizeshow">&nbsp;</span>
+							</div>
+							<!-- 图片参数，用于保存 -->
+							<input type="hidden" id="imageResolution" name="" value="${flash?.image_resolution}">
+							<input type="hidden" id="imageSize" name="" value="${flash?.image_size}">
+							<input type="hidden" id="imageFormat" name="" value="${flash?.image_format}">
+						</span>
+					</div>
+				</li>
+				<li  >
+					<span class="lileft">积分模式</span>
+					<div class="liright">
+						<select class="width04" name="rewards.type" id="attribute" onchange="attributeChange(this)">
+							<option value='0'  #{if reward?.type==0}selected='selected'#{/if}>倍数积分</option>
+							<option value='1'  #{if reward?.type==1}selected='selected'#{/if}>指定积分</option>
+							<option value='2'  #{if reward?.type==2}selected='selected'#{/if}>红包</option>
+							<option value='3'  #{if reward?.type==3}selected='selected'#{/if}>现金卷</option>
+							<option value='4'  #{if reward?.type==4}selected='selected'#{/if}>加息卷</option>
+							<option value='5'  #{if reward?.type==5}selected='selected'#{/if}>实物</option>
+						</select>
+						&nbsp;&nbsp;
+						<label class="back-unitinput">
+							<!-- <input type="text" class="width06 iffocus" id="type_value"  placeholder="请输入倍数" value="${reward?.type_value}" maxlength="9" name="rewards.type_value"  oninput="$(this).ndigitInteger(9);" onkeyup="$(this).ndigitInteger(9);"/> -->
+							<input type="hidden" id="typeValue" name="rewards.type_value" value="${reward?.type_value}">
+						    <div id="type_value1" >
+									<input type="text" class="width06 iffocus" id="typeValue1" name="typeValue1" placeholder="请输入倍数"  value="#{formatIntMoney money:reward?.type_value/}" maxlength="6"  oninput="$(this).ndigitInteger(6);typeValueChange(this.value)" onkeyup="$(this).ndigitInteger(6);typeValueChange(this.value)"/>
+						    </div>
+						    <div id="type_value2" class="none">
+									<input type="text" class="width06 iffocus" id="typeValue2" name="typeValue2"  placeholder="请输入利率" value="${reward?.type_value}" maxlength="5"   oninput="$(this).proportionRange();typeValueChange(this.value)" onkeyup="$(this).proportionRange();typeValueChange(this.value)"/>
+						    </div>
+						    <div id="type_value3" class="none">
+						    	<select class="width04" name="typeValue3" id="typeValue3" onchange="typeValueChange(this.value);"></select>
+						    </div>
+							 <i class="unit" id="attribute_unit">倍</i>
+						</label>
+						<span class="back-text-limit">兑换该项奖品会消耗用户积分（指定积分为0时，表示不中奖）</span>
+					</div>
+					
+				</li>
+				<li id="a_min_invest_amount" class="none">
+					<span class="lileft">最低投资</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="#{formatIntMoney money:reward?.min_invest_amount/}" maxlength="6" name="rewards.min_invest_amount"  oninput="$(this).ndigitInteger(6);" onkeyup="$(this).ndigitInteger(6);"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">虚拟物品的最低投资限制</span>
+					</div>
+					
+				</li>
+				<li id="a_limit_day" class="none">
+					<span class="lileft">有效期限</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${reward?.limit_day}" maxlength="3" name="rewards.limit_day"  oninput="$(this).ndigitInteger(3);" onkeyup="$(this).ndigitInteger(3);"/>
+							<i class="unit">天</i>
+						</label>
+						<span class="back-text-limit">必须在有效期限内使用，到期会过期</span>
+					</div>
+					
+				</li>
+				*{新添加红包使用于几月标}*
+				<!-- menghuijia 2017-5-23 -->
+				<li id="a_limit_bid_period" class="none">
+					<span class="lileft">标的期限</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${reward?.bid_period}" maxlength="3" name="rewards.bid_period"  oninput="$(this).ndigitInteger(3);" onkeyup="$(this).ndigitInteger(3);"/>
+							<i class="unit">月</i>
+						</label>
+						<span class="back-text-limit">红包使用于几月标，0表示没有限制</span>
+					</div>
+					
+				</li>
+				<li>
+					<span class="lileft">抽中概率</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${reward?.probability}" maxlength="9" name="rewards.probability"  oninput="$(this).proportionRange();" onkeyup="$(this).proportionRange();"/>
+							<i class="unit">%</i>
+						</label>
+						<span class="back-text-limit">通过概率控制稀有礼品的获得率</span>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+            <input type="hidden" id="service_fee_rule" name="service_fee_rule" value=""/>
+            <input type="hidden" id="audit_subjects" name="audit_subjects" value=""/>
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.mall.RewardsCtrl.showRewardsPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+
+<!-- 图片裁切弹窗 begin -->
+<div class="dialog crop-dialog">
+	<div class="dialog-bg"></div>
+	<div class="dialog-cont">
+		<div class="dialog-head">
+			<span class="left">图片裁剪</span>
+			<a href="javascript:void(0);" class="dialog-close hover-green" id="dialogClose">×</a>
+		</div>
+		<div class="crop-box">
+			<div class="clearfix">
+				<div class="crop-img">
+					<img src="" id="cropimg" />
+				</div>
+				<div class="crop-right">
+					<div class="crop-preview">
+						<div class="preview-container">
+							<img src="" />
+						</div>
+					</div>
+					<ul class="crop-handle">
+						<li><label class=""><input type="radio" id="maxSize" name="cropsize" />最大尺寸</label></li>
+						<li><label class=""><input type="radio" id="standardSize" name="cropsize" />标准尺寸</label></li>
+					</ul>
+				</div>
+			</div>
+			<p class="back-audit-btns">
+				<input type="button" value="保存" class="bgbtn" onclick="saveCropImg(cropImgSuccess)">
+				<input type="button" value="取消" class="bdbtn dialog-console">
+			</p>
+			<input type="hidden" id="x"/>
+			<input type="hidden" id="y"/>
+			<input type="hidden" id="w"/>
+			<input type="hidden" id="h"/>
+			<input type="hidden" id="imageType" /><!-- 图片格式 -->
+			<input type="hidden" id="cutType" /><!-- 图片类型 -->
+		</div>
+	</div>
+</div>
+<!-- 图片裁切弹窗 end -->
+
+
+<!-- 素材库弹窗 -->
+#{imgLib /}
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		//日期时间组件
+		require(["datatime"]);
+		
+		//效验组件
+		require(["validation/validateExt"]);
+		//上传组件
+		require(["ajaxfileupload"]);
+		
+		//奖品属性
+		#{if reward?.type==1}
+			
+			$("#type_value1").show();
+			$("#type_value2").hide();
+			$("#attribute_unit").html("分");
+		#{/if}
+		#{elseif reward?.type==2 || reward?.type==3}
+		
+			$("#type_value1").show();
+			$("#type_value2").hide();
+			$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").show();
+		    $("#attribute_unit").html("元");
+		#{/elseif}
+		#{elseif reward?.type==4}
+			$("#type_value1").hide();
+			$("#type_value2").show();
+			
+			$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").show();
+		    $("#attribute_unit").html("%");
+		#{/elseif}
+		#{elseif reward?.type == 0}
+			$("#type_value1").show();
+			$("#type_value2").hide();
+			$("#attribute_unit").html("倍");
+		#{/elseif}
+		#{else}
+			$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").hide();
+			$("#rewardImg").hide();
+			$("#type_value1").hide();
+			$("#type_value2").hide();
+			$("#type_value3").show();
+			$("#attribute_unit").html("");
+			getEntities();
+		#{/else}
+		
+		
+		$("#formAddRewards").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				}else if(element.parent().parent().hasClass("back-unitinput")){
+					error.addClass('back-notice').insertAfter(element.parent().parent());
+				}else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"rewards.name": {
+					required: true,
+					rangelength: [2,10]
+				},
+				"rewards.type_value":{
+					required: true,
+					digits: true
+				},
+				"rewards.min_invest_amount":{
+					required: true,
+					digits: true
+				},
+				"rewards.limit_day":{
+					required: true,
+					digits: true
+				},
+				"rewards.probability":{
+					required: true,
+					isFloat:true,
+					range: [0.1, 100]
+				},
+				"typeValue1":{
+					required: true
+				},
+				"typeValue2":{
+					required: true
+				}
+			},
+			messages: {
+				"rewards.name": {
+					required: "请输入奖品名称",
+					rangelength: "奖品名称长度在2~10之间"
+				},
+				"rewards.type_value": {
+					required: "请输入积分模式参数",
+					digits: "只能为正整数"
+				},
+				"rewards.min_invest_amount" : {
+					required: "请输入最低投资",
+					digits: "只能为正整数"
+				},
+				"rewards.limit_day" : {
+					required: "请输入有效期限",
+					digits: "只能为正整数"
+				},
+				"rewards.probability": {
+					required: "请输入中奖概率",
+					range: "范围0.1~100"
+				}
+			},
+			submitHandler:function(form){
+				if($('#attribute').val() != 5) {
+					if($("#imgurl").val()=='' || $("#imgurl").val()==undefined || $("#imgurl").val()==null){
+						alert("请上传产品图片!");
+						return false;
+					}
+				}
+				form.submit();
+    	}
+		});
+		
+	});
+
+	
+	function upload(){
+		var fileId = "imgFile";
+		var file = $("#" + fileId).val();
+		var pos = file.lastIndexOf("\\");
+		var fileName = file.substring(pos + 1);
+		
+		$.ajaxFileUpload({
+			url : '@{back.mall.RewardsCtrl.uploadRewardsImage()}',
+			secureuri : false,
+			fileElementId : fileId,
+			data:{
+				"fileName":fileName
+			},
+			dataType : 'json',
+			success : function(result) {
+				if(result.code == 1){
+					var data = result.obj;
+					var html = "<img src='"+data.staticFileName+"' onclick='javascript:$(this).preview()'  onerror="+'"this.src='+"'/public/common/default.jpg'"+'"'+ " class='backupimg' height='100' width='200' id='image' name='image' alt='' title='' />";
+					$(".back-imgarea:first").html(html);
+					$("#image").attr("src", data.staticFileName);
+					$("#imageSize").val(data.size+"kb");
+					$("#imageFormat").val(data.fileSuffix);
+					$("#imageResolution").val(data.imageResolution);
+					$("#resolutionshow").html(data.imageResolution+"&nbsp;");
+					$("#formatshow").html(data.fileSuffix+"&nbsp;");
+					$("#sizeshow").html(data.size+"kb");
+					$("#imgurl").val(data.staticFileName);
+					$("#cropImgLabel").show();
+				} else {
+					alert(result.msg);
+				}
+			}
+		})
+	}
+	
+	//图片裁剪
+	function cropImg(width, height, cutType){
+		$("#cutType").val(cutType);
+		var size = new Array(width, height);
+		var src,imageType;
+		if(cutType == 1) {
+			src = $("#imgurl").val();
+			imageType = $("#imageFormat").val();//头像图片后缀
+		} else if(cutType == 2) {
+			src = $("#imgAppurl").val();
+			imageType = $("#imageAppFormat").val();//二维码图片后缀
+		}
+		var src = src +'?t=' + new  Date().getTime();
+		$('.crop-dialog').dialog();
+		var image = new Image();
+		image.src = src;
+		image.onload = function(){
+			require(["imgcrop"],function(crop){
+				$('.crop-img,.preview-container').find('img').attr('src',src);
+				$('#imageType').val(imageType);
+				$("input[name='cropsize']").val([]);
+				crop(size);
+			});
+		}
+	}
+
+
+	function saveCropImg(callback){
+		$.ajax({
+			url : '@{common.BackBaseController.imageCrop()}',
+			type: 'POST',
+			data : {
+				'imgSrc' : $("#cropimg").attr('src'),
+				'x' : $("#x").val(),
+				'y' : $("#y").val(),
+				'w' : $("#w").val(),
+				'h' : $("#h").val(),
+				'imageType' : $("#imageType").val(),
+				'createNewImg' : true
+			},
+			success : function(data){
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				if(data.code < 1){
+					alert(data.msg);
+					return;
+				}
+				
+				if (callback) {
+					callback(data.obj);
+				}
+				$("#dialogClose").trigger('click');
+				weakDialog('裁剪成功!');
+			}
+		});
+	}
+
+
+	//图片裁剪成功，回调函数 
+	var cropImgSuccess = function(data) {
+		var cutType = $("#cutType").val();
+		if(cutType == 1) {//头像裁剪
+			$("#image").attr("src", data.staticFileName);
+			$("#imgurl").val(data.staticFileName);
+			$("#imageSize").val(data.size+"kb");
+			$("#imageResolution").val(data.imageResolution);
+			$("#resolutionshow").html(data.imageResolution);
+			$("#sizeshow").html(data.size+"kb");
+		} else if(cutType == 2) {//二维码裁剪
+			$("#imageApp").attr("src", data.staticFileName);
+			$("#imgAppurl").val(data.staticFileName);
+			$("#imageAppSize").val(data.size+"kb");
+			$("#imageAppResolution").val(data.imageResolution);
+			$("#resolutionAppshow").html(data.imageResolution);
+			$("#sizeAppshow").html(data.size+"kb");
+		}
+	}
+    
+    //奖品属性
+    function attributeChange(dom){
+    	
+			var type = $(dom).val();
+    	
+    	if(type == 1){
+
+    		$("#rewardImg").show();
+				$("#type_value1").show();
+    		$("#type_value2").hide();
+    		$("#type_value3").hide();
+    		$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").hide();
+    		
+    		$("#attribute_unit").html("分");
+    		$("#typeValue1").attr('placeholder','请输入积分');
+    		
+    	} else if(type == 2 || type == 3){
+
+    		$("#rewardImg").show();
+    		$("#type_value1").show();
+    		$("#type_value2").hide();
+    		$("#type_value3").hide();
+    		$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").show();
+    		
+    		$("#attribute_unit").html("元");
+    		$("#typeValue1").attr('placeholder','请输入金额');
+    	} else if(type == 4 ){
+
+    		$("#rewardImg").show();
+    		$("#type_value1").hide();
+				$("#type_value2").show();
+	    	$("#type_value3").hide();
+    		$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").show();
+    		
+    		$("#attribute_unit").html("%");
+    		$("#typeValue2").attr('placeholder','请输入利率');
+    	} else if(type == 0){
+
+    		$("#rewardImg").show();
+    		$("#type_value1").show();
+    		$("#type_value2").hide();
+    		$("#type_value3").hide();
+    		$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").hide();
+    		
+    		$("#attribute_unit").html("倍");
+    		$("#typeValue1").attr('placeholder','请输入倍数');
+    	} else {
+    		$("#a_min_invest_amount,#a_limit_day,#a_limit_bid_period").hide();
+    		$("#rewardImg").hide();
+    		$("#type_value1").hide();
+    		$("#type_value2").hide();
+    		$("#type_value3").show();
+    		$("#attribute_unit").html("");
+    		getEntities();
+    	}
+    	
+    }
+    
+    function getEntities() {
+    	$.ajax({
+    		url : "@{back.mall.GoodsCtrl.getAllDrawGoods(2, true)}",
+				type : "POST",
+				data : {
+					"type" : 2,
+					"isUse" : true
+				},
+				dataType:"json",
+				success : function(result) {
+					if(result.code == 1) {
+						var temp = '';
+						$.each(result.obj, function(index, item) {
+							$('#typeValue').val(#{formatIntMoney money:reward?.type_value/});
+							if(item.id == #{formatIntMoney money:reward?.type_value/}) {
+								temp += '<option value="' + item.id + '" selected="selected">' + item.name + '</option>';
+							} else {
+								temp += '<option value="' + item.id + '">' + item.name + '</option>';
+							}
+						});
+						$('#typeValue3').html(temp);
+					} else {
+						window.alert(result.msg);
+					}
+				},
+				error : function() {
+					window.alert("超时了");
+				}
+    	});
+    }
+    
+    //奖品属性
+    function typeValueChange(value){
+    	
+  		 $("#typeValue").val(value);
+    }
+    
+</script>

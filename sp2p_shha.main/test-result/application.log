@@ -1,0 +1,40 @@
+24 五月 2017 16:50:18,833 INFO  ~ Starting F:\ShangHaiHongAo\sp2p_shha.main
+24 五月 2017 16:50:18,836 INFO  ~ Module sp2p_shha.app is available (F:\ShangHaiHongAo\sp2p_shha.app)
+24 五月 2017 16:50:18,836 INFO  ~ Module sp2p_shha.basic is available (F:\ShangHaiHongAo\sp2p_shha.basic)
+24 五月 2017 16:50:18,837 INFO  ~ Module sp2p_shha.common is available (F:\ShangHaiHongAo\sp2p_shha.common)
+24 五月 2017 16:50:18,837 INFO  ~ Module sp2p_shha.core is available (F:\ShangHaiHongAo\sp2p_shha.core)
+24 五月 2017 16:50:18,837 INFO  ~ Module sp2p_shha.ext.cash is available (F:\ShangHaiHongAo\sp2p_shha.ext.cash)
+24 五月 2017 16:50:18,838 INFO  ~ Module sp2p_shha.ext.cps is available (F:\ShangHaiHongAo\sp2p_shha.ext.cps)
+24 五月 2017 16:50:18,838 INFO  ~ Module sp2p_shha.ext.experiencebid is available (F:\ShangHaiHongAo\sp2p_shha.ext.experiencebid)
+24 五月 2017 16:50:18,838 INFO  ~ Module sp2p_shha.ext.mall is available (F:\ShangHaiHongAo\sp2p_shha.ext.mall)
+24 五月 2017 16:50:18,839 INFO  ~ Module sp2p_shha.ext.rate is available (F:\ShangHaiHongAo\sp2p_shha.ext.rate)
+24 五月 2017 16:50:18,839 INFO  ~ Module sp2p_shha.ext.redpacket is available (F:\ShangHaiHongAo\sp2p_shha.ext.redpacket)
+24 五月 2017 16:50:18,839 INFO  ~ Module sp2p_shha.ext.wealthcircle is available (F:\ShangHaiHongAo\sp2p_shha.ext.wealthcircle)
+24 五月 2017 16:50:18,840 INFO  ~ Module sp2p_shha.payment is available (F:\ShangHaiHongAo\sp2p_shha.payment)
+24 五月 2017 16:50:18,840 INFO  ~ Module sp2p_shha.wechat is available (F:\ShangHaiHongAo\sp2p_shha.wechat)
+24 五月 2017 16:50:19,424 WARN  ~ You're running Play! in DEV mode
+24 五月 2017 16:50:19,485 INFO  ~ Listening for HTTP on port 9003 (Waiting a first request to start) ...
+24 五月 2017 16:50:31,407 ERROR ~ 
+
+@745d05k1d
+Internal Server Error (500) for request GET /@tests
+
+Oops: UnsupportedClassVersionError
+An unexpected error occured caused by exception UnsupportedClassVersionError: DocViewerPlugin : Unsupported major.minor version 51.0
+
+play.exceptions.UnexpectedException: Unexpected Error
+	at play.Invoker$Invocation.onException(Invoker.java:244)
+	at play.Invoker$Invocation.run(Invoker.java:286)
+	at Invocation.HTTP Request(Play!)
+Caused by: java.lang.UnsupportedClassVersionError: DocViewerPlugin : Unsupported major.minor version 51.0
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClassCond(ClassLoader.java:631)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:615)
+	at play.classloading.ApplicationClassloader.loadApplicationClass(ApplicationClassloader.java:154)
+	at play.classloading.ApplicationClassloader.loadClass(ApplicationClassloader.java:84)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at play.plugins.PluginCollection.reloadApplicationPlugins(PluginCollection.java:206)
+	at play.Play.start(Play.java:478)
+	at play.Play.detectChanges(Play.java:649)
+	at play.Invoker$Invocation.init(Invoker.java:198)
+	... 1 more

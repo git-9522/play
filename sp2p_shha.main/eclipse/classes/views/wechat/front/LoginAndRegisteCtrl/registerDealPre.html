@@ -1,0 +1,13 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center reg-protocol">
+#{verbatim}
+	${registerDeal?.content}
+#{/verbatim}
+</div>
+
+<script type="text/javascript">
+	require(['wechat'],function(){
+		$(".center").addClass("reg-protocol");
+	})
+</script>

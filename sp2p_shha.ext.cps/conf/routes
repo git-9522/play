@@ -1,0 +1,20 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:sp2p_bjmkw.ext.cps
+#
+# ~~~~
+
+
+# 前台-账户中心-我的奖励-CPS控制器(controllers.front.account.MyCpsCtrl)
+GET  /account/reward/cps/{action}.html                   front.account.MyCpsCtrl.{action}Pre
+POST /account/reward/cps/{action}                        front.account.MyCpsCtrl.{action}
+
+
+# 后台-推广-CPS-CPS规则控制器(controllers.back.spread.CpsSettingCtrl)
+GET  /supervisor/spread/cpsSetting/{action}.html                      back.spread.CpsSettingCtrl.{action}Pre
+POST /supervisor/spread/cpsSetting/{action}                           back.spread.CpsSettingCtrl.{action}
+
+# 后台-推广-CPS-CPS记录控制器(controllers.back.spread.CpsRecordCtrl)
+GET  /supervisor/spread/cpsRecord/{action}.html                      back.spread.CpsRecordCtrl.{action}Pre
+POST /supervisor/spread/cpsRecord/{action}                           back.spread.CpsRecordCtrl.{action}

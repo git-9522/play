@@ -1,0 +1,46 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+	<div class="bill">
+	    <ul class="trading-ul" id="dealRecord">
+	        
+	    </ul>
+	    <p class="xf-load" id="loadMore"></p>
+	</div>
+</div>
+
+<script type="text/javascript">
+	require(['wechat'],function(wechat){
+		listOfDealRecordsPre(1,8);
+	});
+	
+	//交易记录
+	function listOfDealRecordsPre(currPage, pageSize){
+		$.ajax({
+			url : "@{wechat.front.account.MyDealCtrl.listOfDealRecordsPre()}",
+			type : "GET",
+			data : {
+				"currPage" : currPage,
+				"pageSize" : pageSize
+			},
+			success : function(data) {
+				var flag = interceptorCheck(data);
+				if(!flag){
+					return;
+				}
+				
+				$("#dealRecord").append(data);
+				
+				if(parseInt($("#currPage").val())>=parseInt($("#totalPageCount").val())){
+					$("#loadMore").html("<a>没有更多了</a>");
+				} else{
+					var currPage = parseInt($("#currPage").val()) + 1 ;
+					$("#currPage").remove();
+					$("#totalPageCount").remove();
+			
+					$("#loadMore").html("<a onclick='listOfDealRecordsPre("+currPage+",5)'>加载更多</a>");
+				}
+			}
+		 });
+	}
+</script>

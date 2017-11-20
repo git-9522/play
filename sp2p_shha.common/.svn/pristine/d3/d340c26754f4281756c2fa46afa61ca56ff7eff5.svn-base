@@ -1,0 +1,42 @@
+/*翻页器*/
+.check_center {
+    overflow: hidden;
+    height: 90px;
+}
+.check_btn {
+    width: 100%;
+    position: relative;
+    float: left;
+    overflow: hidden;
+    margin-top: 30px;
+}
+.check_btn>ul {
+    clear: left;
+    float: left;
+    position: relative;
+    left: 50%;
+    text-align: center;
+}
+.check_btn>ul>li {
+    float: left;
+    position: relative;
+    right: 50%;
+    border: 1px solid #e9e9ed;
+    border-radius: 3px;
+    padding: 0px 10px;
+    text-align: center;
+    margin-left: 20px;
+    cursor: pointer;
+    color: #666666;
+}
+.check_btn>ul>li.on {
+    border: 1px solid #ff5256;
+    background-color: #ff5256;
+    color: #fff;
+}
+.check_btn>ul>li:hover {
+    border: 1px solid #ff5256;
+    background-color: #ff5256;
+    color: #fff;
+}
+/*翻页器*/

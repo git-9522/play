@@ -1,0 +1,118 @@
+<!-- 红包 -->
+<span class="l-tltab clearfix tlttab-menu">
+	<a href="javascript:void(0);" class="cur" id="unused">
+		未使用
+		<i class="l-lien"></i>
+	</a>
+	
+	<a href="javascript:void(0);" id="used">
+		已使用
+		<i class="l-lien"></i>
+	</a>
+	
+	<a href="javascript:void(0);" id="expired">已过期</a>
+</span>
+
+<div class="account-main l-pagetab" id="myUnusedRedPacket">
+
+</div>
+
+<div class="account-main l-pagetab" id="myUsedRedPacket">
+
+</div>
+
+<div class="account-main l-pagetab" id="myExpiredRedPacket">
+
+</div>
+	
+<script type="text/javascript">
+require(['front'],function(front){
+	showUnusedRedPacketPre(1);
+	
+	$("#unused").click(function(){
+		showUnusedRedPacketPre(1);
+	});
+	
+	$("#used").click(function(){
+		showUsedRedPacketPre(1);
+	});
+	$("#expired").click(function(){
+		showExpiredRedPacketPre(1);
+	});
+	
+	var tabcard = function(menu,cont){
+		menu.eq(0).addClass('selected');
+		cont.hide().eq(0).show();
+		menu.click(function(){
+			var index = $(this).index();
+			$(this).addClass('selected').siblings().removeClass('selected');
+			cont.hide().eq(index).show();
+		});
+	}
+	
+	tabcard($('.tlttab-menu>a'),$('.l-pagetab'));
+});
+	
+function showUnusedRedPacketPre(currPage){
+	$.ajax({
+		url : "@{front.account.MyRedpacketCtrl.showUnusedRedPacketPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myUnusedRedPacket").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+	
+function showUsedRedPacketPre(currPage){
+	$.ajax({
+		url : "@{front.account.MyRedpacketCtrl.showUsedRedPacketPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myUsedRedPacket").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+	
+function showExpiredRedPacketPre(currPage){
+	$.ajax({
+		url : "@{front.account.MyRedpacketCtrl.showExpiredRedPacketPre()}",
+		type : "GET",
+		data : {
+			"currPage" : currPage
+		},
+		success : function(data) {
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			$("#myExpiredRedPacket").html(data);
+			// 表格隔行换色
+			$('.account-table').each(function(){
+				$(this).children('tbody').children('tr:not(.account-bill):even').addClass('even');
+			});
+		}
+    });
+}
+</script>

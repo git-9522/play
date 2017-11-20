@@ -1,0 +1,67 @@
+.new_hand1 {
+    width: 100%;
+    height: 470px;
+    background: url(../images/ne-hand1.jpg) no-repeat center;
+}
+.new_hand1 .new_hand_cen>a {
+    bottom: -10px;
+    background: url(../images/ne-hand-btn1.png) no-repeat center;
+}
+.new_hand2 {
+    width: 100%;
+    height: 426px;
+    background: url(../images/ne-hand2.jpg) no-repeat center;
+}
+.new_hand2 .new_hand_cen>a {
+    bottom: 20px;
+}
+.new_hand3 {
+    width: 100%;
+    height: 637px;
+    background: url(../images/ne-hand3.jpg) no-repeat center;
+}
+.new_hand3 .new_hand_cen>a {
+    bottom: -40px;
+    z-index: 3;
+}
+.new_hand4 {
+    width: 100%;
+    height: 1507px;
+    background: url(../images/ne-hand4.jpg) no-repeat center;
+}
+.new_hand_cen {
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+.new_hand_cen>a {
+    position: absolute;
+    width: 200px;
+    height: 51px;
+    line-height: 50px;
+    font-size: 20px;
+    color: #fff;
+    background: url(../images/ne-hand-btn.png) no-repeat center;
+    text-align: center;
+    left: 50%;
+    margin-left: -100px;
+}
+.ne_hand_font {
+    position: absolute;
+    width: 905px;
+    padding: 0 20px;
+    height: 921px;
+    left: 118px;
+    top: 160px;
+    color: #773835;
+}
+.ne_hand_font1 {
+    position: absolute;
+    width: 905px;
+    padding: 0 20px;
+    height: 921px;
+    left: 118px;
+    top: 665px;
+    color: #773835;
+}

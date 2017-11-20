@@ -1,0 +1,264 @@
+html,body {
+    width: 100%;
+    overflow-x: hidden;
+}
+.qixi_box1 {
+    width: 100%;
+    height: 955px;
+    background: url(../images/qixi/qixi_bg1.jpg) no-repeat center;
+}
+.qixi_center {
+    width: 1200px;
+    height: 955px;
+    margin: 0 auto;
+    position: relative;
+}
+.qixi_center .qixi_win {
+    position: absolute;
+}
+.qixi_center .qixi_left {
+    left: -350px;
+    bottom: -165px;
+    z-index: 2;
+}
+.qixi_center .qixi_boy {
+    /*315px*/
+    /*出现花的位置*/
+    /*left:515px;*/
+    /*最终位置*/
+    left: 0;
+    bottom: 100px;
+}
+.qixi_center .qixi_right {
+    right: -350px;
+    bottom: -165px;
+    z-index: 2;
+}
+.qixi_center .qixi_girl {
+    /*-85px*/
+    /*出现花的位置*/
+    /*right:115px;*/
+    /*最终位置*/
+    right: -400px;
+    bottom: 0px;
+}
+.qixi_center .qixi_middle {
+    left: 50%;
+    margin-left: -419px;
+    display: none;
+    bottom: -150px;
+    z-index: 2;
+}
+.qixi_center .qixi_he {
+    left: 50%;
+    margin-left: -90px;
+    display: none;
+    bottom: 25px;
+}
+.qixi_xin {
+    left: 50%;
+    margin-left: -70px;
+    top: 45%;
+    display: none;
+}
+.waveRaidus {
+    -webkit-animation: waveRaidus 2s ease-out 0s infinite;
+    animation: waveRaidus 2s ease-out 0s infinite;
+    opacity: 0;
+}
+@-webkit-keyframes waveRaidus {
+     0% {
+            transform: scale(1);
+            opacity: 0;
+        }
+        65% {
+            transform: scale(1);
+            opacity: 0.6;
+        }
+        66% {
+            transform: scale(1);
+            opacity: 0.8;
+        }
+        100% {
+            transform: scale(1.3);
+            opacity: 0;
+        }
+}
+@keyframes waveRaidus {
+     0% {
+            transform: scale(1);
+            opacity: 0;
+        }
+        65% {
+            transform: scale(1);
+            opacity: 0.6;
+        }
+        66% {
+            transform: scale(1);
+            opacity: 0.8;
+        }
+        100% {
+            transform: scale(1.3);
+            opacity: 0;
+        }
+}
+.qixi_box2 {
+    height: 1500px;
+    background: #011240;
+}
+.qixi_cen {
+    width: 1200px;
+    height: 1180px;
+    margin: 0 auto;
+    position: relative;
+}
+.qixi_cen .qixi_title {
+    position: absolute;
+    top: 170px;
+    text-indent: 8rem;
+    width: 618px;
+    height: 134px;
+    line-height: 124px;
+    font-size: 32px;
+    color: #fff;
+    background: url(../images/qixi/qixi_title.png) no-repeat center;
+    left: 50%;
+    margin-left: -309px;
+}
+.qixi_cen .qixi_title>span {
+    font-size: 60px;
+    color: #fff100;
+}
+.qixi_cen>img {
+    position: absolute;
+}
+.qixi_cen>img.qixi_gua1 {
+    left: -350px;
+    top: 105px;
+}
+.qixi_cen>img.qixi_gua2 {
+    right: -350px;
+    top: 310px;
+}
+.content {
+    width: 940px;
+    height: 247px;
+    overflow: auto;
+    margin: 25px auto 0;
+}
+.qixi_ceil {
+    position: absolute;
+    width: 1110px;
+    height: 320px;
+    border-radius: 20px;
+    background: #042f71;
+    top: 390px;
+    left: 50%;
+    margin-left: -555px;
+}
+.ceil_list {
+    width: 910px;
+    color: #97dcff;
+    font-size: 18px;
+}
+.ceil_list th {
+    text-align: center;
+    line-height: 40px;
+    border-bottom: 1px dashed #97dcff;
+}
+.ceil_list td {
+    text-align: center;
+    line-height: 40px;
+    border-bottom: 1px dashed #97dcff;
+    position: relative;
+}
+.ceil_list td>img {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: 50%;
+    margin-left: -12px;
+    top: 7px;
+}
+.qixi_font {
+    position: absolute;
+    width: 1020px;
+    height: 554px;
+    padding: 0 73px;
+    left: 50%;
+    margin-left: -583px;
+    padding-top: 20px;
+    top: 820px;
+    background: url(../images/qixi/qixi_kuang.png) no-repeat center;
+}
+.qixi_yun {
+    right: -100px;
+    top: 1280px;
+}
+.qixi_font>h3 {
+    font-size: 24px;
+    color: #fff100;
+    margin-top: 60px;
+}
+.qixi_font>p {
+    line-height: 40px;
+    margin-top: 20px;
+    font-size: 24px;
+    color: #fff;
+}
+.qixi_font>span {
+    position: absolute;
+    left: 582px;
+    bottom: 50px;
+    line-height: 40px;
+    margin-top: 20px;
+    font-size: 24px;
+    color: #fff;
+}
+.qixi_dialog {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    left: 0;
+    z-index: 99999;
+    display: none;
+    top: 0;
+}
+.qixi_cont {
+    width: 532px;
+    background: url(../images/alert_bg.png) no-repeat center;
+    height: 236px;
+    border-radius: 0;
+    position: absolute;
+    left: 50%;
+    margin-left: -266px;
+    top: 30%;
+}
+.qixi_head {
+    height: 48px;
+    line-height: 48px;
+    padding-left: 20px;
+    border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    color: #333;
+}
+.qixi_msg{
+    padding: 40px 30px 0px;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
+.qixi_btn{
+    width: 107px;
+    height: 40px;
+    margin: 0 15px;
+    background: url(../images/alert_btn1.png) no-repeat center;
+    box-shadow: 0 1px 5px #bde0fd;
+    margin: 40px auto 0;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}

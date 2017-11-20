@@ -1,0 +1,196 @@
+#{extends 'common/front/accountMain.html' /} #{set title:'我的财富 | 开户' /}
+#{set smallclass:4 /}
+
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/front/stylesheets/bankMake.css'}" />
+
+<div class="account-infor">
+		<ul class="bank_lab">
+		#{if step == 0}
+		<form id="theForm" action="@{front.account.MySecurityCtrl.quickBindingPre}" method="get">
+			<input type="hidden" value="1" name="step">
+			<li class="en_lab relative">
+				<p>银行卡号：</p> 
+				<span	class="relative en_bank c0">#{asterisk str:bankCard?.account, start:6, end:6, count:8 /}</span>
+				<span id="orginCard" style="display: none;">${bankCard?.account}</span>
+			</li>
+			<li class="en_lab">
+				<p>开户银行：</p> 
+				<span	class="relative en_bank c0">${bankCard?.bank_name}</span>
+			</li>
+			<li class="en_lab">
+				<p>银行卡预留手机号：</p>
+				<span id="orginMobile"	class="relative en_bank c0">${bankCard?.mobile}</span>
+			</li>
+			#{if bankCard?.prov_id.length() != 0 && bankCard?.area_id.length() != 0}
+			<li class="en_lab">
+				<p>开户行所在省市：</p>
+				<span class="relative en_bank c0">${common.enums.Province.getProvByCode(bankCard?.prov_id)?.name}</span>
+				<span class="relative en_bank c0">${common.enums.Area.getAreaByCode(bankCard?.area_id)?.name}</span>
+			</li>
+			#{/if}
+			<li class="en_lab">
+				<p>短信验证码：</p>
+				<div class="num_img">
+					<input placeholder="请输入短信验证码" type="text" name="orginSmsCode" id="smsCodeInput" maxlength="6">
+					<div class="check_img cblue" onclick="getOrginSmsCode();">获取验证码</div>
+				</div>
+			</li>
+			<li class="en_font corange">
+				<!-- 手机验证码错误 -->&nbsp;
+			</li>
+			<div class="en_go" onclick="doStep1()">下一步</div>
+		</form>
+		#{/if}
+		#{elseif step == 1}
+			<form id="theForm" action="@{front.account.MySecurityCtrl.doQuickBinding}" method="post">
+			<li class="en_lab relative">
+				<p>银行卡号：</p> <input id='cardIdInput' placeholder="请输入本人储蓄卡号" name="cardId" type="text" maxlength="19" onkeyup="$(this).ndigitInteger(this,19)">
+				<span	class="relative en_bank c0" title="#{list items:common.enums.Bank.values(), as:'bank'}${bank.name}#{ifnot bank_isLast},#{/ifnot}#{/list}"
+					>支持银行</span>
+			</li>
+			<li class="en_font corange">
+				<!-- 身份证错误 -->&nbsp;
+			</li>
+			<li class="en_lab">
+				<p>开户银行：</p> <!-- <input placeholder="请先填写银行卡号" type="text"> -->
+				<div class="num_img">
+				#{select 'bankId', items:common.enums.Bank.values(), valueProperty:'code', labelProperty:'name', style:'width:200px;', id:'bankIdInput' /}
+				</div>
+			</li>
+			<li class="en_font corange">&nbsp;</li>
+			<li class="en_lab">
+				<p>银行卡预留手机号：</p> <input id="mobileInput" placeholder="请输入银行预留手机号" type="text" name="mobile" maxlength="11" onkeyup="$(this).ndigitInteger(this,11)">
+			</li>
+			<li class="en_font corange">
+				<!-- 手机号不正确 -->&nbsp;
+			</li>
+			<li class="en_lab">
+				<p>开户省市：</p>
+				<div class="num_img">
+					<select id="provIdInput" name="provId" onchange="provSelect(this.value)">
+						<option value="-1" selected="selected">请选择</option>
+						#{list items:common.enums.Province.values(), as:'prov'}
+							<option value="${prov.code}">${prov.name}</option>
+						#{/list}
+					</select> &nbsp;省&nbsp; 
+					<select id="areaIdInput" name="areaId">
+						<option value="-1" selected="selected">请选择</option>
+					</select> &nbsp;市&nbsp;	
+				</div>
+			</li>
+			<li class="en_font corange">
+				<!-- 手机验证码错误 -->&nbsp;
+			</li>
+			<li class="en_lab">
+				<p>短信验证码：</p>
+				<div class="num_img">
+					<input placeholder="请输入短信验证码" type="text" name="smsCode" id="smsCodeInput">
+					<div class="check_img cblue" onclick="getNewSmsCode();">获取验证码</div>
+				</div>
+			</li>
+			<li class="en_font corange">
+				<!-- 手机验证码错误 -->&nbsp;
+			</li>
+			<div class="en_go" onclick="doStep2()">下一步</div>
+		</form>
+		#{/elseif}
+		</ul>
+</div>
+
+<script type="text/javascript">
+	
+	function getOrginSmsCode() {
+		var card = $('#orginCard').html();
+		var mobile = $('#orginMobile').html();
+		getSmsCode(card, mobile, 2);
+	}
+	
+	function getNewSmsCode() {
+		var card = $('#cardIdInput').val();
+		var mobile = $('#mobileInput').val();
+		getSmsCode(card, mobile, 3);
+	}
+
+	function getSmsCode(card, mobile, type) {
+		// TODO 手机和银行卡正则判断
+		if(mobile.length < 11){
+			window.alert('手机号格式错误');
+			return;
+		}
+		if(card.length > 19 || card < 16) {
+			window.alert('银行卡号格式错误');
+			return;
+		}
+		var url;
+		if(type == 2) {
+			url = "@{front.account.MySecurityCtrl.sendSmsCode(2)}";
+		} else if(type == 3) {
+			url = "@{front.account.MySecurityCtrl.sendSmsCode(3)}";
+		}
+		$.ajax({
+			url : url,
+			data : {
+				"cardId" : card,
+				"mobile" : mobile
+			},
+			dataType : "json",
+			type : "POST",
+			success : function(result) {
+				window.alert(result.msg);
+			},
+			error : function() {
+				window.alert("超时了！！！");
+			}
+		});
+	}
+	
+	function provSelect(value) {
+		console.info(value);
+		if(value == -1) {
+			$('#areaIdInput').html('<option value="-1" selected="selected">请选择</option>');
+		} else {
+			$('#areaIdInput').load("@{front.account.MySecurityCtrl.getAreas}", {"code" : value});
+		}
+	}
+	
+	function doStep1(){
+		var smsCode = $('#smsCodeInput').val();
+		if(smsCode.length == 0) {
+			window.alert("验证码不能为空");
+			return;
+		}
+		$('#theForm').submit();
+	}
+	
+	function doStep2(){
+		var cardId = $('#cardIdInput').val();
+		var bankId = $('#bankIdInput').val();
+		var provId = $('#provIdInput').val();
+		var areaId = $('#areaIdInput').val();
+		var mobile = $('#mobileInput').val();
+		var smsCode = $('#smsCodeInput').val();
+		if(mobile == null || mobile.length < 11) {
+			window.alert("请输入正确的手机号");
+			return;
+		}
+		if(smsCode == null || smsCode.length == 0 ) {
+			window.alert("短信验证码不能为空!");
+			return;
+		}
+		if(cardId == null || cardId.length < 16 || cardId.length > 19 ) {
+			window.alert("银行卡号不能为空或长度不准确!");
+			return;
+		}
+		if(bankId == null || bankId.length == 0 ) {
+			window.alert("请选择开户银行");
+			return;
+		}
+		if(provId == -1 || areaId == -1) {
+			window.alert("请选择开户城市");
+			return;
+		}
+		$("#theForm").submit();
+	}
+	
+</script>

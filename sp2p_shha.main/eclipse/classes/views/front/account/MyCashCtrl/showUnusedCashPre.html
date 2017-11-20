@@ -1,0 +1,23 @@
+#{if pageBean?.page}
+<ul class="l-paytab clearfix ">
+	#{list pageBean?.page}
+	<li>
+		<div class="l-paybox">
+			<p class="l-paytlt"><em>${_?.amount?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}</em>元&nbsp;现金券</p>
+			<p class="l-paytime">
+				投资${_?.use_rule?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}元可使用
+			</p>
+			<p class="l-accountime">标的限制：#{if _?.bid_period == 0}无限制#{/if}#{else}满${_?.bid_period}个月标#{/else}</p>
+			<p class="l-accountime">${_?.time?.format(common.constants.Constants.DATE_PLUGIN2)}~${_?.end_time?.format(common.constants.Constants.DATE_PLUGIN2)}</p>
+			<a href="javascript:void(0);" class="paynone">未使用</a>
+		</div>
+	</li>
+	#{/list}
+</ul>
+#{/if}
+
+#{if pageBean?.page}
+<div class="page-wrap textcenter">
+	#{frontPageTag page:pageBean,showPage:'showUnusedCashPre' /}
+</div>
+#{/if}

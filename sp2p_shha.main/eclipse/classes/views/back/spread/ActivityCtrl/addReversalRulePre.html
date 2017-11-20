@@ -1,0 +1,137 @@
+#{extends 'back/spread/ActivityCtrl/reversalActivityMain.html' /}
+	#{set title:'推广 | 翻牌活动 | 添加翻牌规则' /}
+	#{set smallclass:2 /}
+	#{set crumbs:'推广>投资抽奖规则>添加翻牌规则'/}
+	
+<div class="back-main">
+	<!-- 头部筛选条件 -->
+	<div class="back-usertop">
+		<b class="left font14">添加翻牌规则</b>
+		<div class="right back-rightbtns">
+				<a href="javascript:backAndRefresh('@{back.spread.ActivityCtrl.showReversalRulesPre}');"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{back.spread.ActivityCtrl.addReversalRule}" method="POST" id="formAddRule">
+	#{authenticityToken /}
+	<div class="back-cont">
+		<div class="back-infor">
+			<h2 class="back-infor-head">
+				<span class="left">规则信息</span>
+			</h2>
+			<ul class="back-infor-set">
+				<li>
+					<span class="lileft">规则等级</span>
+					<div class="liright">
+						<input type="text" autofocus="autofocus" class="width01 iffocus" maxlength="10" value="${flash?.level}" name="rule.level"/>
+						<span class="back-text-limit">用于奖励中level相匹配</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">抽中概率</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" value="${flash?.probability}" maxlength="9" name="rule.probability"  oninput="$(this).proportionRange();" onkeyup="$(this).proportionRange();"/>
+							<i class="unit">%</i>
+						</label>
+						<span class="back-text-limit">通过概率控制获得率</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">单笔最低投资</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" maxlength="10" value="${flash?.min}" name="rule.min"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">-1表示无限制</span>
+					</div>
+				</li>
+				<li>
+					<span class="lileft">单笔最高投资</span>
+					<div class="liright">
+						<label class="back-unitinput">
+							<input type="text" class="width06 iffocus" maxlength="10" value="${flash?.max}" name="rule.max"/>
+							<i class="unit">元</i>
+						</label>
+						<span class="back-text-limit">-1表示无限制</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p class="back-audit-btns">
+			<input type="submit" id="pageSave" value="保存" class="bgbtn">
+			<input type="button" value="取消" class="bdbtn" onclick="backAndRefresh('@{back.spread.ActivityCtrl.showReversalRulesPre}');">
+		</p>
+	</div>
+	</form>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+		$(".subject-name").click(function(){
+			$(this).toggleClass("selected");
+		});
+		
+		//效验组件
+		require(["validation/validateExt"]);
+		
+		$("#formAddRule").validate({
+			errorPlacement: function(error, element) {
+				if(element.parent().hasClass("back-unitinput") && element.parent().parent().hasClass("back-buytype")){
+					error.addClass('back-notice').insertAfter($("#notice_buy_type"));
+				}else if(element.parent().hasClass("back-unitinput") || element.parent().hasClass("back-deallooker")){
+					error.addClass('back-notice').insertAfter(element.parent());
+				}else if(element.parent().parent().hasClass("back-unitinput")){
+					error.addClass('back-notice').insertAfter(element.parent().parent());
+				}else {
+					error.addClass('back-notice').insertAfter(element);
+				}
+			},
+			rules: {
+				"rule.level": {
+					required: true,
+					number: true
+				},
+				"rule.probability":{
+					required: true,
+					range: [0.1, 100]
+				},
+				"rule.min":{
+					required: true,
+					number: true,
+					range: [-1, 200000]
+				},
+				"rule.max":{
+					required: true,
+					number: true,
+					range: [-1, 200000]
+				}
+			},
+			messages: {
+				"rule.level": {
+					required: "请输入规则等级",
+					number: "必须为数字"
+				},
+				"rule.probability": {
+					required: "请输入中奖概率",
+					range: "范围0.1~100"
+				},
+				"rule.min": {
+					required: "请输入最小单笔投资金额",
+					number: "必须为数字",
+					range: "必须在0 - 200000之间，-1表示不限制"
+				},
+				"rule.max":{
+					required: "请输入最小单笔投资金额",
+					number: "必须为数字",
+					range: "必须在0 - 200000之间，-1表示不限制"
+				}
+			},
+			submitHandler:function(form){
+        		form.submit();
+   			}
+		});
+		
+	});
+</script>

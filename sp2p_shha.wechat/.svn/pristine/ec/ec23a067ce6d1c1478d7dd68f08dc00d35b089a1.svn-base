@@ -1,0 +1,227 @@
+#{extends 'common/wechatMain.html' /}
+
+<style>
+	select {
+		padding : 0 0.4rem;
+		height: 1.173333rem;
+		-webkit-border-radius: 5px;
+    	border: 1px solid #ddd;
+		color: #757575;
+	}
+	
+	.select-single {
+		width: 100%;	
+	} 
+	
+	.select-double {
+		width: 50%;	
+	} 
+</style>
+
+#{if step == 0}
+<div class="center">
+	<div class="information">
+    	<h3 class="detail-titile">原绑定银行卡</h3>
+        <ul class="information-ul">
+            <li class="flex">
+                <span class="flex-1">银行卡号</span>
+                <span>#{asterisk str:bank?.account, start:6, end:6, count:8 /}</span>
+            </li>
+            <li class="flex">
+                <span class="flex-1">开户银行</span>
+                <span>${bank?.bank_name}</span>
+            </li>
+            <li class="flex">
+                <span class="flex-1">银行卡预留手机号</span>
+                <span>#{asterisk str:bank?.mobile, start:3, end:4, count:4 /}</span>
+            </li>
+            <li class="flex">
+                <span class="flex-1">开户行所在城市</span>
+                <span>${common.enums.Province.getProvByCode(bank?.prov_id)?.name} | ${common.enums.Area.getAreaByCode(bank?.area_id)?.name}</span>
+            </li>
+        </ul>
+    </div>
+    <ul class="register-list">
+    	<li>
+			<div class="flex">
+				<input type="hidden" id="mobileInput" value="${bank?.mobile}" />
+				<input type="hidden" id="cardId" value="${bank?.account}" />
+				<input type="text" class="flex-1" id="smsCode" name="smsCode" oninput="$(this).ndigitInteger(6)" onkeyup="$(this).ndigitInteger(6)" placeholder="手机验证码" />
+				<input type="button" class="getcode-btn btn" onclick="sendCode(2);" id="getsmscode" value="获取验证码" />
+			</div>
+		</li>
+		<li>
+    		<input type="button" class="condition-btn btn" onclick="nextStep();" value="下一步">
+		</li>
+    </ul>
+</div>
+#{/if}
+#{elseif step == 1}
+	<div class="center">
+		<div class="information">
+    		<h3 class="detail-titile">新绑定银行卡</h3>
+    	</div>
+		<form action="@{wechat.front.account.MySecurityCtrl.bindCard}" method="POST" id="form_bind_card">
+			<ul class="register-list">
+				<li><input type="text" id="mobileInput" name="mobile" oninput="$(this).ndigitInteger(11)" onkeyup="$(this).ndigitInteger(11)" placeholder="手机号" /></li>
+				<li><input type="text" id="cardId" name="cardId" oninput="$(this).ndigitInteger(20)" onkeyup="$(this).ndigitInteger(20)" placeholder="银行卡号" /></li>
+				<li>
+					<select class="select-single" id="bankIdInput" name="bankId">
+						<option value="-1">请选择开户银行</option>
+						#{list items:common.enums.Bank, as:'bank'}
+							<option value="${bank.code}">${bank.name}</option>
+						#{/list}
+			   		</select>
+		   		</li>
+		   		<li>
+		   			<div class="flex">
+			   			<select class="flex-1 select-double" id="provIdInput" name="provId" onchange="provSelect(this.value)">
+							<option value="-1">开户银行所在省市</option>
+							#{list items:common.enums.Province, as:'province'}
+								<option value="${province.code}">${province.name}</option>
+							#{/list}
+				   		</select>
+				   		
+				   		<select id="areaIdInput" class="select-double" style="margin-left: 0.4rem;" name="areaId">
+							<option value="-1">开户银行所在城市</option>
+				   		</select>
+			   		</div>	
+		   		</li>
+				<li>
+					<div class="flex">
+						<input type="text" class="flex-1" id="smsCode" name="smsCode" oninput="$(this).ndigitInteger(6)" onkeyup="$(this).ndigitInteger(6)" placeholder="手机验证码" />
+						<input type="button" class="getcode-btn btn" onclick="sendCode(3);" id="getsmscode" value="获取验证码" />
+						<input type="hidden" id="flag" value="1">
+					</div>
+				</li>
+				<li>
+					<input type="button" id="form_bind_card_submit" class="condition-btn btn graybtn" value="存 管 开 户">
+				</li>
+			</ul>
+		</form>
+	</div>
+#{/elseif}         
+#{else}
+	<script type="text/javascript">
+		window.location.href = "@{wechat.front.account.MyAccountCtrl.toAccountHomePre}";
+	</script>
+#{/else}
+
+
+<script type="text/javascript">
+	require(['wechat'],function(wechat){
+		require(["validation/validateExt"]);
+		
+		$("#form_bind_card_submit").click(function(){
+			$("#form_bind_card").submit();
+		});
+		
+		$("#form_bind_card").validate({
+			errorPlacement: function(error, element) {
+				if(element.is("#smsCode")){
+					error.addClass('cored').addClass("wrong-txt").insertAfter(element.parent());
+				} else if(element.is("#mobile")) {
+					if($("#mobile-error").length == 0){
+			    		error.addClass('cored').addClass("wrong-txt").insertAfter(element);
+	    			}
+				} else {
+					error.addClass('cored').addClass("wrong-txt").insertAfter(element);
+				}
+			},
+			errorElement:"p",
+			rules:{
+				"mobile":{
+					required:true,
+					number:true,
+					isMobile:true,
+				},
+				"cardId":{
+					required:true,
+					number:true,
+					minlength : 16
+				},
+				"smsCode":{
+					required:true,
+					number:true,
+					maxlength:6,
+					minlength:6
+				},
+			},
+			messages:{
+				"mobile":{
+					required:"请输入手机号码",
+					number:"请输入正确的手机号",
+					isMobile:"请输入正确的手机号"
+				},
+				"cardId":{
+					required:"请输入银行卡号",
+					number:"请输入正确的银行卡号",
+					minlength : "请输入正确的银行卡号"
+				},
+				"smsCode":{
+					required:"请输入短信验证码",
+					number:"请输入六位数短信验证码",
+					maxlength:"请输入六位数短信验证码",
+					minlength:"请输入六位数短信验证码"
+				}
+			},
+			submitHandler:function(form){
+				if($("#bankIdInput").val() == -1){
+					alert("请选择开户银行");
+					return;
+				}
+				if($("#provIdInput").val() == -1){
+					alert("请选择开户银行所在省市");
+					return;
+				}
+				if($("#areaIdInput").val() == -1 ){
+					alert("请选择开户银行所在城市");
+					return;
+				}
+				form.submit();
+			}
+		});
+	});
+	
+	function sendCode(code) {
+		var mobile = $('#mobileInput').val();
+		var cardId = $('#cardId').val();
+		$.ajax({
+			url : "@{front.account.MySecurityCtrl.sendSmsCode}",
+			type : "POST",
+			data : {
+				"type" : code,
+				"mobile" : mobile,
+				"cardId" : cardId
+			},
+			dataType:"json",
+			success : function(data) {
+				window.alert(data.msg);
+			}
+		});
+	}
+	
+	function provSelect(value) {
+		if(value == -1) {
+			$('#areaIdInput').html('<option value="-1" selected="selected">开户银行所在省市</option>');
+		} else {
+			$('#areaIdInput').load("@{front.account.MySecurityCtrl.getAreas}", {"code" : value});
+		}
+	}
+	
+	function nextStep() {
+		var smsCode = $('#smsCode').val();
+		if(smsCode == '') {
+			alert('短信验证码不能为空');
+			return;
+		}
+		
+		if(smsCode.length != 6) {
+			alert("短信验证码必须为6位");
+			return;
+		}
+		
+		window.location.href = "@{wechat.front.account.MySecurityCtrl.bindCardPre(1)}" + "&smsCode=" + smsCode;
+	}
+	
+</script>

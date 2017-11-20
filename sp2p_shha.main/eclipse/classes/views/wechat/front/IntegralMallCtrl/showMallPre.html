@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、出借新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、出借新方向！" />
+        <meta name="description" content="虹金所_引领投资、出借新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+		
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/swiper-3.4.2.min.css'}"/>
+        
+    </head>
+    <body>
+    	<a href="" class="q-scbanner">
+    		<img src="@{'/public/wechat/images/scbanner.jpg'}"/>
+    	</a>
+		<ul class="flex q-scul q-padding">
+			<li class="flex-1">
+				<dl>
+					<dt><img src="@{'/public/wechat/images/scimg01.png'}"/></dt>
+					<dd>认证送豪礼</dd>
+				</dl>
+			</li>
+			<li class="flex-1">
+				<dl>
+					<dt><img src="@{'/public/wechat/images/scimg02.png'}"/></dt>
+					<dd>签到送虹银</dd>
+				</dl>
+			</li>
+			<li class="flex-1">
+				<dl>
+					<dt><img src="@{'/public/wechat/images/scimg03.png'}"/></dt>
+					<dd>注册送红包</dd>
+				</dl>
+			</li>
+		</ul>
+		
+		<div class="q-scone mt15 q-xjone">
+			<p class="q-title">虚拟类</p>
+			 <div class="swiper-container q-padding mt10">
+		        <div class="swiper-wrapper">
+	              	#{list virtualGoods}
+		            <div class="swiper-slide">
+		            	<div class="q-allhb">
+		            		<div class="q-sphb clearfix">
+			            		<img src="${_?.image_url}" class="w-xunw-img"/>
+			            	</div>
+			            	<p class="p01">${_?.name}</p>
+			            	<p class="p02">尊享价:<span class="q-color">${_?.spend_scroe}</span> 虹银</p>
+			            	<a href="@{wechat.front.IntegralMallCtrl.showMallGoodsPre(_?.sign)}">立即兑换</a>
+		            	</div>
+		            </div>
+		            #{/list}
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="q-scone mt15 q-swone">
+			<p class="q-title">实物类</p>
+			 <div class="swiper-container q-padding mt10">
+		        <div class="swiper-wrapper">
+		        	#{list entityGoods}
+		            <div class="swiper-slide">
+		            	<div class="q-allhb">
+		            		<div class="q-sphb clearfix">
+			            		<img src="${_?.image_url}"/>
+			            	</div>
+			            	<p class="p01">${_?.name}</p>
+			            	<p class="p02">尊享价:<span class="q-color">${_?.spend_scroe}</span> 虹银</p>
+			            	<a href="@{wechat.front.IntegralMallCtrl.showMallGoodsPre(_?.sign)}">立即兑换</a>
+		            	</div>
+		            </div>
+		            #{/list}
+		        </div>
+		    </div>
+		</div>
+    </body>
+    
+    <!--警告弹窗-->
+	<div id="warm" style="display:none;">
+		<div class="q-tcbg" style="display: block;"></div>
+		<div class="q-tcdiv">
+			<p class="p01">警告</p>
+			<p class="msgTest p02"></p>
+			<a href="javascript:void(0)" class="close q-link100 mt30">确定</a>
+		</div>
+	</div>
+	<!--弹窗-->
+    <!-- 页面js -->
+	<script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+	<script src="@{'/public/wechat/javascripts/swiper-3.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script>
+	    var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        slidesPerView: 'auto',
+	        paginationClickable: true,
+	        spaceBetween: 30
+	    });
+	</script>
+	<script type="text/javascript">   
+	    function alertWin(msg){
+			$('#warm').css("display","block");
+			$('.q-tcdiv .msgTest').text(msg);
+		}
+   		
+   		$('.close').click(function(){
+   			$('#warm').css("display","none");
+   		});
+   		
+   		$(function(){
+			#{if flash?.error}
+				alertWin("${flash?.error}");
+			#{/if}
+		});
+    </script>
+</html>

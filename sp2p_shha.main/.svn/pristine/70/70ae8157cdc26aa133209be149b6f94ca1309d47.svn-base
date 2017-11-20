@@ -1,0 +1,253 @@
+#{extends 'common/front/accountMain.html' /}
+#{set title:'我的财富 | 账户首页 | 充值' /}
+#{set smallclass:0 /}
+
+
+<style>
+.recharge-type {
+    float: left;
+    width: 118px;
+    overflow: hidden;
+    border: 1px solid #fd624d;
+    padding: 10px 10px;
+    margin-right: 20px;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    position: relative;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+	.withdraw_att {
+	    border: 1px solid #5ed6fd!important;
+	}
+	.tishi_tip {
+	    width: 200px;
+	    text-align: right;
+	    left: -90px;
+	    top: 12px;
+	    font-size: 14px;
+	}
+	.unit-input-tip {
+	    left: -210px;
+	}
+	.smsCodeDiv_tip {
+	    left: -210px;
+	    top: 40px;
+	}
+	.bankIdDiv_tip {
+	    left: -210px;
+	    top: 12px;
+	}
+	/*.recharge-qp {
+	    background-image: url('/public/front/images/recharge/bank-qp.png')
+	}
+	.recharge-b2c {
+	    background-image: url('/public/front/images/recharge/bank-b2c.png')
+	}*/
+	.recharge-type i {
+	    width: 35px;
+	    height: 41px;
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    background-position: right bottom;
+	    background-repeat: no-repeat;
+	    background-image: url('/public/front/images/recharge/bank-selected.png');
+	    display: none;
+	}
+	.recharge-type-on i {
+	    display: block;
+	}
+	.getcode-btn:hover {
+	    background-color: #ff5256;
+	}
+</style>
+
+<!-- 账户主要表格 -->
+<div class="account-box">
+	<h2 class="account-title">
+		<div class="right account-menu">
+			<a href="@{front.account.MyAccountCtrl.withdrawPre()}">&nbsp;提现&nbsp;</a>
+			<a href="@{front.account.MyAccountCtrl.rechargePre()}" class="selected">账户直充</a>
+			*{<a href="quickRecharge.html">闪电快充</a>}*
+		</div>
+	</h2>
+	<div class="withdraw-box clearfix">
+		<form action="@{front.account.MyAccountCtrl.recharge()}" method="post" id="rechargeform">
+			#{authenticityToken /}
+			<input type="hidden" name="uuidRepeat" value="${flash?.submitUuid}">
+			<input id="typeInput" type="hidden" name="tradeType" value="2">
+			<div class="relative withdraw-right" style="margin-top: 40px;">
+                <span class="tishi_tip absolute">充值方式：</span>
+                #{ifnot currUser?.is_corp}
+				<span data="2" class="recharge-type recharge-type-on recharge-qp" href="javascript:;"><i></i><span>快捷支付</span></span>
+				<span data="0" style="margin-right:0px;" class="recharge-type recharge-b2c" href="javascript:;"><i></i><span>网银支付</span></span>
+				<div class="mb20" style="clear: both;"></div>
+                #{/ifnot}
+                #{else}
+				<span data="1" class="recharge-type recharge-type-on recharge-qp" href="javascript:;"><i></i><span>企业网银</span></span>
+				<span data="0" style="margin-right:0px;" class="recharge-type recharge-b2c" href="javascript:;"><i></i><span>个人网银</span></span>
+				<div class="mb20" style="clear: both;"></div>
+                #{/else}
+				<label class="unit-input mb10 relative">
+					<span class="tishi_tip unit-input-tip absolute">充值金额：</span>
+					<input type="text" id="rechargeAmt" name="rechargeAmt" class="text" placeholder="请输入充值金额" oninput="$(this).ndigitInteger(8)" onkeyup="$(this).ndigitInteger(8)">
+				</label>
+				<div class="withdraw-error mb10" id="rechargeAmt-error"></div>
+				<div id="smsCodeDiv" class="mb20 relative" #{if currUser?.is_corp}style="display: none;"#{/if}>
+                    <span class="tishi_tip smsCodeDiv_tip absolute">短信验证码：</span>
+					<label class="codetext">
+						<span>将发送验证码至您#{asterisk str:bankUser?.mobile, start:'3', count:'5', end:'3'/}的手机</span>
+						<input type="text" id="smsCode" name="smsCode" class="text mt10" placeholder="请输入验证码" maxlength="6" style="padding-left: 12px;" >
+						<input type="button" value="获取验证码" onclick="sendCode();" class="mt10 getcode-btn right" style="width:120px;">
+					</label>
+					<div class="withdraw-error" id="smsCode-error"></div>
+				</div>
+				<div id="bankIdDiv" class="mb20 relative" #{ifnot currUser?.is_corp}style="display: none;"#{/ifnot}>
+                    <span class="tishi_tip bankIdDiv_tip absolute">充值银行：</span>
+					<select class="select" name="bankId" style="padding-left: 12px;">
+						<option value="-1">请选择充值银行</option>
+						#{list items:common.enums.Bank.values(), as:'bank'}
+							<option value="${bank?.code}">${bank?.name}</option>
+						#{/list}
+					</select>
+					<div class="withdraw-error" id="bankId-error"></div>
+				</div>
+				<input type="submit" value="充  值" class="condition-btn btn" id="account_recharge">
+			</div>
+		</form>
+		<div class="bankcard-addnote relative c9 left">
+			<div class="withdraw-box-line absolute clearfix"></div>
+			<span class="borrow-notehead"><i class="icon note-icon"></i>温馨提示：</span><br>
+			1.投资人充值过程全程免费，不收取任何手续费；<br>
+			2.个人用户当日充值资金当日不可取现；<br>
+			3.充值必须为银行借记卡，不支持存折、信用卡充值；<br>
+			4.严禁利用充值功能进行信用卡套现、转账、洗钱等行为，一经发现，将封停账号30天；<br>
+			5.充值需开通银行卡网上支付功能，如有疑问请咨询开户行客服；<br>
+			6.充值期间，请勿关闭浏览器，待充值成功并返回首页后，所充资金才能入账，如有疑问，请及时联系客服。<br>
+		</div>
+	</div>
+	<p class="returnprev">
+		<a href="@{front.account.MyAccountCtrl.homePre()}" class="backpage"><i class="icon return-icon"></i>返回</a>
+	</p>
+	
+	<!-- 充值弹窗 -->
+	<div class="dialog" id="account_recharge_dialog">
+		<div class="dialog-bg"></div>
+		<div class="dialog-cont trusteeship-dialog">
+			<h2 class="dialog-head">
+				<span class="left">平台提示</span>
+			</h2>
+			<div class="trusteeship-cont">
+				<div class="trusteeship-wrap">
+					<i class="trusteeship-icon"></i>
+					<p class="major">请在新页面完成充值。</p>
+					<a href="@{front.account.MyAccountCtrl.homePre()}" class="bdbtn">充值成功</a>
+					<p class="trusteeship-help"><a href="@{front.FrontHomeCtrl.helpPre(models.common.entity.t_help_center.Column.FINANCIAL_KNOWLEDGE.code,1)}" class="c9">充值遇到问题></a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+var type = 2;
+require(['front'],function(front){
+	// 导航选中效果
+// 	require(['account']);
+	
+	$("#rechargeform").submit(function(){
+		#{if isSimulated}
+	    	alert("模拟登录不能执行该操作");
+	    	return false;
+	  #{/if}
+	  #{else}
+		var rechargeAmt = $("#rechargeAmt").val();
+		
+    if(rechargeAmt == ''){
+    	$("#rechargeAmt-error").css("display","block").html("充值金额不能为空");
+  	  	return false;
+    }
+	    
+    if(isNaN(rechargeAmt)){
+    	$("#rechargeAmt-error").css("display","block").html("请输入正确的充值金额");
+    	return false;
+    }
+	    
+    if(rechargeAmt < ${rechargeLowest}){
+    	$("#rechargeAmt-error").css("display","block").html("最低充值${rechargeLowest}元");
+    	return false;
+    }
+	    
+    if(rechargeAmt > ${rechargeHighest}){
+   		 $("#rechargeAmt-error").css("display","block").html("充值金额不能大于${rechargeHighest}元");
+  	  	 return false;
+    }
+	    
+    $("#rechargeAmt-error").css("display","none").html("");
+    
+    if(type == 2) {
+    	var smsCode = $('#smsCode').val();
+    	
+    	if(smsCode == ''){
+        	$("#smsCode-error").css("display","block").html("验证码不能为空");
+      	  return false;
+      }
+    	$('#rechargeform').removeAttr("target");
+    }
+    
+    if(type == 0) {
+    	var bankId = $('#bankId').val();
+    	if(bankId == -1){
+        	$("#bankId-error").css("display","block").html("请选择充值银行");
+      	  return false;
+      }
+    	$('#rechargeform').attr("target", "_blank");
+    }
+    
+    $("#account_recharge_dialog").dialog();
+    #{/else}
+	});
+	
+	$('.recharge-type').click(function() {
+		// 清除class
+		$(this).parent().children().removeClass('recharge-type-on');
+		// 添加class
+		$(this).addClass('recharge-type-on');
+		type = $(this).attr('data');
+		$('#typeInput').val($(this).attr('data'));
+		if(type != 2) {
+			$('#smsCodeDiv').hide();
+			$('#smsCode').val('');
+			$('#bankIdDiv').show();
+		} else {
+			$('#bankIdDiv').hide();
+			$('#bankId').val('');
+			$('#smsCodeDiv').show();
+		}
+	});
+	
+});
+
+function sendCode() {
+	var cardId = ${bankUser?.account};
+	var mobile = '${bankUser?.mobile}';
+	$.ajax({
+		url : "@{front.account.MySecurityCtrl.sendSmsCode(1)}",
+		data : {
+			"cardId" : cardId,
+			"mobile" : mobile
+		},
+		dataType : "json",
+		type : "POST",
+		success : function(result) {
+			window.alert(result.msg);
+		},
+		error : function() {
+			window.alert("超时了！！！");
+		}
+	});
+}
+</script>

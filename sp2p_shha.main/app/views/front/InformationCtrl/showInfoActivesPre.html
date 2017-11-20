@@ -1,0 +1,29 @@
+
+ <ul class="ne_tocat_list" >
+   #{if page?.page?.size()}
+ <li class="clearfix ne_tocat_act" id="info_active">                    
+#{list items:page?.page,as:"advertisement"}
+           <div class="tocat_flex left">
+					<img src="${advertisement?.image_url}" alt="${advertisement?.name}">
+					<h3 class="fs18 mt15 c3 center">${advertisement?.name}</h3>
+					<p class="fs14 mt5 c9 center"></p>
+					#{if advertisement?.getIs_use()?.code==true}
+					<a class="cf" href="${advertisement?.url}"
+						target="${advertisement?.target?.value}">进行中</a>
+					#{/if}
+					#{else}
+						<a class="toact_end" href="javascript:void(0)">已结束</a>
+					#{/else}	
+			</div>
+ #{/list}   
+ </li>
+ #{/if}
+ </ul>                
+<div class="check_center">
+		<div class="page-wrap f-page" >
+		 		#{if page?.page}
+					#{frontPageTag page:page,showPage:"loadMoreInfos"/}
+				#{/if}
+		</div>
+</div>
+

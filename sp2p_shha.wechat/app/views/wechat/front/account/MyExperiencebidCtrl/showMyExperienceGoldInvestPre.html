@@ -1,0 +1,50 @@
+#{list pageBean?.page}
+	<div class="bill">
+		<h3 class="bill-title">
+			${_?.bidNo} ${_?.title}<img src="/public/wechat/images/billico.png" />
+		</h3>
+		<ul class="bill-uls">
+			<li class="flex">
+				<div>投标金额</div>
+				<div class="flex-1 tr">#{formatIntMoney money:_?.invest_amount}#{/formatIntMoney}元</div>
+			</li>
+			<li class="flex">
+				<div>预计收益</div>
+				<div class="flex-1 major tr">${_?.income?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}元</div>
+			</li>
+			<li class="flex">
+				<div>投标时间</div>
+				<div class="flex-1 tr">${_?.invest_time?.format(common.constants.Constants.DATE_FORMATE)}</div>
+			</li>
+			<li class="flex">
+				<div>到期时间</div>
+				<div class="flex-1 tr">${_?.repayment_time?.format(common.constants.Constants.DATE_FORMATE)?:'----'}</div>
+			</li>
+			<li class="flex">
+				<div>状态</div>
+				<div class="flex-1 tr">${_?.status?.value}</div>
+			</li>
+		</ul>
+	</div>
+#{/list}
+<input type="hidden" id="investCurrPage" value="${pageBean?.currPage}"/>
+<input type="hidden" id="investTotalPageCount" value="${pageBean?.totalPageCount}"/>
+
+<script type="text/javascript">
+	require(['wechat'], function() {
+		//绑定点击事件 
+		$('.bill-title').unbind('click').bind('click',function(){
+	        var userasset = $(this).siblings('.bill-uls');
+	        if(userasset.is(':hidden')){
+	        	$('.bill-uls').stop(true,true).slideUp(300);
+	            userasset.stop(true,true).slideDown(300);
+	            $(this).addClass('click');
+	        }else{
+	            userasset.stop(true,true).slideUp(300);
+	            $(this).removeClass('click');
+	        }
+	    });
+	});
+</script>
+
+

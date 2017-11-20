@@ -1,0 +1,169 @@
+#{extends 'common/front/accountMain.html' /}
+#{set title:'我的财富 | 富友绑定银行卡' /}
+#{set smallclass:3 /}
+
+<!-- 富友绑定银行卡 -->
+<div class="account-infor">
+ <form action="@{front.account.MySecurityCtrl.createFyAccount()}" method="post" id="createFyAccountForm">
+	<div class="account-inforbox info-div" id="basicDiv">
+		<h3 class="account-infortitle">
+			<span class="left c3">开户行所属省市</span>
+		</h3>
+		<div class="account-error" id="basic-error"></div>
+		<table width="100%">
+			<tr height="67">
+				<td align="right" width="88">所属省</td>
+				<td width="290">
+					<select name="prov_num" id="prov" class="select" onchange="findCity()">
+						<option value="0">请选择</option>
+			  			#{list list}
+							<option value = "${_?.prov_num}">${_?.prov_name}</option>
+						#{/list}
+	  				</select>
+				</td>
+				<td align="right" width="88">所属市</td>
+				<td width="290">
+					<select name="city_num" id="city" class="select">
+						<option value="0">请选择</option>
+	  				</select>
+				</td>
+				<td align="right" width="88"></td>
+				<td width="290"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="account-inforbox info-div" id="assetsDiv">
+		<h3 class="account-infortitle">
+			<span class="left c3">开户行信息</span>
+		</h3>
+		<div class="account-error" id="assets-error"></div>
+		<table width="100%">
+			<tr height="67">
+				<td align="right" width="88">类别</td>
+				<td width="290">
+					<select name="bank_type" id="bank_type" class="select">
+			       	 	<option value ="0">请选择</option>
+			       	 	<option value ="0102">中国工商银行</option>
+			       	 	<option value ="0103">中国农业银行</option>
+			       	 	<option value ="0104">中国银行</option>
+			       	 	<option value ="0105">中国建设银行</option>
+			       	 	<option value ="0302">中信实业银行</option>
+			       	 	<option value ="0303">中国光大银行</option>
+			       	 	<option value ="0304">华夏银行</option>
+			       	 	<option value ="0305">中国民生银行</option>
+			       	 	<option value ="0306">广东发展银行</option>
+			       	 	<option value ="0307">平安银行股份有限公司</option>
+			       	 	<option value ="0308">招商银行</option>
+			       	 	<option value ="0309">兴业银行</option>
+			       	 	<option value ="0310">上海浦东发展银行</option>
+			       	 	<option value ="0403">国家邮政局邮政储汇局</option>
+		       		</select>
+				</td>
+				<td align="right" width="88">支行名称</td>
+				<td width="290">
+					<input type="text" id="bank_name" name="bank_name" class="text" />
+				</td>
+				<td align="right" width="88">银行卡号</td>
+				<td width="290">
+					<input type="text" id="bank_num" name="bank_num" class="text" maxlength="19" />
+				</td>
+			</tr>
+		</table>
+	</div>
+ </form>
+	
+	<!-- 开通富友托管账户按钮 -->
+	<div class="account-inforbox" style="text-align: center; border: 0">
+		<input type="button" value="开通托管账户" class="condition-btn btn" id="createFyAccount" />
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	require(['front'],function(front){
+		require(['account']);
+		
+		//富友绑定银行卡
+		$("#createFyAccount").click(function(){
+				//开户行所属省市
+				var prov = $("#prov").val();//开户行所属省
+				if (prov == 0){
+					$("#basic-error").css("display", "block");
+					$("#basic-error").html("请选择开户行所属省");
+					
+					return;
+				} else {
+					$("#basic-error").hide();
+				}
+				
+				var city = $("#city").val();//开户行所属市
+				if (city == 0){
+					$("#basic-error").css("display", "block");
+					$("#basic-error").html("请选择开户行所属市");
+					
+					return;
+				} else {
+					$("#basic-error").hide();
+				}
+				//开户行信息
+				var bank_type = $("#bank_type").val();//开户行类别
+				if (bank_type == 0){
+					$("#assets-error").css("display", "block");
+					$("#assets-error").html("请选择开户行类别");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				var bank_name = $("#bank_name").val();//支行名称
+				if (!bank_name.isNotBlank()){
+					$("#assets-error").css("display", "block");
+					$("#assets-error").html("请填写支行名称");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				var bank_num = $("#bank_num").val();//银行卡号
+				if (!bank_num.isNotBlank()){
+					$("#assets-error").css("display", "block");
+					$("#assets-error").html("请填写银行卡号");
+					
+					return;
+				} else {
+					$("#assets-error").hide();
+				}
+				
+				$.ajax({
+					url : "@{front.FrontAjaxValideCtrl.checkBankAccount()}",
+					type : "POST",
+					data : {
+						"bankAccount" : bank_num
+					},
+					dataType:"json",
+					success : function(data) {
+						if (!data) {
+							$("#assets-error").css("display", "block");
+							$("#assets-error").html("该银行卡号已经存在");
+							
+							return ;
+						} else {
+							waitingDialog();
+							$("#createFyAccountForm").submit();
+						}
+					}
+				});
+		});
+	});
+	
+	function findCity(){
+		var prov_num = $("#prov").val();
+		$.post("@{front.account.MySecurityCtrl.findByCity()}", {'prov_num':prov_num}, function(data){
+			var option = '<option value = "">请选择</option>';
+			for (var i =0; i < data.length; i++){
+				option = option + '<option value = "'+data[i].city_num+'">'+data[i].city_name+'</option>';
+			}
+			$("#city").html(option);
+		})
+	}
+</script>

@@ -1,0 +1,25 @@
+#{extends 'common/front/frontLoginMain.html' /}
+#{set title:'邮箱激活成功'/}
+#{set AItem:0 /}
+#{set isemail:'true'/}
+
+<!-- 登录注册head end -->
+<div class="login-body ">
+<div class="success-box">
+	<span class="timeout-note major"> <i
+		class="icon #{if flash?.msg != null} fail-icon#{/if}#{else} success-icon #{/else} login-notemsg"></i>
+		#{if flash?.msg != null}${flash.msg}#{/if}#{else}恭喜，邮箱激活成功！#{/else}
+	</span>
+	<p class="trusteeship-note c3">
+		<a href="@{front.account.MyAccountCtrl.homePre()}"
+			class="major trusteeship-openbtn">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+		#{if currUser == null} <a
+			href="@{front.LoginAndRegisteCtrl.loginPre()}" class="major">去登录</a>
+	</p>
+	#{/if} #{else} <a href="@{front.account.MyAccountCtrl.homePre()}"
+		class="major">我的财富</a>
+	</p>
+	#{/else}
+
+</div>
+</div>

@@ -1,0 +1,77 @@
+#{extends 'wechat/back/WechatCtrl/weixinMain.html' /}
+	#{set title:'微信 | 微信菜单编辑' /}
+	#{set smallclass:1 /}
+	#{set crumbs:'微信>微信菜单编辑' /}
+
+
+<div class="back-main">
+	<input type="hidden" name="location" id="location" value="9"/>
+	<div class="back-usertop">
+		<b class="left font14">${menu?.menu_structure} ${menu?.name} >编辑</b>
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			<a href="javascript:window.history.back();"><i class="iconfont">&#xe60b;</i>返回</a>
+		</div>
+	</div>
+	<form action="@{wechat.back.WechatCtrl.editWechatMenu()}" method="POST" id="edit_wxmenu">
+		<div class="back-cont">
+			<div class="back-infor">
+				<h2 class="back-infor-head">微信菜单</h2>
+				<ul class="back-infor-set">
+					<li>
+						<span class="lileft">菜单名称</span>
+						<div class="liright">
+							<input type="hidden" id="sign" name="sign" value="${menu?.sign}">
+							#{if menu?.parent_id == -1}
+								<input type="text" id="name" name="name" autofocus="autofocus" minlength="1" maxlength="5" class="width01 iffocus required" value="${menu?.name}" />
+								<span class="back-text-limit">一级菜单名称不能超过5个汉字</span>
+							#{/if}
+							#{else}
+								<input type="text" id="name" name="name" autofocus="autofocus" minlength="1" maxlength="6" class="width01 iffocus required" value="${menu?.name}" />
+								<span class="back-text-limit">二级菜单名称不能超过6个汉字</span>
+							#{/else}
+						</div>
+					</li>
+					<li>
+						<span class="lileft">菜单类型</span>
+						<div class="liright">${menu?.type?.value}</div>
+					</li>
+					#{if menu?.type?.code == 2}
+					<li>
+						<span class="lileft">链接</span>
+						<div class="liright">${menu.url}</div>
+					</li>
+					#{/if}
+				</ul>
+			</div>
+			<p class="back-audit-btns">
+				<input type="submit" id="pageSave" value="保存" class="bgbtn">
+				<input type="button" value="取消" class="bdbtn" onclick="javascript:history.go(-1);">
+			</p>
+		</div>
+	</form>
+</div>
+
+<!-- 页面js -->
+<script type="text/javascript">
+require(["back"],function(back){
+	//编辑微信菜单 
+	$("#edit_wxmenu").validate({
+		errorPlacement: function(error, element) {
+			error.addClass('back-notice').insertAfter(element);
+		},
+		rules:{
+			"name":{
+				required:true,
+				rangelength:[1,10]
+			}
+		},
+		messages:{
+			"name":{
+				required:"姓名1-10个字符"
+			}
+		}
+	});
+});
+
+</script>

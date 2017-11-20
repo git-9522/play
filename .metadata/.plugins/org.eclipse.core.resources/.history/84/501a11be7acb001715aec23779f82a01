@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>金融课程</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/bottom.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/reset.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/style.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/wechat/newedition/css/swiper.min.css'}" />
+</head>
+
+<body>
+<div class="header" style="display:block;"><a href="@{wechat.front.DiscoverCtrl.goDiscoverPre()}"><span class="icon_goback"></span></a> <span class="title_name">金融课堂</span> </div>
+<div class="content2">
+  #{if page?.page}
+  #{list items:page?.page,as:'classroom'}
+  <div class="new_box clearfix"> <a href="@{wechat.front.DiscoverCtrl.getInfoDetailPre(classroom?.id)}">
+   <div class="new_left">#{if classroom?.image_url}<img id="img" src="${classroom?.image_url}" onerror="this.src='/public/wechat/newedition/images/default.jpg'">#{/if}#{else}<img src='/public/wechat/newedition/images/default.jpg'>#{/else}</div>
+    <div class="new_right">
+      <p class="new_title">${classroom?.title}</p>
+      <p class="new_time">${classroom?.time?.format(common.constants.Constants.DATE_TIME_FORMATE)?:'----'}</p>
+    </div>
+    </a> </div>
+  #{/list}
+  #{/if}
+</div>
+</body>
+</html>

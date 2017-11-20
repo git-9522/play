@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虹金所_引领投资、出借新方向！</title>
+        <meta name="keywords" content="虹金所_引领投资、出借新方向！" />
+        <meta name="description" content="虹金所_引领投资、出借新方向！" />
+        <meta content="telephone=no" name="format-detection">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <link rel="stylesheet" type="text/css" href="@{'/public/wechat/stylesheets/front.css'}" />
+    </head>
+    <body>
+    	<div class="q-footerpbtm">
+			<ul class="flex q-lcul">
+				<li class="flex-1">
+					<a href="@{wechat.front.InvestCtrl.toWechatInvestPre()}">智能出借</a>
+				</li>
+				<li class="flex-1 q-on">
+					<a href="javascript:void(0)" onclick="location.reload()">债权转让</a>
+				</li>
+			</ul>
+			<ul class="q-lclist">
+				#{include 'wechat/front/DebtCtrl/showWechatDebtsPre.html' /}
+			</ul>
+			<!-- 	footer-->
+		       	<ul class="q-footerul flex">
+		       		<li class="flex-1">
+		       			<a href="@{wechat.front.WechatHomeCtrl.frontHomePre()}">
+			       			<dl class="dl01">
+			       				<dt></dt>
+			       				<dd>首页</dd>
+			       			</dl>
+		       			</a>
+		       		</li>
+		       		<li class="flex-1  q-on">
+		       			<a href="javascript:void(0)" onclick="location.reload()">
+			       			<dl class="dl02">
+			       				<dt></dt>
+			       				<dd>出借</dd>
+			       			</dl>
+		       			</a>
+		       		</li>
+		       		<li class="flex-1">
+		       			<a href="@{wechat.front.account.MyAccountCtrl.toAccountHomePre()}">
+			       			<dl class="dl03">
+			       				<dt></dt>
+			       				<dd>我的财富</dd>
+			       			</dl>
+		       			</a>
+		       		</li>
+		       	</ul>
+	       	</div>
+	    </div>
+        <!-- 	footer-->
+    </body>
+    <!-- 页面js -->
+    <script src="@{'/public/wechat/javascripts/jquery-2.0.3.min.js'}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="@{'/public/wechat/javascripts/flexible.js'}"></script>
+</html>

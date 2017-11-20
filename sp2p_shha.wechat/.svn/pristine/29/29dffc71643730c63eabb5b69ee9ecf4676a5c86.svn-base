@@ -1,0 +1,53 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+    <form action="@{wechat.front.LoginAndRegisteCtrl.forgetPwdSecond()}" method="POST" id="form_forgetPwdSecond">
+    <input type="hidden" name="mobile" value="${mobile}"> 
+    <input type="hidden" name="smsCodeSign" value="${smsCodeSign}"> 
+	<ul class="register-list">
+		<li>手机号码：<span class="cored">${mobile}</span></li>
+		<li>
+			<div class="flex">
+				<input type="text" class="flex-1" id="code" name="code" placeholder="输入验证码" maxlength="2" />
+				<img src="@{common.CaptchaController.createCaptcha(randomId)}" id="captchaImage" class="getcode-btn" height="37" width="50%" alt="" title="换一张" onclick="refreshCaptcha(true);" />
+				<input id="randomId" name="randomId" value="${randomId}" type="hidden"/>
+			</div>
+		</li>
+		<li id="li_password"><input type="password" placeholder="请输入6~12位新密码" name="password" /></li>
+		<li><input type="submit" class="condition-btn btn" value="确  定"></li>
+	</ul>
+	</form>
+</div>
+<script type="text/javascript">
+	require(['wechat'],function(){
+		require(["validation/validateExt"]);
+		
+		$("#form_forgetPwdSecond").validate({
+			errorPlacement: function(error, element) {
+				if(element.is("#li_password")){
+					error.addClass('cored').addClass("wrong-txt").insertAfter(element.parent());
+				}else {
+					error.addClass('cored').addClass("wrong-txt").insertAfter(element);
+				}
+			},
+			errorElement:"p",
+			rules:{
+				"password":{
+					required:true,
+					rangelength:[6,15],
+					isPassWord:true
+				}
+			},
+			messages:{
+				"password":{
+					required:"请输入密码",
+					rangelength:"请输入6~15位数字字母组合密码",
+					isPassWord:"请输入6~15位数字字母组合密码"
+				}
+			},
+			submitHandler:function(form){
+				form.submit();
+			}
+		})
+	});
+</script>

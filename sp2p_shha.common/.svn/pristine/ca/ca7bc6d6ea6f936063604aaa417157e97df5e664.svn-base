@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>高端金融理财平台 | 虹金所_引领投资、理财新方向!</title>
+    <meta name="keywords" content="虹金所,虹奥财富,上海网络借贷,P2P网络借贷">
+    <meta name="description" content="虹金所为上海虹奥财富旗下P2P网络借贷平台，为广大用户提供一个安全、诚信、低风险、回报稳定的理财新渠道。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=1200px">
+    <link rel="stylesheet" href="../stylesheets/reset.css">
+    <link rel="stylesheet" href="../stylesheets/Festival.css">
+    <link rel="shortcut icon" type="image/png" href="/data/attachments/64c09f1d-6e99-4347-96b0-46c778da714d" />
+    <link rel="stylesheet" type="text/css" href="../stylesheets/component.css" />
+    <link href="../stylesheets/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <script src="../javascripts/lib/jquery.js"></script>
+    <script src="../javascripts/rAF.js"></script>
+    <script src="../javascripts/jquery.mCustomScrollbar.concat.min.js"></script>
+</head>
+
+<body>
+    <div class="qixi_box1">
+        <div class="qixi_center">
+            <img src="../images/qixi/qixi_left.png" alt="" class="qixi_left qixi_win">
+            <img src="../images/qixi/qixi_boy.png" alt="" class="qixi_boy qixi_win">
+            <img src="../images/qixi/qixi_right.png" alt="" class="qixi_right qixi_win">
+            <img src="../images/qixi/qixi_girl.png" alt="" class="qixi_girl qixi_win">
+            <img src="../images/qixi/qixi_center.png" alt="" class="qixi_middle qixi_win">
+            <img src="../images/qixi/qixi_he.png" alt="" class="qixi_he qixi_win">
+            <img src="../images/qixi/qixi_xin.png" alt="" class="qixi_xin waveRaidus qixi_win">
+        </div>
+        <div id="large-header" class="large-header">
+            <canvas id="demo-canvas"></canvas>
+        </div>
+    </div>
+    <div class="qixi_dialog">
+        <div class="qixi_cont">
+            <h2 class="qixi_head"><span class="left">平台提示</span></h2>
+            <div class="qixi_msg">&nbsp;</div>
+            <div class="qixi_btn">确定</div>
+        </div>
+    </div>
+    <div class="qixi_box2">
+        <div class="qixi_cen">
+            <h3 class="qixi_title">当前拥有<span>0</span>朵玫瑰</h3>
+            <img src="../images/qixi/qixi_util1.png" alt="" class="qixi_gua1">
+            <img src="../images/qixi/qixi_util2.png" alt="" class="qixi_gua2">
+            <div class="qixi_ceil">
+                <div class="content_2 content">
+                    <table class="ceil_list" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th>期数</th>
+                            <th>状态</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="qixi_font">
+                <h3>活动内容：</h3>
+                <p>活动期间内，单笔投资额每满100元即自动获取一朵玫瑰花，每期鹊桥会活动共计999朵玫瑰，活动期间内平台每集齐999朵玫瑰将会开启下一期鹊桥会活动，2017年9月1日当天牛郎织女将会对活动期间内所有参与用户发放返现，返现金额将进入用户账户余额；</p>
+                <h3>活动规则：</h3>
+                <p>每期鹊桥会发放现金共计99.9元，代表长长久久，一朵玫瑰花可以获得0.1元返现</p>
+                <span>活动时间：2017.08.25-2017.08.31</span>
+            </div>
+            <img src="../images/qixi/qixi_yun.png" alt="" class="qixi_yun">
+        </div>
+    </div>
+    <script>
+        var oLi = 499700.0;
+        (function () {
+
+            var width, height, largeHeader, canvas, ctx, circles, target, animateHeader = true;
+
+            // Main
+            initHeader();
+            addListeners();
+
+            function initHeader() {
+                width = window.innerWidth;
+                height = 1055;
+                target = {
+                    x: 0,
+                    y: height
+                };
+
+                largeHeader = document.getElementById('large-header');
+                largeHeader.style.height = height + 'px';
+
+                canvas = document.getElementById('demo-canvas');
+                canvas.width = width;
+                canvas.height = height;
+                ctx = canvas.getContext('2d');
+
+                // create particles
+                circles = [];
+                for (var x = 0; x < width * 0.5; x++) {
+                    var c = new Circle();
+                    circles.push(c);
+                }
+                animate();
+            }
+
+            // Event handling
+            function addListeners() {
+                window.addEventListener('scroll', scrollCheck);
+                window.addEventListener('resize', resize);
+            }
+
+            function scrollCheck() {
+                if (document.body.scrollTop > height) animateHeader = false;
+                else animateHeader = true;
+            }
+
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                largeHeader.style.height = height + 'px';
+                canvas.width = width;
+                canvas.height = height;
+            }
+
+            function animate() {
+                if (animateHeader) {
+                    ctx.clearRect(0, 0, width, height);
+                    for (var i in circles) {
+                        circles[i].draw();
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+
+            // Canvas manipulation
+
+            function Circle() {
+                var _this = this;
+
+                // constructor
+                (function () {
+                    _this.pos = {};
+                    init();
+                })();
+
+                function init() {
+                    _this.pos.x = Math.random() * width;
+                    _this.pos.y = height + Math.random() * 100;
+                    _this.alpha = 0.1 + Math.random() * 0.3;
+                    _this.scale = 0.1 + Math.random() * 0.3;
+                    _this.velocity = Math.random();
+                }
+
+                this.draw = function () {
+                    if (_this.alpha <= 0) {
+                        init();
+                    }
+                    _this.pos.y -= _this.velocity;
+                    _this.alpha -= 0.00005;
+                    ctx.beginPath();
+                    ctx.arc(_this.pos.x, _this.pos.y, _this.scale * 10, 0, 2 * Math.PI, false);
+                    ctx.fillStyle = 'rgba(255,255,255,' + _this.alpha + ')';
+                    ctx.fill();
+                };
+            }
+
+        })();
+        $.ajax({
+            url: "/activity/qqh.html",
+            type: "post",
+            dataType: 'json',
+            success: function (data) {
+           	if(data.code == 1) {
+           		oLi = data.obj;
+           		var aNum = parseInt(oLi/99900);
+                var oNum = Math.floor((oLi%99900) / 100);
+                console.log(oNum)
+                var n = Math.floor(oNum / 50);
+                
+                if (oNum > 0) {
+                    if (oNum > 611) {
+                        $('.qixi_middle').show();
+                    }
+                    $('.qixi_boy').attr('src', '../images/qixi/qixi_boy.gif');
+                    $('.qixi_boy').animate({
+                        left: 0.51 * oNum + 'px'
+                    }, 500 * n, function () {
+                        $('.qixi_boy').attr('src', '../images/qixi/qixi_boy.png');
+                    });
+                    $('.qixi_girl').attr('src', '../images/qixi/qixi_girl.gif');
+                    $('.qixi_girl').animate({
+                        right: (-400 + 0.51 * oNum) + 'px'
+                    }, 500 * n, function () {
+                        $('.qixi_girl').attr('src', '../images/qixi/qixi_girl.png');
+                    });
+                        
+                }else if(oNum==0&&oLi!=0){
+                        oNum = 999;
+                        $('.qixi_middle').show();
+                        $('.qixi_boy').attr('src', '../images/qixi/qixi_boy.gif');
+                        $('.qixi_boy').animate({
+                            left: 0.51 * oNum + 'px'
+                        }, 9990, function () {
+                            $('.qixi_boy').attr('src', '../images/qixi/qixi_boy.png');
+                        });
+                        $('.qixi_girl').attr('src', '../images/qixi/qixi_girl.gif');
+                        $('.qixi_girl').animate({
+                            right: (-400 + 0.51 * oNum) + 'px'
+                        }, 9990, function () {
+                            $('.qixi_girl').attr('src', '../images/qixi/qixi_girl.png');
+                        });
+                        setTimeout(function () {
+                            $('.qixi_boy').hide();
+                            $('.qixi_girl').hide();
+                            $('.qixi_he').show();
+                            $('.qixi_xin').show();
+                        },  9990);
+                }
+                $('.qixi_title>span').html(oNum);
+                if(aNum>0){
+                    for(var i=0;i<aNum;i++){
+                        var oTr = $('<tr><td>第'+(i+1)+'期</td><td>已完成</td></tr>');
+                        $('.ceil_list').append(oTr);
+                    }
+                    var oTr = $('<tr><td>第'+(i+1)+'期</td><td>进行中</td></tr>');
+                        $('.ceil_list').append(oTr);
+                }else{
+                    var oTr = $('<tr><td>第'+1+'期</td><td>进行中</td></tr>');
+                    $('.ceil_list').append(oTr);
+                }
+                $(".content_2").mCustomScrollbar({
+                    scrollInertia:150
+                });
+           	} else {
+           		$('.qixi_msg').html(data.msg);
+                $('.qixi_dialog').show();
+           	}
+            },
+            error: function () {
+            	$('.qixi_msg').html("超时了");
+                $('.qixi_dialog').show();
+            }
+        });
+        
+        $('.qixi_btn').click(function() {
+            $('.qixi_dialog').hide();
+        });
+         
+    </script>
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?652a94abffc87db62109ab474047f10e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+
+</html>

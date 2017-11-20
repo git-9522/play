@@ -1,0 +1,259 @@
+.mainBox{
+	color:#f3f3f3;
+    width: 1200px;
+    margin:0 auto
+}
+.borrow-baner{
+    width:100%;
+    height:234px;
+    background:url(../images/touzi_banner.jpg) no-repeat center;
+}
+.s-area{
+   width: 100%;
+    height:100px;
+    background: #fff;
+}
+.sm-area ul{
+    width:1200px;
+    overflow: hidden;
+}
+.s-area ul li{
+    float: left;
+    list-style: none;
+    position: relative;
+    width:25%;
+    height: 100px;
+    box-sizing: border-box;
+}
+.s-img{
+    display: inline-block;
+    width:80px;
+    height: 80px;
+    position: absolute;
+    left:30px;
+    top:10px;
+}
+.s-img:hover{
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+}
+.s-con{
+    width: 160px;
+    height: 60px;
+    box-sizing: border-box;
+    position: absolute;
+    right: 0px;
+    top: 40px;
+}
+.s-con h4{
+    font-size: 20px;
+    color: #333;
+}
+.s-con p{
+    font-size:14px;
+    color: #999999;
+}
+.kong{
+    width: 100%;
+    height: 15px;
+    background: #ebeef3;
+}
+.fast{
+    width: 1200px;
+    height:500px;
+    background:#fff;
+    margin:0 auto;
+}
+.fast-wrap{
+    margin: 0px 30px 30px 30px;
+    overflow: hidden;
+}
+.fast-con1{
+   width:344px;
+}
+.fw{
+    float: left;
+    position: relative;
+}
+.fw+.fw{
+    margin-left:54px;
+}
+.fast-con-up1{
+    margin-top: 30px;
+    width: 344px;
+    height: 380px;
+    background: url(../images/touzi_bg1.png) no-repeat;
+    background-size: 99%;
+}
+.fast-con-up2{
+    margin-top: 30px;
+    width: 344px;
+    height: 380px;
+    background: url(../images/touzi_bg2.png) no-repeat;
+    background-size: 99%;
+}
+.fast-con-up3{
+    margin-top: 30px;
+    width: 344px;
+    height: 380px;
+    background: url(../images/touzi_bg3.png) no-repeat;
+    background-size: 99%;
+}
+.fast-tex{
+    position: absolute;
+    top: 140px;
+    left: 40px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #fff;
+}
+.fw ul li{
+    list-style: none;
+}
+
+.fw ul li:before{
+    content: "● ";
+    color: #e94f47;
+    padding-right:5px;
+}
+.fast-con1:nth-of-type(2) ul li:before{
+    content: "● ";
+    color: #db7f53;
+    padding-right:5px;
+}
+.fast-con1:nth-of-type(3) ul li:before{
+    content: "● ";
+    color: #778cd5;
+    padding-right:5px;
+}
+.fast-btn{
+      margin: 0 auto;
+    display: block;
+    width: 135px;
+    height: 57px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    background: pink;
+    background: url(../images/touzi_btn1.png) no-repeat center;
+    cursor: pointer;
+}
+.fast-btn:hover{
+    background: url(../images/touzi_btn2.png) no-repeat center;
+}
+/*申请贷款流程*/
+.apply{
+    width: 1200px;
+    margin:0 auto;
+    background:#fff;
+}
+.apply-wrap{
+    margin:0 40px;
+}
+.apply-tit{
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    border-bottom:1px solid #e2e2e2;
+}
+.apply-tit h3{
+    font-size: 20px;
+    color: #333;
+}
+.apply-tex{
+    width: 100%;
+    height: 200px;
+    text-align: center;
+}
+.apply-tex img{
+    display: inline-block;
+    margin-top:40px;
+}
+.other-about{
+    width:1200px;
+    height: 320px;
+    background: #fff;
+    margin:0 auto;
+    position: relative;
+    color: #333;
+}
+.other-about ul{
+    overflow: hidden;
+    margin: 0px 40px;
+}
+.other-about ul li{
+    margin-top: 30px;
+    width: 420px;
+    list-style-image: url(../images/touzi_iocn.png);
+    height: 130px;
+    box-sizing: border-box;
+}
+.other-about ul li:nth-of-type(2n+1){
+    margin-left:40px;
+}
+.other-about ul li:nth-of-type(2n){
+    margin-left:20px;
+}
+.other-about ul li h4{
+    color:#ff5256;
+    font-size: 18px;
+}
+.other-about ul li p{
+    width: 400px;
+    line-height: 34px;
+    font-size: 14px;
+}
+
+.chanjiang{
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -90px;
+    margin-top: -30px;
+    width: 180px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    background: url(../images/ne-index-btn1.png) no-repeat center;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 18px;
+}
+.line1{
+    width: 1px;
+    height: 100px;
+    background: #e2e2e2;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+}
+.line2{
+    width: 1px;
+    height: 100px;
+    background: #e2e2e2;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+}
+.line3{
+    width: 360px;
+    height: 1px;
+    background: #e2e2e2;
+    position: absolute;
+    top: 50%;
+    left: 80px;
+}
+.line4{
+    width: 360px;
+    height: 1px;
+    background: #e2e2e2;
+    position: absolute;
+    top: 50%;
+    left: 64%;
+}
+
+.mainBox a:hover {
+    color: #ffffff;
+}

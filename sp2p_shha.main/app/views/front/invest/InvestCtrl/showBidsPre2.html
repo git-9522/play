@@ -1,0 +1,75 @@
+        	<style>
+        		.old {
+					width:220px;
+					height : 28px;
+					background: url('/public/front/images/old_xiang.png') no-repeat right center;
+				}
+				
+				.yu {
+					width:220px;
+					height : 28px;
+					background: url('/public/front/images/yu_xiang.png') no-repeat right center;
+				}
+				
+				.hand {
+					width:220px;
+					height : 28px;
+					background: url('/public/front/images/hand_xiang.png') no-repeat right center;
+				}
+				
+				.pu {
+					width:220px;
+					height : 28px;
+					background: url('/public/front/images/pu_xiang.png') no-repeat right center;
+				}
+        	</style>
+        	
+        	#{list pageBean?.page}
+            <li>
+                <div class="clearfix f-animate">
+                    <div class="d1">
+                        <p class="#{if _?.product_id == 4}old#{/if}#{elseif  _?.product_id == 6}yu#{/elseif}#{elseif _?.product_id == 5}hand#{/elseif}#{else}pu#{/else}">${_?.title}</p>
+                        <div class="mt10 clearfix">
+                        	*{
+                            <span class="sp1 left">新手专享</span>
+                            <span class="sp2 left">车辆抵押</span>
+                            }*
+                        </div>
+                    </div>
+                    <div class="d2">
+                        <p class="color1 fs16"><span class="fs30">${_?.apr}</span>%#{if _?.is_invest_reward}<span class="fs14">+${_?.reward_rate}%</span>#{/if}</p>
+                    </div>
+                    <div class="d3">
+                        <p class="c3 fs16"><span class="fs30">${_?.period}</span>${_?.period_unit?.getShowValue()}</p>
+                    </div>
+                     <div class="d4">
+                        <p class="color1 fs18 lh40 center">#{formatIntMoney money:(_?.amount)}#{/formatIntMoney}</p>
+                    </div>
+                    <div class="d5">
+                        <p class="clearfix">
+                            <span class="fs12 left">可投金额:${_?.amount-_?.has_invested_amount}元</span>
+                            <span class="fs16 right">${_?.loan_schedule}%</span>
+                        </p>
+                        <div class="f-jdt f-190 mt20">
+                            <div class="f-jd" style="width:${_?.loan_schedule}%;"></div>
+                        </div>
+                    </div>
+                    #{if models.core.entity.t_bid.Status.FUNDRAISING.equals(_?.status)}
+                    	#{if now.compareTo(_?.pre_release_time) == 1}
+                    		<a href="@{front.invest.InvestCtrl.investPre(_?.id)}" class="btn1 f-wylc-btn">我要出借</a>
+                    	#{/if}
+                    	#{else}
+                    		<a href="@{front.invest.InvestCtrl.investPre(_?.id)}" class="btn1 f-wylc-btn">预发售</a>
+                    	#{/else}
+                    #{/if}
+                    #{else}
+                    <a href="@{front.invest.InvestCtrl.investPre(_?.id)}" class="btn2 f-wylc-btn">已售罄</a>
+                    #{/else}
+                </div>
+            </li>
+            #{/list}
+            <div class="page-wrap f-page" style="padding-bottom:45px">
+			#{if pageBean?.page}
+				#{frontPageTag page:pageBean,showPage:"showPage"/}
+			#{/if}
+			</div>

@@ -1,0 +1,81 @@
+#{extends 'wechat/back/WechatCtrl/weixinMain.html' /}
+	#{set title:'微信 | 微信菜单设置' /}
+	#{set smallclass:1 /}
+	#{set crumbs:'微信>微信菜单设置' /}
+
+
+<div class="back-main">
+
+	<div class="back-usertop">
+		<div class="left back-usermenu">
+			<a class="selected">微信菜单</a>
+		</div>
+		
+		<!-- 右侧功能按钮 -->
+		<div class="right back-rightbtns">
+			#{rightMng rightId:1002003}
+			<a href="javascript:createMenu();" class="back-addmsg"><i class="iconfont">&#xe60f;</i>创建菜单</a>
+			#{/rightMng}
+		</div>
+	</div>
+	<div class="back-cont">
+		<div class="back-box">
+			<table width="100%" class="back-table table-fixed">
+				<tr height="39">
+					<th class="align-left" width="70">
+						<span class="back-order">序号</span>
+					</th>
+					<th>菜单名称</th>
+					<th>菜单类型</th>
+					<th width="200">操作</th>
+				</tr>
+			#{if list}
+				#{list items:list,as:"menu"}
+				<tr height="39">
+					<td class="align-left"> ${menu?.menu_structure}</td>
+					<td>${menu?.name}</td>
+					<td>${menu?.type?.value}</td>
+					<td class="back-handle">
+						#{rightMng rightId:1002002}
+						<a href="@{wechat.back.WechatCtrl.toEditWechatMenuPre(menu.sign)}" data-title="编辑" class="iconfont">&#xe602;</a>
+						#{/rightMng}
+					</td>
+				</tr>
+				#{/list}
+			#{/if}
+			#{else}
+					<!-- 暂无记录 -->
+				<tr height="58">
+					<td colspan="4" class="back-nodata"><i class="iconfont">&#xe613;</i>暂无记录</td>
+				</tr>
+			</table>
+		#{/else}
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<!-- 页面js -->
+<script type="text/javascript">
+	require(["back"],function(back){
+	});
+	
+	//菜单初始化
+	function createMenu(){
+		$.post('@{wechat.back.WechatCtrl.createMenu()}',function(data){
+			var flag = interceptorCheck(data);
+			if(!flag){
+				return;
+			}
+			if(data.code == 0){
+				weakDialog("菜单创建成功");
+				return;
+			}else{
+				weakDialog("菜单创建失败");
+				return;
+			}
+			
+		});
+	}
+</script>	

@@ -1,0 +1,56 @@
+#{extends 'common/wechatMain.html' /}
+
+<div class="center">
+<section class="account-data flex">
+	<div class="flex-1">
+    	<p>你好！${currUser?.name}，您的账户可用余额(元)</p>
+		<div class="major acdata flex">
+			<div>
+				<span class="f30">${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</span>
+			</div>
+			<div class="account-btos flex-1">
+				<a href="@{wechat.front.account.MyAccountCtrl.toRechargePre()}">充值</a>
+				<a href="@{wechat.front.account.MyAccountCtrl.toWithdrawPre()}">提现</a>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- 资产 -->
+<ul class="account-assets">
+    <li class="c999 flex">
+        <div class="flex-1">总资产(元)</div>
+        <div class="flex-1">可用(元)</div>
+        <div class="flex-1">待收(元)</div>
+    </li>
+    <li class="c333 flex">
+        <div class="flex-1">${userFundInfo?.total_assets?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</div>
+        <div class="flex-1">${userFundInfo?.balance?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</div>
+        <div class="flex-1">${userFundInfo?.no_receive?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</div>
+    </li>
+    <li class="c999 flex">
+        <div class="flex-1">我的奖励(元)</div>
+        <div class="flex-1">冻结(元)</div>
+        <div class="flex-1">待还(元)</div>
+    </li>
+    <li class="c333 flex">
+        <div class="flex-1">${userFundInfo?.reward?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</div>
+        <div class="flex-1">${userFundInfo?.freeze?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</div>
+        <div class="flex-1">${userFundInfo?.no_repayment?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}</div>
+    </li>
+</ul>
+<!-- 收益 -->
+<section class="account-earn">
+	总收益(元)： ${userFundInfo?.total_income?.format(common.constants.Constants.FINANCE_FORMATE_NORMAL)}
+</section>
+<!-- 目录 -->
+<ul class="account-menu">
+    <li><a href="@{wechat.front.account.MyReceiveBillCtrl.toReceiveBillPre}">回款计划<i class="account-ico"></i></a></li>
+    <li><a href="@{wechat.front.account.MyFundCtrl.accountManagePre()}">资产管理<i class="account-ico"></i></a></li>
+    <li><a href="@{wechat.front.account.MyDealCtrl.toDealRecordsPre()}">交易记录<i class="account-ico"></i></a></li>
+    <li><a href="@{wechat.front.account.MyInfoCtrl.toUserInfoPre()}">会员信息<i class="account-ico"></i></a></li>
+    <li><a href="@{wechat.front.account.MySecurityCtrl.securityPre()}">安全中心<i class="account-ico"></i></a></li>
+    <li><a href="@{wechat.front.account.MyRewardCtrl.awardPre()}">我的奖励<i class="account-ico"></i></a></li>
+</ul>
+<input type="button" class="condition-btn exit-btn" onclick="location.href='@{wechat.front.LoginAndRegisteCtrl.loginOutPre()}'" value="退出当前账号">
+</div>
+

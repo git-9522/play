@@ -1,0 +1,27 @@
+
+
+<li class="newpar_nav absolute">
+	<div class="newpar_n clearfix">
+	#{list items:page?.page,as:"information"}
+		<a href="@{front.InformationCtrl.informationDetailPre(information?.id)}" target="_blank">
+			<div class="newpar_time absolute">
+				#{printHTMLDate data:information?.show_time /}
+			</div>
+			<div class="newpar_wa absolute">
+				<h3>${information?.title}</h3>
+				<p class="fs14">来源：${information?.source_from}</p>
+			</div>
+		</a>
+	#{/list}	
+	</div> 
+	<div class="check_center">
+		<div class="check_btn absolute">
+		 		#{if page?.page}
+					#{frontNewPageTag page:page,showPage:"loadMoreInfos"/}
+				#{/if}
+		</div>
+	</div>
+</li>
+<li class="newpar_font absolute">
+	
+</li>

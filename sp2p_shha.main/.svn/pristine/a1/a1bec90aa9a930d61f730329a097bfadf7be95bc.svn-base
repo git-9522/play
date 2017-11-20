@@ -1,0 +1,96 @@
+<div class="dialog-bg"></div>
+<div class="dialog-cont sign-cont">
+	<h3 class="l-signh3">
+		<i class="icon"></i>
+		<em>#{if number >=1 && extraScore >= 0}签到成功！#{/if}#{else}签到失败！#{/else}</em>
+		<span class="l-signtips">
+			已连续签到<i>#{if number}${number}#{/if}#{else}0#{/else}</i>天，额外获得<i>#{if extraScore}${extraScore?.format(common.constants.Constants.NUMBER_FORMATE_NO_DECIMAL_POINT)}#{/if}#{else}0#{/else}</i>分
+		</span>
+		<a href="javascript:void(0);" class="dialog-close l-closebnt">
+			<i class="icon"></i>
+		</a>
+	</h3>
+	<div class="l-signbox">
+		<ul class="l-signtlt clearfix">
+			<li>日</li>
+			<li>一</li>
+			<li>二</li>
+			<li>三</li>
+			<li>四</li>
+			<li>五</li>
+			<li>六</li>
+		</ul>
+		<ul class="l-signlist clearfix">
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	var recordDayArray = new Array();
+	var recordScoreArray = new Array();
+	var index = 0;
+	#{list items:1..31, as:"days"}
+		#{list items:signInUserRecord}
+			#{if _?.day == days}
+				recordDayArray[index] = "${_?.day}";
+				recordScoreArray[index] = "${_?.score}";
+				index++;
+			#{/if}
+		#{/list}
+	#{/list}
+	var recordLength = index + 1;
+	
+    //页面加载初始化年月
+    var mydate = new Date("${signInDate}");
+    showDate(mydate.getFullYear(),mydate.getMonth()+1);
+    
+    var recordDay = 0;
+    var recordScore = 0;
+    var isMatch = false;
+    
+	//读取年月写入日历
+    function showDate(yyyy,mm){
+        var dd = new Date(parseInt(yyyy),parseInt(mm), 0);   //Wed Mar 31 00:00:00 UTC+0800 2010
+        var daysCount = dd.getDate();            //本月天数
+        var mystr = "";//写入代码
+        var week = new Date(parseInt(yyyy)+"/"+parseInt(mm)+"/"+1).getDay(); //今天周几
+        
+        for(i=0;i<daysCount;i++){
+            //计算上月空格数
+            if( i%7 == 0){
+                if(i<7){//只执行一次
+                    var firstday = new Date(parseInt(yyyy),parseInt(mm),1);
+                    if(week !=0){
+                        for(j=0;j<week;j++){
+                            mystr += "<li>&nbsp;</li>";
+                        }
+                    }
+                }
+            }
+            
+            isMatch = false; //循环开始前重置
+            //var curr = "cur"   //这里加判断，若这天已签到  值为"cur",未签到值为 ""
+            for(k=0;k<recordLength;k++){
+            	recordDay = recordDayArray[k];
+            	recordScore = recordScoreArray[k];
+            	if((i+1)==recordDay){
+            		mystr += "<li class='cur'><div class='l-tabinsign'><h3><em>"+(i+1)+"</em><i class='icon l-signerror'></i></h3><p>虹银 +" + parseInt(recordScore) + "</p></div></li>";
+            		isMatch = true;
+            	}
+            }
+            
+            if(!isMatch){
+            	mystr += "<li><div class='l-tabinsign'><h3><em>"+(i+1)+"</em><i class='icon l-signerror'></i></h3></div></li>";
+            }
+        }
+        //表格不等高，只补充末行不足单元格
+        for(k=0; k<7-(daysCount+week)%7;k++ ){ // week为今天周几 daysCount为本月天数  7-week为本行空格数 7-(daysCount+6-week)%7为最后一行有几个空格
+            mystr += "<li>&nbsp;</li>";
+        }
+        
+        //写入日历
+        $(".l-signlist").html(mystr);
+    }
+});
+</script>

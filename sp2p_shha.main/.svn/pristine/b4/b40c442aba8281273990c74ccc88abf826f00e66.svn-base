@@ -1,0 +1,33 @@
+<table width="100%" class="account-table">
+	<tr height="46">
+		<th width="10%">状态</th>
+		<th width="30%">开户行</th>
+		<th width="40%">银行卡号</th>
+		<th width="20%">操作</th>
+	</tr>
+	#{if cardPageBean.page != null}
+		#{list cardPageBean.page,as:'cardList'}
+			<tr height="46">
+				<td>${cardList?.status?.value}</td>
+				<td>${cardList?.bank_name}</td>
+				<td>${cardList?.account}</td>
+				<td>
+					#{if cardList.status.code == 1}
+						<span class="c9">设为默认银行卡</span>
+					#{/if}
+					#{else}
+						<a href="javascript:setDefaultCard(${cardList?.id})" class="major">设为默认银行卡</a>
+					#{/else}
+				</td>
+			</tr>
+		#{/list}
+	#{/if}
+</table>
+#{if cardPageBean?.page}
+	#{frontPageTag page:cardPageBean,showPage:'listOfUserBankCardPre' /}
+#{/if}
+#{if cardPageBean?.page == null}
+	<div class="norecord-box c9">
+		暂无记录
+	</div>
+#{/if}
